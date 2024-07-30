@@ -6,6 +6,5 @@
 
 # Entregas
 
-## 28/07/24
-
 - [x] Boilerplate
+- [x] GET All: Entidad Shop

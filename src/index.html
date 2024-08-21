@@ -10,6 +10,18 @@
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@picocss/pico@2/css/pico.min.css" />
 </head>
 <body>
-  <app-root></app-root>
+
+  <app-root>
+      <button id="theme-toggle">Toggle Theme</button>
+      
+      <script>
+        const themeToggle = document.getElementById('theme-toggle');
+        const body = document.body;
+
+        themeToggle.addEventListener('click', () => {
+          body.classList.toggle('dark-theme');
+        });
+      </script>
+  </app-root>
 </body>
 </html>

@@ -25,4 +25,9 @@ export class PlatformService {
       // Devuelve lo que está dentro de data en el objeto de respuesta
       .pipe(map(response => response.data))
   }
+
+  addPlatform(platform: Platform): Observable<Platform> {
+    return this.http.post<ApiResponse>(this.platformsEndpoint, platform)
+      .pipe(map(response => response.data))
+  }
 }

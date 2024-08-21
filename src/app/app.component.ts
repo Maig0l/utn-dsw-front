@@ -2,13 +2,15 @@ import { Component } from '@angular/core';
 import { RouterOutlet } from '@angular/router';
 import { NgFor } from '@angular/common';
 import { ShopService, Shop } from './shop.service.js';
+import { PlatformComponent } from './platform/platform.component.js';
+import { PlatformService } from './platform/platform.service.js';
 
 @Component({
   selector: 'app-root',
   standalone: true,
-  imports: [RouterOutlet, NgFor],
+  imports: [RouterOutlet, NgFor, PlatformComponent],
   // Registramos los servicios que nos traen los datos del backend
-  providers: [ShopService],
+  providers: [ShopService, PlatformService],
   templateUrl: './app.component.html',
   styleUrl: './app.component.css'
 })

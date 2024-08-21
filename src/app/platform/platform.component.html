@@ -1,0 +1,11 @@
+<h1>Listing platforms</h1>
+
+<button (click)="showPlatforms()">Get Platforms</button>
+
+@for (platform of platforms; track platform.id) {
+<div class="platform-item">
+  <small>[{{ platform.id }}]</small>&nbsp;
+  <b>{{ platform.name }}</b> &nbsp;
+  <!-- <i><a href="{{ platform.site }}" target="_blank" rel="noopener noreferrer">{{ platform.site }}</a></i> -->
+</div>
+}

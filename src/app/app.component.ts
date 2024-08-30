@@ -1,27 +1,20 @@
 import { Component } from '@angular/core';
 import { RouterOutlet } from '@angular/router';
 import { NgFor } from '@angular/common';
-import { ShopService, Shop } from './shop.service.js';
-import { PlatformComponent } from './platform/platform.component.js';
-import { PlatformService } from './platform/platform.service.js';
+import { ShopService, Shop } from './services/shop.service.js';
+import { PlatformComponent } from './components/platform/platform.component.js';
+import { PlatformService } from './services/platform.service.js';
+import { ShopComponent } from './components/shop/shop.component.js';
 
 @Component({
   selector: 'app-root',
   standalone: true,
-  imports: [RouterOutlet, NgFor, PlatformComponent],
+  imports: [RouterOutlet, NgFor, PlatformComponent,ShopComponent],
   // Registramos los servicios que nos traen los datos del backend
-  providers: [ShopService, PlatformService],
+  //providers: [ShopService, PlatformService],
   templateUrl: './app.component.html',
   styleUrl: './app.component.css'
 })
 export class AppComponent {
-  shops: Shop[] | undefined
-  constructor(private shopService: ShopService) { }
-
-  // Esta función llama al getAllShops() del servicio de Shops (ShopService),
-  //  que a su vez dispara la request HTTP
-  showShops() {
-    this.shopService.getAllShops()
-      .subscribe(responseShops => this.shops = responseShops)
-  }
+  
 }

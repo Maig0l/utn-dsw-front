@@ -1,6 +1,6 @@
 import { Component, Input } from '@angular/core';
 import { RouterOutlet } from '@angular/router';
-import { PlatformService, Platform } from './platform.service.js';
+import { PlatformService, Platform } from '../../services/platform.service.js';
 
 @Component({
   selector: 'app-platform',

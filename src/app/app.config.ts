@@ -3,7 +3,7 @@ import { provideRouter } from '@angular/router';
 
 import { routes } from './app.routes';
 import { HttpClientModule } from '@angular/common/http';
-import { ShopService } from './shop.service.js';
+import { ShopService } from './services/shop.service.js';
 
 export const appConfig: ApplicationConfig = {
   providers: [

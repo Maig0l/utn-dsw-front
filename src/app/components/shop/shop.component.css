@@ -3,4 +3,6 @@ section {
   padding-top: 32px;
   max-width: 1000px;
   font-size: 24px;
+  border: 2px solid blue;
+  padding: 16px;
 }

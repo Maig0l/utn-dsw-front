@@ -1,0 +1,13 @@
+<section>
+<h1>Listing: Shops</h1>
+
+<button (click)="showShops()">Get Shops</button>
+
+@for (shop of shops; track shop.id) {
+<div class="shop-item">
+  <small>[{{ shop.id }}]</small>&nbsp;
+  <b>{{ shop.name }}</b> &nbsp;
+  <i><a href="{{ shop.site }}" target="_blank" rel="noopener noreferrer">{{ shop.site }}</a></i>
+</div>
+}
+</section>

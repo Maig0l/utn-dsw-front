@@ -26,7 +26,7 @@ export class PlatformService {
       .pipe(map(response => response.data))
   }
 
-  addPlatform(platform: Platform): Observable<Platform> {
-    return this.http.post<Platform>(this.platformsEndpoint, platform);
+  addPlatform(body: { name: string, img: string }): Observable<Platform> {
+    return this.http.post<Platform>(this.platformsEndpoint, body);
   }
 }

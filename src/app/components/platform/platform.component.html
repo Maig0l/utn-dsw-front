@@ -12,10 +12,9 @@
 </section>
 <section>
   <h1>Create new platform</h1>
-  <form action="" method="post">
-    <input type="text" name="name" placeholder="Name">
-    <input type="text" name="img" placeholder="img">
-
-    <!-- <button (click)="addPlatform(platform)">Add Platform</button> -->
-  </form>
+<form (ngSubmit)="addPlatform({ name: name, img: img })">
+  <input type="text" [(ngModel)]="name" name="name" placeholder="Name">
+  <input type="text" [(ngModel)]="img" name="img" placeholder="img">
+  <button type="submit">Add Platform</button>
+</form>
 </section>

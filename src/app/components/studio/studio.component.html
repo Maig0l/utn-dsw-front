@@ -1,0 +1,21 @@
+<section>
+    <h1>Listing studio</h1>
+
+    <button (click)="showStudio()">Get Studio</button>
+
+    @for (studio of studios; track studio.id) {
+    <div class="studio-item">
+        <small>[{{ studio.id }}]</small>&nbsp;
+        <b>{{ studio.name }}</b> &nbsp;
+    </div>
+    }
+</section>
+<section>
+    <h1>Create new studio</h1>
+    <form action="" method="post">
+        <input type="text" name="name" placeholder="Name">
+        <input type="text" name="StudioType" placeholder="Developer">
+
+        <!-- <button (click)="addStudio(studio)">Add Studio</button> -->
+    </form>
+</section>     

@@ -1,20 +1,25 @@
 import { Component, Input } from '@angular/core';
 import { RouterOutlet } from '@angular/router';
 import { PlatformService, Platform } from '../../services/platform.service.js';
-import { FormsModule } from '@angular/forms';
+import { FormControl, FormGroup, ReactiveFormsModule } from '@angular/forms';
 @Component({
   selector: 'app-platform',
   standalone: true,
-  imports: [FormsModule],
+  imports: [ReactiveFormsModule],
   providers: [RouterOutlet,PlatformService],
   templateUrl: './platform.component.html',
   styleUrl: './platform.component.css'
 })
 export class PlatformComponent {
-    name: string = "";
-    img: string = "";
-    @Input() platform: Platform | undefined
-    @Input() platforms: Platform[] | undefined
+
+    platformForm = new FormGroup({
+      name: new FormControl(''),
+      img: new FormControl('')
+    });
+
+    platform: Platform | undefined
+    platforms: Platform[] | undefined
+
     constructor(private platformService: PlatformService) { }
   
   showPlatforms() {
@@ -22,9 +27,11 @@ export class PlatformComponent {
       .subscribe(responsePlatforms => this.platforms = responsePlatforms)
   }
   
-  addPlatform(body: { name: string, img: string }) {
-    this.platformService.addPlatform(body)
-      .subscribe(responsePlatform => this.platform = responsePlatform)
+  addPlatform() {
+    this.platformService.addPlatform(
+      this.platformForm.value.name ?? "",
+      this.platformForm.value.img ?? ""
+    ).subscribe(responsePlatform => this.platform = responsePlatform)
   }
   
 }

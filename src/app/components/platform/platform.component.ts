@@ -17,6 +17,10 @@ export class PlatformComponent {
       img: new FormControl('')
     });
 
+    deleteForm = new FormGroup({
+      id: new FormControl(0)
+    })
+
     platform: Platform | undefined
     platforms: Platform[] | undefined
 
@@ -34,4 +38,10 @@ export class PlatformComponent {
     ).subscribe(responsePlatform => this.platform = responsePlatform)
   }
   
+  deletePlatform() {
+    this.platformService.deletePlatform(
+      this.deleteForm.value.id ?? 0
+    )
+    .subscribe(res => console.log(res))
+  }
 }

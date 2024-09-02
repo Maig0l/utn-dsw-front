@@ -29,4 +29,10 @@ export class PlatformService {
   addPlatform(name: string, img: string): Observable<Platform>{
     return this.http.post<Platform>(this.platformsEndpoint, { name, img });
   }
+
+  deletePlatform(id: number): Observable<Platform> {
+    const url = this.platformsEndpoint + `/${id}`
+    return this.http.delete<ApiResponse>(url)
+      .pipe(map(res => res.data))
+  }
 }

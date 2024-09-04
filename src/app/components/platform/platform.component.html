@@ -26,9 +26,26 @@
 </section>
 
 <section>
+  <h1>Update a platform</h1>
+  <form [formGroup]="updateForm" (submit)="updatePlatform()">
+    <label for="img">Enter platform id:</label>
+    <input type="number" formControlName="id">
+
+    <label for="name">New name</label>
+    <input type="text" id="name" formControlName="name">
+      
+    <label for="img">New image</label>
+    <input type="text" id="img" formControlName="img">
+
+    <button type="submit" class="primary">Update</button>
+  </form>
+</section>
+
+<section>
   <h1>Delete a platform</h1>
   <form [formGroup]="deleteForm" (submit)="deletePlatform()">
     <input type="number"formControlName="id">
     <input type="submit">
   </form>
 </section>
+

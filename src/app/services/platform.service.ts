@@ -30,6 +30,11 @@ export class PlatformService {
     return this.http.post<Platform>(this.platformsEndpoint, { name, img });
   }
 
+  updatePlatform(id: number, name: string, img: string): Observable<Platform> {
+    const url = this.platformsEndpoint + `/${id}`
+    return this.http.put<Platform>(url, {id, name, img })
+  }
+
   deletePlatform(id: number): Observable<Platform> {
     const url = this.platformsEndpoint + `/${id}`
     return this.http.delete<ApiResponse>(url)

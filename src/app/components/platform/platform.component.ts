@@ -21,6 +21,12 @@ export class PlatformComponent {
       id: new FormControl(0)
     })
 
+    updateForm = new FormGroup({
+      id: new FormControl(0),
+      name: new FormControl(''),
+      img: new FormControl('') 
+    })
+
     platform: Platform | undefined
     platforms: Platform[] | undefined
 
@@ -36,6 +42,15 @@ export class PlatformComponent {
       this.platformForm.value.name ?? "",
       this.platformForm.value.img ?? ""
     ).subscribe(responsePlatform => this.platform = responsePlatform)
+  }
+
+  updatePlatform() {
+    this.platformService.updatePlatform(
+      this.updateForm.value.id ?? 0,
+      this.updateForm.value.name ?? "",
+      this.updateForm.value.img ?? ""
+    )
+    .subscribe(responsePlatform => this.platform = responsePlatform)
   }
   
   deletePlatform() {

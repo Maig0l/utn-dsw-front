@@ -1,4 +1,10 @@
-<app-shop/>
-<app-platform/>
-<app-studio/>
-<router-outlet />
+<nav>
+    <ul class="menu">
+    <li><a routerLink="/studio" routerLinkActive="active" (click)="redirect('/studio')">Studio</a></li>
+      <li><a routerLink="/shop" routerLinkActive="active" (click)="redirect('/shop')">Shop</a></li>
+    <li><a routerLink="/platform" routerLinkActive="active" (click)="redirect('/platform')">Platform</a></li>
+    <li><a href="https://shorturl.at/nNUaq" target="_blank">Tag</a></li>
+    </ul>
+  </nav>
+  
+  <router-outlet></router-outlet>

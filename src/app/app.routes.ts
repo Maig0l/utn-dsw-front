@@ -1,3 +1,22 @@
-import { Routes } from '@angular/router';
+import { RouterModule, Routes} from '@angular/router';
+import { NgModule} from '@angular/core';
+import { StudioComponent } from './components/studio/studio.component';
+import { ShopComponent } from './components/shop/shop.component';
+import { PlatformComponent } from './components/platform/platform.component';
 
-export const routes: Routes = [];
+export const routes: Routes = [
+    {path: 'studio', component: StudioComponent},
+    {path : 'shop', component: ShopComponent},
+    {path : 'platform', component: PlatformComponent},
+    {path : '', redirectTo: '/studio', pathMatch: 'full'}, // Redirección en caso de ruta vacía
+    {path: '**', redirectTo: '/studio'} // Redirección en caso de ruta no encontrada
+];
+
+@NgModule({
+    imports: [RouterModule.forRoot(routes)],
+    exports: [RouterModule]
+})
+
+export class AppRoutesModule {
+
+}

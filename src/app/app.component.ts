@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { RouterOutlet } from '@angular/router';
+import { RouterOutlet, Router } from '@angular/router';
 import { NgFor } from '@angular/common';
 import { ShopService, Shop } from './components/services/shop.service.js';
 import { PlatformComponent } from './components/platform/platform.component.js';
@@ -18,4 +18,10 @@ import { StudioComponent } from './components/studio/studio.component.js';
 })
 export class AppComponent {
   
+  constructor(private router: Router) {}
+
+  redirect(path: string) {
+      this.router.navigate([path]); // Funcion para redirigir a una ruta
+  }
 }
+

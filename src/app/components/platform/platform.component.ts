@@ -1,28 +1,47 @@
 import { Component, Input } from '@angular/core';
 import { RouterOutlet } from '@angular/router';
-import { PlatformService, Platform } from '../../services/platform.service.js';
-
+import { PlatformService, Platform } from '../services/platform.service.js';
+import { FormControl, FormGroup, ReactiveFormsModule } from '@angular/forms';
 @Component({
   selector: 'app-platform',
   standalone: true,
-  imports: [],
+  imports: [ReactiveFormsModule],
   providers: [RouterOutlet,PlatformService],
   templateUrl: './platform.component.html',
   styleUrl: './platform.component.css'
 })
 export class PlatformComponent {
-    @Input() platform: Platform | undefined
-    @Input() platforms: Platform[] | undefined
+
+    platformForm = new FormGroup({
+      name: new FormControl(''),
+      img: new FormControl('')
+    });
+
+    deleteForm = new FormGroup({
+      id: new FormControl(0)
+    })
+
+    platform: Platform | undefined
+    platforms: Platform[] | undefined
+
     constructor(private platformService: PlatformService) { }
   
   showPlatforms() {
     this.platformService.getAllPlatforms()
       .subscribe(responsePlatforms => this.platforms = responsePlatforms)
   }
-  /*
-  addPlatform(platform: Platform) {
-    this.platformService.addPlatform(platform)
-      .subscribe(responsePlatform => this.platform = responsePlatform)
+  
+  addPlatform() {
+    this.platformService.addPlatform(
+      this.platformForm.value.name ?? "",
+      this.platformForm.value.img ?? ""
+    ).subscribe(responsePlatform => this.platform = responsePlatform)
   }
-  */
+  
+  deletePlatform() {
+    this.platformService.deletePlatform(
+      this.deleteForm.value.id ?? 0
+    )
+    .subscribe(res => console.log(res))
+  }
 }

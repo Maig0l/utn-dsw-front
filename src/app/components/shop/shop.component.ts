@@ -1,6 +1,6 @@
 import { Component, Input } from '@angular/core';
 import { RouterOutlet } from '@angular/router';
-import { ShopService, Shop } from '../../services/shop.service.js';
+import { ShopService, Shop } from '../services/shop.service.js';
 
 @Component({
   selector: 'app-shop',

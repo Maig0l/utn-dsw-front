@@ -25,5 +25,15 @@ export class ShopService {
     return this.http.get<ApiResponse>(this.shopsEndpoint)
       // Devuelve lo que está dentro de data en el objeto de respuesta
       .pipe(map(response => response.data))
+    }
+
+  addShop(name: string, img: string, site: string): Observable<Shop> {
+    return this.http.post<Shop>(this.shopsEndpoint, { name, img, site })
+  }
+
+  deleteShop(id: string): Observable<Shop> {
+    const url = this.shopsEndpoint + `/${id}`
+    return this.http.delete<ApiResponse>(url)
+      .pipe(map(res => res.data))
   }
 }

@@ -1,0 +1,52 @@
+<section>
+    <h1>Listing tags</h1>
+  
+    <button (click)="showTags()">Get Tags</button>
+  
+    @for (tag of tags; track tag.id) {
+    <div class="tag-item">
+      <small>[{{ tag.id }}]</small>&nbsp;
+      <b>{{ tag.name }}</b> &nbsp;
+    </div>
+    }
+  </section>
+  
+  
+  <section>
+    <h1>Create new tag</h1>
+  <form [formGroup]="tagForm" (submit)="addTag()">
+    <label for="name">Name</label>
+    <input type="text" id="name" formControlName="name">
+    
+    <label for="description">Description</label>
+    <input type="text" id="description" formControlName="description">
+  
+    <button type="submit" class="primary" >Create</button>
+  </form>
+  </section>
+  
+  <section>
+    <h1>Update a tag</h1>
+    <form [formGroup]="updateForm" (submit)="updateTag()">
+      <label for="img">Enter tag id:</label>
+      <input type="number" formControlName="id">
+  
+      <label for="name">New name</label>
+      <input type="text" id="name" formControlName="name">
+
+      <label for="description">Description</label>
+      <input type="text" id="description" formControlName="description">
+  
+      <button type="submit" class="primary">Update</button>
+    </form>
+  </section>
+  
+  <section>
+    <h1>Delete a tag</h1>
+    <form [formGroup]="deleteForm" (submit)="deleteTag()">
+      <input type="number"formControlName="id">
+      <input type="submit">
+    </form>
+  </section>
+  
+  

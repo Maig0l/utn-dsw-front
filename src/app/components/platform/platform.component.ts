@@ -1,6 +1,6 @@
 import { Component, Input } from '@angular/core';
 import { RouterOutlet } from '@angular/router';
-import { PlatformService, Platform } from '../../services/platform.service.js';
+import { PlatformService, Platform } from '../services/platform.service.js';
 import { FormControl, FormGroup, ReactiveFormsModule } from '@angular/forms';
 @Component({
   selector: 'app-platform',

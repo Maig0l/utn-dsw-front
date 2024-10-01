@@ -1,5 +1,6 @@
 import { Component, OnInit, inject, PLATFORM_ID } from '@angular/core';
 import { CommonModule, isPlatformBrowser } from '@angular/common';
+import { RouterOutlet, Router } from '@angular/router';
 
 @Component({
   selector: 'app-footer',
@@ -17,4 +18,10 @@ export class FooterComponent implements OnInit {
       this.currentYear = new Date().getFullYear();
     }
   }
+
+  constructor(private router: Router) {}
+
+  redirect(path: string) {
+    this.router.navigate([path]); // Funcion para redirigir a una ruta
+}
 }

@@ -17,9 +17,9 @@
   align-items: center;
 }
 
-.logo h1 {
-  font-size: 1.5rem;
-  margin: 0;
+.logo img {
+  width: 100px;
+  height: auto;
 }
 
 .navigation ul {

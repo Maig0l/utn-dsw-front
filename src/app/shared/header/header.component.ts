@@ -1,15 +1,26 @@
 import { Component, OnInit, inject, PLATFORM_ID } from '@angular/core';
 import { CommonModule, isPlatformBrowser } from '@angular/common';
 import { RouterOutlet, Router } from '@angular/router';
+import { NavComponent } from '../nav/nav.component';
 
 @Component({
   selector: 'app-header',
   standalone: true,
-  imports: [RouterOutlet],
+  imports: [RouterOutlet,NavComponent],
   templateUrl: './header.component.html',
   styleUrl: './header.component.css'
 })
 export class HeaderComponent implements OnInit {
+  
+  constructor(private router: Router) {}
+
+    redirect(path: string) {
+      this.router.navigate([path]); // Funcion para redirigir a una ruta
+  }
+
+
+  
+  //dark mode 
   private platformId = inject(PLATFORM_ID);
   isDarkMode: boolean = false;
 
@@ -19,7 +30,6 @@ export class HeaderComponent implements OnInit {
       this.updateDarkMode();
     }
   }
-
   toggleDarkMode() {
     this.isDarkMode = !this.isDarkMode;
     if (isPlatformBrowser(this.platformId)) {
@@ -36,11 +46,5 @@ export class HeaderComponent implements OnInit {
         document.body.classList.remove('dark-mode');
       }
     }
-  }
-  
-  constructor(private router: Router) {}
-
-    redirect(path: string) {
-      this.router.navigate([path]); // Funcion para redirigir a una ruta
   }
 }

@@ -4,12 +4,12 @@ import { Router } from '@angular/router';
 import { CommonModule } from '@angular/common';
 import { LoginService } from '../../components/services/auth/login.service.js';
 import { LoginRequest } from '../../components/services/auth/loginRequest.js';
-import { HttpClient } from '@angular/common/http';
+import { HttpClientModule } from '@angular/common/http';
 
 @Component({
   selector: 'app-login',
   standalone: true,
-  imports: [ReactiveFormsModule, CommonModule],
+  imports: [ReactiveFormsModule, CommonModule, HttpClientModule],
   templateUrl: './login.component.html',
   styleUrl: './login.component.css'
 })
@@ -37,7 +37,7 @@ export class LoginComponent {
       },
       complete: () => { console.info("Login completed") }
     });
-    this.router.navigateByUrl('/platform'); //TODO
+    this.router.navigateByUrl('/platform'); //TODO al inicio
     this.loginForm.reset();
   } else {
     this.loginForm.markAllAsTouched();

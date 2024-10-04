@@ -1,8 +1,5 @@
 .header {
-  background-color: var(--bg-color);
-  color: var(--text-color);
   padding: 1rem 0;
-  transition: background-color 0.3s ease, color 0.3s ease;
 }
 
 .container {
@@ -35,23 +32,8 @@
 
 .navigation a {
   color: var(--text-color);
-  text-decoration: none;
-  transition: color 0.3s ease;
 }
 
 .navigation a:hover {
-  color: var(--hover-color);
-}
-
-.dark-mode-toggle {
-  background: none;
-  border: none;
-  color: var(--text-color);
-  font-size: 1.2rem;
-  cursor: pointer;
-  transition: color 0.3s ease;
-}
-
-.dark-mode-toggle:hover {
   color: var(--hover-color);
 }

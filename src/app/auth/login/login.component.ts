@@ -14,6 +14,9 @@ import { HttpClientModule } from '@angular/common/http';
   styleUrl: './login.component.css'
 })
 export class LoginComponent {
+
+  loginError: string ="";
+
   loginForm = this.fb.group({
     username: ['', Validators.required], //, Validators.minLength(6) lo rompe todo? 
     password: ['', Validators.required]
@@ -33,12 +36,15 @@ export class LoginComponent {
       },
       error: (error) => {
         console.error(error);
-        alert("Invalid credentials");
+        this.loginError = error;
       },
-      complete: () => { console.info("Login completed") }
+      complete: () => { 
+        console.info("Login completed");
+        this.router.navigateByUrl('/platform'); //TODO al inicio
+        this.loginForm.reset(); }
+      
     });
-    this.router.navigateByUrl('/platform'); //TODO al inicio
-    this.loginForm.reset();
+
   } else {
     this.loginForm.markAllAsTouched();
     alert("Form is invalid");

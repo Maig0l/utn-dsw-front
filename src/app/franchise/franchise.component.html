@@ -1,0 +1,50 @@
+<section>
+  <h1>Listing franchises</h1>
+
+  <button (click)="showFranchises()">Get Franchises</button>
+
+  @for (franchise of franchises; track franchise.id) {
+  <div class="franchise-item">
+    <small>[{{ franchise.id }}]</small>&nbsp;
+    <!-- <b>{{ franchise.name }}</b> &nbsp; -->
+  </div>
+  }
+</section>
+
+
+<section>
+  <h1>Create new franchise</h1>
+  <!-- <form [formGroup]="franchiseForm" (submit)="addFranchise()">
+    <label for="name">Name</label>
+    <input type="text" id="name" formControlName="name">
+
+    <label for="img">Image</label>
+    <input type="text" id="img" formControlName="img">
+
+    <button type="submit" class="primary">Create</button>
+  </form>-->
+</section>
+
+<section>
+   <h1>Update a franchise</h1>
+  <!--<form [formGroup]="updateForm" (submit)="updateFranchise()">
+    <label for="img">Enter franchise id:</label>
+    <input type="number" formControlName="id">
+
+    <label for="name">New name</label>
+    <input type="text" id="name" formControlName="name">
+
+    <label for="img">New image</label>
+    <input type="text" id="img" formControlName="img">
+
+    <button type="submit" class="primary">Update</button>
+  </form> -->
+</section>
+
+<section>
+  <h1>Delete a franchise</h1>
+  <form [formGroup]="deleteForm" (submit)="deleteFranchise()">
+    <input type="number" formControlName="id">
+    <input type="submit">
+  </form>
+</section>

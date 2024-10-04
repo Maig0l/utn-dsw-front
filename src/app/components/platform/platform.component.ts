@@ -1,11 +1,13 @@
-import { Component, Input } from '@angular/core';
+import { Component } from '@angular/core';
 import { RouterOutlet } from '@angular/router';
 import { PlatformService, Platform } from '../services/platform.service.js';
 import { FormControl, FormGroup, ReactiveFormsModule } from '@angular/forms';
+import { CommonModule } from '@angular/common';
+
 @Component({
   selector: 'app-platform',
   standalone: true,
-  imports: [ReactiveFormsModule],
+  imports: [ReactiveFormsModule, CommonModule],
   providers: [RouterOutlet,PlatformService],
   templateUrl: './platform.component.html',
   styleUrl: './platform.component.css'

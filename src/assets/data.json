@@ -1,0 +1,9 @@
+{
+  "message": "Authentication ok",
+  "id": "1",
+  "nick": "John Doe",
+  "email": "example@gmail",
+  "profile_img": "image.png",
+  "bio_text": "pro gamer",
+  "linked_accounts": ["ig acc","fb acc"]
+}

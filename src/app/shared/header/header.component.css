@@ -1,0 +1,39 @@
+.header {
+  padding: 1rem 0;
+}
+
+.container {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 0 1rem;
+}
+
+.header-content {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.logo img {
+  width: 100px;
+  height: auto;
+}
+
+.navigation ul {
+  list-style-type: none;
+  padding: 0;
+  margin: 0;
+  display: flex;
+}
+
+.navigation li {
+  margin-left: 1.5rem;
+}
+
+.navigation a {
+  color: var(--text-color);
+}
+
+.navigation a:hover {
+  color: var(--hover-color);
+}

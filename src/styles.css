@@ -1,1 +1,25 @@
 /* You can add global styles to this file, and also import other style files */
+
+:root {
+  --bg-color: #ffffff;
+  --text-color: #333333;
+  --hover-color: #666666;
+}
+
+body {
+  background-color: var(--bg-color);
+  color: var(--text-color);
+}
+
+/* FORMS */
+.ng-valid:not(form) {
+  border-left: 5px solid #42A948; /* green */
+}
+
+.ng-invalid:not(form) {
+  border-left: 5px solid #a94442; /* red */
+}
+
+.text-danger {
+  color:red;
+}

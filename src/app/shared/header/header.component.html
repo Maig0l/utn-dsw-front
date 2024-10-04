@@ -1,0 +1,20 @@
+<header class="header">
+  <div class="container">
+    <div class="header-content">
+      <div class="logo">
+        <a routerLink="/homepage" routerLinkActive="active" (click)="redirect('/homepage')">
+          <img src="assets/placeholder_logo.png" alt="Placeholder Logo">
+        </a>
+      </div>
+      <nav class="navigation">
+    <ul class="menu">
+      <li><a routerLink="/studio" routerLinkActive="active" (click)="redirect('/studio')">Studio</a></li>
+      <li><a routerLink="/shop" routerLinkActive="active" (click)="redirect('/shop')">Shop</a></li>
+      <li><a routerLink="/platform" routerLinkActive="active" (click)="redirect('/platform')">Platform</a></li>
+      <li><a href="https://shorturl.at/nNUaq" target="_blank">Tag (WIP)</a></li>
+      <li><app-nav></app-nav></li>
+    </ul>
+      </nav>
+    </div>
+  </div>
+</header>

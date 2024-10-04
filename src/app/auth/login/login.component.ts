@@ -40,7 +40,7 @@ export class LoginComponent {
       },
       complete: () => { 
         console.info("Login completed");
-        this.router.navigateByUrl('/platform'); //TODO al inicio
+        this.router.navigateByUrl('/homepage'); //TODO al inicio
         this.loginForm.reset(); }
       
     });

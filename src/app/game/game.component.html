@@ -1,0 +1,45 @@
+<section>
+    <h1>Listing games</h1>
+  
+    <button (click)="showGames()">Get Games</button>
+  
+    @for (game of games; track game.id) {
+    <div class="game-item">
+      <small>[{{ game.id }}]</small>&nbsp;
+      <b>{{ game.title }}</b> &nbsp; 
+    </div>
+    }
+  </section>
+  
+  
+  <section>
+    <h1>Create new game</h1>
+    <form [formGroup]="gameForm" (submit)="addGame()">
+      <label for="name">Title</label>
+      <input type="text" id="name" formControlName="name">
+  
+      
+  
+      <button type="submit" class="primary">Create</button>
+    </form>>
+  </section>
+  
+  <!--<section>
+     <h1>Update a game</h1>
+    <form [formGroup]="updateForm" (submit)="updateGame()">
+  
+      <label for="name">New name</label>
+      <input type="text" id="name" formControlName="name">
+  
+  
+      <button type="submit" class="primary">Update</button>
+    </form> 
+  </section>
+  -->
+  <section>
+    <h1>Delete a game</h1>
+    <form [formGroup]="deleteForm" (submit)="deleteGame()">
+      <input type="number" formControlName="id">
+      <input type="submit">
+    </form>
+  </section>

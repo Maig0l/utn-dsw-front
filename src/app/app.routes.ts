@@ -6,12 +6,14 @@ import { PlatformComponent } from './components/platform/platform.component';
 import { LoginComponent } from './auth/login/login.component.js';
 import { HomepageComponent } from './pages/homepage/homepage.component.js';
 import { FranchiseComponent } from './franchise/franchise.component.js';
+import { GameComponent } from './game/game.component.js';
 
 export const routes: Routes = [
     {path: 'studio', component: StudioComponent},
     {path : 'shop', component: ShopComponent},
     {path : 'platform', component: PlatformComponent},
     {path : 'franchise', component: FranchiseComponent},
+    {path : 'game', component: GameComponent},
     {path : 'homepage', component: HomepageComponent},
     {path: '', redirectTo: '/homepage', pathMatch: 'full'}, // Redirección en caso de ruta vacía
     //{path: '**', redirectTo: '/studio'}, // Redirección en caso de ruta no encontrada

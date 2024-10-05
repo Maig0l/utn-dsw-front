@@ -11,12 +11,13 @@ import { FooterComponent } from './shared/footer/footer.component.js';
 import { LoginComponent } from './auth/login/login.component.js';
 import { ReactiveFormsModule } from '@angular/forms';
 import { HttpClient } from '@angular/common/http';
+import { TagComponent } from './components/tag/tag.component.js';
 
 @Component({
   selector: 'app-root',
   standalone: true,
   imports: [ReactiveFormsModule, LoginComponent, RouterOutlet, 
-            NgFor, PlatformComponent,ShopComponent, StudioComponent, 
+            NgFor, PlatformComponent,ShopComponent, StudioComponent, TagComponent,
             HeaderComponent, FooterComponent],
   // Registramos los servicios que nos traen los datos del backend
   //providers: [ShopService, PlatformService],
@@ -24,5 +25,4 @@ import { HttpClient } from '@angular/common/http';
   styleUrl: './app.component.css'
 })
 export class AppComponent {
-
 }

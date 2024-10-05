@@ -1,6 +1,6 @@
 import { Component, Input } from '@angular/core';
 import { RouterOutlet } from '@angular/router';
-import { TagService, Tag } from '../../services/tag.service.js';
+import { TagService, Tag } from '../services/tag.service.js';
 import { FormControl, FormGroup, ReactiveFormsModule } from '@angular/forms';
 @Component({
   selector: 'app-tag',

@@ -15,11 +15,20 @@
   <section>
     <h1>Create new game</h1>
     <form [formGroup]="gameForm" (submit)="addGame()">
-      <label for="name">Title</label>
-      <input type="text" id="name" formControlName="name">
-  
-      
-  
+      <label for="title">Title</label>
+      <input type="text" id="title" formControlName="title">
+      <label for="synopsis">Synopsis</label>
+      <input type="text" id="synopsis" formControlName="synopsis">
+      <label for="releaseDate">Release date</label>
+      <input type="string" id="releaseDate" formControlName="releaseDate">
+      <label for="portrait">Portrait</label>
+      <input type="text" id="portrait" formControlName="portrait">
+      <label for="banner">Banner</label>
+      <input type="text" id="banner" formControlName="banner">
+      <label for="pictures">Picture</label>
+      <input type="text" id="pictures" formControlName="pictures">
+      <label for="franchise">Franchise ID</label>
+      <input type="number" id="franchise" formControlName="franchise">
       <button type="submit" class="primary">Create</button>
     </form>>
   </section>

@@ -17,7 +17,14 @@ export class GameComponent {
 
     
     gameForm = new FormGroup({
-      title: new FormControl('')
+      title: new FormControl(''),
+      synopsis: new FormControl(''),
+      releaseDate: new FormControl(''),
+      portrait: new FormControl(''),
+      banner: new FormControl(''),
+      pictures: new FormControl(''),
+      franchise: new FormControl(0)
+
     });
 
     deleteForm = new FormGroup({
@@ -40,7 +47,15 @@ export class GameComponent {
 
   addGame() {
     this.gameService.addGame(
-      this.gameForm.value.title ?? ""
+      this.gameForm.value.title ?? "",
+      this.gameForm.value.synopsis ?? "",
+      this.gameForm.value.releaseDate ?? "", 
+      this.gameForm.value.portrait ?? "",
+      this.gameForm.value.banner ?? "",
+      this.gameForm.value.pictures ?? "",
+      this.gameForm.value.franchise ?? 0
+
+
     ).subscribe(responseGame => this.game = responseGame)
   }
 

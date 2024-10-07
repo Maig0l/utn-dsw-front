@@ -4,7 +4,13 @@ import { map, Observable } from 'rxjs';
 
 export interface Game {
   id: number,
-  title: string
+  title: string,
+  synopsis: string,
+  releaseDate: string,
+  portrait: string,
+  banner: string,
+  franchise: number
+
 }
 
 interface ApiResponse {
@@ -26,8 +32,8 @@ export class GameService {
   }
 
   
-  addGame(title: string): Observable<Game>{
-    return this.http.post<Game>(this.gamesEndpoint, { title });
+  addGame(title: string, synopsis: string, releaseDate: string, portrait: string, banner: string, pictures: string, franchise: number): Observable<Game>{
+    return this.http.post<Game>(this.gamesEndpoint, { title, synopsis, releaseDate, portrait, banner, pictures, franchise });
   }
 
  /* updateGame(TODO): Observable<Game> {

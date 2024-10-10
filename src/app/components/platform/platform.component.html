@@ -1,46 +1,59 @@
+<!-- GET ALL -->
 <section>
   <h1>Listing platforms</h1>
-
+  
   <button (click)="showPlatforms()">Get Platforms</button>
-
+  
   @for (platform of platforms; track platform.id) {
-  <div class="platform-item">
-    <small>[{{ platform.id }}]</small>&nbsp;
-    <b>{{ platform.name }}</b> &nbsp;
-  </div>
+    <div class="platform-item">
+      <small>[{{ platform.id }}]</small>&nbsp;
+      <b>{{ platform.name }}</b> &nbsp;
+    </div>
   }
 </section>
 
-
+<!-- CREATE -->
 <section>
   <h1>Create new platform</h1>
-<form [formGroup]="platformForm" (submit)="addPlatform()">
-  <label for="name">Name</label>
-  <input type="text" id="name" formControlName="name">
-
-  <label for="img">Image</label>
-  <input type="text" id="img" formControlName="img">
-
-  <button type="submit" class="primary" >Create</button>
-</form>
-</section>
-
-<section>
-  <h1>Update a platform</h1>
-  <form [formGroup]="updateForm" (submit)="updatePlatform()">
-    <label for="img">Enter platform id:</label>
-    <input type="number" formControlName="id">
-
-    <label for="name">New name</label>
+  <form [formGroup]="platformForm" (submit)="addPlatform()">
+    <label for="name">Name</label>
     <input type="text" id="name" formControlName="name">
-      
-    <label for="img">New image</label>
+    
+    <label for="img">Image</label>
     <input type="text" id="img" formControlName="img">
-
-    <button type="submit" class="primary">Update</button>
+    
+    <button type="submit" class="primary" >Create</button>
   </form>
 </section>
 
+<!-- UPDATE -->
+<section class="column">
+  <h1>Enter Platform ID to Edit</h1>
+  <form [formGroup]="platformIdForm">
+    <div>
+      <label for="platformId">Platform ID:</label>
+      <input id="platformId" formControlName="id" />
+    </div>
+    <button type="button" (click)="populateForm()">Fetch Platform</button>
+  </form>
+
+  <div *ngIf="editReady">
+    <h1>Edit Platform</h1>
+    <form [formGroup]="updateForm" (submit)="updatePlatform()">
+      <div>
+        <label for="name">Name:</label>
+        <input id="name" formControlName="name" />
+      </div>
+      <div>
+        <label for="img">Image URL:</label>
+        <input id="img" formControlName="img" />
+      </div>
+      <button type="submit" class="primary">Update</button>
+    </form>
+  </div>
+</section>
+
+<!-- DELETE -->
 <section>
   <h1>Delete a platform</h1>
   <form [formGroup]="deleteForm" (submit)="deletePlatform()">
@@ -48,4 +61,3 @@
     <input type="submit">
   </form>
 </section>
-

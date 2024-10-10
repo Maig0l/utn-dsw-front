@@ -1,10 +1,12 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { map, Observable } from 'rxjs';
+import { Game } from './game.service.js';
 
 export interface Franchise {
   id: number
-  //TODO , name, games[]
+  name: string, 
+  games: Game[]
 }
 
 interface ApiResponse {
@@ -25,16 +27,15 @@ export class FranchiseService {
       .pipe(map(response => response.data))
   }
 
-  /*
-  addFranchise(TODO): Observable<Franchise>{
-    return this.http.post<Franchise>(this.franchisesEndpoint, { TODO });
+  addFranchise(name: string, games:Game[]): Observable<Franchise>{
+    return this.http.post<Franchise>(this.franchisesEndpoint, { name, games });
   }
 
-  updateFranchise(TODO): Observable<Franchise> {
+  updateFranchise(id: number, name: string, games:Game[]): Observable<Franchise> {
     const url = this.franchisesEndpoint + `/${id}`
-    return this.http.put<Franchise>(url, {TODO })
+    return this.http.put<Franchise>(url, {id, name, games })
   }
-*/
+
   deleteFranchise(id: number): Observable<Franchise> {
     const url = this.franchisesEndpoint + `/${id}`
     return this.http.delete<ApiResponse>(url)

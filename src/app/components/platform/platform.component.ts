@@ -29,36 +29,65 @@ export class PlatformComponent {
       img: new FormControl('') 
     })
 
+    platformIdForm = new FormGroup({
+      id: new FormControl(0)
+    });
+    
+
     platform: Platform | undefined
     platforms: Platform[] | undefined
-
+    
     constructor(private platformService: PlatformService) { }
-  
-  showPlatforms() {
-    this.platformService.getAllPlatforms()
+    
+    showPlatforms() {
+      this.platformService.getAllPlatforms()
       .subscribe(responsePlatforms => this.platforms = responsePlatforms)
-  }
-  
-  addPlatform() {
-    this.platformService.addPlatform(
-      this.platformForm.value.name ?? "",
-      this.platformForm.value.img ?? ""
-    ).subscribe(responsePlatform => this.platform = responsePlatform)
-  }
+    }
+    
+    addPlatform() {
+      this.platformService.addPlatform(
+        this.platformForm.value.name ?? "",
+        this.platformForm.value.img ?? ""
+      ).subscribe(responsePlatform => this.platform = responsePlatform)
+    }
+    
+    updatePlatform() {
+      this.platformService.updatePlatform(
+        this.updateForm.value.id ?? 0,
+        this.updateForm.value.name ?? "",
+        this.updateForm.value.img ?? ""
+      )
+      .subscribe(responsePlatform => this.platform = responsePlatform)
+    }
+    
+    deletePlatform() {
+      this.platformService.deletePlatform(
+        this.deleteForm.value.id ?? 0
+      )
+      .subscribe(res => console.log(res))
+    }
+    
+    editReady: boolean = false;
 
-  updatePlatform() {
-    this.platformService.updatePlatform(
-      this.updateForm.value.id ?? 0,
-      this.updateForm.value.name ?? "",
-      this.updateForm.value.img ?? ""
-    )
-    .subscribe(responsePlatform => this.platform = responsePlatform)
-  }
-  
-  deletePlatform() {
-    this.platformService.deletePlatform(
-      this.deleteForm.value.id ?? 0
-    )
-    .subscribe(res => console.log(res))
-  }
+    populateForm() {
+      const id = this.platformIdForm.get('id')?.value;
+      if (id) {
+        this.platformService.getOnePlatform(id).subscribe(
+          (data: Platform) => {
+            this.updateForm.setValue({
+              id: data.id,
+              name: data.name,
+              img: data.img
+            });
+            this.editReady = true;
+          }/*,
+          (error) => {
+            console.error('Platform not found', error);
+            this.editReady = false;
+          }
+        */);
+      } else {
+        this.editReady = false;
+      }
+    }
 }

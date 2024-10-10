@@ -41,5 +41,11 @@ export class FranchiseService {
     return this.http.delete<ApiResponse>(url)
       .pipe(map(res => res.data))
   }
+
+    getOneFranchise(id: number): Observable<Franchise> {
+    const url = this.franchisesEndpoint + `/${id}`;
+    return this.http.get<ApiResponse>(url)
+      .pipe(map(response => response.data));
+  }
   
  }

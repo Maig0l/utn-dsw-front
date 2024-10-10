@@ -1,8 +1,9 @@
 import { Component } from '@angular/core';
 import { RouterOutlet } from '@angular/router';
 import { FranchiseService, Franchise } from '../components/services/franchise.service.js';
-import { FormControl, FormGroup, ReactiveFormsModule } from '@angular/forms';
+import { FormArray, FormBuilder, FormControl, FormGroup, ReactiveFormsModule } from '@angular/forms';
 import { CommonModule } from '@angular/common';
+import { Game } from '../components/services/game.service.js';
 
 @Component({
   selector: 'app-franchise',
@@ -15,8 +16,8 @@ import { CommonModule } from '@angular/common';
 export class FranchiseComponent {
 
     franchiseForm = new FormGroup({
-      //id:number,
-      //TODO
+      name: new FormControl(''),
+      games: new FormControl() //TODO  must recieve an array of games
     });
 
     deleteForm = new FormGroup({
@@ -24,23 +25,29 @@ export class FranchiseComponent {
     })
 
     updateForm = new FormGroup({
-      //TODO
+      id: new FormControl(0),
+      name: new FormControl(''),
+      games: new FormControl() //TODO  must recieve an array of games
     })
+
+    franchiseIdForm = new FormGroup({
+      id: new FormControl(0)
+    });
 
     franchise: Franchise | undefined
     franchises: Franchise[] | undefined
 
-    constructor(private franchiseService: FranchiseService) { }
+    constructor(private franchiseService: FranchiseService, private fb: FormBuilder) { }
   
   showFranchises() {
     this.franchiseService.getAllFranchises()
       .subscribe(responseFranchises => this.franchises = responseFranchises)
   }
-  /* TODO
+
   addFranchise() {
     this.franchiseService.addFranchise(
       this.franchiseForm.value.name ?? "",
-      this.franchiseForm.value.img ?? ""
+      this.franchiseForm.value.games ?? [] //TODO must recieve an array of games
     ).subscribe(responseFranchise => this.franchise = responseFranchise)
   }
 
@@ -48,15 +55,34 @@ export class FranchiseComponent {
     this.franchiseService.updateFranchise(
       this.updateForm.value.id ?? 0,
       this.updateForm.value.name ?? "",
-      this.updateForm.value.img ?? ""
+      this.updateForm.value.games ?? []
     )
     .subscribe(responseFranchise => this.franchise = responseFranchise)
   }
-  */
+
   deleteFranchise() {
     this.franchiseService.deleteFranchise(
       this.deleteForm.value.id ?? 0
     )
     .subscribe(res => console.log(res))
   }
+
+  editReady: boolean = false;
+
+  populateForm() {
+  const id = this.franchiseIdForm.get('id')?.value;
+  if (id) {
+    this.franchiseService.getOneFranchise(id).subscribe(
+      (data: Franchise) => {
+        this.updateForm.setValue({
+          id: data.id,
+          name: data.name,
+          games: data.games
+        });
+        this.editReady = true;
+      }); //TODO handle error?
+  } else {
+    this.editReady = false;
+  }
+}
 }

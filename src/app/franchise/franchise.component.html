@@ -1,3 +1,4 @@
+<!-- GET ALL -->
 <section>
   <h1>Listing franchises</h1>
 
@@ -6,39 +7,49 @@
   @for (franchise of franchises; track franchise.id) {
   <div class="franchise-item">
     <small>[{{ franchise.id }}]</small>&nbsp;
-    <!-- <b>{{ franchise.name }}</b> &nbsp; -->
+    <b>{{ franchise.name }}</b> &nbsp;
   </div>
   }
 </section>
 
-
+<!-- CREATE -->
 <section>
   <h1>Create new franchise</h1>
-  <!-- <form [formGroup]="franchiseForm" (submit)="addFranchise()">
+  <form [formGroup]="franchiseForm" (submit)="addFranchise()">
     <label for="name">Name</label>
     <input type="text" id="name" formControlName="name">
 
-    <label for="img">Image</label>
-    <input type="text" id="img" formControlName="img">
+    <label for="img">Games (TODO)</label>
+    <input type="text" id="game" formControlName="game">
 
     <button type="submit" class="primary">Create</button>
-  </form>-->
+  </form>
 </section>
 
-<section>
-   <h1>Update a franchise</h1>
-  <!--<form [formGroup]="updateForm" (submit)="updateFranchise()">
-    <label for="img">Enter franchise id:</label>
-    <input type="number" formControlName="id">
+<!-- UPDATE -->
+<section class="column">
+  <h1>Enter Franchise ID to Edit</h1>
+  <form [formGroup]="franchiseIdForm">
+    <div>
+      <label for="franchiseId">Franchise ID:</label>
+      <input id="franchiseId" formControlName="id" />
+    </div>
+    <button type="button" (click)="populateForm()">Fetch Franchise</button>
+  </form>
 
-    <label for="name">New name</label>
-    <input type="text" id="name" formControlName="name">
-
-    <label for="img">New image</label>
-    <input type="text" id="img" formControlName="img">
-
-    <button type="submit" class="primary">Update</button>
-  </form> -->
+  <div *ngIf="editReady">
+    <h1>Edit Franchise</h1>
+    <form [formGroup]="updateForm" (submit)="updateFranchise()">
+      <div>
+        <label for="name">Name:</label>
+        <input id="name" formControlName="name" />
+      </div>
+      <div>
+        games (TODO)
+      </div>
+      <button type="submit" class="primary">Update</button>
+    </form>
+  </div>
 </section>
 
 <section>

@@ -80,12 +80,7 @@ export class PlatformComponent {
               img: data.img
             });
             this.editReady = true;
-          }/*,
-          (error) => {
-            console.error('Platform not found', error);
-            this.editReady = false;
-          }
-        */);
+          }); //TODO handle error?
       } else {
         this.editReady = false;
       }

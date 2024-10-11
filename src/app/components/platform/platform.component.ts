@@ -67,22 +67,22 @@ export class PlatformComponent {
       .subscribe(res => console.log(res))
     }
     
-    editReady: boolean = false;
+  editReady: boolean = false;
 
-    populateForm() {
-      const id = this.platformIdForm.get('id')?.value;
-      if (id) {
-        this.platformService.getOnePlatform(id).subscribe(
-          (data: Platform) => {
-            this.updateForm.setValue({
-              id: data.id,
-              name: data.name,
-              img: data.img
-            });
-            this.editReady = true;
-          }); //TODO handle error?
-      } else {
-        this.editReady = false;
-      }
+  populateForm() {
+    const id = this.platformIdForm.get('id')?.value;
+    if (id) {
+      this.platformService.getOnePlatform(id).subscribe(
+        (data: Platform) => {
+          this.updateForm.setValue({
+            id: data.id,
+            name: data.name,
+            img: data.img
+          });
+          this.editReady = true;
+        }); //TODO handle error?
+    } else {
+      this.editReady = false;
     }
+  }
 }

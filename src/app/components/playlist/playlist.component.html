@@ -1,0 +1,71 @@
+<!-- GET ALL -->
+<section>
+  <h1>Listing playlists</h1>
+
+  <button (click)="showPlaylists()">Get Playlists</button>
+
+  @for (playlist of playlists; track playlist.id) {
+  <div class="playlist-item">
+    <small>[{{ playlist.id }}]</small>&nbsp;
+    <b>{{ playlist.name }}</b> &nbsp;
+  </div>
+  }
+</section>
+
+<!-- CREATE -->
+<section>
+  <h1>Create new playlist</h1>
+  <form [formGroup]="playlistForm" (submit)="addPlaylist()">
+    <label for="name">Name</label>
+    <input type="text" id="name" formControlName="name">
+
+    <label for="description">Description</label>
+    <input type="text" id="description" formControlName="description">
+
+    <label for="is_private">Private</label>
+    <input type="checkbox" id="is_private" formControlName="is_private">
+
+    <button type="submit" class="primary">Create</button>
+  </form>
+</section>
+
+<!-- UPDATE -->
+<section class="column">
+  <h1>Enter Playlist ID to Edit</h1>
+  <form [formGroup]="playlistIdForm">
+    <div>
+      <label for="playlistId">Playlist ID:</label>
+      <input id="playlistId" formControlName="id" />
+    </div>
+    <button type="button" (click)="populateForm()">Fetch Playlist</button>
+  </form>
+
+  <div *ngIf="editReady">
+    <h1>Edit Playlist</h1>
+    <form [formGroup]="updateForm" (submit)="updatePlaylist()">
+      <div>
+        <label for="name">Name:</label>
+        <input id="name" formControlName="name" />
+      </div>
+      <div>
+        <label for="description">Description:</label>
+        <input id="description" formControlName="description" />
+      </div>
+      <div>
+        <label for="is_private">Private:</label>
+        <input type="checkbox" id="is_private" formControlName="is_private" />
+      </div>
+      <div>EDIT GAMES</div>
+      <button type="submit" class="primary">Update</button>
+    </form>
+  </div>
+</section>
+
+<!-- DELETE -->
+<section>
+  <h1>Delete a playlist</h1>
+  <form [formGroup]="deleteForm" (submit)="deletePlaylist()">
+    <input type="number" formControlName="id">
+    <input type="submit">
+  </form>
+</section>

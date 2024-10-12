@@ -9,6 +9,7 @@ export interface Game {
   releaseDate: string,
   portrait: string,
   banner: string,
+  pictures: string,
   franchise: number
 
 }
@@ -36,15 +37,22 @@ export class GameService {
     return this.http.post<Game>(this.gamesEndpoint, { title, synopsis, releaseDate, portrait, banner, pictures, franchise });
   }
 
- /* updateGame(TODO): Observable<Game> {
+  updateGame(id:number, title: string, synopsis: string, releaseDate: string, portrait: string, banner: string, pictures: string, franchise: number): Observable<Game> {
     const url = this.gamesEndpoint + `/${id}`
-    return this.http.put<Game>(url, {TODO })
+    return this.http.put<Game>(url, {id, title, synopsis, releaseDate, portrait, banner, pictures, franchise })
   }
-*/
+
   deleteGame(id: number): Observable<Game> {
     const url = this.gamesEndpoint + `/${id}`
     return this.http.delete<ApiResponse>(url)
       .pipe(map(res => res.data))
+  }
+
+  
+    getOneGame(id: number): Observable<Game> {
+    const url = this.gamesEndpoint + `/${id}`;
+    return this.http.get<ApiResponse>(url)
+      .pipe(map(response => response.data));
   }
   
  }

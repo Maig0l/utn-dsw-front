@@ -32,8 +32,19 @@ export class GameComponent {
     })
 
     updateForm = new FormGroup({
-      //TODO
+      id: new FormControl(0),
+      title: new FormControl(''),
+      synopsis: new FormControl(''),
+      releaseDate: new FormControl(''),
+      portrait: new FormControl(''),
+      banner: new FormControl(''),
+      pictures: new FormControl(''),
+      franchise: new FormControl(0)
     })
+
+    gameIdForm = new FormGroup({
+      id: new FormControl(0)
+    });
 
     game: Game | undefined
     games: Game[] | undefined
@@ -59,19 +70,49 @@ export class GameComponent {
     ).subscribe(responseGame => this.game = responseGame)
   }
 
-  /*updateGame() {
+  updateGame() {
     this.gameService.updateGame(
       this.updateForm.value.id ?? 0,
-      this.updateForm.value.name ?? "",
-      this.updateForm.value.img ?? ""
+      this.updateForm.value.title ?? "",
+      this.updateForm.value.synopsis ?? "",
+      this.updateForm.value.releaseDate ?? "",
+      this.updateForm.value.portrait ?? "",
+      this.updateForm.value.banner ?? "",
+      this.updateForm.value.pictures ?? "",
+      this.updateForm.value.franchise ?? 0
     )
     .subscribe(responseGame => this.game = responseGame)
   }
-  */
+  
+
   deleteGame() {
     this.gameService.deleteGame(
       this.deleteForm.value.id ?? 0
     )
     .subscribe(res => console.log(res))
   }
+  editReady: boolean = false;
+
+  populateForm() {
+    const id = this.gameIdForm.get('id')?.value;
+    if (id) {
+      this.gameService.getOneGame(id).subscribe(
+        (data: Game) => {
+          this.updateForm.setValue({
+            id: data.id,
+            title: data.title,
+            synopsis: data.synopsis,
+            releaseDate: data.releaseDate,
+            portrait: data.portrait,
+            banner: data.banner,
+            pictures: data.pictures,
+            franchise: data.franchise         
+          });
+          this.editReady = true;
+        }); //TODO handle error?
+    } else {
+      this.editReady = false;
+    }
+  }
+
 }

@@ -20,7 +20,7 @@
       <label for="synopsis">Synopsis</label>
       <input type="text" id="synopsis" formControlName="synopsis">
       <label for="releaseDate">Release date</label>
-      <input type="string" id="releaseDate" formControlName="releaseDate">
+      <input type="date" id="releaseDate" formControlName="releaseDate">
       <label for="portrait">Portrait</label>
       <input type="text" id="portrait" formControlName="portrait">
       <label for="banner">Banner</label>
@@ -28,23 +28,58 @@
       <label for="pictures">Picture</label>
       <input type="text" id="pictures" formControlName="pictures">
       <label for="franchise">Franchise ID</label>
-      <input type="number" id="franchise" formControlName="franchise">
+      <input type="text" id="franchise" formControlName="franchise">
       <button type="submit" class="primary">Create</button>
-    </form>>
+    </form>
   </section>
   
-  <!--<section>
-     <h1>Update a game</h1>
-    <form [formGroup]="updateForm" (submit)="updateGame()">
+  <!-- UPDATE -->
+  <section class="column">
+    <h1>Enter Game ID to Edit</h1>
+    <form [formGroup]="gameIdForm">
+      <div>
+        <label for="gameId">Game ID:</label>
+        <input id="gameId" formControlName="id" />
+      </div>
+      <button type="button" (click)="populateForm()">Fetch Game</button>
+    </form>
   
-      <label for="name">New name</label>
-      <input type="text" id="name" formControlName="name">
-  
-  
-      <button type="submit" class="primary">Update</button>
-    </form> 
+    <div *ngIf="editReady">
+      <h1>Edit Game</h1>
+      <form [formGroup]="updateForm" (submit)="updateGame()">
+        <div>
+          <label for="title">Title:</label>
+          <input id="title" formControlName="title" />
+        </div>
+        <div>
+          <label for="synopsis">Synopsis:</label>
+          <input id="synopsis" formControlName="synopsis" />
+        </div>
+        <div>
+          <label for="releaseDate">Release date:</label>
+          <input type="date" id="releaseDate" formControlName="releaseDate" />
+        </div> 
+        <div>
+          <label for="portrait">Portrait:</label>
+          <input id="portrait" formControlName="portrait" />
+        </div>
+        <div>
+          <label for="banner">Banner:</label>
+          <input id="banner" formControlName="banner" />
+        </div>
+        <div>
+          <label for="pictures">Picture:</label>
+          <input id="pictures" formControlName="pictures" />
+        </div>
+        <div>
+          <label for="franchise">Franchise ID:</label>
+          <input id="franchise" formControlName="franchise" />
+        </div>
+        <button type="submit" class="primary">Update</button>
+      </form>
+    </div>
   </section>
-  -->
+
   <section>
     <h1>Delete a game</h1>
     <form [formGroup]="deleteForm" (submit)="deleteGame()">

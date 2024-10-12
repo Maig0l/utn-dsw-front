@@ -27,7 +27,7 @@ export class FranchiseComponent {
     updateForm = new FormGroup({
       id: new FormControl(0),
       name: new FormControl(''),
-      games: new FormControl() //TODO  must recieve an array of games
+      //games: new FormControl() //TODO  must recieve an array of games
     })
 
     franchiseIdForm = new FormGroup({
@@ -55,7 +55,7 @@ export class FranchiseComponent {
     this.franchiseService.updateFranchise(
       this.updateForm.value.id ?? 0,
       this.updateForm.value.name ?? "",
-      this.updateForm.value.games ?? []
+      //this.updateForm.value.games ?? []
     )
     .subscribe(responseFranchise => this.franchise = responseFranchise)
   }
@@ -77,7 +77,6 @@ export class FranchiseComponent {
         this.updateForm.setValue({
           id: data.id,
           name: data.name,
-          games: data.games
         });
         this.editReady = true;
       }); //TODO handle error?

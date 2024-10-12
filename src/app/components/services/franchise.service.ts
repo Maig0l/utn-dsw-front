@@ -31,9 +31,9 @@ export class FranchiseService {
     return this.http.post<Franchise>(this.franchisesEndpoint, { name, games });
   }
 
-  updateFranchise(id: number, name: string, games:Game[]): Observable<Franchise> {
+  updateFranchise(id: number, name: string, /*games:Game[]*/): Observable<Franchise> {
     const url = this.franchisesEndpoint + `/${id}`
-    return this.http.put<Franchise>(url, {id, name, games })
+    return this.http.put<Franchise>(url, {id, name, /*games*/ })
   }
 
   deleteFranchise(id: number): Observable<Franchise> {

@@ -40,4 +40,13 @@ export class PlatformService {
     return this.http.delete<ApiResponse>(url)
       .pipe(map(res => res.data))
   }
+
+  
+  getOnePlatform(id: number): Observable<Platform> {
+    const url = this.platformsEndpoint + `/${id}`;
+    return this.http.get<ApiResponse>(url)
+      .pipe(map(response => response.data));
+  }
+
+
 }

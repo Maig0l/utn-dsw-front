@@ -26,15 +26,15 @@ export class StudioComponent {
     studio: Studio | undefined
     studios: Studio[] | undefined
 
-    constructor(private platformsServices: StudioService) { }
+    constructor(private studioService: StudioService) { }
 
     showStudios() {
-        this.platformsServices.getAllStudios()
+        this.studioService.getAllStudios()
         .subscribe(responseStudios => this.studios = responseStudios)
     }
 
     addStudio() {
-        this.platformsServices.addStudio(
+        this.studioService.addStudio(
             this.studioForm.value.name ?? "",
             this.studioForm.value.type ?? "",
             this.studioForm.value.site ?? ""
@@ -42,7 +42,7 @@ export class StudioComponent {
     }
 
     deleteStudio() {
-        this.platformsServices.deleteStudio(
+        this.studioService.deleteStudio(
             this.deleteForm.value.id ?? ""
         )
         .subscribe(res => console.log(res))

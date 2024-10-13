@@ -9,29 +9,41 @@ import { Game } from '../services/game.service.js';
   selector: 'app-playlist',
   standalone: true,
   imports: [ReactiveFormsModule, CommonModule],
-  providers: [RouterOutlet,PlaylistService],
+  providers: [RouterOutlet,PlaylistService, FormBuilder],
   templateUrl: './playlist.component.html',
   styleUrl: './playlist.component.css'
 })
 export class PlaylistComponent {
 
-  //playlistForm: FormGroup;
+  constructor(private playlistService: PlaylistService, private formBuilder: FormBuilder){}
 
 
-  constructor(private playlistService: PlaylistService){}
-    
-    /*, private fb: FormBuilder) {
-    this.playlistForm = this.fb.group({
-      name: new FormControl(''),
-      description: new FormControl(''),
-      is_private: new FormControl(false),
-      owner: new FormControl(0),
-      games: new FormArray([
-        new FormControl(0)
-      ])
-    });
-  }*/
+  playlistForm2 = this.formBuilder.group({
+    name: [''],
+    description: [''],
+    is_private: [false],
+    owner: [],
+    games: this.formBuilder.array([this.formBuilder.control(0)])
+  });
+
+  updateForm2 = this.formBuilder.group({
+    id: [0],
+    name: [''],
+    description: [''],
+    is_private: [false],
+    owner: [],
+    games: this.formBuilder.array([this.formBuilder.control(0)])
+  });
+
+  get games(): FormArray {
+    return this.playlistForm2.get('games') as FormArray;
+  }
   
+  addGames() {
+  this.games.push(this.formBuilder.control(''));
+}
+
+
   playlistForm = new FormGroup({
     name: new FormControl(''),
     description: new FormControl(''),
@@ -67,11 +79,14 @@ export class PlaylistComponent {
   
   addPlaylist() {
     this.playlistService.addPlaylist(
-      this.playlistForm.value.name ?? "",
-      this.playlistForm.value.description ?? "",
-      this.playlistForm.value.is_private ?? false,
-      this.playlistForm.value.owner ?? 0,
-      this.playlistForm.value.games ?? 0
+      this.playlistForm2.value.name ?? "",
+      this.playlistForm2.value.description ?? "",
+      this.playlistForm2.value.is_private ?? false,
+      this.playlistForm2.value.owner ?? 0,
+      (this.playlistForm2.get('games')?.value as (number | null)[]) //TODO: Cambiar por Game, no se si esta bien, a angular no le gusta
+        .filter((game): game is number => game !== null) ?? [0]
+
+
     ).subscribe(responsePlaylist => this.playlist = responsePlaylist)
   }
   

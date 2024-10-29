@@ -3,11 +3,12 @@ import { Component, OnDestroy } from '@angular/core';
 import { Router, RouterOutlet } from '@angular/router';
 import { LoginService } from '../../components/services/auth/login.service.js';
 import { User } from '../../components/services/auth/user.js';
+import { ViewGameComponent } from '../../game/view-game/view-game.component.js';
 
 @Component({
   selector: 'app-homepage',
   standalone: true,
-  imports: [RouterOutlet, CommonModule],
+  imports: [RouterOutlet, CommonModule, ViewGameComponent],
   templateUrl: './homepage.component.html',
   styleUrl: './homepage.component.css'
 })

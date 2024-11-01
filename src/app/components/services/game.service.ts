@@ -28,9 +28,25 @@ export class GameService {
   // TODO: Guardar la URL base y rutas de endpoints en algún archivo de config global
   gamesEndpoint = "http://localhost:8080/api/games"
 
-  addGamesToTag(id: number, tags: number ): Observable<Game>{
+  addTagsToGame(id: number, tags: number ): Observable<Game>{
     const url = this.gamesEndpoint + `/${id}`
     return this.http.patch<Game>(url, {tags});
+  }
+
+  addStudiosToGame(id: number, studios: number ): Observable<Game>{
+    const url = this.gamesEndpoint + `/${id}`
+    return this.http.patch<Game>(url, {studios});
+  }
+
+
+  addShopsToGame(id: number, shops: number ): Observable<Game>{
+    const url = this.gamesEndpoint + `/${id}`
+    return this.http.patch<Game>(url, {shops});
+  }
+
+  addPlatformsToGame(id: number, platforms: number ): Observable<Game>{
+    const url = this.gamesEndpoint + `/${id}`
+    return this.http.patch<Game>(url, {platforms});
   }
 
   getAllGames(): Observable<Game[]> {

@@ -37,6 +37,21 @@ export class GameComponent {
       tag: new FormControl(0)
     })
 
+    studiosGame = new FormGroup({
+      id: new FormControl(0),
+      studio: new FormControl(0)
+    })
+
+    shopsGame = new FormGroup({
+      id: new FormControl(0),
+      shop: new FormControl(0)
+    })
+
+    platformsGame = new FormGroup({
+      id: new FormControl(0),
+      platform: new FormControl(0)
+    })
+
     updateForm = new FormGroup({
       id: new FormControl(0),
       title: new FormControl(''),
@@ -104,10 +119,34 @@ export class GameComponent {
   }
   editReady: boolean = false;
 
-  addGamesToTag(){
-    this.gameService.addGamesToTag(
+  addTagsToGame(){
+    this.gameService.addTagsToGame(
       this.tagGames.value.id ?? 0,
       this.tagGames.value.tag ?? 0
+    ).subscribe(responseGame => this.game = responseGame)
+
+  }
+
+  addStudiosToGame(){
+    this.gameService.addStudiosToGame(
+      this.studiosGame.value.id ?? 0,
+      this.studiosGame.value.studio ?? 0
+    ).subscribe(responseGame => this.game = responseGame)
+
+  }
+
+  addShopsToGame(){
+    this.gameService.addShopsToGame(
+      this.shopsGame.value.id ?? 0,
+      this.shopsGame.value.shop ?? 0
+    ).subscribe(responseGame => this.game = responseGame)
+
+  }
+
+  addPlatformsToGame(){
+    this.gameService.addPlatformsToGame(
+      this.platformsGame.value.id ?? 0,
+      this.platformsGame.value.platform ?? 0
     ).subscribe(responseGame => this.game = responseGame)
 
   }

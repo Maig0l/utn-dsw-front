@@ -35,7 +35,7 @@
 
   <section>
     <h1>Add Tag to Game</h1>
-    <form [formGroup]="tagGames" (submit)="addGamesToTag()">
+    <form [formGroup]="tagGames" (submit)="addTagsToGame()">
       <label for="id">Id</label>
       <input type="text" id="id" formControlName="id">
       
@@ -45,6 +45,49 @@
       <button type="submit" class="primary" >Create</button>
     </form>
   </section>
+
+
+  <section>
+    <h1>Add Shop to Game</h1>
+    <form [formGroup]="shopsGame" (submit)="addShopsToGame()">
+      <label for="id">Id</label>
+      <input type="text" id="id" formControlName="id">
+      
+      <label for="shop">Shop</label>
+      <input type="text" id="shop" formControlName="shop">
+      
+      <button type="submit" class="primary" >Create</button>
+    </form>
+  </section>
+
+
+  <section>
+    <h1>Add Studio to Game</h1>
+    <form [formGroup]="studiosGame" (submit)="addStudiosToGame()">
+      <label for="id">Id</label>
+      <input type="text" id="id" formControlName="id">
+      
+      <label for="studio">Studio</label>
+      <input type="text" id="studio" formControlName="studio">
+      
+      <button type="submit" class="primary" >Create</button>
+    </form>
+  </section>
+
+
+  <section>
+    <h1>Add Platform to Game</h1>
+    <form [formGroup]="platformsGame" (submit)="addPlatformsToGame()">
+      <label for="id">Id</label>
+      <input type="text" id="id" formControlName="id">
+      
+      <label for="platform">Platform</label>
+      <input type="text" id="platform" formControlName="platform">
+      
+      <button type="submit" class="primary" >Create</button>
+    </form>
+  </section>
+  
   
   <!-- UPDATE -->
   <section class="column">

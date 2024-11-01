@@ -18,10 +18,7 @@ import { Game } from '../services/game.service.js';
 export class TagComponent {
 
 
-    tagGames = new FormGroup({
-      id: new FormControl(0),
-      game: new FormControl(0)
-    })
+    
 
 
     tagForm = new FormGroup({
@@ -46,7 +43,7 @@ export class TagComponent {
 
     tag: Tag | undefined
     tags: Tag[] | undefined
-    games: [] | undefined
+   
 
     constructor(private tagService: TagService) { }
     
@@ -55,13 +52,7 @@ export class TagComponent {
       .subscribe(responseTags => this.tags = responseTags)
     }
 
-    addGamesToTag(){
-      this.tagService.addGamesToTag(
-        this.tagGames.value.id ?? 0,
-        this.tagGames.value.game ?? 0
-      ).subscribe(responseTag => this.tag = responseTag)
-
-    }
+   
     
     addTag() {
       this.tagService.addTag(

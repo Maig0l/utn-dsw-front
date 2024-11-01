@@ -28,10 +28,7 @@ export class TagService {
       .pipe(map(response => response.data))
   }
 
-  addGamesToTag(id: number, game : number): Observable<Tag>{
-    const url = this.tagsEndpoint + `/${id}`
-    return this.http.put<Tag>(url, {id, game});
-  }
+  
 
   addTag(name: string, description: string): Observable<Tag>{
     return this.http.post<Tag>(this.tagsEndpoint, { name, description });

@@ -3,13 +3,14 @@ import { RouterOutlet } from '@angular/router';
 import { GameService, Game } from '../components/services/game.service.js';
 import { FormControl, FormGroup, ReactiveFormsModule } from '@angular/forms';
 import { CommonModule } from '@angular/common';
+import { Tag, TagService } from '../components/services/tag.service.js';
 
 
 @Component({
   selector: 'app-game',
   standalone: true,
   imports: [ReactiveFormsModule, CommonModule],
-  providers: [RouterOutlet,GameService],
+  providers: [RouterOutlet,GameService, TagService],
   templateUrl: './game.component.html',
   styleUrl: './game.component.css'
 })
@@ -31,6 +32,11 @@ export class GameComponent {
       id: new FormControl(0)
     })
 
+    tagGames = new FormGroup({
+      id: new FormControl(0),
+      tag: new FormControl(0)
+    })
+
     updateForm = new FormGroup({
       id: new FormControl(0),
       title: new FormControl(''),
@@ -48,13 +54,16 @@ export class GameComponent {
 
     game: Game | undefined
     games: Game[] | undefined
+    tag: Tag | undefined
 
-    constructor(private gameService: GameService) { }
+    constructor(private gameService: GameService, private tagService: TagService) { }
   
   showGames() {
     this.gameService.getAllGames()
       .subscribe(responseGames => this.games = responseGames)
   }
+
+  
 
   addGame() {
     this.gameService.addGame(
@@ -83,6 +92,8 @@ export class GameComponent {
     )
     .subscribe(responseGame => this.game = responseGame)
   }
+
+  
   
 
   deleteGame() {
@@ -92,6 +103,14 @@ export class GameComponent {
     .subscribe(res => console.log(res))
   }
   editReady: boolean = false;
+
+  addGamesToTag(){
+    this.gameService.addGamesToTag(
+      this.tagGames.value.id ?? 0,
+      this.tagGames.value.tag ?? 0
+    ).subscribe(responseGame => this.game = responseGame)
+
+  }
 
   populateForm() {
     const id = this.gameIdForm.get('id')?.value;
@@ -116,3 +135,4 @@ export class GameComponent {
   }
 
 }
+

@@ -1,6 +1,7 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { map, Observable } from 'rxjs';
+import { Tag } from './tag.service.js';
 
 export interface Game {
   id: number,
@@ -10,7 +11,8 @@ export interface Game {
   portrait: string,
   banner: string,
   pictures: string,
-  franchise: number
+  franchise: number,
+  tags: Tag[]
 
 }
 
@@ -25,6 +27,11 @@ export class GameService {
 
   // TODO: Guardar la URL base y rutas de endpoints en algún archivo de config global
   gamesEndpoint = "http://localhost:8080/api/games"
+
+  addGamesToTag(id: number, tags: number ): Observable<Game>{
+    const url = this.gamesEndpoint + `/${id}`
+    return this.http.patch<Game>(url, {tags});
+  }
 
   getAllGames(): Observable<Game[]> {
     return this.http.get<ApiResponse>(this.gamesEndpoint)

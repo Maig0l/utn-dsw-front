@@ -32,6 +32,19 @@
       <button type="submit" class="primary">Create</button>
     </form>
   </section>
+
+  <section>
+    <h1>Add Tag to Game</h1>
+    <form [formGroup]="tagGames" (submit)="addGamesToTag()">
+      <label for="id">Id</label>
+      <input type="text" id="id" formControlName="id">
+      
+      <label for="tag">Tag</label>
+      <input type="text" id="tag" formControlName="tag">
+      
+      <button type="submit" class="primary" >Create</button>
+    </form>
+  </section>
   
   <!-- UPDATE -->
   <section class="column">

@@ -2,6 +2,9 @@ import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { map, Observable } from 'rxjs';
 import { Tag } from './tag.service.js';
+import { Studio } from './studio.service.js';
+import { Platform } from './platform.service.js';
+import { Review } from './review.service.js';
 
 export interface Game {
   id: number,
@@ -12,7 +15,10 @@ export interface Game {
   banner: string,
   pictures: string,
   franchise: number,
-  tags: Tag[]
+  tags: Tag[],
+  studios: Studio[],
+  platforms: Platform[],
+  reviews: Review[] 
 
 }
 
@@ -62,7 +68,7 @@ export class GameService {
 
   updateGame(id:number, title: string, synopsis: string, releaseDate: string, portrait: string, banner: string, pictures: string, franchise: number): Observable<Game> {
     const url = this.gamesEndpoint + `/${id}`
-    return this.http.put<Game>(url, {id, title, synopsis, releaseDate, portrait, banner, pictures, franchise })
+    return this.http.patch<Game>(url, {id, title, synopsis, releaseDate, portrait, banner, pictures, franchise })
   }
 
   deleteGame(id: number): Observable<Game> {

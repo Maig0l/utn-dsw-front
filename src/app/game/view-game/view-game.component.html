@@ -9,9 +9,9 @@
                 </mat-card-header>
                 <mat-card-content>
                     <img class="images" src={{game.portrait}}>    
-                    <p>{{ game.synopsis }}</p>
+                    <p class="card-link">{{ game.synopsis }}</p>
                     <p>{{ game.franchise }}</p>
-                    <p>{{ game.releaseDate }}</p>
+                    <p class="card-link">Rel: {{game.releaseDate | date:'yyyy-MM-dd' }}</p>
                 </mat-card-content>
                 <mat-card-footer class="example-card-footer">
                     <mat-chip-set aria-label="Tags">

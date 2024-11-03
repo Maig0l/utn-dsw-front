@@ -1,4 +1,5 @@
 import { Component } from '@angular/core';
+import { DatePipe } from '@angular/common';
 import { Game, GameService } from '../../components/services/game.service.js';
 import { RouterOutlet } from '@angular/router';
 import {MatProgressBarModule} from '@angular/material/progress-bar';
@@ -11,7 +12,7 @@ import {MatGridListModule, MatGridTile} from '@angular/material/grid-list';
 @Component({
   selector: 'app-view-game',
   standalone: true,
-  imports: [MatCardModule, MatChipsModule, MatProgressBarModule],
+  imports: [MatCardModule, MatChipsModule, MatProgressBarModule, DatePipe],
   providers: [RouterOutlet,GameService, MatGridListModule, MatGridTile],
   templateUrl: './view-game.component.html',
   styleUrl: './view-game.component.css'

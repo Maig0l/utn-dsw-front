@@ -12,3 +12,8 @@
   gap: 20px;
   padding: 20px;
 }
+
+.card-link {
+  text-decoration: none;
+  color: black;
+}

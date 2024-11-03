@@ -33,5 +33,7 @@ export class HomepageComponent implements OnDestroy {
     this.loginService.currentUserLoginOn.unsubscribe();
     this.loginService.currentUserData.unsubscribe();
   }
-
 }
+
+/* hay que forzar una actualización de la página para
+que cada vez que se acceda a la misma, se vuelvan a mostrar los jueguitos*/

@@ -10,6 +10,7 @@ import { GameComponent } from './game/game.component.js';
 import { PlaylistComponent } from './components/playlist/playlist.component.js';
 import { ViewGameComponent } from './game/view-game/view-game.component.js';
 import { TagComponent } from './components/tag/tag.component.js';
+import { ReviewComponent } from './components/review/review.component.js';
 
 
 export const routes: Routes = [
@@ -20,6 +21,8 @@ export const routes: Routes = [
     {path : 'franchise', component: FranchiseComponent},
     {path : 'game', component: GameComponent },
     {path: 'game/view_game', component: ViewGameComponent},
+    {path: 'review', component: ReviewComponent},
+    {path: 'review/:id', component: ReviewComponent},
     {path : 'playlist', component: PlaylistComponent},
     {path : 'homepage', component: HomepageComponent},
     {path: '', redirectTo: '/homepage', pathMatch: 'full'}, // Redirección en caso de ruta vacía

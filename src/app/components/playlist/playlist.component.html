@@ -25,6 +25,18 @@
     <label for="is_private">Private</label>
     <input type="checkbox" id="is_private" formControlName="is_private">
 
+    <div formArrayName="games">
+      <h2>Games</h2>
+      
+      <div *ngFor="let game of games.controls; let i=index">
+        <!-- The repeated game template -->
+        <label for="game-{{ i }}">Game {{i+1}}:</label>
+        <input id="game-{{ i }}" type="text" [formControlName]="i">
+      </div>
+      <button type="button" (click)="addGames()">+ Add another game</button>
+    </div>
+
+
     <button type="submit" class="primary">Create</button>
   </form>
 </section>

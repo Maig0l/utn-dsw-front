@@ -32,7 +32,7 @@ export class PlaylistService {
       .pipe(map(response => response.data))
   }
 
-  addPlaylist(name: string, description: string, is_private: boolean, owner:number, games:number): Observable<Playlist>{
+  addPlaylist(name: string, description: string, is_private: boolean, owner:number, games:number[]): Observable<Playlist>{
     return this.http.post<Playlist>(this.playlistEndpoint, { name, description, is_private, owner, games });
   }
 

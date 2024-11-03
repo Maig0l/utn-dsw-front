@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+</head>
+<body>
+    <header>
+        <h1>Reseñas de Videojuegos</h1>
+    </header>
+    <main>
+        <!--Información del juego seleccionado -->
+        <section class="selected-game">
+            <div class="game-info">
+                <img src= {{game.portrait}} alt="Imagen del videojuego" class="game-image">
+                <div class="game-details">
+                    <h2 class="game-title">{{game.title}}</h2>
+                    @for (studio of game.studios; track studio.id){
+                    <p class="game-developer">{{studio.name}}</p>}
+                    @for (platform of game.platforms; track platform.id){
+                    <p class="game-platform">{{platform.id}}</p>}
+                </div>
+            </div>
+        </section>
+   
+        <!--Formulario para escribir una nueva reseña -->
+        <section class="write-review">
+            <h3>Escribe tu Reseña</h3>
+            <form id="review-form">
+                <label for="review-text">Reseña:</label>
+                <textarea id="review-text" rows="4" placeholder="Escribe aquí tu opinión sobre el juego..."></textarea>
+
+                <label for="review-rating">Puntuación:</label>
+                <select id="review-rating">
+                    <option value="5">★★★★★</option>
+                    <option value="4">★★★★☆</option>
+                    <option value="3">★★★☆☆</option>
+                    <option value="2">★★☆☆☆</option>
+                    <option value="1">★☆☆☆☆</option>
+                </select>
+
+                <button type="submit">Publicar Reseña</button>
+            </form>
+        </section >
+
+        <!--Lista de reseñas de otros usuarios -->
+        <section class="review-list">
+            <h3>Reseñas de Otros Usuarios</h3>
+            <div class="review-card">
+                <p class="review-text">Esta es una reseña de ejemplo. ¡Este juego es increíble!</p>
+                <p class="review-rating">Puntuación: ★★★★☆</p>
+            </div>
+            <div class="review-card">
+                <p class="review-text">Es un buen juego, aunque tiene algunos errores menores.</p>
+                <p class="review-rating">Puntuación: ★★★☆☆</p>
+            </div>
+            <!-- Más reseñas pueden añadirse aquí-->
+        </section >
+  
+ </main>
+</body>
+</html>

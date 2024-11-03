@@ -1,0 +1,63 @@
+<section>
+    <h1>Listing tags</h1>
+    
+    <button (click)="showTags()">Get Tags</button>
+    
+    @for (tag of tags; track tag.id) {
+      <div class="tag-item">
+        <small>[{{ tag.id }}]</small>&nbsp;
+        <b>{{ tag.name }}</b> &nbsp;
+      </div>
+    }
+  </section>
+  
+  <!-- CREATE -->
+  <section>
+    <h1>Create new tag</h1>
+    <form [formGroup]="tagForm" (submit)="addTag()">
+      <label for="name">Name</label>
+      <input type="text" id="name" formControlName="name">
+      
+      <label for="description">Description</label>
+      <input type="text" id="description" formControlName="description">
+      
+      <button type="submit" class="primary" >Create</button>
+    </form>
+  </section>
+
+  
+  <!-- UPDATE -->
+  <section class="column">
+    <h1>Enter Tag ID to Edit</h1>
+    <form [formGroup]="tagIdForm">
+      <div>
+        <label for="tagId">Tag ID:</label>
+        <input id="tagId" formControlName="id" />
+      </div>
+      <button type="button" (click)="populateForm()">Fetch Tag</button>
+    </form>
+  
+    <div *ngIf="editReady">
+      <h1>Edit Tag</h1>
+      <form [formGroup]="updateForm" (submit)="updateTag()">
+        <div>
+          <label for="name">Name:</label>
+          <input id="name" formControlName="name" />
+        </div>
+        <div>
+          <label for="description">Description</label>
+          <input id="description" formControlName="description" />
+        </div>
+        <button type="submit" class="primary">Update</button>
+      </form>
+    </div>
+  </section>
+  
+  <!-- DELETE -->
+  <section>
+    <h1>Delete a tag</h1>
+    <form [formGroup]="deleteForm" (submit)="deleteTag()">
+      <input type="number"formControlName="id">
+      <input type="submit">
+    </form>
+  </section>

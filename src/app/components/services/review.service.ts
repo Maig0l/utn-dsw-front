@@ -4,9 +4,8 @@ import { map, Observable } from 'rxjs';
 
 export interface Review {
   id: number
-  author_id: number
-  created_at: Date
-  game_id: number
+  author: number
+  game: number
   score: number /*for now*/
   title: string
   body: string
@@ -30,8 +29,8 @@ export class ReviewService {
       .pipe(map(response => response.data))
     }
 
-  addReview(author_id: number, created_at: string, game_id: number, score: number, title: string, body: string): Observable<Review> {
-    return this.http.post<Review>(this.reviewsEndpoint, { author_id, created_at, game_id,score,title, body })
+  addReview(author: number, game: number, score: number, title: string, body: string): Observable<Review> {
+    return this.http.post<Review>(this.reviewsEndpoint, { author, game, score, title, body })
   }
 
  

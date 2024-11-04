@@ -19,8 +19,9 @@
                         <h2 class="game-title">{{game.title}}</h2>
                         @for (studio of game.studios; track studio.id){
                         <p class="game-developer">{{studio.name}}</p>}
-                        @for (platform of game.platforms; track platform.id){
-                        <p class="game-platform">{{platform.id}}</p>}
+<!--                            @for (platform of game.platforms; track platform.id){
+                    <p class="game-platform">{{platform.name}}</p>}-->
+                        <img *ngFor="let platform of game.platforms" src="{{platform.img}}" class="platform-logo" width="50" height="50">
                     </div>
                 </div>
             </section>

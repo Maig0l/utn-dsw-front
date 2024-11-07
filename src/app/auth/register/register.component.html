@@ -1,0 +1,58 @@
+<form [formGroup]="registerForm">
+    <p class="text-danger">{{registerError}}</p>
+    <fieldset>
+      <label>
+        Username
+        <input formControlName="username" name="Usename" placeholder="username" autocomplete="username" />
+          <div *ngIf="username.invalid && (username.dirty || username.touched)" class="alert alert-danger">
+            <div *ngIf="username.hasError('required')" class="text-danger">
+              Username is required.
+            </div>
+            <div *ngIf="username.hasError('minlength')">
+              Username must be at least 4 characters long.
+            </div>
+            <div *ngIf="username.hasError('forbiddenusername')">
+              Username cannot be Bob.
+            </div>
+          </div>
+      </label>
+      <label>
+        Password
+        <input formControlName="password" type="password" name="password" placeholder="password" autocomplete="password" />
+          <div *ngIf="password.invalid && (password.dirty || password.touched)" class="alert alert-danger">
+            <div *ngIf="password.hasError('required')" class="text-danger">
+              Password is required.
+            </div>
+            <div *ngIf="password.hasError('minlength')">
+              Password must be at least 4 characters long.
+            </div>            
+          </div>
+      </label>
+      <label>
+        Please Re-Write Password
+        <input formControlName="password" type="password" name="password" placeholder="password" autocomplete="password" />
+          <div *ngIf="password.invalid && (password.dirty || password.touched)" class="alert alert-danger">
+            <div *ngIf="password.hasError('required')" class="text-danger">
+              Please rewrite the password.
+            <div *ngIf="registerForm.get('password')?.value !== registerForm.get('confirmPassword')?.value">
+              Passwords must match.
+            </div>
+            </div>            
+          </div>
+      </label>
+      <label>
+        Email
+        <input formControlName="password" type="password" name="password" placeholder="password" autocomplete="password" />
+          <div *ngIf="password.invalid && (password.dirty || password.touched)" class="alert alert-danger">
+            <div *ngIf="password.hasError('required')" class="text-danger">
+              Password is required.
+            </div>
+            <div *ngIf="password.hasError('minlength')">
+              Password must be at least 4 characters long.
+            </div>            
+          </div>
+      </label>
+    </fieldset>
+  
+    <input type="submit" (click)="register()" value="Log in" />
+  </form>

@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpErrorResponse } from '@angular/common/http';
-import { BehaviorSubject, catchError, Observable, tap, throwError } from 'rxjs';
+import { BehaviorSubject, catchError, map, Observable, tap, throwError } from 'rxjs';
 import { LoginRequest } from './loginRequest.js';
 import { User } from './user.js';
 
@@ -10,21 +10,32 @@ import { User } from './user.js';
 export class LoginService {
   
   currentUserLoginOn: BehaviorSubject<boolean> = new BehaviorSubject<boolean>(false);
-  currentUserData: BehaviorSubject<User> = new BehaviorSubject<User>({id: 0, nick: "", email: ""});
+  currentUserData: BehaviorSubject<User> = new BehaviorSubject<User>({} as User);
+
   
-  constructor(private http: HttpClient) { }
+  constructor(private http: HttpClient) { 
+    this.currentUserLoginOn=new BehaviorSubject<boolean>(sessionStorage.getItem("token")!=null);
+    this.currentUserData=new BehaviorSubject<User>({} as User);
+  }
 
   loginEndpoint = "http://localhost:8080/api/log-in"
 
 
   login(credentials: LoginRequest): Observable<User> {
-    return this.http.get<User>('./././assets/data.json').pipe(
-      tap((userData:User) => { 
-        this.currentUserLoginOn.next(true);
-        this.currentUserData.next(userData);
+    return this.http.post<any>(this.loginEndpoint+"auth/login",credentials).pipe(
+      tap((userData) => { //Por que no  hay que poner el tipo User?
+        sessionStorage.setItem("token", userData.token);
+        this.currentUserData.next(userData.token);
+        this.currentUserLoginOn.next(true);        
       }),
+      map((userData) => userData), //???
       catchError(this.handleError)
     );
+  }
+
+  logout():void{
+    sessionStorage.removeItem("token");
+    this.currentUserLoginOn.next(false);
   }
 
   private handleError(error: HttpErrorResponse) {
@@ -45,5 +56,8 @@ export class LoginService {
 
   get LoginOn(): Observable<boolean> {
     return this.currentUserLoginOn.asObservable();
+  }
+  get userToken():String{
+    return this.userToken;
   }
 }

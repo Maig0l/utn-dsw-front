@@ -1,0 +1,27 @@
+<header class="navbar">
+    <div class="logo">
+      <img src="path_to_logo" alt="Logo">
+    </div>
+    <input type="text" placeholder="Search..." class="search-bar">
+    <div class="user-menu">
+      <img src="path_to_avatar" alt="User Avatar" class="avatar" (click)="toggleDropdown()">
+      <ul class="dropdown" *ngIf="isDropdownOpen">
+        <li>Mis reseñas</li>
+        <li>Mis playlists</li>
+        <li>Recomendaciones</li>
+        <li>Configuración</li>
+        <li>Cerrar sesión</li>
+      </ul>
+    </div>
+  </header>
+
+  <section class="latest-reviews">
+    <h2>Últimas Reseñas</h2>
+    <div class="reviews-grid">
+      <div class="review-card" *ngFor="let review of reviews">
+        <h3>{{ review.author }} sobre {{ review.game }}</h3>
+        <div class="stars">{{ review.stars }} ★</div>
+        <p>{{ review.comment }}</p>
+      </div>
+    </div>
+  </section>

@@ -20,13 +20,16 @@ header {
 
 header h1 {
     font-size: 2.5rem;
-    color: #3498DB;
+    color: #e7e7e7;
 }
 
 main {
     width: 100%;
     max-width: 600px;
 }
+
+
+
 
 /* Información del juego seleccionado */
 .selected-game {
@@ -58,10 +61,17 @@ main {
 .game-title {
     font-size: 1.5rem;
     margin-bottom: 5px;
+    color : #ffffff;
 }
 
-.game-developer, .game-platform {
-    font-size: 1rem;
+.game-synopsis {
+    font-size: 0.9rem;
+    margin-bottom: 10px;
+    color: #acacac;
+}
+
+.game-developer, .game-platform, .game-publisher {
+    font-size: 0.7rem;
     color: #ffffff;
 }
 
@@ -141,6 +151,23 @@ main {
     font-size: 1.3rem;
     color: #3498DB;
 }
+
+.studio-container {
+    display: flex;
+    flex-direction: row; /* Arrange columns side-by-side */
+    gap: 1rem; /* Add some spacing between columns */
+  }
+  
+  .studio-column {
+    flex: 1; /* Make columns take up equal space */
+  }
+
+  .platform-logo {
+    width: 30px;
+    height: 30px;
+    object-fit: contain; 
+    margin-right: 15px;
+  }
 
 /* Responsive adjustments */
 @media (max-width: 768px) {

@@ -16,14 +16,26 @@
                 <div class="game-info">
                     <img src= {{game.portrait}} alt="Imagen del videojuego" class="game-image">
                     <div class="game-details">
-                        <h2 class="game-title">{{game.title}}</h2>
-                        @for (studio of game.studios; track studio.id){
-                        <p class="game-developer">{{studio.name}}</p>}
-<!--                            @for (platform of game.platforms; track platform.id){
-                    <p class="game-platform">{{platform.name}}</p>}-->
-                        <img *ngFor="let platform of game.platforms" src="{{platform.img}}" class="platform-logo" width="50" height="50">
+                        <h1 class="game-title">{{game.title}}</h1>
                         <h2 class="game-synopsis">{{game.synopsis}}</h2>
-
+                        <div class="studio-container">
+                            <div class="studio-column">
+                                <p class="game-developer">Developer/s:</p>
+                                @for (studio of game.studios; track studio.id){
+                                    <ng-container *ngIf="studio.type !== 'Publisher'">
+                                        <p class="game-developer"> {{studio.name}}</p>
+                                    </ng-container>}
+                            </div>
+                            <div class="studio-column">
+                                <p class="game-publisher">Publisher/s:</p>
+                                @for (studio of game.studios; track studio.id){
+                                    <ng-container *ngIf="studio.type !== 'Developer'">
+                                    <p class="game-publisher"> {{studio.name}}</p>
+                                    </ng-container>}
+                            </div>
+                        </div>                        
+                           @for (platform of game.platforms; track platform.id){
+                            <img src="{{platform.img}}" class="platform-logo">}
                     </div>
                 </div>
             </section>
@@ -56,7 +68,20 @@
 
         <!--Lista de reseñas de otros usuarios -->
         <section class="review-list">
-            <h3>Reseñas de Otros Usuarios</h3>
+
+            @for (review of game.reviews; track review.id){
+            <div class="review-card">
+                <p class="review-title">{{review.title}}</p>
+                <p class="review-text">{{review.body}}</p>
+                <p class="review-rating">
+                    Puntuación: 
+                    <span *ngFor="let star of [1, 2, 3, 4, 5]; let i = index">
+                        <span *ngIf="i < review.score">★</span>
+                        <span *ngIf="i >= review.score">☆</span>
+                    </span>
+                </p>
+            </div>}
+                
             <div class="review-card">
                 <p class="review-text">Esta es una reseña de ejemplo. ¡Este juego es increíble!</p>
                 <p class="review-rating">Puntuación: ★★★★☆</p>
@@ -65,15 +90,7 @@
                 <p class="review-text">Es un buen juego, aunque tiene algunos errores menores.</p>
                 <p class="review-rating">Puntuación: ★★★☆☆</p>
             </div>
-            @for (review of game.reviews; track review.id){
-            <div class="review-card">
-                <p class="review-title">{{review.title}}</p>
-                <p class="review-text">{{review.body}}</p>
-                <p class="review-rating">Puntuación: {{review.score}}</p>
-                <div id="review-rating">
-                    
-                  </div>
-            </div>}
+      
             
             <!-- Más reseñas pueden añadirse aquí-->
         </section >

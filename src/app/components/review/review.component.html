@@ -1,5 +1,5 @@
     <header>
-        <h1>Reseñas de Videojuegos</h1>
+        <h1>Reviews</h1>
     </header>
     <main>
         <!--Información del juego seleccionado -->
@@ -52,7 +52,7 @@
                     <option value=1>★☆☆☆☆</option>
                 </select>
 
-                <button type="submit" class="primary">Publicar Reseña</button>
+                <button type="submit" class="primary">Share Review</button>
             
             </form>
         </section >
@@ -65,7 +65,7 @@
                 <b class="review-title">{{review.title}}</b>
                 <p class="review-text">{{review.body}}</p>
                 <p class="review-rating">
-                    Puntuación: 
+                    Score: 
                     <span *ngFor="let star of [1, 2, 3, 4, 5]; let i = index">
                         <span *ngIf="i < review.score">★</span>
                         <span *ngIf="i >= review.score">☆</span>

@@ -16,9 +16,8 @@
   align-items: center;
 }
 
-.logo img {
-  width: 100px;
-  height: auto;
+.logo {
+  min-width: 110px;
 }
 
 .navigation ul {

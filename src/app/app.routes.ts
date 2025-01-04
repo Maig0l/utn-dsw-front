@@ -11,6 +11,7 @@ import { PlaylistComponent } from './components/playlist/playlist.component.js';
 import { ViewGameComponent } from './game/view-game/view-game.component.js';
 import { TagComponent } from './components/tag/tag.component.js';
 import { ReviewComponent } from './components/review/review.component.js';
+import { RegisterComponent } from './auth/register/register.component.js';
 
 
 export const routes: Routes = [
@@ -28,11 +29,13 @@ export const routes: Routes = [
     {path: '', redirectTo: '/homepage', pathMatch: 'full'}, // Redirección en caso de ruta vacía
     //{path: '**', redirectTo: '/studio'}, // Redirección en caso de ruta no encontrada
     {path: 'log-in', component: LoginComponent},
+    {path: 'register', component: RegisterComponent}
 ];
 
 @NgModule({
     imports: [RouterModule.forRoot(routes)],
-    exports: [RouterModule]
+    exports: [RouterModule],
+    declarations: []
 })
 
 export class AppRoutesModule {

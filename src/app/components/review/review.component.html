@@ -1,63 +1,79 @@
-<!DOCTYPE html>
-<html lang="es">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-
-</head>
-<body>
     <header>
-        <h1>Reseñas de Videojuegos</h1>
+        <h1>Reviews</h1>
     </header>
     <main>
         <!--Información del juego seleccionado -->
-        <section class="selected-game">
-            <div class="game-info">
-                <img src= {{game.portrait}} alt="Imagen del videojuego" class="game-image">
-                <div class="game-details">
-                    <h2 class="game-title">{{game.title}}</h2>
-                    @for (studio of game.studios; track studio.id){
-                    <p class="game-developer">{{studio.name}}</p>}
-                    @for (platform of game.platforms; track platform.id){
-                    <p class="game-platform">{{platform.id}}</p>}
+        <ng-container *ngIf="game">
+            <section class="selected-game">
+                <div class="game-info">
+                    <img src= {{game.portrait}} alt="Imagen del videojuego" class="game-image">
+                    <div class="game-details">
+                        <h1 class="game-title">{{game.title}}</h1>
+                        <h2 class="game-synopsis">{{game.synopsis}}</h2>
+                        <div class="studio-container">
+                            <div class="studio-column">
+                                <p class="game-developer">Developer/s:</p>
+                                @for (studio of game.studios; track studio.id){
+                                    <ng-container *ngIf="studio.type !== 'Publisher'">
+                                        <p class="game-developer"> {{studio.name}}</p>
+                                    </ng-container>}
+                            </div>
+                            <div class="studio-column">
+                                <p class="game-publisher">Publisher/s:</p>
+                                @for (studio of game.studios; track studio.id){
+                                    <ng-container *ngIf="studio.type !== 'Developer'">
+                                    <p class="game-publisher"> {{studio.name}}</p>
+                                    </ng-container>}
+                            </div>
+                        </div>                        
+                           @for (platform of game.platforms; track platform.id){
+                            <img src="{{platform.img}}" class="platform-logo">}
+                    </div>
                 </div>
-            </div>
-        </section>
+            </section>
+        </ng-container>
    
         <!--Formulario para escribir una nueva reseña -->
         <section class="write-review">
-            <h3>Escribe tu Reseña</h3>
-            <form id="review-form">
-                <label for="review-text">Reseña:</label>
-                <textarea id="review-text" rows="4" placeholder="Escribe aquí tu opinión sobre el juego..."></textarea>
+            <h3>Write your review</h3>
+            <form [formGroup]="reviewForm" (submit)="addReview()">
 
-                <label for="review-rating">Puntuación:</label>
-                <select id="review-rating">
-                    <option value="5">★★★★★</option>
-                    <option value="4">★★★★☆</option>
-                    <option value="3">★★★☆☆</option>
-                    <option value="2">★★☆☆☆</option>
-                    <option value="1">★☆☆☆☆</option>
+                <label for="review-title">Title:</label>
+                <input type="text" id="review-title" formControlName="title" placeholder="Title of your review...">
+                <label for="review-text">Review:</label>
+                <textarea id="review-text" rows="4" formControlName="body" placeholder="I think this game was.."></textarea>
+
+                <label for="review-rating">Rating:</label>
+                <select id="review-rating" formControlName="score">
+                    <option value=5>★★★★★</option>
+                    <option value=4>★★★★☆</option>
+                    <option value=3>★★★☆☆</option>
+                    <option value=2>★★☆☆☆</option>
+                    <option value=1>★☆☆☆☆</option>
                 </select>
 
-                <button type="submit">Publicar Reseña</button>
+                <button type="submit" class="primary">Share Review</button>
+            
             </form>
         </section >
 
         <!--Lista de reseñas de otros usuarios -->
         <section class="review-list">
-            <h3>Reseñas de Otros Usuarios</h3>
+
+            @for (review of game.reviews; track review.id){
             <div class="review-card">
-                <p class="review-text">Esta es una reseña de ejemplo. ¡Este juego es increíble!</p>
-                <p class="review-rating">Puntuación: ★★★★☆</p>
-            </div>
-            <div class="review-card">
-                <p class="review-text">Es un buen juego, aunque tiene algunos errores menores.</p>
-                <p class="review-rating">Puntuación: ★★★☆☆</p>
-            </div>
+                <b class="review-title">{{review.title}}</b>
+                <p class="review-text">{{review.body}}</p>
+                <p class="review-rating">
+                    Score: 
+                    <span *ngFor="let star of [1, 2, 3, 4, 5]; let i = index">
+                        <span *ngIf="i < review.score">★</span>
+                        <span *ngIf="i >= review.score">☆</span>
+                    </span>
+                </p>
+            </div>}
+            
             <!-- Más reseñas pueden añadirse aquí-->
         </section >
   
  </main>
-</body>
-</html>

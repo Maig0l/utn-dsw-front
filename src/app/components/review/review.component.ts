@@ -6,6 +6,7 @@ import { FormControl, FormGroup, ReactiveFormsModule } from '@angular/forms';
 import { Title } from '@angular/platform-browser';
 import { CommonModule } from '@angular/common';
 
+
 @Component({
   selector: 'app-review',
   standalone: true,
@@ -14,11 +15,12 @@ import { CommonModule } from '@angular/common';
   templateUrl: './review.component.html',
   styleUrl: './review.component.css'
 })
+
 export class ReviewComponent {
 
   reviewForm = new FormGroup({
 
-    created_at: new FormControl(''),
+   
     score: new FormControl(0),
     title: new FormControl(''),
     body: new FormControl(''),
@@ -46,15 +48,14 @@ export class ReviewComponent {
   }
 
   addReview(){
+    const score = Number.parseInt(this.reviewForm.value.score?.toString() ?? '0');
+    
     this.reviewService.addReview(
       1, /*falta implementar usuario*/
-      this.reviewForm.value.created_at ?? "",
       this.gameId,
-      this.reviewForm.value.score ?? 0,
+      score,
       this.reviewForm.value.title ?? "",
       this.reviewForm.value.body ?? ""
-            
-
     ).subscribe(responseReview => this.review = responseReview)
 
   }

@@ -1,7 +1,8 @@
 .footer {
-  background-color: var(--bg-color);
-  color: var(--text-color);
-  padding: 2rem 0;
+  background-color: #12161a;
+  color: #E5E5E5;
+  padding: 0.5rem 0;
+  margin-top: 2rem;
 }
 
 .container {
@@ -23,7 +24,7 @@
 }
 
 .footer-social a {
-  color: var(--text-color);
+  color: #E5E5E5;
   font-size: 1.2rem;
   margin-left: 1rem;
 }

@@ -1,5 +1,7 @@
 .header {
   padding: 1rem 0;
+  background-color: #12161a;
+  color: white;
 }
 
 .container {
@@ -14,9 +16,8 @@
   align-items: center;
 }
 
-.logo img {
-  width: 100px;
-  height: auto;
+.logo {
+  min-width: 110px;
 }
 
 .navigation ul {
@@ -31,9 +32,9 @@
 }
 
 .navigation a {
-  color: var(--text-color);
+  color: white;
 }
 
 .navigation a:hover {
-  color: var(--hover-color);
+  color: #E5E5E5;
 }

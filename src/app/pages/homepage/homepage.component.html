@@ -2,7 +2,6 @@
   <header class="header">
     <div class="container">
       <h1>Welcome to WellPlayed.gg</h1>
-      <p>Discover the power of gamers? I guess?</p>
     </div>
   </header>
 
@@ -10,31 +9,16 @@
 
   <section class="features">
     <div class="container">
-      <h2>Games</h2>
+      <h2>Popular Games</h2>
       <app-view-game></app-view-game>
 
   </div>
 </section>
-  <section class="features">
-    <div class="container">
-      <h2>Key Features</h2>
-      <div class="feature-grid">
-        featuresssss
-        <!--  @for (feature of features; track feature.id) {
-        <div class="feature-card">
-          <img [src]="feature.icon" [alt]="feature.title">
-          <h3>{{ feature.title }}</h3>
-          <p>{{ feature.description }}</p>
-        </div>
-        }  -->
-      </div>
-    </div>
-  </section>
+
 
   <section *ngIf="!userLoginOn" class="cta"> <!-- TODO -->
     <div class="container">
       <h2>Ready to Get Started?</h2>
-      <p>Join thousands of satisfied users.</p>
       <a routerLink="/log-in" routerLinkActive="active" (click)="redirect('/log-in')" class="cta-button">Sign Up Now</a>
     </div>
   </section>
@@ -48,24 +32,4 @@
         </div>
     </section>
 
-  <section class="testimonials">
-    <div class="container">
-      <h2>What Our Users Say</h2>
-      <div class="testimonial-grid">
-        testimoniossss
-        <!--@for (testimonial of testimonials; track testimonial.id) {
-        <div class="testimonial-card">
-          <p>"{{ testimonial.quote }}"</p>
-          <div class="testimonial-author">
-            <img [src]="testimonial.avatar" [alt]="testimonial.name">
-            <div>
-              <strong>{{ testimonial.name }}</strong>
-              <span>{{ testimonial.title }}</span>
-            </div>
-          </div>
-        </div>
-      } -->
-      </div>
-    </div>
-  </section>
 </div>

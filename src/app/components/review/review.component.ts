@@ -1,6 +1,6 @@
 import { Component } from '@angular/core';
 import { Game, GameService } from '../services/game.service.js';
-import { ActivatedRoute, RouterOutlet } from '@angular/router';
+import { ActivatedRoute, Router, RouterOutlet } from '@angular/router';
 import { Review, ReviewService } from '../services/review.service.js';
 import { FormControl, FormGroup, ReactiveFormsModule } from '@angular/forms';
 import { Title } from '@angular/platform-browser';
@@ -32,7 +32,7 @@ export class ReviewComponent {
   game!: Game;
   review!: Review;
   
-  constructor( private route: ActivatedRoute, private gameService: GameService, private  reviewService: ReviewService ) {}
+  constructor( private route: ActivatedRoute, private gameService: GameService, private  reviewService: ReviewService, private router: Router ) {}
     
   ngOnInit() {
       // Obtén el ID del juego desde la URL
@@ -57,7 +57,7 @@ export class ReviewComponent {
       this.reviewForm.value.title ?? "",
       this.reviewForm.value.body ?? ""
     ).subscribe(responseReview => this.review = responseReview)
-
+    ;this.router.navigate([`/game/${this.gameId}`]);
   }
 
 

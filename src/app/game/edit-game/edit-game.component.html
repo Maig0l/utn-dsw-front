@@ -1,0 +1,32 @@
+<h1>Edit Game</h1>
+<form [formGroup]="updateForm" (submit)="updateGame()">
+  <div>
+    <label for="title">Title:</label>
+    <input id="title" formControlName="title" />
+  </div>
+  <div>
+    <label for="synopsis">Synopsis:</label>
+    <input id="synopsis" formControlName="synopsis" />
+  </div>
+  <div>
+    <label for="releaseDate">Release date:</label>
+    <input type="date" id="releaseDate" formControlName="releaseDate" />
+  </div>
+  <div>
+    <label for="portrait">Portrait:</label>
+    <input id="portrait" formControlName="portrait" />
+  </div>
+  <div>
+    <label for="banner">Banner:</label>
+    <input id="banner" formControlName="banner" />
+  </div>
+  <div>
+    <label for="pictures">Picture:</label>
+    <input id="pictures" formControlName="pictures" />
+  </div>
+  <div>
+    <label for="franchise">Franchise ID:</label>
+    <input id="franchise" formControlName="franchise" />
+  </div>
+  <button type="submit" class="primary">Update</button>
+</form>

@@ -25,7 +25,6 @@ export class GameComponent {
       banner: new FormControl(''),
       pictures: new FormControl(''),
       franchise: new FormControl(0)
-
     });
 
     deleteForm = new FormGroup({

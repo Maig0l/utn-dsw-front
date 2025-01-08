@@ -22,13 +22,25 @@ main {
 }
 
 .edit-button {
-  background-color: #3498DB;
-  color: #ffffff;
-  border: none;
-  border-radius: 5px;
-  padding: 10px 15px;
-  cursor: pointer;
-  margin-bottom: 10px;
+    display: inline-flex;
+    align-items: center;
+    padding: 8px 16px;
+    background-color: #3498db;
+    color: white;
+    text-decoration: none;
+    border-radius: 4px;
+    font-family: Arial, sans-serif;
+    font-size: 14px;
+    transition: background-color 0.3s ease;
+  }
+.edit-button:hover {
+  background-color: #2980b9;
+}
+
+.edit-button::before {
+  content: "✎";
+  margin-right: 8px;
+  font-size: 16px;
 }
 
 /* Información del juego seleccionado */

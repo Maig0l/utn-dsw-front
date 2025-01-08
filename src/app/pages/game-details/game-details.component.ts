@@ -15,6 +15,8 @@ import { CommonModule } from '@angular/common';
 })
 export class GameDetailsComponent {
 
+  
+  
     reviewForm = new FormGroup({
 
       score: new FormControl(0),
@@ -25,11 +27,13 @@ export class GameDetailsComponent {
     gameId!: number;
     game!: Game;
     review!: Review;
+    editing!: boolean;
 
 
   constructor( private route: ActivatedRoute, private gameService: GameService, private  reviewService: ReviewService ) {}
     
   ngOnInit() {
+    this.editing = false;
       // gets game ID from URL
       this.gameId = +this.route.snapshot.paramMap.get('id')!
       // Usa el servicio para obtener los detalles del juego

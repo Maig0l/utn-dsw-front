@@ -1,14 +1,17 @@
-<header>
-  <h1>{{game.title}}</h1>
-</header>
 <main>
   <section class="selected-game">
+    <img src="{{game.banner}}" alt="Banner del videojuego" class="game-banner">
+    
     <div class="game-info">
       <img src="{{game.portrait}}" alt="Imagen del videojuego" class="game-image">
       <div class="game-details">
-        <h1 class="game-title">{{game.title}}</h1>
-        <h2 class="game-synopsis">{{game.synopsis}}</h2>
-        <div class="studio-container">
+    
+          <h1 class="game-title">{{game.title}}</h1>
+          
+        
+        <h2 class="game-synopsis">Synopsis: (estilizar)</h2>
+        <h3 class="game-synopsis">{{game.synopsis}}</h3>
+        <div class="studio-container"> <!-- esto podría ponerse a la derecha a la misma altura-->
           <div class="studio-column">
             <p class="game-developer">Developer/s:</p>
             <ng-container *ngFor="let studio of game.studios">
@@ -31,16 +34,27 @@
         </ng-container>
       </div>
     </div>
+<button class="edit-button">Edit</button>
+    
+  <h3>implementar carrusel de imagenes</h3>
+  
+  
+  <!--Lista de reseñas de otros usuarios -->
+  <section class="review-list">
+    <h2>Reviews</h2>
+    @for (review of game.reviews; track review.id){
+    <div class="review-card">
+      <b class="review-title">{{review.title}}</b>
+      <p class="review-text">{{review.body}}</p>
+      <p class="review-rating">
+        Score:
+        <span *ngFor="let star of [1, 2, 3, 4, 5]; let i = index">
+          <span *ngIf="i < review.score">★</span>
+          <span *ngIf="i >= review.score">☆</span>
+        </span>
+      </p>
+    </div>}
+  
+    <!-- Más reseñas pueden añadirse aquí-->
   </section>
-  <section class="reviews">
-    <div class="review-list">
-      <h3>Reviews:</h3>
-      <ng-container *ngFor="let review of game.reviews">
-        <div class="review">
-          <h4>{{review.author}}</h4>
-          <p>{{review.body}}</p>
-        </div>
-      </ng-container>
-    </div>
-    <a href="/review/{{ game.id }}" type="button" >Write your review</a>
   </section>

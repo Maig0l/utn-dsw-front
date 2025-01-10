@@ -14,12 +14,14 @@ import { ReviewComponent } from './components/review/review.component.js';
 import { RegisterComponent } from './auth/register/register.component.js';
 import { GameDetailsComponent } from './pages/game-details/game-details.component.js';
 import { EditGameComponent } from './game/edit-game/edit-game.component';
+import { ViewTagComponent } from './components/tag/view-tag/view-tag.component.js';
 
 
 export const routes: Routes = [
     {path: 'studio', component: StudioComponent},
     {path : 'shop', component: ShopComponent},
     {path : 'tag', component: TagComponent},
+    {path : 'tag/view_tag', component: ViewTagComponent},
     {path : 'platform', component: PlatformComponent},
     {path : 'franchise', component: FranchiseComponent},
     {path : 'game', component: GameComponent },

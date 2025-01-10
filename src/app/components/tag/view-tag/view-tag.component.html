@@ -1,1 +1,11 @@
-<p>view-tag works!</p>
+<h1>Listing tags</h1>
+<label for="name">Search what you are looking for</label>
+<input type="text" id="name" formControlName="name">
+
+<div class="grid-container">
+        <mat-chip-set aria-label="Tags">
+            @for (tag of tags; track tag.id){
+                <mat-chip>{{tag.name}}</mat-chip> 
+            }
+        </mat-chip-set>
+</div>

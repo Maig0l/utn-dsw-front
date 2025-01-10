@@ -3,11 +3,12 @@ import { FormControl, FormGroup, ReactiveFormsModule } from '@angular/forms';
 import { Game, GameService } from '../../components/services/game.service';
 import { Tag, TagService } from '../../components/services/tag.service';
 import { ActivatedRoute, Router, RouterOutlet } from '@angular/router';
+import { CommonModule } from '@angular/common';
 
 @Component({
   selector: 'app-edit-game',
   standalone: true,
-  imports: [ReactiveFormsModule],
+  imports: [ReactiveFormsModule, CommonModule],
   providers: [GameService, TagService, RouterOutlet],
   templateUrl: './edit-game.component.html',
   styleUrl: './edit-game.component.css'
@@ -17,8 +18,14 @@ export class EditGameComponent {
   id!: number
   game!: Game
   tag: Tag | undefined
+  tagsLookup: Tag[] = []
+
   constructor(private router: Router, private route: ActivatedRoute,private gameService: GameService, private tagService: TagService) { }
     
+  searchTags = new FormGroup({
+    tagName: new FormControl('')
+  })
+
   updateForm = new FormGroup({
     id: new FormControl(0),
     title: new FormControl(''),
@@ -70,6 +77,13 @@ export class EditGameComponent {
             franchise: data.franchise         
           });
         }); //TODO handle error?
+    }
+
+    //REVISAR
+    getTagsLookupList(){
+      this.tagService.getTagsByName(
+        this.searchTags.value.tagName ?? "")
+        .subscribe(response => this.tagsLookup = response)
     }
 
     updateGame() {

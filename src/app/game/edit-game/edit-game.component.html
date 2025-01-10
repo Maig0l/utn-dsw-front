@@ -1,4 +1,5 @@
-<h1>Edit Game</h1>
+<section>
+<h1>Edit Game ID: {{id}}</h1>
 <form [formGroup]="updateForm" (submit)="updateGame()">
   <div>
     <label for="title">Title:</label>
@@ -30,3 +31,17 @@
   </div>
   <button type="submit" class="primary">Update</button>
 </form>
+</section>
+
+
+<!-- REVISAR TODO ESTO-->
+<section>
+  Tag search to add to the game...
+  Work in progress...
+  <form [formGroup]="searchTags"> <!-- required (selectionChange)="displaySelectedTag()"-->
+    <div class="outline" class="lookup-search-input-field">
+      <input  type="text" formControlName="tagName" placeholder="Tag"> <!-- (input)="searchTags()" o en el tuto dice (keyup)="onKey($event)" -->
+    </div>
+    <div class="option" *ngFor="let lookup of tagsLookup">{{lookup.name}}</div> <!-- revisar -->
+  </form>
+</section>

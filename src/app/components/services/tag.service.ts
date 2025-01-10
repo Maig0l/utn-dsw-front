@@ -22,13 +22,23 @@ export class TagService {
   // TODO: Guardar la URL base y rutas de endpoints en algún archivo de config global
   tagsEndpoint = "http://localhost:8080/api/tags"
 
+  //REVISAR 100% xq no se si esta bien pasado el nombre
+  // la idea es que pasas el nombre del tag y que devuelva un array de tags
+  getTagsByName(name: string): Observable<Tag[]> {
+    const url = this.tagsEndpoint + `/name/${name}`;
+    return this.http.get<ApiResponse>(url)
+    .pipe(map(response => response.data))
+  }
   getAllTags(): Observable<Tag[]> {
     return this.http.get<ApiResponse>(this.tagsEndpoint)
-      // Devuelve lo que está dentro de data en el objeto de respuesta
-      .pipe(map(response => response.data))
+    // Devuelve lo que está dentro de data en el objeto de respuesta
+    .pipe(map(response => response.data))
   }
-
-  
+  getOneTag(id: number): Observable<Tag> {
+    const url = this.tagsEndpoint + `/${id}`;
+    return this.http.get<ApiResponse>(url)
+      .pipe(map(response => response.data));
+  }
 
   addTag(name: string, description: string): Observable<Tag>{
     return this.http.post<Tag>(this.tagsEndpoint, { name, description });
@@ -43,13 +53,6 @@ export class TagService {
     const url = this.tagsEndpoint + `/${id}`
     return this.http.delete<ApiResponse>(url)
       .pipe(map(res => res.data))
-  }
-
-  
-  getOneTag(id: number): Observable<Tag> {
-    const url = this.tagsEndpoint + `/${id}`;
-    return this.http.get<ApiResponse>(url)
-      .pipe(map(response => response.data));
   }
 
 

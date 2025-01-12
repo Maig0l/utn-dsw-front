@@ -1,4 +1,45 @@
+<div style="position: relative; width: 300px;">
+    <input
+      type="text"
+      [value]="inputValue"
+      (input)="onInput($event)"
+      (focus)="showDropdown = true"
+      (blur)="onBlur()"
+      style="width: 100%; padding: 8px; box-sizing: border-box;"
+    />
+  
+    <ul
+      *ngIf="showDropdown && filteredOptions.length > 0"
+      style="position: absolute; top: 100%; left: 0; right: 0; max-height: 200px; overflow-y: auto; border: 1px solid #ccc; background: white; padding: 0; margin: 0; list-style: none; z-index: 10;"
+    >
+      <li
+        *ngFor="let option of filteredOptions"
+        (mousedown)="selectOption(option)"
+        style="padding: 8px; cursor: pointer;"
+        [style.background]="option === hoveredOption ? '#f0f0f0' : 'white'"
+        (mouseenter)="hoveredOption = option"
+      >
+        {{ option }}
+      </li>
+    </ul>
+</div>
+
+
+<!--h3>Auto Complete</h3>
+
+<form class="example-form">
+    <mat-form-field class="example-full-width">
+        <input matInput [matAutocomplete]="auto" [formControl]="formcontrol" />
+        <mat-autocomplete autoActiveFirstOption #auto>
+            <mat-option *ngFor="let item of filteroptionslist | async" [value]="item">{{item}} </mat-option>
+            
+        </mat-autocomplete>
+    </mat-form-field>
+   
+</form >
+
 <h1>Listing tags</h1>
+
 <label for="name">Search what you are looking for</label>
 <input type="text" id="name" formControlName="name">
 
@@ -8,4 +49,4 @@
                 <mat-chip>{{tag.name}}</mat-chip> 
             }
         </mat-chip-set>
-</div>
+</div -->

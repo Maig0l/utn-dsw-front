@@ -47,13 +47,10 @@ export class ViewTagComponent {
   ngOnInit(): void {
       
       this.showTags();
-      this.initOptions();
+     
   }
 
-  initOptions(){
-    this.tags.forEach((tag) =>  this.options.push(tag.name));
-
-  }
+  
   onInput(event: Event): void {
     if(this.i == 0)
     {    this.tags.forEach((tag) =>  this.options.push(tag.name));

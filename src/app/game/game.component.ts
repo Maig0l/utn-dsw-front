@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { RouterOutlet } from '@angular/router';
+import { Router, RouterOutlet } from '@angular/router';
 import { GameService, Game } from '../components/services/game.service.js';
 import { FormControl, FormGroup, ReactiveFormsModule } from '@angular/forms';
 import { CommonModule } from '@angular/common';
@@ -15,7 +15,7 @@ import { Tag, TagService } from '../components/services/tag.service.js';
   styleUrl: './game.component.css'
 })
 export class GameComponent {
-
+  
     
     gameForm = new FormGroup({
       title: new FormControl(''),
@@ -66,15 +66,66 @@ export class GameComponent {
       id: new FormControl(0)
     });
 
+
+    options: string[] = [ ];
+    filteredOptions: string[] = [];
+    inputValue: string = '';
+    showDropdown: boolean = false;
+    hoveredOption: string | null = null;
+  
+    i=0;
+   
+
     game: Game | undefined
-    games: Game[] | undefined
+    games: Game[] = []; 
     tag: Tag | undefined
 
-    constructor(private gameService: GameService, private tagService: TagService) { }
+    constructor(private gameService: GameService, private tagService: TagService, private router: Router) { }
   
   showGames() {
     this.gameService.getAllGames()
       .subscribe(responseGames => this.games = responseGames)
+  }
+
+  ngOnInit(): void {
+      
+    this.showGames();
+   
+}
+
+  onInput(event: Event): void {
+    if(this.i == 0)
+    {    this.games.forEach((game) =>  this.options.push(game.title));
+         this.i ++;
+    }
+    const value = (event.target as HTMLInputElement).value.toLowerCase();
+    this.inputValue = value;
+    this.filteredOptions = this.options.filter(option =>
+      option.toLowerCase().includes(value)
+    );
+  }
+
+  editGame(option: string){
+    console.log(option)
+    this.games.forEach((game) => 
+      {if(option===game.title ){
+      console.log(game.id);
+      this.router.navigate(['edit-game', game.id]);
+    }}
+    )
+
+  }
+
+  
+
+  selectOption(option: string): void {
+    this.inputValue = option;
+    this.showDropdown = false;
+  }
+
+  onBlur(): void {
+    // Delay hiding the dropdown to allow click events to register
+    setTimeout(() => (this.showDropdown = false), 200);
   }
 
   

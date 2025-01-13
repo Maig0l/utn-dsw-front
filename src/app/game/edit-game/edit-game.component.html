@@ -34,14 +34,47 @@
 </section>
 
 
-<!-- REVISAR TODO ESTO-->
+<!-- REVISAR TODO ESTO>
 <section>
   Tag search to add to the game...
   Work in progress...
-  <form [formGroup]="searchTags"> <!-- required (selectionChange)="displaySelectedTag()"-->
+  <form [formGroup]="searchTags"> < required (selectionChange)="displaySelectedTag()">
     <div class="outline" class="lookup-search-input-field">
-      <input  type="text" formControlName="tagName" placeholder="Tag"> <!-- (input)="searchTags()" o en el tuto dice (keyup)="onKey($event)" -->
+      <input  type="text" formControlName="tagName" placeholder="Tag"> < (input)="searchTags()" o en el tuto dice (keyup)="onKey($event)" >
     </div>
-    <div class="option" *ngFor="let lookup of tagsLookup">{{lookup.name}}</div> <!-- revisar -->
+    <div class="option" *ngFor="let lookup of tagsLookup">{{lookup.name}}</div> < revisar >
   </form>
+</section-->
+
+
+<section>
+  <h1>Search Tag</h1>
+  <div style="position: relative; width: 300px;">
+    <input
+      type="text"
+      [value]="inputValue"
+      (input)="onInput($event)"
+      (focus)="showDropdown = true"
+      (blur)="onBlur()"
+      style="width: 100%; padding: 8px; box-sizing: border-box;"
+    />
+  
+    <ul
+      *ngIf="showDropdown && filteredOptions.length > 0"
+      style="position: absolute; top: 100%; left: 0; right: 0; max-height: 200px; overflow-y: auto; border: 1px solid #ccc; background: white; padding: 0; margin: 0; list-style: none; z-index: 10;"
+    >
+      <li
+        *ngFor="let option of filteredOptions"
+        (mousedown)="selectOption(option)"
+        style="padding: 8px; cursor: pointer;"
+        [style.background]="option === hoveredOption ? '#f0f0f0' : 'white'"
+        (mouseenter)="hoveredOption = option"
+      >
+        {{ option }}
+      
+      </li>
+
+    </ul>
+    <button (click)="addTag( inputValue )">Add</button>
+</div>
 </section>

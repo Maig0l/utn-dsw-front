@@ -18,14 +18,22 @@ export class EditGameComponent {
   id!: number
   game!: Game
   tag: Tag | undefined
-  tagsLookup: Tag[] = []
+  tags: Tag[] = []
+  tagid!: number;
+  i=0;
+
+  options: string[] = [ ];
+  filteredOptions: string[] = [];
+  inputValue: string = '';
+  showDropdown: boolean = false;
+  hoveredOption: string | null = null;
 
   constructor(private router: Router, private route: ActivatedRoute,private gameService: GameService, private tagService: TagService) { }
     
-  searchTags = new FormGroup({
+  /*searchTags = new FormGroup({
     tagName: new FormControl('')
   })
-
+  */
   updateForm = new FormGroup({
     id: new FormControl(0),
     title: new FormControl(''),
@@ -61,8 +69,14 @@ export class EditGameComponent {
     platform: new FormControl(0)
   })
 
+  showTags() {
+    this.tagService.getAllTags()
+    .subscribe(responseTags => this.tags = responseTags)
+    }
+
   
   ngOnInit() {
+    this.showTags();
     this.id = +this.route.snapshot.paramMap.get('id')!  
       this.gameService.getOneGame(this.id).subscribe(
         (data: Game) => {
@@ -80,11 +94,37 @@ export class EditGameComponent {
     }
 
     //REVISAR
-    getTagsLookupList(){
+    /*getTagsLookupList(){
       this.tagService.getTagsByName(
         this.searchTags.value.tagName ?? "")
         .subscribe(response => this.tagsLookup = response)
     }
+    */
+
+
+  onInput(event: Event): void {
+    if(this.i == 0)
+    {    this.tags.forEach((tag) =>  this.options.push(tag.name));
+         this.i ++;
+    }
+    const value = (event.target as HTMLInputElement).value.toLowerCase();
+    this.inputValue = value;
+    this.filteredOptions = this.options.filter(option =>
+      option.toLowerCase().includes(value)
+    );
+  }
+
+  selectOption(option: string): void {
+    this.inputValue = option;
+    this.showDropdown = false;
+  }
+
+  onBlur(): void {
+    // Delay hiding the dropdown to allow click events to register
+    setTimeout(() => (this.showDropdown = false), 200);
+  }
+
+
 
     updateGame() {
     this.gameService.updateGame(
@@ -107,10 +147,15 @@ export class EditGameComponent {
     .subscribe(res => console.log(res))
   }
 
-  addTagsToGame(){
+  addTag(option: string){
+    this.tags.forEach((tag) => 
+      {if(option===tag.name ){
+      this.tagid =tag.id;
+    }}
+    )
     this.gameService.addTagsToGame(
-      this.tagGames.value.id ?? 0,
-      this.tagGames.value.tag ?? 0
+      this.id ?? 0,
+      this.tagid ?? 0
     ).subscribe(responseGame => this.game = responseGame)
   }
 

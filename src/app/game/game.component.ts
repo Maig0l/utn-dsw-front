@@ -106,8 +106,7 @@ export class GameComponent {
   }
 
   editGame(option: string){
-    console.log(option)
-    this.games.forEach((game) => 
+      this.games.forEach((game) => 
       {if(option===game.title ){
       console.log(game.id);
       this.router.navigate(['edit-game', game.id]);

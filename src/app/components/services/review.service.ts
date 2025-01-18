@@ -32,6 +32,5 @@ export class ReviewService {
   addReview(author: number, game: number, score: number, title: string, body: string): Observable<Review> {
     return this.http.post<Review>(this.reviewsEndpoint, { author, game, score, title, body })
   }
-
  
 }

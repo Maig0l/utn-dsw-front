@@ -4,11 +4,12 @@ import { Game, GameService } from '../../components/services/game.service';
 import { Review, ReviewService } from '../../components/services/review.service';
 import { ActivatedRoute, Router, RouterOutlet } from '@angular/router';
 import { CommonModule } from '@angular/common';
+import { ReviewComponent } from "../../components/review/review.component";
 
 @Component({
   selector: 'app-game-details',
   standalone: true,
-  imports: [ReactiveFormsModule, CommonModule],
+  imports: [ReactiveFormsModule, CommonModule, ReviewComponent],
   providers: [RouterOutlet, GameService, ReviewService],
   templateUrl: './game-details.component.html',
   styleUrl: './game-details.component.css'
@@ -33,11 +34,12 @@ export class GameDetailsComponent {
       this.gameId = +this.route.snapshot.paramMap.get('id')!
       // Usa el servicio para obtener los detalles del juego
       this.getGameDetails();
+      console.log(this.game.reviews)
   }
 
   getGameDetails() {
       this.gameService.getOneGame(this.gameId).subscribe(response  => {
-          this.game = response;
+          this.game = response
       });
   }
 

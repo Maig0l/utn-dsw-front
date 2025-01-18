@@ -88,3 +88,60 @@
   }
 
 }
+
+.review-list {
+  background-color: #121212;
+  /* Dark background */
+  padding: 20px;
+  color: white;
+  /* Text color for better contrast */
+}
+
+.reviews-container {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+  gap: 20px;
+}
+
+.review-card {
+  background-color: #1e1e1e;
+  /* Slightly lighter dark background for cards */
+  border: 1px solid #333;
+  border-radius: 8px;
+  padding: 20px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+  transition: transform 0.3s, box-shadow 0.3s;
+  max-width: 400px;
+  /* Limit the maximum width of the cards */
+  margin: 0 auto;
+  /* Center the card horizontally within its grid cell */
+}
+.reviews-container {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+  gap: 20px;
+}
+
+.review-card:hover {
+  transform: translateY(-10px);
+  box-shadow: 0 10px 20px rgba(0, 0, 0, 0.4);
+}
+
+.review-title {
+  font-size: 1.5rem;
+  margin-bottom: 10px;
+}
+
+.review-text {
+  font-size: 1rem;
+  margin-bottom: 10px;
+}
+
+.review-rating {
+  font-size: 1.2rem;
+}
+
+.review-rating span {
+  color: gold;
+  /* Color for stars */
+}

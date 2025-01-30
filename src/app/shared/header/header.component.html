@@ -15,6 +15,22 @@
       <li><a routerLink="/game" routerLinkActive="active" (click)="redirect('/game')">Game</a></li>
       <li><a routerLink="/tag" routerLinkActive="active" (click)="redirect('/tag')">Tag</a></li>
       <li><a routerLink="/playlist" routerLinkActive="active" (click)="redirect('/playlist')">Playlist</a></li>
+      <li>
+        
+        <form class="example-form">
+          <mat-form-field class="example-full-width">
+            <mat-label>Games</mat-label>
+            <input type="text" placeholder="Search games..." aria-label="Game" matInput [formControl]="myControl"
+              [matAutocomplete]="auto">
+            <mat-autocomplete autoActiveFirstOption #auto="matAutocomplete">
+              @for (option of filteredOptions | async; track option) {
+              <a href="/game/{{ option.id }}"> <mat-option [value]="option">{{option.title}}<img class="images" src={{option.portrait}}></mat-option>
+              </a>}
+            </mat-autocomplete>
+          </mat-form-field>
+        </form>
+
+      </li>
       <li><app-nav></app-nav></li>
     </ul>
       </nav>

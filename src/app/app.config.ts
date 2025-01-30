@@ -6,10 +6,11 @@ import { HttpClientModule } from '@angular/common/http';
 import { ShopService } from './components/services/shop.service.js';
 import { FormsModule } from '@angular/forms';
 import { confirmEqualsValidatorDirective } from './shared/equalsValidator.js';
+import { provideAnimationsAsync } from '@angular/platform-browser/animations/async';
 export const appConfig: ApplicationConfig = {
   providers: [
     provideRouter(routes),
     importProvidersFrom(HttpClientModule, FormsModule),
-    ShopService, confirmEqualsValidatorDirective
+    ShopService, confirmEqualsValidatorDirective, provideAnimationsAsync()
   ]
 };

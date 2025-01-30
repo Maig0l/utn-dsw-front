@@ -4,11 +4,12 @@ import { Game, GameService } from '../../components/services/game.service';
 import { Tag, TagService } from '../../components/services/tag.service';
 import { ActivatedRoute, Router, RouterOutlet } from '@angular/router';
 import { CommonModule } from '@angular/common';
+import { MatChipsModule } from '@angular/material/chips';
 
 @Component({
   selector: 'app-edit-game',
   standalone: true,
-  imports: [ReactiveFormsModule, CommonModule],
+  imports: [ReactiveFormsModule, CommonModule, MatChipsModule],
   providers: [GameService, TagService, RouterOutlet],
   templateUrl: './edit-game.component.html',
   styleUrl: './edit-game.component.css'
@@ -18,6 +19,7 @@ export class EditGameComponent {
   id!: number
   game!: Game
   tag: Tag | undefined
+  gametags: Tag[] = []
   tags: Tag[] = []
   tagid!: number;
   i=0;
@@ -79,7 +81,7 @@ export class EditGameComponent {
     this.showTags();
     this.id = +this.route.snapshot.paramMap.get('id')!  
       this.gameService.getOneGame(this.id).subscribe(
-        (data: Game) => {
+        (data: Game) => {this.gametags = data.tags ,
           this.updateForm.setValue({
             id: data.id,
             title: data.title,

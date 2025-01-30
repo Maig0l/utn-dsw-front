@@ -48,7 +48,14 @@
 
 
 <section>
-  <h1>Search Tag</h1>
+  <h1>Add Tag</h1>
+
+  <mat-chip-set aria-label="Tags">
+    @for (tag of gametags; track tag.id){ 
+        <mat-chip>{{tag.name}}</mat-chip> 
+    }
+</mat-chip-set >
+
   <div style="position: relative; width: 300px;">
     <input
       type="text"
@@ -76,5 +83,7 @@
 
     </ul>
     <button (click)="addTag( inputValue )">Add</button>
+
+   
 </div>
 </section>

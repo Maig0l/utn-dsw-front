@@ -34,6 +34,12 @@ export class GameService {
   // TODO: Guardar la URL base y rutas de endpoints en algún archivo de config global
   gamesEndpoint = "http://localhost:8080/api/games"
 
+  findGamesByTitle(title: string): Observable<Game[]> {
+    const url = this.gamesEndpoint + `/search?title=${title}`
+    return this.http.get<ApiResponse>(url)
+      .pipe(map(response => response.data))
+  }
+
   addTagsToGame(id: number, tags: number ): Observable<Game>{
     const url = this.gamesEndpoint + `/${id}`
     return this.http.patch<Game>(url, {tags});

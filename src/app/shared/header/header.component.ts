@@ -48,7 +48,7 @@ export class HeaderComponent  implements OnInit {
     if (filterValue === '') {
       return new Observable<Game[]>();
     }
-    return this.gameService.getAllGames().pipe(
+    return this.gameService.findGamesByTitle(filterValue).pipe(
       map((data: Game[]) => {
         this.options = data;
         console.log(this.options);

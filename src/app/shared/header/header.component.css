@@ -48,3 +48,19 @@
 .navigation a:hover {
   color: #E5E5E5;
 }
+
+.option-title {
+  flex-grow: 1;
+}
+
+.option-portrait {
+  width: 40px;
+  height: 40px;
+  object-fit: cover;
+  border-radius: 4px;
+  margin-left: 10px;
+}
+
+a{
+  text-decoration: none;
+}

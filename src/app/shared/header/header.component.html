@@ -19,13 +19,15 @@
         
         <form class="example-form">
           <mat-form-field class="example-full-width">
-            <mat-label>Games</mat-label>
-            <input type="text" placeholder="Search games..." aria-label="Game" matInput [formControl]="myControl"
-              [matAutocomplete]="auto">
+            <input type="text" placeholder="Search games..." aria-label="Game" matInput [formControl]="myControl" [matAutocomplete]="auto">
             <mat-autocomplete autoActiveFirstOption #auto="matAutocomplete">
               @for (option of filteredOptions | async; track option) {
-              <a href="/game/{{ option.id }}"> <mat-option [value]="option">{{option.title}}<img class="images" src={{option.portrait}}></mat-option>
-              </a>}
+                <a href="/game/{{ option.id }}">
+                  <mat-option [value]="option">
+                    <span class="option-title">{{ option.title }}</span>
+                    <img class="option-portrait" [src]="option.portrait" alt="{{ option.title }}">
+                  </mat-option>
+                </a>}
             </mat-autocomplete>
           </mat-form-field>
         </form>

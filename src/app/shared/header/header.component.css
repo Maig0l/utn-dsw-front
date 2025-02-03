@@ -1,3 +1,11 @@
+.custom-input {
+  background-image: none !important;
+  padding-inline-start: 0 !important;
+  padding: 0 !important;
+  --pico-outline-width: 0px !important;
+
+}
+
 .example-form {
   min-width: 150px;
   max-width: 500px;
@@ -46,7 +54,7 @@
 }
 
 .navigation a:hover {
-  color: #E5E5E5;
+  color: #e5e5e5;
 }
 
 .option-title {
@@ -58,9 +66,8 @@
   height: 40px;
   object-fit: cover;
   border-radius: 4px;
-  margin-left: 10px;
 }
 
-a{
+a {
   text-decoration: none;
 }

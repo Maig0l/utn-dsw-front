@@ -1,29 +1,49 @@
 import { Component } from '@angular/core';
 import { Router, RouterOutlet } from '@angular/router';
-import { GameService, Game } from '../components/services/game.service.js';
-import { FormControl, FormGroup, ReactiveFormsModule } from '@angular/forms';
+import { GameService, Game, Pictures } from '../components/services/game.service.js';
+import { FormArray, FormControl, FormGroup, ReactiveFormsModule } from '@angular/forms';
 import { CommonModule } from '@angular/common';
 import { Tag, TagService } from '../components/services/tag.service.js';
-
+import {ChangeDetectionStrategy} from '@angular/core';
+import {MatSelectModule} from '@angular/material/select';
+import {MatInputModule} from '@angular/material/input';
+import {MatFormFieldModule} from '@angular/material/form-field';
+import {MatButtonModule} from '@angular/material/button';
+import {MatIconModule} from '@angular/material/icon';
+import {MatDividerModule} from '@angular/material/divider';
 
 @Component({
   selector: 'app-game',
   standalone: true,
-  imports: [ReactiveFormsModule, CommonModule],
+  imports: [ReactiveFormsModule, CommonModule,MatIconModule,MatDividerModule,MatFormFieldModule,MatButtonModule, MatInputModule, MatSelectModule],
   providers: [RouterOutlet,GameService, TagService],
   templateUrl: './game.component.html',
   styleUrl: './game.component.css'
 })
 export class GameComponent {
   
-    
+  get pictures(): FormArray {
+    return this.gameForm.get('pictures') as FormArray;
+  }
+
+  addPictureInput(): void {
+    this.pictures.push(new FormControl(''));
+  }
+
+  removePictureInput(index: number): void {
+    this.pictures.removeAt(index);
+  }
+
+  
     gameForm = new FormGroup({
       title: new FormControl(''),
       synopsis: new FormControl(''),
       releaseDate: new FormControl(''),
       portrait: new FormControl(''),
       banner: new FormControl(''),
-      pictures: new FormControl(''),
+      pictures: new FormArray([
+        new FormControl('')             //REVISAR
+      ]),
       franchise: new FormControl(0)
     });
 
@@ -58,7 +78,9 @@ export class GameComponent {
       releaseDate: new FormControl(''),
       portrait: new FormControl(''),
       banner: new FormControl(''),
-      pictures: new FormControl(''),
+      pictures: new FormArray([
+        new FormControl('')             //REVISAR
+      ]),
       franchise: new FormControl(0)
     })
 
@@ -66,6 +88,15 @@ export class GameComponent {
       id: new FormControl(0)
     });
 
+    addPictureForm = new FormGroup({
+      id : new FormControl(0),
+      picture: new FormControl('')
+    });
+
+    removePictureForm = new FormGroup({
+      id : new FormControl(0),
+      picture_id: new FormControl('')
+    });
 
     options: string[] = [ ];
     filteredOptions: string[] = [];
@@ -74,7 +105,6 @@ export class GameComponent {
     hoveredOption: string | null = null;
   
     i=0;
-   
 
     game: Game | undefined
     games: Game[] = []; 
@@ -88,9 +118,7 @@ export class GameComponent {
   }
 
   ngOnInit(): void {
-      
     this.showGames();
-   
 }
 
   onInput(event: Event): void {
@@ -136,7 +164,7 @@ export class GameComponent {
       this.gameForm.value.releaseDate ?? "", 
       this.gameForm.value.portrait ?? "",
       this.gameForm.value.banner ?? "",
-      this.gameForm.value.pictures ?? "",
+      (this.gameForm.value.pictures as (string | null)[]).filter((picture): picture is string => picture !== null) ?? [],
       this.gameForm.value.franchise ?? 0
 
 
@@ -151,7 +179,7 @@ export class GameComponent {
       this.updateForm.value.releaseDate ?? "",
       this.updateForm.value.portrait ?? "",
       this.updateForm.value.banner ?? "",
-      this.updateForm.value.pictures ?? "",
+      (this.gameForm.value.pictures as (string | null)[]).filter((picture): picture is string => picture !== null) ?? [],
       this.updateForm.value.franchise ?? 0
     )
     .subscribe(responseGame => this.game = responseGame)

@@ -1,72 +1,51 @@
-<!--section>
-    <h1>Listing games</h1>
-  
-    <button (click)="showGames()">Get Games</button>
-  
-    @for (game of games; track game.id) {
-    <div class="game-item">
-      <small>[{{ game.id }}]</small>&nbsp;
-      <b>{{ game.title }}</b> &nbsp; 
+<section>
+  <h1>Create new game</h1>
+  <form [formGroup]="gameForm" (submit)="addGame()">
+    <mat-form-field>
+      <mat-label>Title</mat-label>
+      <input matInput matInput type="text" id="title" formControlName="title">
+    </mat-form-field>
+    <mat-form-field>
+      <mat-label for="synopsis">Synopsis</mat-label>
+      <textarea matInput type="text" id="synopsis" formControlName="synopsis"></textarea>
+    </mat-form-field>
+    <mat-form-field>
+      <mat-label for="releaseDate">Release date</mat-label>
+      <input matInput type="date" id="releaseDate" formControlName="releaseDate">
+    </mat-form-field>
+    <mat-form-field>
+      <mat-label for="portrait">Portrait</mat-label>
+      <input matInput type="text" id="portrait" formControlName="portrait">
+    </mat-form-field>
+    <mat-form-field>
+      <mat-label for="banner">Banner</mat-label>
+      <input matInput type="text" id="banner" formControlName="banner">
+    </mat-form-field>
+
+    <div formArrayName="pictures">
+      <div *ngFor="let picture of pictures.controls; let i = index">
+        <mat-form-field>
+          <mat-label>Picture {{i + 1}}</mat-label>
+          <input matInput type="text" id="pictures-{{i}}" [formControlName]="i">
+        </mat-form-field>
+        <button *ngIf="i!=0" mat-mini-fab type="button" (click)="removePictureInput(i)">
+          <mat-icon>delete</mat-icon>
+        </button>
+      </div>
     </div>
-    }
-  </section -->
-  <section>
-  <h1>Search game</h1>
-  <div style="position: relative; width: 300px;">
-    <input
-      type="text"
-      [value]="inputValue"
-      (input)="onInput($event)"
-      (focus)="showDropdown = true"
-      (blur)="onBlur()"
-      style="width: 100%; padding: 8px; box-sizing: border-box;"
-    />
-  
-    <ul
-      *ngIf="showDropdown && filteredOptions.length > 0"
-      style="position: absolute; top: 100%; left: 0; right: 0; max-height: 200px; overflow-y: auto; border: 1px solid #ccc; background: white; padding: 0; margin: 0; list-style: none; z-index: 10;"
-    >
-      <li
-        *ngFor="let option of filteredOptions"
-        (mousedown)="selectOption(option)"
-        style="padding: 8px; cursor: pointer;"
-        [style.background]="option === hoveredOption ? '#f0f0f0' : 'white'"
-        (mouseenter)="hoveredOption = option"
-      >
-        {{ option }}
+    <button mat-mini-fab type="button" (click)="addPictureInput()">
+      <mat-icon>add</mat-icon>
+    </button>
 
-      
-      </li>
-      
 
-    </ul>
-    <button (click)="editGame( inputValue )">Edit</button>
-    <!--a href="edit-game/{{ game.id }}" class="edit-button">Edit</a-->
-</div>
+    <mat-form-field>
+      <mat-label for="franchise">Franchise ID (should be NAME)</mat-label>
+      <input matInput type="text" id="franchise" formControlName="franchise">
+    </mat-form-field>
+      <button mat-mini-fab aria-label="save game" type="submit" class="primary"><mat-icon>save</mat-icon></button>
+  </form>
 </section>
   
-  
-  <section>
-    <h1>Create new game</h1>
-    <form [formGroup]="gameForm" (submit)="addGame()">
-      <label for="title">Title</label>
-      <input type="text" id="title" formControlName="title">
-      <label for="synopsis">Synopsis</label>
-      <input type="text" id="synopsis" formControlName="synopsis">
-      <label for="releaseDate">Release date</label>
-      <input type="date" id="releaseDate" formControlName="releaseDate">
-      <label for="portrait">Portrait</label>
-      <input type="text" id="portrait" formControlName="portrait">
-      <label for="banner">Banner</label>
-      <input type="text" id="banner" formControlName="banner">
-      <label for="pictures">Picture</label>
-      <input type="text" id="pictures" formControlName="pictures">
-      <label for="franchise">Franchise ID</label>
-      <input type="text" id="franchise" formControlName="franchise">
-      <button type="submit" class="primary">Create</button>
-    </form>
-  </section>
-
   <section>
     <h1>Add Tag to Game</h1>
     <form [formGroup]="tagGames" (submit)="addTagsToGame()">
@@ -79,7 +58,7 @@
       <button type="submit" class="primary" >Create</button>
     </form>
   </section>
-
+  
 
   <section>
     <h1>Add Shop to Game</h1>
@@ -93,8 +72,8 @@
       <button type="submit" class="primary" >Create</button>
     </form>
   </section>
-
-
+  
+  
   <section>
     <h1>Add Studio to Game</h1>
     <form [formGroup]="studiosGame" (submit)="addStudiosToGame()">
@@ -107,8 +86,8 @@
       <button type="submit" class="primary" >Create</button>
     </form>
   </section>
-
-
+  
+  
   <section>
     <h1>Add Platform to Game</h1>
     <form [formGroup]="platformsGame" (submit)="addPlatformsToGame()">
@@ -133,7 +112,7 @@
       </div>
       <button type="button" (click)="populateForm()">Fetch Game</button>
     </form>
-  
+    
     <div *ngIf="editReady">
       <h1>Edit Game</h1>
       <form [formGroup]="updateForm" (submit)="updateGame()">

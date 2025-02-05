@@ -3,32 +3,52 @@
   <form [formGroup]="gameForm" (submit)="addGame()">
     <mat-form-field>
       <mat-label>Title</mat-label>
-      <input matInput matInput type="text" id="title" formControlName="title">
+      <input matInput matInput type="text" id="title" formControlName="title" />
     </mat-form-field>
     <mat-form-field>
       <mat-label for="synopsis">Synopsis</mat-label>
-      <textarea matInput type="text" id="synopsis" formControlName="synopsis"></textarea>
+      <textarea
+        matInput
+        type="text"
+        id="synopsis"
+        formControlName="synopsis"
+      ></textarea>
     </mat-form-field>
     <mat-form-field>
       <mat-label for="releaseDate">Release date</mat-label>
-      <input matInput type="date" id="releaseDate" formControlName="releaseDate">
+      <input
+        matInput
+        type="date"
+        id="releaseDate"
+        formControlName="releaseDate"
+      />
     </mat-form-field>
     <mat-form-field>
       <mat-label for="portrait">Portrait</mat-label>
-      <input matInput type="text" id="portrait" formControlName="portrait">
+      <input matInput type="text" id="portrait" formControlName="portrait" />
     </mat-form-field>
     <mat-form-field>
       <mat-label for="banner">Banner</mat-label>
-      <input matInput type="text" id="banner" formControlName="banner">
+      <input matInput type="text" id="banner" formControlName="banner" />
     </mat-form-field>
 
     <div formArrayName="pictures">
       <div *ngFor="let picture of pictures.controls; let i = index">
         <mat-form-field>
-          <mat-label>Picture {{i + 1}}</mat-label>
-          <input matInput type="text" id="pictures-{{i}}" [formControlName]="i">
+          <mat-label>Picture {{ i + 1 }}</mat-label>
+          <input
+            matInput
+            type="text"
+            id="pictures-{{ i }}"
+            [formControlName]="i"
+          />
         </mat-form-field>
-        <button *ngIf="i!=0" mat-mini-fab type="button" (click)="removePictureInput(i)">
+        <button
+          *ngIf="i != 0"
+          mat-mini-fab
+          type="button"
+          (click)="removePictureInput(i)"
+        >
           <mat-icon>delete</mat-icon>
         </button>
       </div>
@@ -37,122 +57,119 @@
       <mat-icon>add</mat-icon>
     </button>
 
-
     <mat-form-field>
       <mat-label for="franchise">Franchise ID (should be NAME)</mat-label>
-      <input matInput type="text" id="franchise" formControlName="franchise">
+      <input matInput type="text" id="franchise" formControlName="franchise" />
     </mat-form-field>
-      <button mat-mini-fab aria-label="save game" type="submit" class="primary"><mat-icon>save</mat-icon></button>
+    <button mat-mini-fab aria-label="save game" type="submit" class="primary">
+      <mat-icon>save</mat-icon>
+    </button>
   </form>
 </section>
-  
-  <section>
-    <h1>Add Tag to Game</h1>
-    <form [formGroup]="tagGames" (submit)="addTagsToGame()">
-      <label for="id">Id</label>
-      <input type="text" id="id" formControlName="id">
-      
-      <label for="tag">Tag</label>
-      <input type="text" id="tag" formControlName="tag">
-      
-      <button type="submit" class="primary" >Create</button>
-    </form>
-  </section>
-  
 
-  <section>
-    <h1>Add Shop to Game</h1>
-    <form [formGroup]="shopsGame" (submit)="addShopsToGame()">
-      <label for="id">Id</label>
-      <input type="text" id="id" formControlName="id">
-      
-      <label for="shop">Shop</label>
-      <input type="text" id="shop" formControlName="shop">
-      
-      <button type="submit" class="primary" >Create</button>
-    </form>
-  </section>
-  
-  
-  <section>
-    <h1>Add Studio to Game</h1>
-    <form [formGroup]="studiosGame" (submit)="addStudiosToGame()">
-      <label for="id">Id</label>
-      <input type="text" id="id" formControlName="id">
-      
-      <label for="studio">Studio</label>
-      <input type="text" id="studio" formControlName="studio">
-      
-      <button type="submit" class="primary" >Create</button>
-    </form>
-  </section>
-  
-  
-  <section>
-    <h1>Add Platform to Game</h1>
-    <form [formGroup]="platformsGame" (submit)="addPlatformsToGame()">
-      <label for="id">Id</label>
-      <input type="text" id="id" formControlName="id">
-      
-      <label for="platform">Platform</label>
-      <input type="text" id="platform" formControlName="platform">
-      
-      <button type="submit" class="primary" >Create</button>
-    </form>
-  </section>
-  
-  
-  <!-- UPDATE -->
-  <section class="column">
-    <h1>Enter Game ID to Edit</h1>
-    <form [formGroup]="gameIdForm">
-      <div>
-        <label for="gameId">Game ID:</label>
-        <input id="gameId" formControlName="id" />
-      </div>
-      <button type="button" (click)="populateForm()">Fetch Game</button>
-    </form>
-    
-    <div *ngIf="editReady">
-      <h1>Edit Game</h1>
-      <form [formGroup]="updateForm" (submit)="updateGame()">
-        <div>
-          <label for="title">Title:</label>
-          <input id="title" formControlName="title" />
-        </div>
-        <div>
-          <label for="synopsis">Synopsis:</label>
-          <input id="synopsis" formControlName="synopsis" />
-        </div>
-        <div>
-          <label for="releaseDate">Release date:</label>
-          <input type="date" id="releaseDate" formControlName="releaseDate" />
-        </div> 
-        <div>
-          <label for="portrait">Portrait:</label>
-          <input id="portrait" formControlName="portrait" />
-        </div>
-        <div>
-          <label for="banner">Banner:</label>
-          <input id="banner" formControlName="banner" />
-        </div>
-        <div>
-          <label for="pictures">Picture:</label>
-          <input id="pictures" formControlName="pictures" />
-        </div>
-        <div>
-          <label for="franchise">Franchise ID:</label>
-          <input id="franchise" formControlName="franchise" />
-        </div>
-        <button type="submit" class="primary">Update</button>
-      </form>
+<section>
+  <h1>Add Tag to Game</h1>
+  <form [formGroup]="tagGames" (submit)="addTagsToGame()">
+    <label for="id">Id</label>
+    <input type="text" id="id" formControlName="id" />
+
+    <label for="tag">Tag</label>
+    <input type="text" id="tag" formControlName="tag" />
+
+    <button type="submit" class="primary">Create</button>
+  </form>
+</section>
+
+<section>
+  <h1>Add Shop to Game</h1>
+  <form [formGroup]="shopsGame" (submit)="addShopsToGame()">
+    <label for="id">Id</label>
+    <input type="text" id="id" formControlName="id" />
+
+    <label for="shop">Shop</label>
+    <input type="text" id="shop" formControlName="shop" />
+
+    <button type="submit" class="primary">Create</button>
+  </form>
+</section>
+
+<section>
+  <h1>Add Studio to Game</h1>
+  <form [formGroup]="studiosGame" (submit)="addStudiosToGame()">
+    <label for="id">Id</label>
+    <input type="text" id="id" formControlName="id" />
+
+    <label for="studio">Studio</label>
+    <input type="text" id="studio" formControlName="studio" />
+
+    <button type="submit" class="primary">Create</button>
+  </form>
+</section>
+
+<section>
+  <h1>Add Platform to Game</h1>
+  <form [formGroup]="platformsGame" (submit)="addPlatformsToGame()">
+    <label for="id">Id</label>
+    <input type="text" id="id" formControlName="id" />
+
+    <label for="platform">Platform</label>
+    <input type="text" id="platform" formControlName="platform" />
+
+    <button type="submit" class="primary">Create</button>
+  </form>
+</section>
+
+<!-- UPDATE -->
+<section class="column">
+  <h1>Enter Game ID to Edit</h1>
+  <form [formGroup]="gameIdForm">
+    <div>
+      <label for="gameId">Game ID:</label>
+      <input id="gameId" formControlName="id" />
     </div>
-  </section>
+    <button type="button" (click)="populateForm()">Fetch Game</button>
+  </form>
 
-  <section>
-    <h1>Delete a game</h1>
-    <form [formGroup]="deleteForm" (submit)="deleteGame()">
-      <input type="number" formControlName="id">
-      <input type="submit">
+  <div *ngIf="editReady">
+    <h1>Edit Game</h1>
+    <form [formGroup]="updateForm" (submit)="updateGame()">
+      <div>
+        <label for="title">Title:</label>
+        <input id="title" formControlName="title" />
+      </div>
+      <div>
+        <label for="synopsis">Synopsis:</label>
+        <input id="synopsis" formControlName="synopsis" />
+      </div>
+      <div>
+        <label for="releaseDate">Release date:</label>
+        <input type="date" id="releaseDate" formControlName="releaseDate" />
+      </div>
+      <div>
+        <label for="portrait">Portrait:</label>
+        <input id="portrait" formControlName="portrait" />
+      </div>
+      <div>
+        <label for="banner">Banner:</label>
+        <input id="banner" formControlName="banner" />
+      </div>
+      <div>
+        <label for="pictures">Picture:</label>
+        <input id="pictures" formControlName="pictures" />
+      </div>
+      <div>
+        <label for="franchise">Franchise ID:</label>
+        <input id="franchise" formControlName="franchise" />
+      </div>
+      <button type="submit" class="primary">Update</button>
     </form>
-  </section>
+  </div>
+</section>
+
+<section>
+  <h1>Delete a game</h1>
+  <form [formGroup]="deleteForm" (submit)="deleteGame()">
+    <input type="number" formControlName="id" />
+    <input type="submit" />
+  </form>
+</section>

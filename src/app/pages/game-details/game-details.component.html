@@ -1,22 +1,29 @@
 <main>
   <section class="selected-game">
-    <img src="{{game.banner}}" alt="Banner del videojuego" class="game-banner">
-    
+    <img
+      src="{{ game.banner }}"
+      alt="Banner del videojuego"
+      class="game-banner"
+    />
+
     <div class="game-info">
-      <img src="{{game.portrait}}" alt="Imagen del videojuego" class="game-image">
+      <img
+        src="{{ game.portrait }}"
+        alt="Imagen del videojuego"
+        class="game-image"
+      />
       <div class="game-details">
-    
-          <h1 class="game-title">{{game.title}}</h1>
-          
-        
+        <h1 class="game-title">{{ game.title }}</h1>
+
         <h2 class="game-synopsis">Synopsis: (estilizar)</h2>
-        <h3 class="game-synopsis">{{game.synopsis}}</h3>
-        <div class="studio-container"> <!-- esto podría ponerse a la derecha a la misma altura-->
+        <h3 class="game-synopsis">{{ game.synopsis }}</h3>
+        <div class="studio-container">
+          <!-- esto podría ponerse a la derecha a la misma altura-->
           <div class="studio-column">
             <p class="game-developer">Developer/s:</p>
             <ng-container *ngFor="let studio of game.studios">
               <ng-container *ngIf="studio.type !== 'Publisher'">
-                <p class="game-developer">{{studio.name}}</p>
+                <p class="game-developer">{{ studio.name }}</p>
               </ng-container>
             </ng-container>
           </div>
@@ -24,42 +31,38 @@
             <p class="game-publisher">Publisher/s:</p>
             <ng-container *ngFor="let studio of game.studios">
               <ng-container *ngIf="studio.type !== 'Developer'">
-                <p class="game-publisher">{{studio.name}}</p>
+                <p class="game-publisher">{{ studio.name }}</p>
               </ng-container>
             </ng-container>
           </div>
         </div>
         <ng-container *ngFor="let platform of game.platforms">
-          <img src="{{platform.img}}" class="platform-logo">
+          <img src="{{ platform.img }}" class="platform-logo" />
         </ng-container>
       </div>
     </div>
     <a href="edit-game/{{ game.id }}" class="edit-button">Edit</a>
 
-    
-  <h3>implementar carrusel de imagenes</h3>
-
-  <section>
-    <div class="slider">
-      <div>
-        <div (click)="goToPrevious()" class="leftArrow">❰</div>
-        <div (click)="goToNext()" class="rightArrow">❱</div>
-      </div>
-      <div
-        class="slide"
-        [ngStyle]="{ 'background-image': getCurrentSlideUrl() }"
-      ></div>
-      <div class="dotsContainer">
-        <div
-          *ngFor="let slide of slides; let slideIndex = index"
-          class="dot"
-          (click)="goToSlide(slideIndex)"
-        >
-          ●
+    <h2>IMAGES</h2>
+    <section class="game-images">
+      <div class="slider">
+        <div>
+          <div (click)="goToPrevious()" class="leftArrow">❰</div>
+          <div (click)="goToNext()" class="rightArrow">❱</div>
+        </div>
+        <img class="slide" alt="carrusel image" [src]="getCurrentSlideUrl()" />
+        <div class="dotsContainer">
+          <div
+            *ngFor="let slide of game.pictures; let slideIndex = index"
+            class="dot"
+            (click)="goToSlide(slideIndex)"
+          >
+            ●
+          </div>
         </div>
       </div>
-    </div>
-  </section>
+    </section>
 
-  <app-review></app-review>
+    <app-review></app-review>
   </section>
+</main>

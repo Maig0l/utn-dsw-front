@@ -5,7 +5,11 @@ import { Tag } from './tag.service.js';
 import { Studio } from './studio.service.js';
 import { Platform } from './platform.service.js';
 import { Review } from './review.service.js';
+import { CollectionViewer } from '@angular/cdk/collections/index.js';
 
+export interface Pictures {
+  url: string[];
+}
 export interface Game {
   id: number;
   title: string;
@@ -13,7 +17,7 @@ export interface Game {
   releaseDate: string;
   portrait: string;
   banner: string;
-  pictures: string;
+  pictures: string[];
   franchise: number;
   tags: Tag[];
   studios: Studio[];
@@ -75,7 +79,6 @@ export class GameService {
     releaseDate: string,
     portrait: string,
     banner: string,
-    pictures: string,
     franchise: number
   ): Observable<Game> {
     return this.http.post<Game>(this.gamesEndpoint, {
@@ -84,9 +87,13 @@ export class GameService {
       releaseDate,
       portrait,
       banner,
-      pictures,
       franchise,
     });
+  }
+
+  addPicturesToGame(game_id: number, urls: string[]): Observable<string[]> {
+    const url = 'http://localhost:8080/api/game-picture';
+    return this.http.post<string[]>(url, { game_id, urls });
   }
 
   updateGame(
@@ -96,7 +103,7 @@ export class GameService {
     releaseDate: string,
     portrait: string,
     banner: string,
-    pictures: string,
+    pictures: string[],
     franchise: number
   ): Observable<Game> {
     const url = this.gamesEndpoint + `/${id}`;

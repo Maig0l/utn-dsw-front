@@ -1,10 +1,29 @@
 import { Component } from '@angular/core';
 import { FormControl, FormGroup, ReactiveFormsModule } from '@angular/forms';
 import { Game, GameService } from '../../components/services/game.service';
-import { Review, ReviewService } from '../../components/services/review.service';
+import {
+  Review,
+  ReviewService,
+} from '../../components/services/review.service';
 import { ActivatedRoute, Router, RouterOutlet } from '@angular/router';
 import { CommonModule } from '@angular/common';
-import { ReviewComponent } from "../../components/review/review.component";
+import { ReviewComponent } from '../../components/review/review.component';
+
+import { Input, OnDestroy, OnInit } from '@angular/core';
+import {
+  interval,
+  Observable,
+  startWith,
+  Subject,
+  switchMap,
+  timer,
+} from 'rxjs';
+
+export interface SlideInterface {
+  id: number;
+  url: string;
+  game: number;
+}
 
 @Component({
   selector: 'app-game-details',
@@ -12,35 +31,73 @@ import { ReviewComponent } from "../../components/review/review.component";
   imports: [ReactiveFormsModule, CommonModule, ReviewComponent],
   providers: [RouterOutlet, GameService, ReviewService],
   templateUrl: './game-details.component.html',
-  styleUrl: './game-details.component.css'
+  styleUrl: './game-details.component.css',
 })
-export class GameDetailsComponent {
+export class GameDetailsComponent implements OnInit, OnDestroy {
+  constructor(
+    private route: ActivatedRoute,
+    private gameService: GameService,
+    private reviewService: ReviewService
+  ) {}
 
-    reviewForm = new FormGroup({
-      score: new FormControl(0),
-      title: new FormControl(''),
-      body: new FormControl(''),
-    });
-  
-    gameId!: number;
-    game!: Game;
-    review!: Review;
-    editing!: boolean;
+  @Input() slides: SlideInterface[] = [];
+  currentIndex: number = 0;
+  timeoutId?: number;
 
-  constructor(private route: ActivatedRoute, private gameService: GameService, private  reviewService: ReviewService ) {}
-    
+  gameId!: number;
+  game!: Game;
+  review!: Review;
+  editing!: boolean;
+
+  reviewForm = new FormGroup({
+    score: new FormControl(0),
+    title: new FormControl(''),
+    body: new FormControl(''),
+  });
+
   ngOnInit() {
-      // gets game ID from URL
-      this.gameId = +this.route.snapshot.paramMap.get('id')!
-      // Usa el servicio para obtener los detalles del juego
-      this.getGameDetails();
-      console.log(this.game.reviews)
+    this.gameId = +this.route.snapshot.paramMap.get('id')!;
+    this.gameService.getOneGame(this.gameId).subscribe((response) => {
+      this.game = response;
+    });
+    this.resetTimer();
+  }
+  ngOnDestroy() {
+    window.clearTimeout(this.timeoutId);
   }
 
-  getGameDetails() {
-      this.gameService.getOneGame(this.gameId).subscribe(response  => {
-          this.game = response
-      });
+  resetTimer() {
+    if (this.timeoutId) {
+      window.clearTimeout(this.timeoutId);
+    }
+    this.timeoutId = window.setTimeout(() => this.goToNext(), 3000);
   }
 
+  goToPrevious(): void {
+    const isFirstSlide = this.currentIndex === 0;
+    const newIndex = isFirstSlide
+      ? this.game.pictures.length - 1
+      : this.currentIndex - 1;
+    this.resetTimer();
+    this.currentIndex = newIndex;
+  }
+
+  goToNext(): void {
+    const isLastSlide = this.currentIndex === this.game.pictures.length - 1;
+    const newIndex = isLastSlide ? 0 : this.currentIndex + 1;
+    this.resetTimer();
+    this.currentIndex = newIndex;
+  }
+
+  goToSlide(slideIndex: number): void {
+    this.resetTimer();
+    this.currentIndex = slideIndex;
+  }
+
+  getCurrentSlideUrl() {
+    const pic = JSON.parse(
+      JSON.stringify(this.game.pictures[this.currentIndex])
+    );
+    return pic.url;
+  }
 }

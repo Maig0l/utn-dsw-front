@@ -1,179 +1,201 @@
-<!--section>
-    <h1>Listing games</h1>
-  
-    <button (click)="showGames()">Get Games</button>
-  
-    @for (game of games; track game.id) {
-    <div class="game-item">
-      <small>[{{ game.id }}]</small>&nbsp;
-      <b>{{ game.title }}</b> &nbsp; 
-    </div>
-    }
-  </section -->
-  <section>
-  <h1>Search game</h1>
-  <div style="position: relative; width: 300px;">
-    <input
-      type="text"
-      [value]="inputValue"
-      (input)="onInput($event)"
-      (focus)="showDropdown = true"
-      (blur)="onBlur()"
-      style="width: 100%; padding: 8px; box-sizing: border-box;"
-    />
-  
-    <ul
-      *ngIf="showDropdown && filteredOptions.length > 0"
-      style="position: absolute; top: 100%; left: 0; right: 0; max-height: 200px; overflow-y: auto; border: 1px solid #ccc; background: white; padding: 0; margin: 0; list-style: none; z-index: 10;"
-    >
-      <li
-        *ngFor="let option of filteredOptions"
-        (mousedown)="selectOption(option)"
-        style="padding: 8px; cursor: pointer;"
-        [style.background]="option === hoveredOption ? '#f0f0f0' : 'white'"
-        (mouseenter)="hoveredOption = option"
-      >
-        {{ option }}
+<section>
+  <h1>Create new game</h1>
+  <form [formGroup]="gameForm" (submit)="addGame()">
+    <mat-form-field>
+      <mat-label>Title</mat-label>
+      <input matInput matInput type="text" id="title" formControlName="title" />
+    </mat-form-field>
+    <mat-form-field>
+      <mat-label for="synopsis">Synopsis</mat-label>
+      <textarea
+        matInput
+        type="text"
+        id="synopsis"
+        formControlName="synopsis"
+      ></textarea>
+    </mat-form-field>
+    <mat-form-field>
+      <mat-label for="releaseDate">Release date</mat-label>
+      <input
+        matInput
+        type="date"
+        id="releaseDate"
+        formControlName="releaseDate"
+      />
+    </mat-form-field>
+    <mat-form-field>
+      <mat-label for="portrait">Portrait</mat-label>
+      <input matInput type="text" id="portrait" formControlName="portrait" />
+    </mat-form-field>
+    <mat-form-field>
+      <mat-label for="banner">Banner</mat-label>
+      <input matInput type="text" id="banner" formControlName="banner" />
+    </mat-form-field>
 
-      
-      </li>
-      
-
-    </ul>
-    <button (click)="editGame( inputValue )">Edit</button>
-    <!--a href="edit-game/{{ game.id }}" class="edit-button">Edit</a-->
-</div>
-</section>
-  
-  
-  <section>
-    <h1>Create new game</h1>
-    <form [formGroup]="gameForm" (submit)="addGame()">
-      <label for="title">Title</label>
-      <input type="text" id="title" formControlName="title">
-      <label for="synopsis">Synopsis</label>
-      <input type="text" id="synopsis" formControlName="synopsis">
-      <label for="releaseDate">Release date</label>
-      <input type="date" id="releaseDate" formControlName="releaseDate">
-      <label for="portrait">Portrait</label>
-      <input type="text" id="portrait" formControlName="portrait">
-      <label for="banner">Banner</label>
-      <input type="text" id="banner" formControlName="banner">
-      <label for="pictures">Picture</label>
-      <input type="text" id="pictures" formControlName="pictures">
-      <label for="franchise">Franchise ID</label>
-      <input type="text" id="franchise" formControlName="franchise">
-      <button type="submit" class="primary">Create</button>
-    </form>
-  </section>
-
-  <section>
-    <h1>Add Tag to Game</h1>
-    <form [formGroup]="tagGames" (submit)="addTagsToGame()">
-      <label for="id">Id</label>
-      <input type="text" id="id" formControlName="id">
-      
-      <label for="tag">Tag</label>
-      <input type="text" id="tag" formControlName="tag">
-      
-      <button type="submit" class="primary" >Create</button>
-    </form>
-  </section>
-
-
-  <section>
-    <h1>Add Shop to Game</h1>
-    <form [formGroup]="shopsGame" (submit)="addShopsToGame()">
-      <label for="id">Id</label>
-      <input type="text" id="id" formControlName="id">
-      
-      <label for="shop">Shop</label>
-      <input type="text" id="shop" formControlName="shop">
-      
-      <button type="submit" class="primary" >Create</button>
-    </form>
-  </section>
-
-
-  <section>
-    <h1>Add Studio to Game</h1>
-    <form [formGroup]="studiosGame" (submit)="addStudiosToGame()">
-      <label for="id">Id</label>
-      <input type="text" id="id" formControlName="id">
-      
-      <label for="studio">Studio</label>
-      <input type="text" id="studio" formControlName="studio">
-      
-      <button type="submit" class="primary" >Create</button>
-    </form>
-  </section>
-
-
-  <section>
-    <h1>Add Platform to Game</h1>
-    <form [formGroup]="platformsGame" (submit)="addPlatformsToGame()">
-      <label for="id">Id</label>
-      <input type="text" id="id" formControlName="id">
-      
-      <label for="platform">Platform</label>
-      <input type="text" id="platform" formControlName="platform">
-      
-      <button type="submit" class="primary" >Create</button>
-    </form>
-  </section>
-  
-  
-  <!-- UPDATE -->
-  <section class="column">
-    <h1>Enter Game ID to Edit</h1>
-    <form [formGroup]="gameIdForm">
-      <div>
-        <label for="gameId">Game ID:</label>
-        <input id="gameId" formControlName="id" />
+    <div formArrayName="pictures">
+      <div *ngFor="let picture of pictures.controls; let i = index">
+        <mat-form-field>
+          <mat-label>Picture {{ i + 1 }}</mat-label>
+          <input
+            matInput
+            type="text"
+            id="pictures-{{ i }}"
+            [formControlName]="i"
+          />
+        </mat-form-field>
+        <button
+          *ngIf="i != 0"
+          mat-mini-fab
+          type="button"
+          (click)="removePictureInput(i)"
+        >
+          <mat-icon>delete</mat-icon>
+        </button>
       </div>
-      <button type="button" (click)="populateForm()">Fetch Game</button>
-    </form>
-  
-    <div *ngIf="editReady">
-      <h1>Edit Game</h1>
-      <form [formGroup]="updateForm" (submit)="updateGame()">
-        <div>
-          <label for="title">Title:</label>
-          <input id="title" formControlName="title" />
-        </div>
-        <div>
-          <label for="synopsis">Synopsis:</label>
-          <input id="synopsis" formControlName="synopsis" />
-        </div>
-        <div>
-          <label for="releaseDate">Release date:</label>
-          <input type="date" id="releaseDate" formControlName="releaseDate" />
-        </div> 
-        <div>
-          <label for="portrait">Portrait:</label>
-          <input id="portrait" formControlName="portrait" />
-        </div>
-        <div>
-          <label for="banner">Banner:</label>
-          <input id="banner" formControlName="banner" />
-        </div>
-        <div>
-          <label for="pictures">Picture:</label>
-          <input id="pictures" formControlName="pictures" />
-        </div>
-        <div>
-          <label for="franchise">Franchise ID:</label>
-          <input id="franchise" formControlName="franchise" />
-        </div>
-        <button type="submit" class="primary">Update</button>
-      </form>
     </div>
-  </section>
+    <button mat-mini-fab type="button" (click)="addPictureInput()">
+      <mat-icon>add</mat-icon>
+    </button>
 
-  <section>
-    <h1>Delete a game</h1>
-    <form [formGroup]="deleteForm" (submit)="deleteGame()">
-      <input type="number" formControlName="id">
-      <input type="submit">
+    <!--mat-form-field>
+      <mat-label for="franchise">Franchise ID (should be NAME)</mat-label>
+      <input matInput type="text" id="franchise" formControlName="franchise" />
+    </mat-form-field-->
+
+    <mat-form-field class="example-full-width">
+      <mat-label>Franchise (fix)</mat-label>
+      <input
+        type="text"
+        placeholder="Select Franchise"
+        aria-label="Franchise"
+        matInput
+        [formControl]="frAutoc"
+        [matAutocomplete]="auto"
+        formControlName="franchise"
+        id="franchise"
+      />
+      <mat-autocomplete
+        autoActiveFirstOption
+        #auto="matAutocomplete"
+        (optionSelected)="selectFranchise($event)"
+      >
+        @for (option of frFilteredOptions | async; track option) {
+        <mat-option [value]="option.name" viewValue="option.name"
+          >{{ option.name }} (id:{{ option.id }})</mat-option
+        >
+        }
+      </mat-autocomplete>
+    </mat-form-field>
+
+    <button mat-mini-fab aria-label="save game" type="submit" class="primary">
+      <mat-icon>save</mat-icon>
+    </button>
+  </form>
+</section>
+
+<section>
+  <h1>Add Tag to Game</h1>
+  <form [formGroup]="tagGames" (submit)="addTagsToGame()">
+    <label for="id">Id</label>
+    <input type="text" id="id" formControlName="id" />
+
+    <label for="tag">Tag</label>
+    <input type="text" id="tag" formControlName="tag" />
+
+    <button type="submit" class="primary">Create</button>
+  </form>
+</section>
+
+<section>
+  <h1>Add Shop to Game</h1>
+  <form [formGroup]="shopsGame" (submit)="addShopsToGame()">
+    <label for="id">Id</label>
+    <input type="text" id="id" formControlName="id" />
+
+    <label for="shop">Shop</label>
+    <input type="text" id="shop" formControlName="shop" />
+
+    <button type="submit" class="primary">Create</button>
+  </form>
+</section>
+
+<section>
+  <h1>Add Studio to Game</h1>
+  <form [formGroup]="studiosGame" (submit)="addStudiosToGame()">
+    <label for="id">Id</label>
+    <input type="text" id="id" formControlName="id" />
+
+    <label for="studio">Studio</label>
+    <input type="text" id="studio" formControlName="studio" />
+
+    <button type="submit" class="primary">Create</button>
+  </form>
+</section>
+
+<section>
+  <h1>Add Platform to Game</h1>
+  <form [formGroup]="platformsGame" (submit)="addPlatformsToGame()">
+    <label for="id">Id</label>
+    <input type="text" id="id" formControlName="id" />
+
+    <label for="platform">Platform</label>
+    <input type="text" id="platform" formControlName="platform" />
+
+    <button type="submit" class="primary">Create</button>
+  </form>
+</section>
+
+<!-- UPDATE -->
+<section class="column">
+  <h1>Enter Game ID to Edit</h1>
+  <form [formGroup]="gameIdForm">
+    <div>
+      <label for="gameId">Game ID:</label>
+      <input id="gameId" formControlName="id" />
+    </div>
+    <button type="button" (click)="populateForm()">Fetch Game</button>
+  </form>
+
+  <div *ngIf="editReady">
+    <h1>Edit Game</h1>
+    <form [formGroup]="updateForm" (submit)="updateGame()">
+      <div>
+        <label for="title">Title:</label>
+        <input id="title" formControlName="title" />
+      </div>
+      <div>
+        <label for="synopsis">Synopsis:</label>
+        <input id="synopsis" formControlName="synopsis" />
+      </div>
+      <div>
+        <label for="releaseDate">Release date:</label>
+        <input type="date" id="releaseDate" formControlName="releaseDate" />
+      </div>
+      <div>
+        <label for="portrait">Portrait:</label>
+        <input id="portrait" formControlName="portrait" />
+      </div>
+      <div>
+        <label for="banner">Banner:</label>
+        <input id="banner" formControlName="banner" />
+      </div>
+      <div>
+        <label for="pictures">Picture:</label>
+        <input id="pictures" formControlName="pictures" />
+      </div>
+      <div>
+        <label for="franchise">Franchise ID:</label>
+        <input id="franchise" formControlName="franchise" />
+      </div>
+      <button type="submit" class="primary">Update</button>
     </form>
-  </section>
+  </div>
+</section>
+
+<section>
+  <h1>Delete a game</h1>
+  <form [formGroup]="deleteForm" (submit)="deleteGame()">
+    <input type="number" formControlName="id" />
+    <input type="submit" />
+  </form>
+</section>

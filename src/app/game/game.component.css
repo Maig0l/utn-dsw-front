@@ -8,6 +8,12 @@ section {
   color: #E5E5E5;
 }
 
+form {
+  display: flex;
+  flex-direction: column;
+  margin-top: 20px;
+}
+
 section h1 {
   font-size: 2.5rem;
   margin-bottom: 20px;

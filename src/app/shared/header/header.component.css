@@ -3,7 +3,6 @@
   padding-inline-start: 0 !important;
   padding: 0 !important;
   --pico-outline-width: 0px !important;
-
 }
 
 .example-form {
@@ -16,7 +15,7 @@
   width: 100%;
 }
 
-.header {
+.custom-header {
   padding: 1rem 0;
   background-color: #12161a;
   color: white;

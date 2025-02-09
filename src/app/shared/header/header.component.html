@@ -1,8 +1,8 @@
-<header class="header">
+<header class="custom-header">
   <div class="container">
     <div class="header-content">
       <div class="logo">
-        <a routerLink="/homepage" routerLinkActive="active" (click)="redirect('/homepage')">
+        <a class="pico" routerLink="/homepage" routerLinkActive="active" (click)="redirect('/homepage')">
           <img src="assets/logo-ggwp150.png" alt="Placeholder Logo"/>
         </a>
       </div>
@@ -45,7 +45,7 @@
               </mat-form-field>
             </form>
           </li>
-          <li><app-nav></app-nav></li>
+          <li><app-nav class="pico"></app-nav></li>
         </ul>
       </nav>
     </div>

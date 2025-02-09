@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { FormControl, FormGroup, ReactiveFormsModule } from '@angular/forms';
+import { FormArray, FormControl, FormGroup, ReactiveFormsModule } from '@angular/forms';
 import { Game, GameService } from '../../components/services/game.service';
 import { Tag, TagService } from '../../components/services/tag.service';
 import { ActivatedRoute, Router, RouterOutlet } from '@angular/router';
@@ -43,7 +43,9 @@ export class EditGameComponent {
     releaseDate: new FormControl(''),
     portrait: new FormControl(''),
     banner: new FormControl(''),
-    pictures: new FormControl(''),
+      pictures: new FormArray([
+        new FormControl('')             //REVISAR
+      ]),
     franchise: new FormControl(0)
     })
     
@@ -126,8 +128,6 @@ export class EditGameComponent {
     setTimeout(() => (this.showDropdown = false), 200);
   }
 
-
-
     updateGame() {
     this.gameService.updateGame(
       this.updateForm.value.id ?? 0,
@@ -136,7 +136,7 @@ export class EditGameComponent {
       this.updateForm.value.releaseDate ?? "",
       this.updateForm.value.portrait ?? "",
       this.updateForm.value.banner ?? "",
-      this.updateForm.value.pictures ?? "",
+      (this.updateForm.value.pictures as (string | null)[]).filter((picture): picture is string => picture !== null) ?? [],
       this.updateForm.value.franchise ?? 0
     )
     .subscribe(responseGame => this.game = responseGame)

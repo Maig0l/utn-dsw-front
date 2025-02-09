@@ -20,6 +20,12 @@ import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatButtonModule } from '@angular/material/button';
 import { MatIconModule } from '@angular/material/icon';
 import { MatDividerModule } from '@angular/material/divider';
+import {
+  Franchise,
+  FranchiseService,
+} from '../components/services/franchise.service.js';
+import { MatAutocompleteModule } from '@angular/material/autocomplete';
+import { Observable, of, startWith, switchMap } from 'rxjs';
 
 @Component({
   selector: 'app-game',
@@ -33,24 +39,13 @@ import { MatDividerModule } from '@angular/material/divider';
     MatButtonModule,
     MatInputModule,
     MatSelectModule,
+    MatAutocompleteModule,
   ],
-  providers: [RouterOutlet, GameService, TagService],
+  providers: [RouterOutlet, GameService, TagService, FranchiseService],
   templateUrl: './game.component.html',
   styleUrl: './game.component.css',
 })
 export class GameComponent {
-  get pictures(): FormArray {
-    return this.gameForm.get('pictures') as FormArray;
-  }
-
-  addPictureInput(): void {
-    this.pictures.push(new FormControl(''));
-  }
-
-  removePictureInput(index: number): void {
-    this.pictures.removeAt(index);
-  }
-
   gameForm = new FormGroup({
     title: new FormControl(''),
     synopsis: new FormControl(''),
@@ -94,9 +89,7 @@ export class GameComponent {
     releaseDate: new FormControl(''),
     portrait: new FormControl(''),
     banner: new FormControl(''),
-    pictures: new FormArray([
-      new FormControl(''), //REVISAR
-    ]),
+    pictures: new FormArray([new FormControl('')]),
     franchise: new FormControl(0),
   });
 
@@ -125,21 +118,62 @@ export class GameComponent {
   game: Game | undefined;
   games: Game[] = [];
   tag: Tag | undefined;
+  franchises: Franchise[] = [];
 
   constructor(
     private gameService: GameService,
     private tagService: TagService,
+    private franchiseService: FranchiseService,
     private router: Router
   ) {}
 
-  showGames() {
+  frAutoc = new FormControl('');
+  frOptions: Franchise[] = [];
+  frFilteredOptions!: Observable<Franchise[]>;
+
+  ngOnInit(): void {
     this.gameService
       .getAllGames()
       .subscribe((responseGames) => (this.games = responseGames));
+
+    this.franchiseService.getAllFranchises().subscribe((responseFranchises) => {
+      this.frOptions = responseFranchises;
+    });
+
+    this.frFilteredOptions = this.frAutoc.valueChanges.pipe(
+      startWith(''),
+      switchMap((value) => this._filter(value || ''))
+    );
   }
 
-  ngOnInit(): void {
-    this.showGames();
+  private _filter(value2: string): Observable<Franchise[]> {
+    const filterValue = value2.toLowerCase();
+    if (filterValue === '') {
+      return new Observable<Franchise[]>();
+    }
+    return of(
+      this.frOptions.filter((option) =>
+        option.name.toLowerCase().includes(filterValue)
+      )
+    );
+  }
+
+  selectFranchise($event: any): void {
+    const frName = $event.option.value;
+    const frId = this.frOptions.find((fr) => fr.name === frName)?.id;
+    this.gameForm.patchValue({ franchise: frId });
+  }
+
+  get pictures(): FormArray {
+    return this.gameForm.get('pictures') as FormArray;
+  }
+
+  addPictureInput(): void {
+    this.pictures.push(new FormControl(''));
+  }
+
+  removePictureInput(index: number): void {
+    this.pictures.removeAt(index);
   }
 
   onInput(event: Event): void {
@@ -185,7 +219,6 @@ export class GameComponent {
       )
       .subscribe((responseGame) => {
         this.game = responseGame;
-        console.log('El jueguito: ', responseGame, 'el id: ', this.game.id);
         this.gameService
           .addPicturesToGame(
             this.game.id,

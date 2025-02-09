@@ -57,10 +57,36 @@
       <mat-icon>add</mat-icon>
     </button>
 
-    <mat-form-field>
+    <!--mat-form-field>
       <mat-label for="franchise">Franchise ID (should be NAME)</mat-label>
       <input matInput type="text" id="franchise" formControlName="franchise" />
+    </mat-form-field-->
+
+    <mat-form-field class="example-full-width">
+      <mat-label>Franchise (fix)</mat-label>
+      <input
+        type="text"
+        placeholder="Select Franchise"
+        aria-label="Franchise"
+        matInput
+        [formControl]="frAutoc"
+        [matAutocomplete]="auto"
+        formControlName="franchise"
+        id="franchise"
+      />
+      <mat-autocomplete
+        autoActiveFirstOption
+        #auto="matAutocomplete"
+        (optionSelected)="selectFranchise($event)"
+      >
+        @for (option of frFilteredOptions | async; track option) {
+        <mat-option [value]="option.name" viewValue="option.name"
+          >{{ option.name }} (id:{{ option.id }})</mat-option
+        >
+        }
+      </mat-autocomplete>
     </mat-form-field>
+
     <button mat-mini-fab aria-label="save game" type="submit" class="primary">
       <mat-icon>save</mat-icon>
     </button>

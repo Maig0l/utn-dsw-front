@@ -10,7 +10,7 @@
       <img
         src="{{ game.portrait }}"
         alt="Imagen del videojuego"
-        class="game-image"
+        class="game-portrait"
       />
       <div class="game-details">
         <h1 class="game-title">{{ game.title }}</h1>
@@ -43,8 +43,8 @@
     </div>
     <a href="edit-game/{{ game.id }}" class="edit-button">Edit</a>
 
-    <h2>IMAGES</h2>
-    <section class="game-images">
+    <section class="game-images" *ngIf="game.pictures.length != 0">
+      <h2>IMAGES</h2>
       <div class="slider">
         <div>
           <div (click)="goToPrevious()" class="leftArrow">❰</div>

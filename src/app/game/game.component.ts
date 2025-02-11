@@ -82,17 +82,6 @@ export class GameComponent {
     platform: new FormControl(0),
   });
 
-  updateForm = new FormGroup({
-    id: new FormControl(0),
-    title: new FormControl(''),
-    synopsis: new FormControl(''),
-    releaseDate: new FormControl(''),
-    portrait: new FormControl(''),
-    banner: new FormControl(''),
-    pictures: new FormArray([new FormControl('')]),
-    franchise: new FormControl(0),
-  });
-
   gameIdForm = new FormGroup({
     id: new FormControl(0),
   });
@@ -176,27 +165,6 @@ export class GameComponent {
     this.pictures.removeAt(index);
   }
 
-  onInput(event: Event): void {
-    if (this.i == 0) {
-      this.games.forEach((game) => this.options.push(game.title));
-      this.i++;
-    }
-    const value = (event.target as HTMLInputElement).value.toLowerCase();
-    this.inputValue = value;
-    this.filteredOptions = this.options.filter((option) =>
-      option.toLowerCase().includes(value)
-    );
-  }
-
-  editGame(option: string) {
-    this.games.forEach((game) => {
-      if (option === game.title) {
-        console.log(game.id);
-        this.router.navigate(['edit-game', game.id]);
-      }
-    });
-  }
-
   selectOption(option: string): void {
     this.inputValue = option;
     this.showDropdown = false;
@@ -228,23 +196,6 @@ export class GameComponent {
           )
           .subscribe((responsePictures) => console.log(responsePictures));
       });
-  }
-
-  updateGame() {
-    this.gameService
-      .updateGame(
-        this.updateForm.value.id ?? 0,
-        this.updateForm.value.title ?? '',
-        this.updateForm.value.synopsis ?? '',
-        this.updateForm.value.releaseDate ?? '',
-        this.updateForm.value.portrait ?? '',
-        this.updateForm.value.banner ?? '',
-        (this.gameForm.value.pictures as (string | null)[]).filter(
-          (picture): picture is string => picture !== null
-        ) ?? [],
-        this.updateForm.value.franchise ?? 0
-      )
-      .subscribe((responseGame) => (this.game = responseGame));
   }
 
   deleteGame() {
@@ -286,7 +237,7 @@ export class GameComponent {
       )
       .subscribe((responseGame) => (this.game = responseGame));
   }
-
+  /*
   populateForm() {
     const id = this.gameIdForm.get('id')?.value;
     if (id) {
@@ -305,6 +256,59 @@ export class GameComponent {
       }); //TODO handle error?
     } else {
       this.editReady = false;
-    }
   }
+}*/
+  /* depricated?
+onInput(event: Event): void {
+  if (this.i == 0) {
+    this.games.forEach((game) => this.options.push(game.title));
+    this.i++;
+  }
+  const value = (event.target as HTMLInputElement).value.toLowerCase();
+  this.inputValue = value;
+  this.filteredOptions = this.options.filter((option) =>
+  option.toLowerCase().includes(value)
+);
+}
+*/
+  /* depricated?
+editGame(option: string) {
+  this.games.forEach((game) => {
+    if (option === game.title) {
+      console.log(game.id);
+      this.router.navigate(['edit-game', game.id]);
+    }
+  });
+}
+*/
+  /* moved to edit-game.component.ts
+updateGame() {
+  this.gameService
+  .updateGame(
+    this.updateForm.value.id ?? 0,
+    this.updateForm.value.title ?? '',
+    this.updateForm.value.synopsis ?? '',
+    this.updateForm.value.releaseDate ?? '',
+    this.updateForm.value.portrait ?? '',
+    this.updateForm.value.banner ?? '',
+    (this.gameForm.value.pictures as (string | null)[]).filter(
+      (picture): picture is string => picture !== null
+    ) ?? [],
+    this.updateForm.value.franchise ?? 0
+  )
+  .subscribe((responseGame) => (this.game = responseGame));
+}
+*/
+  /* moved to edit-game.component.ts
+updateForm = new FormGroup({
+  id: new FormControl(0),
+  title: new FormControl(''),
+  synopsis: new FormControl(''),
+  releaseDate: new FormControl(''),
+  portrait: new FormControl(''),
+  banner: new FormControl(''),
+  pictures: new FormArray([new FormControl('')]),
+  franchise: new FormControl(0),
+});
+*/
 }

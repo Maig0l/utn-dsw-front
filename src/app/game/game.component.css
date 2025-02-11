@@ -5,7 +5,7 @@ section {
   font-size: 24px;
   border: 2px solid #012b59;
   padding: 16px;
-  color: #E5E5E5;
+  color: #e5e5e5;
 }
 
 form {
@@ -17,22 +17,22 @@ form {
 section h1 {
   font-size: 2.5rem;
   margin-bottom: 20px;
-  color: #E5E5E5;
+  color: #e5e5e5;
 }
 
 section p {
   font-size: 1.2rem;
   margin-bottom: 30px;
-  color: #E5E5E5;
+  color: #e5e5e5;
 }
 
 section h2 {
   margin-top: 40px;
-  color: #E5E5E5;
+  color: #e5e5e5;
 }
 
 label {
   display: block;
   margin-bottom: 10px;
-  color: #E5E5E5;
+  color: #e5e5e5;
 }

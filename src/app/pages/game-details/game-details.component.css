@@ -121,9 +121,9 @@ main {
   border-radius: 5px;
   margin-bottom: 15px;
 }
-.game-image {
-  width: 100px;
-  height: 100px;
+.game-portrait {
+  width: 150px;
+  height: 150px;
   object-fit: cover;
   border-radius: 5px;
   margin-right: 15px;

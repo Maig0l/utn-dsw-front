@@ -3,7 +3,7 @@
   <form [formGroup]="gameForm" (submit)="addGame()">
     <mat-form-field>
       <mat-label>Title</mat-label>
-      <input matInput matInput type="text" id="title" formControlName="title" />
+      <input matInput type="text" id="title" formControlName="title" />
     </mat-form-field>
     <mat-form-field>
       <mat-label for="synopsis">Synopsis</mat-label>
@@ -56,11 +56,6 @@
     <button mat-mini-fab type="button" (click)="addPictureInput()">
       <mat-icon>add</mat-icon>
     </button>
-
-    <!--mat-form-field>
-      <mat-label for="franchise">Franchise ID (should be NAME)</mat-label>
-      <input matInput type="text" id="franchise" formControlName="franchise" />
-    </mat-form-field-->
 
     <mat-form-field class="example-full-width">
       <mat-label>Franchise (fix)</mat-label>
@@ -145,7 +140,7 @@
   </form>
 </section>
 
-<!-- UPDATE -->
+<!-- UPDATE 
 <section class="column">
   <h1>Enter Game ID to Edit</h1>
   <form [formGroup]="gameIdForm">
@@ -191,7 +186,7 @@
     </form>
   </div>
 </section>
-
+-->
 <section>
   <h1>Delete a game</h1>
   <form [formGroup]="deleteForm" (submit)="deleteGame()">

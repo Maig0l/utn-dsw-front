@@ -1,14 +1,22 @@
-import { Injectable } from '@angular/core';
+import {inject, Injectable} from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { map, Observable } from 'rxjs';
+import {API_URL} from "../../../main";
+import {Review} from "../../model/review.type";
 
-export interface Review {
+export interface IReview {
   id: number
   author: number
   game: number
   score: number /*for now*/
   title: string
   body: string
+}
+
+export type ReviewPostBody = {
+  score: number;
+  title: string | undefined;
+  body: string | undefined;
 }
 
 interface ApiResponse {
@@ -18,19 +26,32 @@ interface ApiResponse {
 
 @Injectable()
 export class ReviewService {
-  constructor(private http: HttpClient) { }
+  http = inject(HttpClient);
+  reviewsEndpoint = `${API_URL}/reviews`;
 
-  // TODO: Guardar la URL base y rutas de endpoints en algún archivo de config global
-  reviewsEndpoint = "http://localhost:8080/api/reviews"
-
-  getAllReviews(): Observable<Review[]> {
-    return this.http.get<ApiResponse>(this.reviewsEndpoint)
-      // Devuelve lo que está dentro de data en el objeto de respuesta
-      .pipe(map(response => response.data))
-    }
-
-  addReview(author: number, game: number, score: number, title: string, body: string): Observable<Review> {
-    return this.http.post<Review>(this.reviewsEndpoint, { author, game, score, title, body })
+  getAllReviews() {
+    return this.http
+      .get<ApiResponse>(this.reviewsEndpoint)
+      .pipe(
+        map(res => res.data as Review[])
+      )
   }
- 
+
+  postReview(userToken: string, gameId: number, postBody: ReviewPostBody) {
+    const authHeader = `Bearer ${userToken}`;
+    const endpoint = `${API_URL}/games/${gameId}/reviews`;
+    return this.http.post<ApiResponse>(
+      endpoint,
+      postBody,
+      {
+        headers: {authorization: authHeader},
+      }
+    )
+  }
+
+  /** @deprecated */
+  addReview(author: number, game: number, score: number, title: string, body: string): Observable<IReview> {
+    return this.http.post<IReview>(this.reviewsEndpoint, { author, game, score, title, body })
+  }
+
 }

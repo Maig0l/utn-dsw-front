@@ -4,8 +4,9 @@ import { map, Observable } from 'rxjs';
 import { Tag } from './tag.service.js';
 import { Studio } from './studio.service.js';
 import { Platform } from './platform.service.js';
-import { Review } from './review.service.js';
+import { IReview } from './review.service.js';
 import { CollectionViewer } from '@angular/cdk/collections/index.js';
+import {Review} from "../../model/review.type";
 
 export interface Pictures {
   url: string[];
@@ -22,7 +23,7 @@ export interface Game {
   tags: Tag[];
   studios: Studio[];
   platforms: Platform[];
-  reviews: Review[];
+  reviews: IReview[] | Review[];
 }
 
 interface ApiResponse {

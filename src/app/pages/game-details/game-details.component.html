@@ -63,6 +63,10 @@
       </div>
     </section>
 
-    <app-review></app-review>
+    <!-- TODO: @If(usuarioEstáLogueado) { <app-review-form></app-review-form> } -->
+    <app-review-form [game]="this.game">
+    </app-review-form>
+
+    <!-- TODO: Sacar la lista de reviews del componente review-form y ponerlas acá en un @for -->
   </section>
 </main>

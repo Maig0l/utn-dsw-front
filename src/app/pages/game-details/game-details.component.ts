@@ -2,7 +2,7 @@ import { Component } from '@angular/core';
 import { FormControl, FormGroup, ReactiveFormsModule } from '@angular/forms';
 import { Game, GameService } from '../../components/services/game.service';
 import {
-  Review,
+  IReview,
   ReviewService,
 } from '../../components/services/review.service';
 import { ActivatedRoute, Router, RouterOutlet } from '@angular/router';
@@ -46,7 +46,7 @@ export class GameDetailsComponent implements OnInit, OnDestroy {
 
   gameId!: number;
   game!: Game;
-  review!: Review;
+  review!: IReview;
   editing!: boolean;
 
   reviewForm = new FormGroup({

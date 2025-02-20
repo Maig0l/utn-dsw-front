@@ -15,19 +15,9 @@
 <section class="review-list">
   <h2>Latest reviews</h2> <!-- From friends? -->
   <div class="reviews-container">
-  @for (review of reviews; track review.id){
-  <div class="review-card">
-    <b class="review-title">{{review.game}}</b>
-    <b class="review-title">{{review.title}}</b>
-    <p class="review-text">{{review.body}}</p>
-    <p class="review-rating">
-      Score:
-      <span *ngFor="let star of [1, 2, 3, 4, 5]; let i = index">
-        <span *ngIf="i < review.score">★</span>
-        <span *ngIf="i >= review.score">☆</span>
-      </span>
-    </p>
-  </div>}
+  @for (review of reviews(); track review.id){
+    <app-review-card [review]="review"></app-review-card>
+  }
 </div>
 
 <section *ngIf="!userLoginOn" class="cta"> <!-- TODO -->

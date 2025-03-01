@@ -53,9 +53,6 @@
   justify-content: center;
 }
 
-.dot:after {
-  content: "●";
-}
 .dot {
   margin: 0 3px;
   cursor: pointer;

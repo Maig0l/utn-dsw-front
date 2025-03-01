@@ -15,7 +15,7 @@ import { HttpClientModule } from '@angular/common/http';
 })
 export class LoginComponent {
 
-  loginError: string = "";
+  loginError = "";
 
   loginForm = this.fb.group({
     username: ['', Validators.required], //, Validators.minLength(6) lo rompe todo?
@@ -30,7 +30,7 @@ export class LoginComponent {
 
   login() {
     if (this.loginForm.valid) {
-      let requestBody: LoginRequest = {
+      const requestBody: LoginRequest = {
         nick: this.username.value ?? '',
         password: this.password.value ?? ''
       }

@@ -10,7 +10,6 @@ import { MatSelectModule } from '@angular/material/select';
 import { MatIconModule } from '@angular/material/icon';
 import { MatDividerModule } from '@angular/material/divider';
 import { MatCheckboxModule } from '@angular/material/checkbox';
-import { Game } from '../../model/game.model'
 import {Playlist} from "../../model/playlist.model";
 
 @Component({
@@ -43,7 +42,7 @@ export class PlaylistComponent implements OnInit {
   }
 
   userPlaylists: Playlist[] = [];
-  user: number = 1; //TODO: Cambiar por User
+  user = 1; //TODO: Cambiar por User
 
   getPlaylistsByOwner(user: number) {
     console.log('GET PLAYLISTS BY OWNER ', user);
@@ -179,7 +178,7 @@ export class PlaylistComponent implements OnInit {
     .subscribe(responsePlaylist => this.playlist = responsePlaylist)
   }
 
-  editReady: boolean = false;
+  editReady = false;
 
   populateForm() {
     const id = this.playlistIdForm.get('id')?.value;

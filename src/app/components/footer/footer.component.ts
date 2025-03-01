@@ -1,6 +1,6 @@
 import { Component, OnInit, inject, PLATFORM_ID } from '@angular/core';
-import { CommonModule, isPlatformBrowser } from '@angular/common';
-import { RouterOutlet, Router } from '@angular/router';
+import { isPlatformBrowser } from '@angular/common';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-footer',
@@ -10,15 +10,15 @@ import { RouterOutlet, Router } from '@angular/router';
   styleUrl: './footer.component.css'
 })
 export class FooterComponent implements OnInit {
-  
+
     constructor(private router: Router) {}
-  
+
     redirect(path: string) {
       this.router.navigate([path]); // Funcion para redirigir a una ruta
   }
 
   private platformId = inject(PLATFORM_ID);
-  currentYear: number = 0;
+  currentYear = 0;
 
   ngOnInit() {
     if (isPlatformBrowser(this.platformId)) {

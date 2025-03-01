@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import {
   FormArray,
   FormControl,
@@ -37,7 +37,7 @@ import {Tag} from "../../model/tag.model";
   templateUrl: './edit-game.component.html',
   styleUrl: './edit-game.component.css',
 })
-export class EditGameComponent {
+export class EditGameComponent implements OnInit {
   id!: number;
   game!: Game;
   tag: Tag | undefined;
@@ -50,8 +50,8 @@ export class EditGameComponent {
 
   options: string[] = [];
   filteredOptions: string[] = [];
-  inputValue: string = '';
-  showDropdown: boolean = false;
+  inputValue = '';
+  showDropdown = false;
   hoveredOption: string | null = null;
 
   constructor(
@@ -102,10 +102,6 @@ export class EditGameComponent {
     platform: new FormControl(0),
   });
 
-  showTags() {
-    this;
-  }
-
   ngOnInit() {
     this.tagService
       .getAllTags()
@@ -120,7 +116,7 @@ export class EditGameComponent {
       const day = ('0' + date.getDate()).slice(-2);
       const formatedDate = `${year}-${month}-${day}`;
 
-      for (let i = 0; i < stringified.length; i++) {
+      for (const i of stringified.length) {
         this.pictures2.push(stringified[i].url);
       }
       //this.index = this.pictures.length;
@@ -196,7 +192,7 @@ export class EditGameComponent {
         this.updateForm.value.franchise ?? 0
       )
       .subscribe((responseGame) => {
-        (this.game = responseGame), console.log(responseGame);
+        this.game = responseGame
       });
   }
 

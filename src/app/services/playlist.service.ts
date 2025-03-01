@@ -2,11 +2,8 @@ import {Injectable} from '@angular/core';
 import {HttpClient} from '@angular/common/http';
 import {map, Observable} from 'rxjs';
 import {Playlist} from "../model/playlist.model";
+import {ApiResponse} from "../model/apiResponse.model";
 
-interface ApiResponse {
-  message: string;
-  data: any;
-}
 
 @Injectable({
   providedIn: 'root',
@@ -20,14 +17,14 @@ export class PlaylistService {
     const url = this.playlistEndpoint + `/search?owner=${owner}`;
     console.log(url);
     return this.http
-      .get<ApiResponse>(url)
+      .get<ApiResponse<Playlist[]>>(url)
       .pipe(map((response) => response.data));
   }
 
   getAllPlaylists(): Observable<Playlist[]> {
     return (
       this.http
-        .get<ApiResponse>(this.playlistEndpoint)
+        .get<ApiResponse<Playlist[]>>(this.playlistEndpoint)
         // Devuelve lo que está dentro de data en el objeto de respuesta
         .pipe(map((response) => response.data))
     );
@@ -70,13 +67,13 @@ export class PlaylistService {
 
   deletePlaylist(id: number): Observable<Playlist> {
     const url = this.playlistEndpoint + `/${id}`;
-    return this.http.delete<ApiResponse>(url).pipe(map((res) => res.data));
+    return this.http.delete<ApiResponse<Playlist>>(url).pipe(map((res) => res.data));
   }
 
   getOnePlaylist(id: number): Observable<Playlist> {
     const url = this.playlistEndpoint + `/${id}`;
     return this.http
-      .get<ApiResponse>(url)
+      .get<ApiResponse<Playlist>>(url)
       .pipe(map((response) => response.data));
   }
 }

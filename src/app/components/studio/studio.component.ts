@@ -1,4 +1,4 @@
-import { Component, Input } from '@angular/core';
+import { Component} from '@angular/core';
 import { RouterOutlet } from '@angular/router';
 import { StudioService } from '../../services/studio.service';
 import { FormControl, FormGroup, ReactiveFormsModule } from '@angular/forms';

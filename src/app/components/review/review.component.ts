@@ -1,9 +1,8 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { GameService } from '../../services/game.service';
 import { ActivatedRoute, Router, RouterOutlet } from '@angular/router';
 import { ReviewService } from '../../services/review.service';
 import { FormControl, FormGroup, ReactiveFormsModule } from '@angular/forms';
-import { Title } from '@angular/platform-browser';
 import { CommonModule } from '@angular/common';
 import { Game } from '../../model/game.model';
 import {Review} from "../../model/review.model";
@@ -19,7 +18,7 @@ import {Review} from "../../model/review.model";
   styleUrl: './review.component.css'
 })
 
-export class ReviewComponent {
+export class ReviewComponent implements OnInit {
 
   reviewForm = new FormGroup({
 

@@ -1,6 +1,6 @@
 import { CommonModule } from '@angular/common';
-import {Component, OnDestroy, OnInit, signal} from '@angular/core';
-import { Router, RouterOutlet } from '@angular/router';
+import {Component, OnDestroy, OnInit } from '@angular/core';
+import { Router } from '@angular/router';
 import { LoginService } from '../../services/auth/login.service.js';
 import { User } from '../../model/user.model';
 import { ViewGameComponent } from '../../components/view-game/view-game.component.js';
@@ -14,14 +14,14 @@ import {GameService} from "../../services/game.service";
 @Component({
   selector: 'app-homepage',
   standalone: true,
-  imports: [RouterOutlet, CommonModule, ViewGameComponent, ReviewCardComponent],
+  imports: [CommonModule, ViewGameComponent, ReviewCardComponent],
   providers: [ReviewService],
   templateUrl: './homepage.component.html',
   styleUrl: './homepage.component.css'
 })
 
 export class HomepageComponent implements OnInit, OnDestroy {
-  userLoginOn: boolean = false;
+  userLoginOn = false;
   userData?: User;
   reviews: Review[] = []
   hotGames: Game[] = []
@@ -47,7 +47,7 @@ export class HomepageComponent implements OnInit, OnDestroy {
     });
 
     this.loginService.currentUserData.subscribe({
-      next: (userData) => this.userData = userData
+      //next: (userData) => this.userData = userData
     });
 
     this.reviewService.getAllReviews()

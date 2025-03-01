@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { AsyncPipe, CommonModule } from '@angular/common';
+import { AsyncPipe } from '@angular/common';
 import { RouterOutlet, Router } from '@angular/router';
 import { NavComponent } from '../nav/nav.component';
 import { MatAutocompleteModule } from '@angular/material/autocomplete';
@@ -8,10 +8,8 @@ import { MatFormFieldModule } from '@angular/material/form-field';
 import { FormControl, FormsModule, ReactiveFormsModule } from '@angular/forms';
 import {
   debounceTime,
-  filter,
   map,
   Observable,
-  startWith,
   switchMap,
 } from 'rxjs';
 import { GameService } from '../../services/game.service';

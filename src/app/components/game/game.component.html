@@ -44,7 +44,7 @@
           />
         </mat-form-field>
         <button
-          *ngIf="i != 0"
+          *ngIf="i !== 0"
           mat-mini-fab
           type="button"
           (click)="removePictureInput(i)"
@@ -140,7 +140,7 @@
   </form>
 </section>
 
-<!-- UPDATE 
+<!-- UPDATE
 <section class="column">
   <h1>Enter Game ID to Edit</h1>
   <form [formGroup]="gameIdForm">

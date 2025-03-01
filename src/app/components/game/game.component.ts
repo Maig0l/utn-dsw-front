@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import {Component, OnInit} from '@angular/core';
 import { Router, RouterOutlet } from '@angular/router';
 import {
   GameService,
@@ -11,7 +11,6 @@ import {
 } from '@angular/forms';
 import { CommonModule } from '@angular/common';
 import { TagService } from '../../services/tag.service';
-import { ChangeDetectionStrategy } from '@angular/core';
 import { MatSelectModule } from '@angular/material/select';
 import { MatInputModule } from '@angular/material/input';
 import { MatFormFieldModule } from '@angular/material/form-field';
@@ -19,7 +18,7 @@ import { MatButtonModule } from '@angular/material/button';
 import { MatIconModule } from '@angular/material/icon';
 import { MatDividerModule } from '@angular/material/divider';
 import { FranchiseService } from '../../services/franchise.service';
-import { MatAutocompleteModule } from '@angular/material/autocomplete';
+import {MatAutocompleteModule, MatAutocompleteSelectedEvent} from '@angular/material/autocomplete';
 import { Observable, of, startWith, switchMap } from 'rxjs';
 import {Game} from "../../model/game.model";
 import {Franchise} from "../../model/franchise.model";
@@ -43,7 +42,7 @@ import {Tag} from "../../model/tag.model";
   templateUrl: './game.component.html',
   styleUrl: './game.component.css',
 })
-export class GameComponent {
+export class GameComponent implements OnInit {
   gameForm = new FormGroup({
     title: new FormControl(''),
     synopsis: new FormControl(''),
@@ -96,8 +95,8 @@ export class GameComponent {
 
   options: string[] = [];
   filteredOptions: string[] = [];
-  inputValue: string = '';
-  showDropdown: boolean = false;
+  inputValue = '';
+  showDropdown = false;
   hoveredOption: string | null = null;
 
   i = 0;
@@ -145,7 +144,7 @@ export class GameComponent {
     );
   }
 
-  selectFranchise($event: any): void {
+  selectFranchise($event: MatAutocompleteSelectedEvent): void {
     const frName = $event.option.value;
     const frId = this.frOptions.find((fr) => fr.name === frName)?.id;
     this.gameForm.patchValue({ franchise: frId });
@@ -201,7 +200,7 @@ export class GameComponent {
       .deleteGame(this.deleteForm.value.id ?? 0)
       .subscribe((res) => console.log(res));
   }
-  editReady: boolean = false;
+  editReady = false;
 
   addTagsToGame() {
     this.gameService

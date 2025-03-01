@@ -2,11 +2,10 @@ import {Injectable} from '@angular/core';
 import {HttpClient} from '@angular/common/http';
 import {map, Observable} from 'rxjs';
 import {Shop} from "../model/shop.model";
+import {ApiResponse} from "../model/apiResponse.model";
 
-interface ApiResponse {
-  message: string
-  data: any
-}
+type resShopArray = ApiResponse<Shop[]>;
+type resShopSingle = ApiResponse<Shop>;
 
 @Injectable({
   providedIn: 'root'
@@ -18,7 +17,7 @@ export class ShopService {
   shopsEndpoint = "http://localhost:8080/api/shops"
 
   getAllShops(): Observable<Shop[]> {
-    return this.http.get<ApiResponse>(this.shopsEndpoint)
+    return this.http.get<resShopArray>(this.shopsEndpoint)
       // Devuelve lo que está dentro de data en el objeto de respuesta
       .pipe(map(response => response.data))
     }
@@ -29,7 +28,7 @@ export class ShopService {
 
   deleteShop(id: string): Observable<Shop> {
     const url = this.shopsEndpoint + `/${id}`
-    return this.http.delete<ApiResponse>(url)
+    return this.http.delete<resShopSingle>(url)
       .pipe(map(res => res.data))
   }
 }

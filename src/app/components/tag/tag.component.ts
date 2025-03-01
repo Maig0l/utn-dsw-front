@@ -77,7 +77,7 @@ export class TagComponent {
       .subscribe(res => console.log(res))
     }
 
-  editReady: boolean = false;
+  editReady = false;
 
   populateForm() {
     const id = this.tagIdForm.get('id')?.value;

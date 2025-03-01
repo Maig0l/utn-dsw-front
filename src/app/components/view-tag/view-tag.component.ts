@@ -1,13 +1,12 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { TagService } from '../../services/tag.service';
 import { RouterOutlet } from '@angular/router';
 import { DatePipe, NgFor, NgIf } from '@angular/common';
-import { FormControl, FormGroup, ReactiveFormsModule } from '@angular/forms';
+import { ReactiveFormsModule } from '@angular/forms';
 import {MatProgressBarModule} from '@angular/material/progress-bar';
 import {MatCardModule} from '@angular/material/card';
 import {MatChipsModule} from '@angular/material/chips';
 import {MatGridListModule, MatGridTile} from '@angular/material/grid-list';
-import { map, Observable, startWith } from 'rxjs';
 import {AsyncPipe} from '@angular/common';
 
 import { MatFormField } from '@angular/material/form-field';
@@ -24,12 +23,12 @@ import {Tag} from "../../model/tag.model";
   templateUrl: './view-tag.component.html',
   styleUrl: './view-tag.component.css'
 })
-export class ViewTagComponent {
+export class ViewTagComponent implements OnInit {
 
   options: string[] = [ ];
   filteredOptions: string[] = [];
-  inputValue: string = '';
-  showDropdown: boolean = false;
+  inputValue = '';
+  showDropdown = false;
   hoveredOption: string | null = null;
 
   i=0;

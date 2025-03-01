@@ -1,4 +1,4 @@
-import {Component, Input, OnInit} from '@angular/core';
+import {Component, Input} from '@angular/core';
 import { DatePipe } from '@angular/common';
 import { GameService } from '../../services/game.service';
 import {RouterLink, RouterOutlet} from '@angular/router';

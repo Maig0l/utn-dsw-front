@@ -2,19 +2,11 @@ import { Component } from '@angular/core';
 import { FormControl, FormGroup, ReactiveFormsModule } from '@angular/forms';
 import { GameService } from '../../services/game.service';
 import { ReviewService } from '../../services/review.service';
-import { ActivatedRoute, Router, RouterOutlet } from '@angular/router';
+import { ActivatedRoute, RouterOutlet } from '@angular/router';
 import {CommonModule, NgOptimizedImage} from '@angular/common';
 import { ReviewComponent } from '../../components/review/review.component';
 
 import { Input, OnDestroy, OnInit } from '@angular/core';
-import {
-  interval,
-  Observable,
-  startWith,
-  Subject,
-  switchMap,
-  timer,
-} from 'rxjs';
 import {Game} from "../../model/game.model";
 import {Review} from "../../model/review.model";
 import {Studio} from "../../model/studio.model";
@@ -41,7 +33,7 @@ export class GameDetailsComponent implements OnInit, OnDestroy {
   ) {}
 
   @Input() slides: SlideInterface[] = [];
-  currentIndex: number = 0;
+  currentIndex = 0;
   timeoutId?: number;
 
   gameId!: number;

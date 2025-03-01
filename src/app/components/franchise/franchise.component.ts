@@ -1,7 +1,7 @@
 import { Component } from '@angular/core';
 import { RouterOutlet } from '@angular/router';
 import { FranchiseService } from '../../services/franchise.service';
-import { FormArray, FormBuilder, FormControl, FormGroup, ReactiveFormsModule } from '@angular/forms';
+import { FormBuilder, FormControl, FormGroup, ReactiveFormsModule } from '@angular/forms';
 import { CommonModule } from '@angular/common';
 import {Franchise} from "../../model/franchise.model";
 
@@ -67,7 +67,7 @@ export class FranchiseComponent {
     .subscribe(res => console.log(res))
   }
 
-  editReady: boolean = false;
+  editReady = false;
 
   populateForm() {
   const id = this.franchiseIdForm.get('id')?.value;

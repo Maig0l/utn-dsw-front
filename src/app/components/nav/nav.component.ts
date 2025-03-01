@@ -1,5 +1,5 @@
 import { CommonModule } from '@angular/common';
-import { Component, OnDestroy } from '@angular/core';
+import { Component, OnDestroy, OnInit } from '@angular/core';
 import { RouterOutlet, Router } from '@angular/router';
 import { LoginService } from '../../services/auth/login.service';
 
@@ -10,8 +10,8 @@ import { LoginService } from '../../services/auth/login.service';
   templateUrl: './nav.component.html',
   styleUrl: './nav.component.css'
 })
-export class NavComponent implements OnDestroy {
-  userLoginOn: boolean = false;
+export class NavComponent implements OnDestroy, OnInit {
+  userLoginOn = false;
 
     constructor(private router: Router, private loginService: LoginService) {}
 

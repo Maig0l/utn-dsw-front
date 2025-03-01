@@ -5,7 +5,7 @@ import {API_URL} from "../../main";
 import {Review} from "../model/review.model";
 import {ApiResponse} from "../model/apiResponse.model";
 
-export type ReviewPostBody = {
+export interface ReviewPostBody {
   score: number;
   title: string | undefined;
   body: string | undefined;

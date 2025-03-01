@@ -68,7 +68,7 @@ export class PlatformComponent {
       .subscribe(res => console.log(res))
     }
 
-  editReady: boolean = false;
+  editReady = false;
 
   populateForm() {
     const id = this.platformIdForm.get('id')?.value;

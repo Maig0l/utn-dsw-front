@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { FormBuilder,Validators, ReactiveFormsModule, FormGroup, FormControl } from '@angular/forms';
+import { FormBuilder,Validators, ReactiveFormsModule } from '@angular/forms';
 import { Router } from '@angular/router';
 import { CommonModule } from '@angular/common';
 import { RegisterService } from '../../services/auth/register.service.js';
@@ -7,7 +7,7 @@ import { RegisterRequest } from '../../services/auth/registerRequest.js';
 import { HttpClientModule } from '@angular/common/http';
 
 @Component({
-  selector: 'register',
+  selector: 'app-register',
   standalone: true,
   imports: [ReactiveFormsModule, CommonModule, HttpClientModule],
   templateUrl: './register.component.html',
@@ -16,7 +16,7 @@ import { HttpClientModule } from '@angular/common/http';
 
 export class RegisterComponent {
 
-  registerError: string ="";
+  registerError ="";
 /*
   passwordForm: FormGroup = new FormGroup({
     password: new FormControl<String>('', Validators.required),

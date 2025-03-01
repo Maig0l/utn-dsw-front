@@ -1,13 +1,8 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { map, Observable } from 'rxjs';
-import { CollectionViewer } from '@angular/cdk/collections/index.js';
-import {Review} from "../model/review.model";
 import {ApiResponse} from "../model/apiResponse.model";
 import {Game} from "../model/game.model";
-import {Platform} from "../model/platform.model";
-import {Studio} from "../model/studio.model";
-import {Tag} from "../model/tag.model";
 import {API_URL} from "../../main";
 
 

@@ -3,7 +3,7 @@ import { FormControl, FormGroup, ReactiveFormsModule } from '@angular/forms';
 import { GameService } from '../../services/game.service';
 import { ReviewService } from '../../services/review.service';
 import { ActivatedRoute, Router, RouterOutlet } from '@angular/router';
-import { CommonModule } from '@angular/common';
+import {CommonModule, NgOptimizedImage} from '@angular/common';
 import { ReviewComponent } from '../../components/review/review.component';
 
 import { Input, OnDestroy, OnInit } from '@angular/core';
@@ -27,7 +27,7 @@ export interface SlideInterface {
 @Component({
   selector: 'app-game-details',
   standalone: true,
-  imports: [ReactiveFormsModule, CommonModule, ReviewComponent],
+  imports: [ReactiveFormsModule, CommonModule, ReviewComponent, NgOptimizedImage],
   providers: [RouterOutlet, GameService, ReviewService],
   templateUrl: './game-details.component.html',
   styleUrl: './game-details.component.css',
@@ -65,6 +65,7 @@ export class GameDetailsComponent implements OnInit, OnDestroy {
     window.clearTimeout(this.timeoutId);
   }
 
+  // TODO: What is this for?
   resetTimer() {
     if (this.timeoutId) {
       window.clearTimeout(this.timeoutId);

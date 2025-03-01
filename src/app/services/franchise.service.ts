@@ -2,17 +2,8 @@ import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { map, Observable } from 'rxjs';
 import { Game } from '../model/game.model';
-
-export interface Franchise {
-  id: number
-  name: string,
-  games: Game[]
-}
-
-interface ApiResponse {
-  message: string
-  data: any
-}
+import {Franchise} from "../model/franchise.model";
+import {ApiResponse} from "../model/apiResponse.model";
 
 @Injectable()
 export class FranchiseService {
@@ -22,7 +13,7 @@ export class FranchiseService {
   franchisesEndpoint = "http://localhost:8080/api/franchises"
 
   getAllFranchises(): Observable<Franchise[]> {
-    return this.http.get<ApiResponse>(this.franchisesEndpoint)
+    return this.http.get<ApiResponse<Franchise[]>>(this.franchisesEndpoint)
       // Devuelve lo que está dentro de data en el objeto de respuesta
       .pipe(map(response => response.data))
   }
@@ -38,13 +29,13 @@ export class FranchiseService {
 
   deleteFranchise(id: number): Observable<Franchise> {
     const url = this.franchisesEndpoint + `/${id}`
-    return this.http.delete<ApiResponse>(url)
+    return this.http.delete<ApiResponse<Franchise>>(url)
       .pipe(map(res => res.data))
   }
 
     getOneFranchise(id: number): Observable<Franchise> {
     const url = this.franchisesEndpoint + `/${id}`;
-    return this.http.get<ApiResponse>(url)
+    return this.http.get<ApiResponse<Franchise>>(url)
       .pipe(map(response => response.data));
   }
 

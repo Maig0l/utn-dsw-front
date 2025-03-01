@@ -1,8 +1,9 @@
 import { Component } from '@angular/core';
 import { RouterOutlet } from '@angular/router';
-import { FranchiseService, Franchise } from '../../services/franchise.service';
+import { FranchiseService } from '../../services/franchise.service';
 import { FormArray, FormBuilder, FormControl, FormGroup, ReactiveFormsModule } from '@angular/forms';
 import { CommonModule } from '@angular/common';
+import {Franchise} from "../../model/franchise.model";
 
 @Component({
   selector: 'app-franchise',

@@ -18,13 +18,11 @@ import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatButtonModule } from '@angular/material/button';
 import { MatIconModule } from '@angular/material/icon';
 import { MatDividerModule } from '@angular/material/divider';
-import {
-  Franchise,
-  FranchiseService,
-} from '../../services/franchise.service';
+import { FranchiseService } from '../../services/franchise.service';
 import { MatAutocompleteModule } from '@angular/material/autocomplete';
 import { Observable, of, startWith, switchMap } from 'rxjs';
 import {Game} from "../../model/game.model";
+import {Franchise} from "../../model/franchise.model";
 
 @Component({
   selector: 'app-game',

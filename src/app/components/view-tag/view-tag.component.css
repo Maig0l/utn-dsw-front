@@ -1,0 +1,13 @@
+input {
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  font-size: 14px;
+}
+
+li {
+  transition: background 0.2s;
+}
+
+li:hover {
+  background: #f0f0f0;
+}

@@ -1,50 +1,52 @@
-import { Component, Input } from '@angular/core';
+import { Component } from '@angular/core';
 import { RouterOutlet } from '@angular/router';
-import { StudioService, Studio } from '../services/studio.service.js';
+import { StudioService } from '../../services/studio.service';
 import { FormControl, FormGroup, ReactiveFormsModule } from '@angular/forms';
+import { Studio } from '../../model/studio.model';
 
 @Component({
   selector: 'app-studio',
   standalone: true,
   imports: [ReactiveFormsModule],
-  providers: [RouterOutlet,StudioService],
+  providers: [RouterOutlet, StudioService],
   templateUrl: './studio.component.html',
   styleUrls: ['./studio.component.css'],
 })
 export class StudioComponent {
+  studioForm = new FormGroup({
+    name: new FormControl(''),
+    type: new FormControl(''),
+    site: new FormControl(''),
+  });
 
-    studioForm = new FormGroup({
-        name: new FormControl(''),
-        type: new FormControl(''),
-        site: new FormControl('')
-        });
+  deleteForm = new FormGroup({
+    id: new FormControl(''),
+  });
 
-    deleteForm = new FormGroup({
-        id: new FormControl('')
-    })
+  studio: Studio | undefined;
+  studios: Studio[] | undefined;
 
-    studio: Studio | undefined
-    studios: Studio[] | undefined
+  constructor(private studioService: StudioService) {}
 
-    constructor(private studioService: StudioService) { }
+  showStudios() {
+    this.studioService
+      .getAllStudios()
+      .subscribe((responseStudios) => (this.studios = responseStudios));
+  }
 
-    showStudios() {
-        this.studioService.getAllStudios()
-        .subscribe(responseStudios => this.studios = responseStudios)
-    }
+  addStudio() {
+    this.studioService
+      .addStudio(
+        this.studioForm.value.name ?? '',
+        this.studioForm.value.type ?? '',
+        this.studioForm.value.site ?? '',
+      )
+      .subscribe((responseStudio) => (this.studio = responseStudio));
+  }
 
-    addStudio() {
-        this.studioService.addStudio(
-            this.studioForm.value.name ?? "",
-            this.studioForm.value.type ?? "",
-            this.studioForm.value.site ?? ""
-        ).subscribe(responseStudio => this.studio = responseStudio)
-    }
-
-    deleteStudio() {
-        this.studioService.deleteStudio(
-            this.deleteForm.value.id ?? ""
-        )
-        .subscribe(res => console.log(res))
-    }
+  deleteStudio() {
+    this.studioService
+      .deleteStudio(this.deleteForm.value.id ?? '')
+      .subscribe((res) => console.log(res));
+  }
 }

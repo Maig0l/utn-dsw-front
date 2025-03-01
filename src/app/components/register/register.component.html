@@ -1,0 +1,91 @@
+<form [formGroup]="registerForm">
+  <p class="text-danger">{{ registerError }}</p>
+  <fieldset>
+    <legend>Register</legend>
+    <label>
+      Username
+      <input
+        formControlName="username"
+        name="Usename"
+        placeholder="username"
+        autocomplete="username"
+      />
+      <div
+        *ngIf="username.invalid && (username.dirty || username.touched)"
+        class="alert alert-danger"
+      >
+        <div *ngIf="username.hasError('required')" class="text-danger">
+          Username is required.
+        </div>
+        <div *ngIf="username.hasError('minlength')">
+          Username must be at least 4 characters long.
+        </div>
+        <div *ngIf="username.hasError('forbiddenusername')">
+          Username cannot be Bob.
+        </div>
+      </div>
+    </label>
+    <label>
+      Password
+      <input
+        formControlName="password"
+        type="password"
+        name="password"
+        placeholder="password"
+        autocomplete="password"
+      />
+      <div
+        *ngIf="password.invalid && (password.dirty || password.touched)"
+        class="alert alert-danger"
+      >
+        <div *ngIf="password.hasError('required')" class="text-danger">
+          Password is required.
+        </div>
+        <div *ngIf="password.hasError('minlength')">
+          Password must be at least 4 characters long.
+        </div>
+      </div>
+    </label>
+    <label>
+      Password Confirmation
+      <input
+        formControlName="password"
+        type="password"
+        name="password"
+        placeholder="password"
+        autocomplete="password"
+      />
+      <div
+        *ngIf="password.invalid && (password.dirty || password.touched)"
+        class="alert alert-danger"
+      >
+        <div *ngIf="password.hasError('required')" class="text-danger">
+          Please rewrite the password.
+          <div *ngIf="password.touched && password.errors?.['notEqual']">
+            Passwords must match.
+          </div>
+        </div>
+      </div>
+    </label>
+    <label>
+      Email Email
+      <input
+        formControlName="email"
+        type="email"
+        name="email"
+        placeholder="email"
+        autocomplete="email"
+        ngModel
+        email="true"
+      />
+      <div
+        *ngIf="email.invalid && (email.dirty || email.touched)"
+        class="alert alert-danger"
+      >
+        Please enter a valid email.
+      </div>
+    </label>
+  </fieldset>
+
+  <input type="submit" (click)="register()" value="Register" />
+</form>

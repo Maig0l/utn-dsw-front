@@ -1,41 +1,38 @@
 <section>
-    <h1>Listing studio</h1>
+  <h1>Listing studio</h1>
 
-    <button (click)="showStudios()">Get Studio</button>
+  <button (click)="showStudios()">Get Studio</button>
 
-    @for (studio of studios; track studio.id) {
+  @for (studio of studios; track studio.id) {
     <div class="studio-item">
-        <small>[{{ studio.id }}]</small>&nbsp;
-        <b>{{ studio.name }}</b> &nbsp;
+      <small>[{{ studio.id }}]</small>&nbsp; <b>{{ studio.name }}</b> &nbsp;
     </div>
-    }
+  }
 </section>
 <section>
-    <h1>Create new studio</h1>
-    <form [formGroup]="studioForm" (submit)="addStudio()">
-       <label for="name">Name</label>
-       <input type="text" id="name" formControlName="name">
+  <h1>Create new studio</h1>
+  <form [formGroup]="studioForm" (submit)="addStudio()">
+    <label for="name">Name</label>
+    <input type="text" id="name" formControlName="name" />
 
+    <label for="type">Type</label>
+    <select id="type" formControlName="type" required>
+      <option value="Developer">Developer</option>
+      <option value="Publisher">Publisher</option>
+      <option value="Both">Both</option>
+    </select>
 
-       <label for="type">Type</label>
-       <select id="type" formControlName="type" required>
-           <option value="Developer">Developer</option>
-           <option value="Publisher">Publisher</option>
-           <option value="Both">Both</option>
-       </select>
+    <label for="site">Site</label>
+    <input type="text" id="site" formControlName="site" />
 
-       <label for="site">Site</label>
-       <input type="text" id="site" formControlName="site">
-
-       <button type="submit" class="primary" >Create</button>
-       </form>
-    </section>
+    <button type="submit" class="primary">Create</button>
+  </form>
+</section>
 
 <section>
-    <h1>Delete a studio</h1>
-    <form [formGroup]="deleteForm" (submit)="deleteStudio()">
-        <input type="number"formControlName="id">
-        <input type="submit">
-    </form>
+  <h1>Delete a studio</h1>
+  <form [formGroup]="deleteForm" (submit)="deleteStudio()">
+    <input type="number" formControlName="id" />
+    <input type="submit" />
+  </form>
 </section>
-   

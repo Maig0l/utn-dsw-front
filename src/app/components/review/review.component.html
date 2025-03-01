@@ -25,7 +25,7 @@
                                     <p class="game-publisher"> {{studio.name}}</p>
                                     </ng-container>}
                             </div>
-                        </div>                        
+                        </div>
                            @for (platform of game.platforms; track platform.id){
                             <img src="{{platform.img}}" class="platform-logo">}
                     </div>
@@ -67,18 +67,18 @@
 
   <!--Lista de reseñas de otros usuarios -->
   <section class="review-list">
-    @for (review of game.reviews; track review.id){
-    <div class="review-card">
-      <b class="review-title">{{ review.title }}</b>
-      <p class="review-text">{{ review.body }}</p>
-      <p class="review-rating">
-        Score:
-        <span *ngFor="let star of [1, 2, 3, 4, 5]; let i = index">
-          <span *ngIf="i < review.score">★</span>
-          <span *ngIf="i >= review.score">☆</span>
-        </span>
-      </p>
-    </div>
+    @for (review of game.reviews; track review.id) {
+      <div class="review-card">
+        <b class="review-title">{{ review.title }}</b>
+        <p class="review-text">{{ review.body }}</p>
+        <p class="review-rating">
+          Score:
+          <span *ngFor="let star of [1, 2, 3, 4, 5]; let i = index">
+            <span *ngIf="i < review.score">★</span>
+            <span *ngIf="i >= review.score">☆</span>
+          </span>
+        </p>
+      </div>
     }
 
     <!-- Más reseñas pueden añadirse aquí-->

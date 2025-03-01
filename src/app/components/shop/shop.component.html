@@ -1,38 +1,40 @@
 <section>
-    <h1>Listing: Shops</h1>
+  <h1>Listing: Shops</h1>
 
   <button (click)="showShops()">Get Shops</button>
 
   @for (shop of shops; track shop.id) {
-  <div class="shop-item">
-    <small>[{{ shop.id }}]</small>&nbsp;
-    <b>{{ shop.name }}</b> &nbsp;
-  <i><a href="{{ shop.site }}" target="_blank" rel="noopener noreferrer">{{ shop.site }}</a></i>
-  </div>
-}
+    <div class="shop-item">
+      <small>[{{ shop.id }}]</small>&nbsp; <b>{{ shop.name }}</b> &nbsp;
+      <i
+        ><a href="{{ shop.site }}" target="_blank" rel="noopener noreferrer">{{
+          shop.site
+        }}</a></i
+      >
+    </div>
+  }
 </section>
 
 <section>
-    <h1>Create new shop</h1>
-    <form [formGroup]="shopForm" (submit)="addShop()">
-       <label for="name">Name</label>
-       <input type="text" id="name" formControlName="name">
+  <h1>Create new shop</h1>
+  <form [formGroup]="shopForm" (submit)="addShop()">
+    <label for="name">Name</label>
+    <input type="text" id="name" formControlName="name" />
 
-       <label for="img">Img</label>
-        <input type="text" id="img" formControlName="img">
+    <label for="img">Img</label>
+    <input type="text" id="img" formControlName="img" />
 
-       <label for="site">Site</label>
-        <input type="text" id="site" formControlName="site">
+    <label for="site">Site</label>
+    <input type="text" id="site" formControlName="site" />
 
-        <button type="submit" class="primary" >Create</button>
-        </form>
-      </section>
-
-<section>
-    <h1>Delete a shop</h1>
-    <form [formGroup]="deleteForm" (submit)="deleteShop()">
-        <input type="number"formControlName="id">
-        <input type="submit">
-    </form>
+    <button type="submit" class="primary">Create</button>
+  </form>
 </section>
 
+<section>
+  <h1>Delete a shop</h1>
+  <form [formGroup]="deleteForm" (submit)="deleteShop()">
+    <input type="number" formControlName="id" />
+    <input type="submit" />
+  </form>
+</section>

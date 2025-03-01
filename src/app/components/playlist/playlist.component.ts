@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { Playlist, PlaylistService } from '../services/playlist.service.js';
+import { PlaylistService } from '../../services/playlist.service';
 import {
   FormArray,
   FormBuilder,
@@ -9,7 +9,6 @@ import {
 } from '@angular/forms';
 import { CommonModule } from '@angular/common';
 import { RouterOutlet } from '@angular/router';
-import { Game } from '../services/game.service.js';
 import { MatInputModule } from '@angular/material/input';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatButtonModule } from '@angular/material/button';
@@ -17,6 +16,7 @@ import { MatSelectModule } from '@angular/material/select';
 import { MatIconModule } from '@angular/material/icon';
 import { MatDividerModule } from '@angular/material/divider';
 import { MatCheckboxModule } from '@angular/material/checkbox';
+import { Playlist } from '../../model/playlist.model';
 
 @Component({
   selector: 'app-playlist',
@@ -39,7 +39,7 @@ import { MatCheckboxModule } from '@angular/material/checkbox';
 export class PlaylistComponent implements OnInit {
   constructor(
     private playlistService: PlaylistService,
-    private formBuilder: FormBuilder
+    private formBuilder: FormBuilder,
   ) {}
 
   //#################################################
@@ -48,7 +48,7 @@ export class PlaylistComponent implements OnInit {
   }
 
   userPlaylists: Playlist[] = [];
-  user: number = 1; //TODO: Cambiar por User
+  user = 1; //TODO: Cambiar por User
 
   getPlaylistsByOwner(user: number) {
     console.log('GET PLAYLISTS BY OWNER ', user);
@@ -56,7 +56,7 @@ export class PlaylistComponent implements OnInit {
     this.playlistService
       .getPlaylistsByOwner(user)
       .subscribe(
-        (responsePlaylists) => (this.userPlaylists = responsePlaylists)
+        (responsePlaylists) => (this.userPlaylists = responsePlaylists),
       );
     console.log('GET PLAYLISTS ', this.userPlaylists);
   }
@@ -152,7 +152,7 @@ export class PlaylistComponent implements OnInit {
         this.playlistForm3.value.is_private ?? false,
         this.user, //this.playlistForm3.value.owner ?? 0,
         (this.playlistForm3.get('games')?.value as (number | null)[]) //TODO: Cambiar por Game, no se si esta bien, a angular no le gusta
-          .filter((game): game is number => game !== null) ?? [0]
+          .filter((game): game is number => game !== null) ?? [0],
       )
       .subscribe((responsePlaylist) => (this.playlist = responsePlaylist));
   }
@@ -165,7 +165,7 @@ export class PlaylistComponent implements OnInit {
         this.updateForm.value.description ?? '',
         this.updateForm.value.is_private ?? false,
         this.updateForm.value.owner ?? 0,
-        this.updateForm.value.games ?? 0
+        this.updateForm.value.games ?? 0,
       )
       .subscribe((responsePlaylist) => (this.playlist = responsePlaylist));
   }
@@ -182,7 +182,7 @@ export class PlaylistComponent implements OnInit {
       .subscribe((responsePlaylist) => (this.playlist = responsePlaylist));
   }
 
-  editReady: boolean = false;
+  editReady = false;
 
   populateForm() {
     const id = this.playlistIdForm.get('id')?.value;

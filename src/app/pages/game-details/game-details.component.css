@@ -6,6 +6,11 @@
   background-position: center;
 }
 
+.rightArrow,
+.leftArrow {
+  text-shadow: 2px 2px 4px black;
+}
+
 .rightArrow {
   position: absolute;
   top: 50%;
@@ -30,6 +35,7 @@
 
 .game-images {
   display: flex;
+  flex-direction: column;
   justify-content: center;
   align-items: center;
   height: 100%;
@@ -101,6 +107,7 @@ main {
 
 /* Información del juego seleccionado */
 .selected-game {
+  position: relative;
   background-color: #003566;
   border-radius: 8px;
   overflow: hidden;
@@ -109,21 +116,47 @@ main {
   padding: 15px;
 }
 
+.selected-game > * {
+  position: relative;
+}
+
 .game-info {
   display: flex;
   align-items: center;
+  height: min-content;
+  z-index: 2;
+}
+
+.game-banner > img {
+  width: 100%;
+  height: auto;
+  object-fit: cover;
 }
 
 .game-banner {
+  position: absolute !important;
+  top: 0;
+  left: 0;
+  background-color: #003566;
   width: 100%;
-  height: 200px;
+  height: 14em;
+  overflow: hidden;
   object-fit: cover;
-  border-radius: 5px;
-  margin-bottom: 15px;
 }
+
+.game-banner::after {
+  content: "";
+  width: 100%;
+  height: 100%;
+  background-image: linear-gradient(to bottom, #00356644, #003566);
+  display: block;
+  position: absolute;
+  top: 0;
+}
+
 .game-portrait {
   width: 150px;
-  height: 150px;
+  height: auto;
   object-fit: cover;
   border-radius: 5px;
   margin-right: 15px;
@@ -131,6 +164,7 @@ main {
 
 .game-details {
   color: #3498db;
+  text-shadow: 0 0 6px black;
 }
 
 .game-title {
@@ -145,11 +179,17 @@ main {
   color: #acacac;
 }
 
-.game-developer,
-.game-platform,
-.game-publisher {
+.studio {
   font-size: 0.7rem;
   color: #ffffff;
+}
+
+.studio > a {
+  color: gold;
+}
+
+.studio > a:after {
+  content: " ⎋";
 }
 
 /* Lista de reseñas */
@@ -190,10 +230,11 @@ main {
 
 .studio-container {
   display: flex;
-  flex-direction: row;
+  flex-direction: column;
   /* Arrange columns side-by-side */
   gap: 1rem;
   /* Add some spacing between columns */
+  margin-bottom: 1em;
 }
 
 .studio-column {
@@ -202,8 +243,8 @@ main {
 }
 
 .platform-logo {
-  width: 30px;
   height: 30px;
+  width: auto;
   object-fit: contain;
   margin-right: 15px;
 }

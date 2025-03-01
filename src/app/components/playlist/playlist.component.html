@@ -1,3 +1,82 @@
+<section>
+  <h1>Playlists from user id:{{ user }}</h1>
+  <div *ngFor="let playlist of userPlaylists">
+    <div class="playlist-item">
+      <small>[{{ playlist.id }}]</small>&nbsp; <b>{{ playlist.name }}</b> &nbsp;
+    </div>
+  </div>
+</section>
+
+<!-- CREATE -->
+<section>
+  <h1>Create new playlist</h1>
+
+  <form [formGroup]="playlistForm3" (submit)="addPlaylist()">
+    <mat-form-field>
+      <mat-label for="name">Name</mat-label>
+      <input matInput type="text" id="name" formControlName="name" />
+    </mat-form-field>
+    <mat-form-field>
+      <mat-label for="description">Description</mat-label>
+      <input
+        matInput
+        type="text"
+        id="description"
+        formControlName="description"
+      />
+    </mat-form-field>
+
+    <mat-checkbox id="is_private" formControlName="is_private"
+      >Private</mat-checkbox
+    >
+
+    <div formArrayName="games">
+      <div *ngFor="let game of games.controls; let i = index">
+        <mat-form-field>
+          <mat-label>Game {{ i + 1 }}</mat-label>
+          <input
+            matInput
+            type="text"
+            id="games-{{ i }}"
+            [formControlName]="i"
+          />
+        </mat-form-field>
+        <button
+          *ngIf="i != 0"
+          mat-mini-fab
+          type="button"
+          (click)="removeGameInput(i)"
+        >
+          <mat-icon>delete</mat-icon>
+        </button>
+      </div>
+    </div>
+    <button mat-mini-fab type="button" (click)="addGameInput()">
+      <mat-icon>add</mat-icon>
+    </button>
+
+    <!--
+    <div formArrayName="games">
+      <h2>Games</h2>
+      <h3>aca podríamos reutilizar el buscador del navegador?</h3>
+      <div *ngFor="let game of games.controls; let i = index">
+        <!-- The repeated game template >
+        <mat-form-field>
+          <label style="color: black" for="game-{{ i }}"
+            >Game {{ i + 1 }}:</label
+          >
+          <input matInput id="game-{{ i }}" type="text" [formControlName]="i" />
+        </mat-form-field>
+      </div>
+      <button mat-fab type="button" (click)="addGames()">
+        + Add another game
+      </button>
+    </div>
+  -->
+    <button mat-mini-fab type="submit" class="primary">Create</button>
+  </form>
+</section>
+
 <!-- GET ALL -->
 <section>
   <h1>Listing playlists</h1>
@@ -6,41 +85,10 @@
 
   @for (playlist of playlists; track playlist.id) {
   <div class="playlist-item">
-    <small>[{{ playlist.id }}]</small>&nbsp;
-    <b>{{ playlist.name }}</b> &nbsp;
+    <small>[{{ playlist.id }}]</small>&nbsp; <b>{{ playlist.name }}</b> &nbsp;
   </div>
   }
 </section>
-
-<!-- CREATE -->
-<section>
-  <h1>Create new playlist</h1>
-  <form [formGroup]="playlistForm" (submit)="addPlaylist()">
-    <label for="name">Name</label>
-    <input type="text" id="name" formControlName="name">
-
-    <label for="description">Description</label>
-    <input type="text" id="description" formControlName="description">
-
-    <label for="is_private">Private</label>
-    <input type="checkbox" id="is_private" formControlName="is_private">
-
-    <div formArrayName="games">
-      <h2>Games</h2>
-      
-      <div *ngFor="let game of games.controls; let i=index">
-        <!-- The repeated game template -->
-        <label for="game-{{ i }}">Game {{i+1}}:</label>
-        <input id="game-{{ i }}" type="text" [formControlName]="i">
-      </div>
-      <button type="button" (click)="addGames()">+ Add another game</button>
-    </div>
-
-
-    <button type="submit" class="primary">Create</button>
-  </form>
-</section>
-
 <!-- UPDATE -->
 <section class="column">
   <h1>Enter Playlist ID to Edit</h1>
@@ -77,7 +125,7 @@
 <section>
   <h1>Delete a playlist</h1>
   <form [formGroup]="deleteForm" (submit)="deletePlaylist()">
-    <input type="number" formControlName="id">
-    <input type="submit">
+    <input type="number" formControlName="id" />
+    <input type="submit" />
   </form>
 </section>

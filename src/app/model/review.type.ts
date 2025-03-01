@@ -1,5 +1,5 @@
-import {User} from "../components/services/auth/user";
-import {Game} from "../components/services/game.service";
+import {User} from "./user";
+import {Game} from "../services/game.service";
 
 export type Review = {
   id: number,

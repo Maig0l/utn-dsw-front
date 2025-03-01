@@ -4,7 +4,7 @@ import {
   GameService,
   Game,
   Pictures,
-} from '../components/services/game.service.js';
+} from '../services/game.service';
 import {
   FormArray,
   FormControl,
@@ -12,7 +12,7 @@ import {
   ReactiveFormsModule,
 } from '@angular/forms';
 import { CommonModule } from '@angular/common';
-import { Tag, TagService } from '../components/services/tag.service.js';
+import { Tag, TagService } from '../services/tag.service';
 import { ChangeDetectionStrategy } from '@angular/core';
 import { MatSelectModule } from '@angular/material/select';
 import { MatInputModule } from '@angular/material/input';
@@ -23,7 +23,7 @@ import { MatDividerModule } from '@angular/material/divider';
 import {
   Franchise,
   FranchiseService,
-} from '../components/services/franchise.service.js';
+} from '../services/franchise.service';
 import { MatAutocompleteModule } from '@angular/material/autocomplete';
 import { Observable, of, startWith, switchMap } from 'rxjs';
 

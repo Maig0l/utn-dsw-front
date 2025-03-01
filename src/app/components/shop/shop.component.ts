@@ -1,6 +1,6 @@
 import { Component, Input } from '@angular/core';
 import { RouterOutlet } from '@angular/router';
-import { ShopService, Shop } from '../services/shop.service.js';
+import { ShopService, Shop } from '../../services/shop.service';
 import { FormControl, FormGroup, ReactiveFormsModule } from '@angular/forms';
 
 @Component({
@@ -34,7 +34,7 @@ export class ShopComponent {
       this.shopService.getAllShops()
         .subscribe(responseShops => this.shops = responseShops);
   }
-  
+
   addShop() {
       this.shopService.addShop(
         this.shopForm.value.name ?? "",

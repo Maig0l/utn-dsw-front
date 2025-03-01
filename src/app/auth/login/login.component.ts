@@ -2,8 +2,8 @@ import { Component } from '@angular/core';
 import { FormBuilder, Validators, ReactiveFormsModule } from '@angular/forms';
 import { Router } from '@angular/router';
 import { CommonModule } from '@angular/common';
-import { LoginService } from '../../components/services/auth/login.service.js';
-import { LoginRequest } from '../../components/services/auth/loginRequest.js';
+import { LoginService } from '../../services/auth/login.service.js';
+import { LoginRequest } from '../../services/auth/loginRequest.js';
 import { HttpClientModule } from '@angular/common/http';
 
 @Component({
@@ -18,7 +18,7 @@ export class LoginComponent {
   loginError: string = "";
 
   loginForm = this.fb.group({
-    username: ['', Validators.required], //, Validators.minLength(6) lo rompe todo? 
+    username: ['', Validators.required], //, Validators.minLength(6) lo rompe todo?
     password: ['', Validators.required]
   });
   constructor(private fb: FormBuilder, private router: Router, private loginService: LoginService

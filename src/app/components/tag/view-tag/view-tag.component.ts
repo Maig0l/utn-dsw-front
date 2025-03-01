@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { Tag, TagService } from '../../services/tag.service.js';
+import { Tag, TagService } from '../../../services/tag.service';
 import { RouterOutlet } from '@angular/router';
 import { DatePipe, NgFor, NgIf } from '@angular/common';
 import { FormControl, FormGroup, ReactiveFormsModule } from '@angular/forms';
@@ -33,10 +33,10 @@ export class ViewTagComponent {
 
   i=0;
   tag: Tag | undefined
-  tags: Tag[] = []; 
- 
+  tags: Tag[] = [];
+
   constructor(private tagService: TagService) { }
-      
+
 
 
   showTags() {
@@ -45,12 +45,12 @@ export class ViewTagComponent {
     }
 
   ngOnInit(): void {
-      
+
       this.showTags();
-     
+
   }
 
-  
+
   onInput(event: Event): void {
     if(this.i == 0)
     {    this.tags.forEach((tag) =>  this.options.push(tag.name));
@@ -76,45 +76,45 @@ export class ViewTagComponent {
 
 
 
-/** 
+/**
 
 
   tagForm = new FormGroup({
         name: new FormControl('')
         });
   tag: Tag | undefined
-  tags! : Tag[] 
- 
+  tags! : Tag[]
+
   constructor(private tagService: TagService) { }
-      
+
 
 
   showTags() {
     this.tagService.getAllTags()
     .subscribe(responseTags => this.tags = responseTags)
     }
-    
-  
+
+
 
     filteroptions!: Observable<string[]>
     formcontrol = new FormControl('');
-  
+
     filteroptionslist!: Observable<Tag[]>
-  
-  
+
+
     ngOnInit(): void {
-      
+
       this.showTags();
       this.filteroptionslist = this.formcontrol.valueChanges.pipe(
         startWith(''), map(value => this._LISTFILTER(value || ''))
       )
     }
-  
-   
-  
+
+
+
     private _LISTFILTER(value: string): Tag[] {
       const searchvalue = value.toLocaleLowerCase();
-      return this.tags.filter(option => option.name.toLocaleLowerCase().includes(searchvalue) || 
+      return this.tags.filter(option => option.name.toLocaleLowerCase().includes(searchvalue) ||
       option.name.toLocaleLowerCase().includes(searchvalue));
     }
   */

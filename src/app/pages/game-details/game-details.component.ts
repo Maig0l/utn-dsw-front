@@ -1,10 +1,10 @@
 import { Component } from '@angular/core';
 import { FormControl, FormGroup, ReactiveFormsModule } from '@angular/forms';
-import { Game, GameService } from '../../components/services/game.service';
+import { Game, GameService } from '../../services/game.service';
 import {
   IReview,
   ReviewService,
-} from '../../components/services/review.service';
+} from '../../services/review.service';
 import { ActivatedRoute, Router, RouterOutlet } from '@angular/router';
 import { CommonModule } from '@angular/common';
 import { ReviewComponent } from '../../components/review/review.component';

@@ -1,7 +1,7 @@
 import { Component } from '@angular/core';
-import { Game, GameService } from '../services/game.service.js';
+import { Game, GameService } from '../../services/game.service';
 import { ActivatedRoute, Router, RouterOutlet } from '@angular/router';
-import { IReview, ReviewService } from '../services/review.service.js';
+import { IReview, ReviewService } from '../../services/review.service';
 import { FormControl, FormGroup, ReactiveFormsModule } from '@angular/forms';
 import { Title } from '@angular/platform-browser';
 import { CommonModule } from '@angular/common';

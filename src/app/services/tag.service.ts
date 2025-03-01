@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { map, Observable } from 'rxjs';
-import { Game } from './game.service.js';
+import { Game } from './game.service';
 
 export interface Tag {
   id: number

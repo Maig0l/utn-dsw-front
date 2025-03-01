@@ -3,7 +3,7 @@ import { provideRouter } from '@angular/router';
 
 import { routes } from './app.routes';
 import { HttpClientModule } from '@angular/common/http';
-import { ShopService } from './components/services/shop.service.js';
+import { ShopService } from './services/shop.service';
 import { FormsModule } from '@angular/forms';
 import { confirmEqualsValidatorDirective } from './shared/equalsValidator.js';
 import { provideAnimationsAsync } from '@angular/platform-browser/animations/async';

@@ -1,6 +1,6 @@
 import { Component } from '@angular/core';
 import { RouterOutlet } from '@angular/router';
-import { PlatformService, Platform } from '../services/platform.service.js';
+import { PlatformService, Platform } from '../../services/platform.service';
 import { FormControl, FormGroup, ReactiveFormsModule } from '@angular/forms';
 import { CommonModule } from '@angular/common';
 
@@ -26,31 +26,31 @@ export class PlatformComponent {
     updateForm = new FormGroup({
       id: new FormControl(0),
       name: new FormControl(''),
-      img: new FormControl('') 
+      img: new FormControl('')
     })
 
     platformIdForm = new FormGroup({
       id: new FormControl(0)
     });
-    
+
 
     platform: Platform | undefined
     platforms: Platform[] | undefined
-    
+
     constructor(private platformService: PlatformService) { }
-    
+
     showPlatforms() {
       this.platformService.getAllPlatforms()
       .subscribe(responsePlatforms => this.platforms = responsePlatforms)
     }
-    
+
     addPlatform() {
       this.platformService.addPlatform(
         this.platformForm.value.name ?? "",
         this.platformForm.value.img ?? ""
       ).subscribe(responsePlatform => this.platform = responsePlatform)
     }
-    
+
     updatePlatform() {
       this.platformService.updatePlatform(
         this.updateForm.value.id ?? 0,
@@ -59,14 +59,14 @@ export class PlatformComponent {
       )
       .subscribe(responsePlatform => this.platform = responsePlatform)
     }
-    
+
     deletePlatform() {
       this.platformService.deletePlatform(
         this.deleteForm.value.id ?? 0
       )
       .subscribe(res => console.log(res))
     }
-    
+
   editReady: boolean = false;
 
   populateForm() {

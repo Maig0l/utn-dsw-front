@@ -1,11 +1,11 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { map, Observable } from 'rxjs';
-import { Game } from './game.service.js';
+import { Game } from './game.service';
 
 export interface Franchise {
   id: number
-  name: string, 
+  name: string,
   games: Game[]
 }
 
@@ -47,5 +47,5 @@ export class FranchiseService {
     return this.http.get<ApiResponse>(url)
       .pipe(map(response => response.data));
   }
-  
+
  }

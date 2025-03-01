@@ -1,9 +1,9 @@
 import { Component } from '@angular/core';
-import { Playlist, PlaylistService } from '../services/playlist.service.js';
+import { Playlist, PlaylistService } from '../../services/playlist.service';
 import { FormArray, FormBuilder, FormControl, FormGroup, ReactiveFormsModule } from '@angular/forms';
 import { CommonModule } from '@angular/common';
 import { RouterOutlet } from '@angular/router';
-import { Game } from '../services/game.service.js';
+import { Game } from '../../services/game.service';
 
 @Component({
   selector: 'app-playlist',
@@ -38,7 +38,7 @@ export class PlaylistComponent {
   get games(): FormArray {
     return this.playlistForm2.get('games') as FormArray;
   }
-  
+
   addGames() {
   this.games.push(this.formBuilder.control(''));
 }
@@ -71,12 +71,12 @@ export class PlaylistComponent {
 
   playlist: Playlist | undefined
   playlists: Playlist[] | undefined
-  
+
   showPlaylists() {
     this.playlistService.getAllPlaylists()
     .subscribe(responsePlaylists => this.playlists = responsePlaylists)
   }
-  
+
   addPlaylist() {
     this.playlistService.addPlaylist(
       this.playlistForm2.value.name ?? "",
@@ -89,7 +89,7 @@ export class PlaylistComponent {
 
     ).subscribe(responsePlaylist => this.playlist = responsePlaylist)
   }
-  
+
   updatePlaylist() {
     this.playlistService.updatePlaylist(
       this.updateForm.value.id ?? 0,
@@ -101,14 +101,14 @@ export class PlaylistComponent {
     )
     .subscribe(responsePlaylist => this.playlist = responsePlaylist)
   }
-  
+
   deletePlaylist() {
     this.playlistService.deletePlaylist(
       this.deleteForm.value.id ?? 0
     )
     .subscribe(responsePlaylist => this.playlist = responsePlaylist)
   }
-  
+
   getOnePlaylist() {
     this.playlistService.getOnePlaylist(
       this.playlistIdForm.value.id ?? 0

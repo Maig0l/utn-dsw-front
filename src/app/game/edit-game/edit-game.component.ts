@@ -5,8 +5,8 @@ import {
   FormGroup,
   ReactiveFormsModule,
 } from '@angular/forms';
-import { Game, GameService } from '../../components/services/game.service';
-import { Tag, TagService } from '../../components/services/tag.service';
+import { Game, GameService } from '../../services/game.service';
+import { Tag, TagService } from '../../services/tag.service';
 import { ActivatedRoute, Router, RouterOutlet } from '@angular/router';
 import { CommonModule } from '@angular/common';
 import { MatChipsModule } from '@angular/material/chips';

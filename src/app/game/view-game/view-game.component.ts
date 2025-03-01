@@ -1,6 +1,6 @@
 import { Component } from '@angular/core';
 import { DatePipe } from '@angular/common';
-import { Game, GameService } from '../../components/services/game.service.js';
+import { Game, GameService } from '../../services/game.service';
 import { RouterOutlet } from '@angular/router';
 import {MatProgressBarModule} from '@angular/material/progress-bar';
 import {MatCardModule} from '@angular/material/card';

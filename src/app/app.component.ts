@@ -1,9 +1,9 @@
 import { Component } from '@angular/core';
 import { RouterOutlet, Router } from '@angular/router';
 import { NgFor } from '@angular/common';
-import { ShopService, Shop } from './components/services/shop.service.js';
+import { ShopService, Shop } from './services/shop.service';
 import { PlatformComponent } from './components/platform/platform.component.js';
-import { PlatformService } from './components/services/platform.service.js';
+import { PlatformService } from './services/platform.service';
 import { ShopComponent } from './components/shop/shop.component.js';
 import { StudioComponent } from './components/studio/studio.component.js';
 import { HeaderComponent } from './shared/header/header.component.js';
@@ -15,8 +15,8 @@ import { HttpClient } from '@angular/common/http';
 @Component({
   selector: 'app-root',
   standalone: true,
-  imports: [ReactiveFormsModule, LoginComponent, RouterOutlet, 
-            NgFor, PlatformComponent,ShopComponent, StudioComponent, 
+  imports: [ReactiveFormsModule, LoginComponent, RouterOutlet,
+            NgFor, PlatformComponent,ShopComponent, StudioComponent,
             HeaderComponent, FooterComponent],
   // Registramos los servicios que nos traen los datos del backend
   //providers: [ShopService, PlatformService],

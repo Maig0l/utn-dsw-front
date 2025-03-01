@@ -14,8 +14,8 @@ import {
   startWith,
   switchMap,
 } from 'rxjs';
-import { Game } from '../../services/game.service';
 import { GameService } from '../../services/game.service';
+import {Game} from "../../model/game.model";
 
 @Component({
   selector: 'app-header',

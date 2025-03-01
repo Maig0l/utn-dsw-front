@@ -3,7 +3,6 @@ import { RouterOutlet } from '@angular/router';
 import { FranchiseService, Franchise } from '../../services/franchise.service';
 import { FormArray, FormBuilder, FormControl, FormGroup, ReactiveFormsModule } from '@angular/forms';
 import { CommonModule } from '@angular/common';
-import { Game } from '../../services/game.service';
 
 @Component({
   selector: 'app-franchise',

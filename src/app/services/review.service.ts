@@ -2,7 +2,7 @@ import {inject, Injectable} from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { map, Observable } from 'rxjs';
 import {API_URL} from "../../main";
-import {Review} from "../model/review.type";
+import {Review} from "../model/review.model";
 
 export interface IReview {
   id: number

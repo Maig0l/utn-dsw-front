@@ -10,7 +10,7 @@ import { MatSelectModule } from '@angular/material/select';
 import { MatIconModule } from '@angular/material/icon';
 import { MatDividerModule } from '@angular/material/divider';
 import { MatCheckboxModule } from '@angular/material/checkbox';
-import { Game } from '../../services/game.service';
+import { Game } from '../../model/game.model'
 
 @Component({
   selector: 'app-playlist',

@@ -1,6 +1,6 @@
 import { Component } from '@angular/core';
 import { FormControl, FormGroup, ReactiveFormsModule } from '@angular/forms';
-import { Game, GameService } from '../../services/game.service';
+import { GameService } from '../../services/game.service';
 import {
   IReview,
   ReviewService,
@@ -18,6 +18,7 @@ import {
   switchMap,
   timer,
 } from 'rxjs';
+import {Game} from "../../model/game.model";
 
 export interface SlideInterface {
   id: number;

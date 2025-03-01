@@ -1,11 +1,12 @@
 import { Component } from '@angular/core';
 import { DatePipe } from '@angular/common';
-import { Game, GameService } from '../../services/game.service';
+import { GameService } from '../../services/game.service';
 import { RouterOutlet } from '@angular/router';
 import {MatProgressBarModule} from '@angular/material/progress-bar';
 import {MatCardModule} from '@angular/material/card';
 import {MatChipsModule} from '@angular/material/chips';
 import {MatGridListModule, MatGridTile} from '@angular/material/grid-list';
+import {Game} from "../../model/game.model";
 
 
 

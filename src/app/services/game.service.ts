@@ -6,30 +6,10 @@ import { Studio } from './studio.service';
 import { Platform } from './platform.service';
 import { IReview } from './review.service';
 import { CollectionViewer } from '@angular/cdk/collections/index.js';
-import {Review} from "../model/review.type";
+import {Review} from "../model/review.model";
+import {ApiResponse} from "../model/apiResponse.model";
+import {Game} from "../model/game.model";
 
-export interface Pictures {
-  url: string[];
-}
-export interface Game {
-  id: number;
-  title: string;
-  synopsis: string;
-  releaseDate: string;
-  portrait: string;
-  banner: string;
-  pictures: string[];
-  franchise: number;
-  tags: Tag[];
-  studios: Studio[];
-  platforms: Platform[];
-  reviews: IReview[] | Review[];
-}
-
-interface ApiResponse {
-  message: string;
-  data: any;
-}
 
 @Injectable()
 export class GameService {
@@ -41,7 +21,7 @@ export class GameService {
   findGamesByTitle(title: string): Observable<Game[]> {
     const url = this.gamesEndpoint + `/search?title=${title}`;
     return this.http
-      .get<ApiResponse>(url)
+      .get<ApiResponse<Game[]>>(url)
       .pipe(map((response) => response.data));
   }
 
@@ -68,7 +48,7 @@ export class GameService {
   getAllGames(): Observable<Game[]> {
     return (
       this.http
-        .get<ApiResponse>(this.gamesEndpoint)
+        .get<ApiResponse<Game[]>>(this.gamesEndpoint)
         // Devuelve lo que está dentro de data en el objeto de respuesta
         .pipe(map((response) => response.data))
     );
@@ -122,13 +102,13 @@ export class GameService {
 
   deleteGame(id: number): Observable<Game> {
     const url = this.gamesEndpoint + `/${id}`;
-    return this.http.delete<ApiResponse>(url).pipe(map((res) => res.data));
+    return this.http.delete<ApiResponse<Game>>(url).pipe(map((res) => res.data));
   }
 
   getOneGame(id: number): Observable<Game> {
     const url = this.gamesEndpoint + `/${id}`;
     return this.http
-      .get<ApiResponse>(url)
+      .get<ApiResponse<Game>>(url)
       .pipe(map((response) => response.data));
   }
 }

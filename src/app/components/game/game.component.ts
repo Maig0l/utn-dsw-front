@@ -2,8 +2,6 @@ import { Component } from '@angular/core';
 import { Router, RouterOutlet } from '@angular/router';
 import {
   GameService,
-  Game,
-  Pictures,
 } from '../../services/game.service';
 import {
   FormArray,
@@ -26,6 +24,7 @@ import {
 } from '../../services/franchise.service';
 import { MatAutocompleteModule } from '@angular/material/autocomplete';
 import { Observable, of, startWith, switchMap } from 'rxjs';
+import {Game} from "../../model/game.model";
 
 @Component({
   selector: 'app-game',

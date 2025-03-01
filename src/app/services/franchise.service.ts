@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { map, Observable } from 'rxjs';
-import { Game } from './game.service';
+import { Game } from '../model/game.model';
 
 export interface Franchise {
   id: number

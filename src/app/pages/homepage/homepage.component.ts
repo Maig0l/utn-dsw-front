@@ -2,11 +2,11 @@ import { CommonModule } from '@angular/common';
 import {Component, OnDestroy, signal} from '@angular/core';
 import { Router, RouterOutlet } from '@angular/router';
 import { LoginService } from '../../services/auth/login.service.js';
-import { User } from '../../model/user';
+import { User } from '../../model/user.model';
 import { ViewGameComponent } from '../../components/view-game/view-game.component.js';
 import { IReview, ReviewService } from '../../services/review.service';
 import {ReviewCardComponent} from "../../components/review-card/review-card.component";
-import {Review} from "../../model/review.type";
+import {Review} from "../../model/review.model";
 import {catchError} from "rxjs";
 
 @Component({

@@ -19,7 +19,7 @@ import { GameService } from '../../services/game.service';
   templateUrl: './homepage.component.html',
   styleUrl: './homepage.component.css',
 })
-export class HomepageComponent implements OnInit, OnDestroy {
+export class HomepageComponent implements OnInit {
   userLoginOn = false;
   userData?: User;
   reviews: Review[] = [];
@@ -32,14 +32,18 @@ export class HomepageComponent implements OnInit, OnDestroy {
     private gameService: GameService,
   ) {}
 
-  ngOnDestroy(): void {
-    // Clean up subscriptions to avoid memory leaks
-    this.loginService.currentUserLoginOn.unsubscribe();
-    this.loginService.currentUserData.unsubscribe();
-  }
+  // ngOnDestroy(): void {
+  //   Clean up subscriptions to avoid memory leaks
+  //   TODO: Rehacer el componente de auth entero
+  //   TODO: Estas dos líneas eran las que hacían que tirara error en la homepage
+  //   this.loginService.currentUserLoginOn.unsubscribe();
+  //   this.loginService.currentUserData.unsubscribe();
+  // }
+
   redirect(path: string) {
     this.router.navigate([path]); // Funcion para redirigir a una ruta
   }
+
   ngOnInit() {
     this.loginService.currentUserLoginOn.subscribe({
       next: (userLoginOn) => (this.userLoginOn = userLoginOn),

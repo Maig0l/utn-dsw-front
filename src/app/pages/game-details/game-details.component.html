@@ -68,14 +68,14 @@
     <section class="game-images">
       <div class="slider">
         <div>
-          <button (click)="goToPrevious()" class="leftArrow">❰</button>
-          <button (click)="goToNext()" class="rightArrow">❱</button>
+          <span (click)="goToPrevious()" class="leftArrow">❰</span>
+          <span (click)="goToNext()" class="rightArrow">❱</span>
         </div>
         <img class="slide" alt="carrusel image" [src]="getCurrentSlideUrl()" />
         <div class="dotsContainer">
           @for (slide of game.pictures; track $index) {
             <!-- TODO: Poner el punto de la imagen actual en blanco y el resto más oscuro -->
-            <button class="dot" (click)="goToSlide($index)">●</button>
+            <span class="dot" (click)="goToSlide($index)">●</span>
           }
         </div>
       </div>

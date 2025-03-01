@@ -1,7 +1,7 @@
-import { Component } from '@angular/core';
+import {Component, Input, OnInit} from '@angular/core';
 import { DatePipe } from '@angular/common';
 import { GameService } from '../../services/game.service';
-import { RouterOutlet } from '@angular/router';
+import {RouterLink, RouterOutlet} from '@angular/router';
 import {MatProgressBarModule} from '@angular/material/progress-bar';
 import {MatCardModule} from '@angular/material/card';
 import {MatChipsModule} from '@angular/material/chips';
@@ -13,24 +13,13 @@ import {Game} from "../../model/game.model";
 @Component({
   selector: 'app-view-game',
   standalone: true,
-  imports: [MatCardModule, MatChipsModule, MatProgressBarModule, DatePipe],
+  imports: [MatCardModule, MatChipsModule, MatProgressBarModule, DatePipe, RouterLink],
   providers: [RouterOutlet,GameService, MatGridListModule, MatGridTile],
   templateUrl: './view-game.component.html',
   styleUrl: './view-game.component.css'
 })
 export class ViewGameComponent {
-  game: Game | undefined
-
-  games: Game[] | undefined
-
   constructor(private gameService: GameService) { }
 
-  showGames() {
-    this.gameService.getAllGames()
-      .subscribe(responseGames => this.games = responseGames)
-  }
-
-  ngOnInit(): void {
-    this.showGames();
-  }
+  @Input({required: true}) game!: Game;
 }

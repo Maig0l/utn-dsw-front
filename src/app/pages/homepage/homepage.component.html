@@ -8,17 +8,22 @@
 <section class="features">
   <div class="container">
     <h2>Popular Games</h2>
-    <app-view-game></app-view-game>
+    <div class="grid-container">
+      @for (game of hotGames; track game.id) {
+        <app-view-game [game]="game"></app-view-game>
+      }
+    </div>
   </div>
 </section>
 
 <section class="review-list">
   <h2>Latest reviews</h2> <!-- From friends? -->
   <div class="reviews-container">
-  @for (review of reviews(); track review.id){
+  @for (review of reviews; track review.id){
     <app-review-card [review]="review"></app-review-card>
   }
 </div>
+</section>
 
 <section *ngIf="!userLoginOn" class="cta"> <!-- TODO -->
   <div class="container">

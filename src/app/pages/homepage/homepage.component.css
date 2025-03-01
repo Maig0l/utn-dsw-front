@@ -29,6 +29,13 @@
   color: #E5E5E5;
 }
 
+.grid-container {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+  gap: 20px;
+  padding: 20px;
+}
+
 .features {
   padding: 80px 0;
   background-color: #003566;

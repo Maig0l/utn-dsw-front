@@ -8,6 +8,8 @@ import { ReviewService } from '../../services/review.service';
 import {ReviewCardComponent} from "../../components/review-card/review-card.component";
 import {Review} from "../../model/review.model";
 import {catchError} from "rxjs";
+import {Game} from "../../model/game.model";
+import {GameService} from "../../services/game.service";
 
 @Component({
   selector: 'app-homepage',
@@ -18,13 +20,19 @@ import {catchError} from "rxjs";
   styleUrl: './homepage.component.css'
 })
 
-export class HomepageComponent implements OnDestroy {
+export class HomepageComponent implements OnInit, OnDestroy {
   userLoginOn: boolean = false;
   userData?: User;
-  //reviews = signal(Array<Review>());
-  reviews = signal<Array<Review>>([]);
+  reviews: Review[] = []
+  hotGames: Game[] = []
 
-  constructor(private router: Router, private loginService: LoginService, private  reviewService: ReviewService ) {}
+  constructor(
+    private router: Router,
+    private loginService: LoginService,
+    private reviewService: ReviewService,
+    private gameService: GameService
+  ) {}
+
   ngOnDestroy(): void {
     // Clean up subscriptions to avoid memory leaks
     this.loginService.currentUserLoginOn.unsubscribe();
@@ -50,8 +58,13 @@ export class HomepageComponent implements OnDestroy {
         })
       )
       .subscribe(reviews => {
-        this.reviews.set(reviews);
+        this.reviews = reviews;
       })
+
+    this.gameService.getHotGames()
+      .subscribe(
+        games => this.hotGames = games
+      )
   }
 }
 /* hay que forzar una actualización de la página para

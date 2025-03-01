@@ -1,4 +1,3 @@
-import {IReview} from "../services/review.service";
 import {Review} from "./review.model";
 import {Platform} from "./platform.model";
 import {Studio} from "./studio.model";
@@ -20,5 +19,5 @@ export interface Game {
   tags: Tag[];
   studios: Studio[];
   platforms: Platform[];
-  reviews: IReview[] | Review[];
+  reviews: Review[];
 }

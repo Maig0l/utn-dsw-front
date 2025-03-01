@@ -3,25 +3,12 @@ import { HttpClient } from '@angular/common/http';
 import { map, Observable } from 'rxjs';
 import {API_URL} from "../../main";
 import {Review} from "../model/review.model";
-
-export interface IReview {
-  id: number
-  author: number
-  game: number
-  score: number /*for now*/
-  title: string
-  body: string
-}
+import {ApiResponse} from "../model/apiResponse.model";
 
 export type ReviewPostBody = {
   score: number;
   title: string | undefined;
   body: string | undefined;
-}
-
-interface ApiResponse {
-  message: string
-  data: any
 }
 
 @Injectable()
@@ -31,7 +18,7 @@ export class ReviewService {
 
   getAllReviews() {
     return this.http
-      .get<ApiResponse>(this.reviewsEndpoint)
+      .get<ApiResponse<Review[]>>(this.reviewsEndpoint)
       .pipe(
         map(res => res.data as Review[])
       )
@@ -40,7 +27,7 @@ export class ReviewService {
   postReview(userToken: string, gameId: number, postBody: ReviewPostBody) {
     const authHeader = `Bearer ${userToken}`;
     const endpoint = `${API_URL}/games/${gameId}/reviews`;
-    return this.http.post<ApiResponse>(
+    return this.http.post<ApiResponse<Review>>(
       endpoint,
       postBody,
       {
@@ -50,8 +37,8 @@ export class ReviewService {
   }
 
   /** @deprecated */
-  addReview(author: number, game: number, score: number, title: string, body: string): Observable<IReview> {
-    return this.http.post<IReview>(this.reviewsEndpoint, { author, game, score, title, body })
+  addReview(author: number, game: number, score: number, title: string, body: string): Observable<Review> {
+    return this.http.post<Review>(this.reviewsEndpoint, { author, game, score, title, body })
   }
 
 }

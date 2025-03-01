@@ -1,10 +1,7 @@
 import { Component } from '@angular/core';
 import { FormControl, FormGroup, ReactiveFormsModule } from '@angular/forms';
 import { GameService } from '../../services/game.service';
-import {
-  IReview,
-  ReviewService,
-} from '../../services/review.service';
+import { ReviewService } from '../../services/review.service';
 import { ActivatedRoute, Router, RouterOutlet } from '@angular/router';
 import { CommonModule } from '@angular/common';
 import { ReviewComponent } from '../../components/review/review.component';
@@ -19,6 +16,7 @@ import {
   timer,
 } from 'rxjs';
 import {Game} from "../../model/game.model";
+import {Review} from "../../model/review.model";
 
 export interface SlideInterface {
   id: number;
@@ -47,7 +45,7 @@ export class GameDetailsComponent implements OnInit, OnDestroy {
 
   gameId!: number;
   game!: Game;
-  review!: IReview;
+  review!: Review;
   editing!: boolean;
 
   reviewForm = new FormGroup({

@@ -1,7 +1,6 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { map, Observable } from 'rxjs';
-import { IReview } from './review.service';
 import { CollectionViewer } from '@angular/cdk/collections/index.js';
 import {Review} from "../model/review.model";
 import {ApiResponse} from "../model/apiResponse.model";

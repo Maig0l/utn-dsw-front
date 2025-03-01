@@ -1,11 +1,12 @@
 import { Component } from '@angular/core';
 import { GameService } from '../../services/game.service';
 import { ActivatedRoute, Router, RouterOutlet } from '@angular/router';
-import { IReview, ReviewService } from '../../services/review.service';
+import { ReviewService } from '../../services/review.service';
 import { FormControl, FormGroup, ReactiveFormsModule } from '@angular/forms';
 import { Title } from '@angular/platform-browser';
 import { CommonModule } from '@angular/common';
 import { Game } from '../../model/game.model';
+import {Review} from "../../model/review.model";
 
 
 
@@ -32,7 +33,7 @@ export class ReviewComponent {
 
   gameId!: number;
   game!: Game;
-  review!: IReview;
+  review!: Review;
 
   constructor( private route: ActivatedRoute, private gameService: GameService, private  reviewService: ReviewService, private router: Router ) {}
 

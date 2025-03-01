@@ -101,6 +101,7 @@ main {
 
 /* Información del juego seleccionado */
 .selected-game {
+  position: relative;
   background-color: #003566;
   border-radius: 8px;
   overflow: hidden;
@@ -109,21 +110,47 @@ main {
   padding: 15px;
 }
 
+.selected-game > * {
+  position: relative;
+}
+
 .game-info {
   display: flex;
   align-items: center;
+  height: min-content;
+  z-index: 2;
+}
+
+.game-banner > img {
+  width: 100%;
+  height: auto;
+  object-fit: cover;
 }
 
 .game-banner {
+  position: absolute !important;
+  top: 0;
+  left: 0;
+  background-color: #003566;
   width: 100%;
-  height: 200px;
+  height: 14em;
+  overflow: hidden;
   object-fit: cover;
-  border-radius: 5px;
-  margin-bottom: 15px;
 }
+
+.game-banner::after {
+  content: "";
+  width: 100%;
+  height: 100%;
+  background-image: linear-gradient(to bottom, #00356644, #003566);
+  display: block;
+  position: absolute;
+  top: 0;
+}
+
 .game-portrait {
   width: 150px;
-  height: 150px;
+  height: auto;
   object-fit: cover;
   border-radius: 5px;
   margin-right: 15px;
@@ -131,6 +158,7 @@ main {
 
 .game-details {
   color: #3498db;
+  text-shadow: 0 0 6px black;
 }
 
 .game-title {

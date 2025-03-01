@@ -21,10 +21,12 @@
 </ng-template>
 
 <ng-template #loadedGame>
+  <div class="game-banner">
     <img
-      src="{{ game.banner }}"
+      [src]="game.banner"
       alt="Banner del videojuego"
-      class="game-banner"
+    />
+  </div>
 
   <div class="game-info">
     <img

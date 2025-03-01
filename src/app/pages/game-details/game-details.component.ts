@@ -17,6 +17,7 @@ import {
 } from 'rxjs';
 import {Game} from "../../model/game.model";
 import {Review} from "../../model/review.model";
+import {Studio} from "../../model/studio.model";
 
 export interface SlideInterface {
   id: number;
@@ -47,6 +48,8 @@ export class GameDetailsComponent implements OnInit, OnDestroy {
   game!: Game;
   review!: Review;
   editing!: boolean;
+  devs: Studio[] = []
+  pubs: Studio[] = []
 
   reviewForm = new FormGroup({
     score: new FormControl(0),
@@ -58,6 +61,8 @@ export class GameDetailsComponent implements OnInit, OnDestroy {
     this.gameId = +this.route.snapshot.paramMap.get('id')!;
     this.gameService.getOneGame(this.gameId).subscribe((response) => {
       this.game = response;
+      this.devs = this.game.studios.filter(studio => studio.type === 'Developer')
+      this.pubs = this.game.studios.filter(studio => studio.type === 'Publisher')
     });
     this.resetTimer();
   }
@@ -65,7 +70,7 @@ export class GameDetailsComponent implements OnInit, OnDestroy {
     window.clearTimeout(this.timeoutId);
   }
 
-  // TODO: What is this for?
+  // TODO: If this is for the carousel, why is it in OnInit
   resetTimer() {
     if (this.timeoutId) {
       window.clearTimeout(this.timeoutId);

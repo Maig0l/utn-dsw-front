@@ -6,6 +6,10 @@
   background-position: center;
 }
 
+.rightArrow, .leftArrow {
+  text-shadow: 2px 2px 4px black;
+}
+
 .rightArrow {
   position: absolute;
   top: 50%;
@@ -30,6 +34,7 @@
 
 .game-images {
   display: flex;
+  flex-direction: column;
   justify-content: center;
   align-items: center;
   height: 100%;
@@ -48,6 +53,9 @@
   justify-content: center;
 }
 
+.dot:after {
+  content: "●";
+}
 .dot {
   margin: 0 3px;
   cursor: pointer;
@@ -173,11 +181,17 @@ main {
   color: #acacac;
 }
 
-.game-developer,
-.game-platform,
-.game-publisher {
+.studio {
   font-size: 0.7rem;
   color: #ffffff;
+}
+
+.studio > a {
+  color: gold;
+}
+
+.studio > a:after {
+  content: " ⎋";
 }
 
 /* Lista de reseñas */
@@ -218,10 +232,11 @@ main {
 
 .studio-container {
   display: flex;
-  flex-direction: row;
+  flex-direction: column;
   /* Arrange columns side-by-side */
   gap: 1rem;
   /* Add some spacing between columns */
+  margin-bottom: 1em;
 }
 
 .studio-column {
@@ -230,8 +245,8 @@ main {
 }
 
 .platform-logo {
-  width: 30px;
   height: 30px;
+  width: auto;
   object-fit: contain;
   margin-right: 15px;
 }

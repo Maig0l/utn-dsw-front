@@ -1,17 +1,8 @@
-import { Injectable } from '@angular/core';
-import { HttpClient } from '@angular/common/http';
-import { map, Observable } from 'rxjs';
-
-export interface Platform {
-  id: number
-  name: string
-  img: string
-}
-
-interface ApiResponse {
-  message: string
-  data: any
-}
+import {Injectable} from '@angular/core';
+import {HttpClient} from '@angular/common/http';
+import {map, Observable} from 'rxjs';
+import {Platform} from "../model/platform.model";
+import {ApiResponse} from "../model/apiResponse.model";
 
 @Injectable()
 export class PlatformService {
@@ -21,7 +12,7 @@ export class PlatformService {
   platformsEndpoint = "http://localhost:8080/api/platforms"
 
   getAllPlatforms(): Observable<Platform[]> {
-    return this.http.get<ApiResponse>(this.platformsEndpoint)
+    return this.http.get<ApiResponse<Platform[]>>(this.platformsEndpoint)
       // Devuelve lo que está dentro de data en el objeto de respuesta
       .pipe(map(response => response.data))
   }
@@ -37,14 +28,14 @@ export class PlatformService {
 
   deletePlatform(id: number): Observable<Platform> {
     const url = this.platformsEndpoint + `/${id}`
-    return this.http.delete<ApiResponse>(url)
+    return this.http.delete<ApiResponse<Platform>>(url)
       .pipe(map(res => res.data))
   }
 
-  
+
   getOnePlatform(id: number): Observable<Platform> {
     const url = this.platformsEndpoint + `/${id}`;
-    return this.http.get<ApiResponse>(url)
+    return this.http.get<ApiResponse<Platform>>(url)
       .pipe(map(response => response.data));
   }
 

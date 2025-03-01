@@ -3,12 +3,12 @@ import { HttpClient } from '@angular/common/http';
 import { map, Observable } from 'rxjs';
 import { Tag } from './tag.service';
 import { Studio } from './studio.service';
-import { Platform } from './platform.service';
 import { IReview } from './review.service';
 import { CollectionViewer } from '@angular/cdk/collections/index.js';
 import {Review} from "../model/review.model";
 import {ApiResponse} from "../model/apiResponse.model";
 import {Game} from "../model/game.model";
+import {Platform} from "../model/platform.model";
 
 
 @Injectable()

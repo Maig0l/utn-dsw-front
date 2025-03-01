@@ -1,8 +1,9 @@
 import { Component } from '@angular/core';
 import { RouterOutlet } from '@angular/router';
-import { PlatformService, Platform } from '../../services/platform.service';
+import { PlatformService } from '../../services/platform.service';
 import { FormControl, FormGroup, ReactiveFormsModule } from '@angular/forms';
 import { CommonModule } from '@angular/common';
+import {Platform} from "../../model/platform.model";
 
 @Component({
   selector: 'app-platform',

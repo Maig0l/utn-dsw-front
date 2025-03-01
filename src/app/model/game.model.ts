@@ -1,8 +1,8 @@
 import {Tag} from "../services/tag.service";
 import {Studio} from "../services/studio.service";
-import {Platform} from "../services/platform.service";
 import {IReview} from "../services/review.service";
 import {Review} from "./review.model";
+import {Platform} from "./platform.model";
 
 export interface Pictures {
   url: string[];

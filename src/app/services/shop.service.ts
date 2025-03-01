@@ -1,13 +1,7 @@
-import { Injectable } from '@angular/core';
-import { HttpClient } from '@angular/common/http';
-import { map, Observable } from 'rxjs';
-
-export interface Shop {
-  id: number
-  name: string
-  img: string
-  site: string
-}
+import {Injectable} from '@angular/core';
+import {HttpClient} from '@angular/common/http';
+import {map, Observable} from 'rxjs';
+import {Shop} from "../model/shop.model";
 
 interface ApiResponse {
   message: string

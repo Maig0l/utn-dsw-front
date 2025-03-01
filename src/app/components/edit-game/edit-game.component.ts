@@ -6,7 +6,7 @@ import {
   ReactiveFormsModule,
 } from '@angular/forms';
 import { GameService } from '../../services/game.service';
-import { Tag, TagService } from '../../services/tag.service';
+import { TagService } from '../../services/tag.service';
 import { ActivatedRoute, Router, RouterOutlet } from '@angular/router';
 import { CommonModule } from '@angular/common';
 import { MatChipsModule } from '@angular/material/chips';
@@ -17,6 +17,7 @@ import { MatButtonModule } from '@angular/material/button';
 import { MatIconModule } from '@angular/material/icon';
 import { MatDividerModule } from '@angular/material/divider';
 import {Game} from "../../model/game.model";
+import {Tag} from "../../model/tag.model";
 
 @Component({
   selector: 'app-edit-game',

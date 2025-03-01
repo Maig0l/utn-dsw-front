@@ -10,7 +10,7 @@ import {
   ReactiveFormsModule,
 } from '@angular/forms';
 import { CommonModule } from '@angular/common';
-import { Tag, TagService } from '../../services/tag.service';
+import { TagService } from '../../services/tag.service';
 import { ChangeDetectionStrategy } from '@angular/core';
 import { MatSelectModule } from '@angular/material/select';
 import { MatInputModule } from '@angular/material/input';
@@ -23,6 +23,7 @@ import { MatAutocompleteModule } from '@angular/material/autocomplete';
 import { Observable, of, startWith, switchMap } from 'rxjs';
 import {Game} from "../../model/game.model";
 import {Franchise} from "../../model/franchise.model";
+import {Tag} from "../../model/tag.model";
 
 @Component({
   selector: 'app-game',

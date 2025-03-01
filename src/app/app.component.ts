@@ -1,7 +1,7 @@
 import { Component } from '@angular/core';
 import { RouterOutlet, Router } from '@angular/router';
 import { NgFor } from '@angular/common';
-import { ShopService, Shop } from './services/shop.service';
+import { ShopService } from './services/shop.service';
 import { PlatformComponent } from './components/platform/platform.component.js';
 import { PlatformService } from './services/platform.service';
 import { ShopComponent } from './components/shop/shop.component.js';
@@ -11,6 +11,7 @@ import { FooterComponent } from './components/footer/footer.component.js';
 import { LoginComponent } from "./components/login/login.component";
 import { ReactiveFormsModule } from '@angular/forms';
 import { HttpClient } from '@angular/common/http';
+import {Shop} from "./model/shop.model";
 
 @Component({
   selector: 'app-root',

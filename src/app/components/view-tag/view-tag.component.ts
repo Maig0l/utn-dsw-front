@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { Tag, TagService } from '../../services/tag.service';
+import { TagService } from '../../services/tag.service';
 import { RouterOutlet } from '@angular/router';
 import { DatePipe, NgFor, NgIf } from '@angular/common';
 import { FormControl, FormGroup, ReactiveFormsModule } from '@angular/forms';
@@ -14,6 +14,7 @@ import { MatFormField } from '@angular/material/form-field';
 import {MatAutocompleteModule} from '@angular/material/autocomplete';
 import {MatInputModule} from '@angular/material/input';
 import {MatFormFieldModule} from '@angular/material/form-field';
+import {Tag} from "../../model/tag.model";
 
 @Component({
   selector: 'app-view-tag',

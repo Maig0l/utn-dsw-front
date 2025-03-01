@@ -1,5 +1,5 @@
 import { CommonModule } from '@angular/common';
-import {Component, OnDestroy, signal} from '@angular/core';
+import {Component, OnDestroy, OnInit, signal} from '@angular/core';
 import { Router, RouterOutlet } from '@angular/router';
 import { LoginService } from '../../services/auth/login.service.js';
 import { User } from '../../model/user.model';

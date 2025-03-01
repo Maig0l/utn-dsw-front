@@ -2,7 +2,8 @@ import { Component } from '@angular/core';
 import { FormControl, FormGroup, ReactiveFormsModule } from '@angular/forms';
 import { CommonModule } from '@angular/common';
 import { RouterOutlet } from '@angular/router';
-import { TagService, Tag } from '../../services/tag.service';
+import { TagService } from '../../services/tag.service';
+import {Tag} from "../../model/tag.model";
 
 
 

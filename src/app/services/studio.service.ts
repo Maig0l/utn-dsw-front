@@ -1,13 +1,7 @@
-import { Injectable } from "@angular/core";
-import { HttpClient } from "@angular/common/http";
-import { map, Observable } from "rxjs";
-
-export interface Studio {
-    id: number;
-    name: string;
-    type: string;
-    site: string;
-}
+import {Injectable} from "@angular/core";
+import {HttpClient} from "@angular/common/http";
+import {map, Observable} from "rxjs";
+import {Studio} from "../model/studio.model";
 
 interface ApiResponse {
     message: string;

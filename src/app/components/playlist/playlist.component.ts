@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { Playlist, PlaylistService } from '../../services/playlist.service';
+import { PlaylistService } from '../../services/playlist.service';
 import { FormArray, FormBuilder, FormControl, FormGroup, ReactiveFormsModule } from '@angular/forms';
 import { CommonModule } from '@angular/common';
 import { RouterOutlet } from '@angular/router';
@@ -11,6 +11,7 @@ import { MatIconModule } from '@angular/material/icon';
 import { MatDividerModule } from '@angular/material/divider';
 import { MatCheckboxModule } from '@angular/material/checkbox';
 import { Game } from '../../model/game.model'
+import {Playlist} from "../../model/playlist.model";
 
 @Component({
   selector: 'app-playlist',

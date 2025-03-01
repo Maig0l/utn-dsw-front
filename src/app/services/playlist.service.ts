@@ -1,15 +1,7 @@
-import { Injectable } from '@angular/core';
-import { HttpClient } from '@angular/common/http';
-import { map, Observable } from 'rxjs';
-
-export interface Playlist {
-  id: number;
-  name: string;
-  description: string;
-  is_private: boolean;
-  owner: number; //TODO: Cambiar por User
-  games: number; //TODO: Cambiar por Game
-}
+import {Injectable} from '@angular/core';
+import {HttpClient} from '@angular/common/http';
+import {map, Observable} from 'rxjs';
+import {Playlist} from "../model/playlist.model";
 
 interface ApiResponse {
   message: string;

@@ -1,14 +1,7 @@
-import { Injectable } from '@angular/core';
-import { HttpClient } from '@angular/common/http';
-import { map, Observable } from 'rxjs';
-import { Game } from "../model/game.model";
-
-export interface Tag {
-  id: number
-  name: string
-  description: string
-  games: [Game["id"]]
-}
+import {Injectable} from '@angular/core';
+import {HttpClient} from '@angular/common/http';
+import {map, Observable} from 'rxjs';
+import {Tag} from "../model/tag.model";
 
 interface ApiResponse {
   message: string

@@ -1,7 +1,8 @@
 import { Component, Input } from '@angular/core';
 import { RouterOutlet } from '@angular/router';
-import { ShopService, Shop } from '../../services/shop.service';
+import { ShopService } from '../../services/shop.service';
 import { FormControl, FormGroup, ReactiveFormsModule } from '@angular/forms';
+import {Shop} from "../../model/shop.model";
 
 @Component({
   selector: 'app-shop',

@@ -1,7 +1,8 @@
 import { Component, Input } from '@angular/core';
 import { RouterOutlet } from '@angular/router';
-import { StudioService, Studio } from '../../services/studio.service';
+import { StudioService } from '../../services/studio.service';
 import { FormControl, FormGroup, ReactiveFormsModule } from '@angular/forms';
+import {Studio} from "../../model/studio.model";
 
 @Component({
   selector: 'app-studio',

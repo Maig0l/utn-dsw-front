@@ -1,9 +1,8 @@
-import {Injectable} from '@angular/core';
-import {HttpClient} from '@angular/common/http';
-import {map, Observable} from 'rxjs';
-import {Playlist} from "../model/playlist.model";
-import {ApiResponse} from "../model/apiResponse.model";
-
+import { Injectable } from '@angular/core';
+import { HttpClient } from '@angular/common/http';
+import { map, Observable } from 'rxjs';
+import { Playlist } from '../model/playlist.model';
+import { ApiResponse } from '../model/apiResponse.model';
 
 @Injectable({
   providedIn: 'root',
@@ -35,7 +34,7 @@ export class PlaylistService {
     description: string,
     is_private: boolean,
     owner: number,
-    games: number[]
+    games: number[],
   ): Observable<Playlist> {
     return this.http.post<Playlist>(this.playlistEndpoint, {
       name,
@@ -52,7 +51,7 @@ export class PlaylistService {
     description: string,
     is_private: boolean,
     owner: number,
-    games: number
+    games: number,
   ): Observable<Playlist> {
     const url = this.playlistEndpoint + `/${id}`;
     return this.http.put<Playlist>(url, {
@@ -67,7 +66,9 @@ export class PlaylistService {
 
   deletePlaylist(id: number): Observable<Playlist> {
     const url = this.playlistEndpoint + `/${id}`;
-    return this.http.delete<ApiResponse<Playlist>>(url).pipe(map((res) => res.data));
+    return this.http
+      .delete<ApiResponse<Playlist>>(url)
+      .pipe(map((res) => res.data));
   }
 
   getOnePlaylist(id: number): Observable<Playlist> {

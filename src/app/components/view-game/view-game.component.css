@@ -3,7 +3,9 @@
   border: 1px solid #ddd;
   border-radius: 8px;
   overflow: hidden;
-  transition: transform 0.3s, box-shadow 0.3s;
+  transition:
+    transform 0.3s,
+    box-shadow 0.3s;
   background-color: #001d3d;
   color: white;
 }
@@ -34,7 +36,7 @@
   font-weight: bold;
 }
 
-.mat-card-header{
+.mat-card-header {
   padding-bottom: 16px;
 }
 
@@ -50,6 +52,6 @@
   padding: 0px;
 }
 
-mat-chip-set{
+mat-chip-set {
   padding: 4px;
 }

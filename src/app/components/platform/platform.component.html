@@ -1,13 +1,12 @@
 <!-- GET ALL -->
 <section>
   <h1>Listing platforms</h1>
-  
+
   <button (click)="showPlatforms()">Get Platforms</button>
-  
+
   @for (platform of platforms; track platform.id) {
     <div class="platform-item">
-      <small>[{{ platform.id }}]</small>&nbsp;
-      <b>{{ platform.name }}</b> &nbsp;
+      <small>[{{ platform.id }}]</small>&nbsp; <b>{{ platform.name }}</b> &nbsp;
     </div>
   }
 </section>
@@ -17,12 +16,12 @@
   <h1>Create new platform</h1>
   <form [formGroup]="platformForm" (submit)="addPlatform()">
     <label for="name">Name</label>
-    <input type="text" id="name" formControlName="name">
-    
+    <input type="text" id="name" formControlName="name" />
+
     <label for="img">Image</label>
-    <input type="text" id="img" formControlName="img">
-    
-    <button type="submit" class="primary" >Create</button>
+    <input type="text" id="img" formControlName="img" />
+
+    <button type="submit" class="primary">Create</button>
   </form>
 </section>
 
@@ -57,7 +56,7 @@
 <section>
   <h1>Delete a platform</h1>
   <form [formGroup]="deleteForm" (submit)="deletePlatform()">
-    <input type="number"formControlName="id">
-    <input type="submit">
+    <input type="number" formControlName="id" />
+    <input type="submit" />
   </form>
 </section>

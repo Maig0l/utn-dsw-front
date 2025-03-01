@@ -16,8 +16,8 @@ import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatButtonModule } from '@angular/material/button';
 import { MatIconModule } from '@angular/material/icon';
 import { MatDividerModule } from '@angular/material/divider';
-import {Game} from "../../model/game.model";
-import {Tag} from "../../model/tag.model";
+import { Game } from '../../model/game.model';
+import { Tag } from '../../model/tag.model';
 
 @Component({
   selector: 'app-edit-game',
@@ -58,7 +58,7 @@ export class EditGameComponent implements OnInit {
     private router: Router,
     private route: ActivatedRoute,
     private gameService: GameService,
-    private tagService: TagService
+    private tagService: TagService,
   ) {}
 
   /*searchTags = new FormGroup({
@@ -150,7 +150,7 @@ export class EditGameComponent implements OnInit {
     const value = (event.target as HTMLInputElement).value.toLowerCase();
     this.inputValue = value;
     this.filteredOptions = this.options.filter((option) =>
-      option.toLowerCase().includes(value)
+      option.toLowerCase().includes(value),
     );
   }
 
@@ -187,12 +187,12 @@ export class EditGameComponent implements OnInit {
         this.updateForm.value.portrait ?? '',
         this.updateForm.value.banner ?? '',
         (this.updateForm.value.pictures ?? []).filter(
-          (picture): picture is string => picture !== null
+          (picture): picture is string => picture !== null,
         ),
-        this.updateForm.value.franchise ?? 0
+        this.updateForm.value.franchise ?? 0,
       )
       .subscribe((responseGame) => {
-        this.game = responseGame
+        this.game = responseGame;
       });
   }
 
@@ -217,7 +217,7 @@ export class EditGameComponent implements OnInit {
     this.gameService
       .addStudiosToGame(
         this.studiosGame.value.id ?? 0,
-        this.studiosGame.value.studio ?? 0
+        this.studiosGame.value.studio ?? 0,
       )
       .subscribe((responseGame) => (this.game = responseGame));
   }
@@ -226,7 +226,7 @@ export class EditGameComponent implements OnInit {
     this.gameService
       .addShopsToGame(
         this.shopsGame.value.id ?? 0,
-        this.shopsGame.value.shop ?? 0
+        this.shopsGame.value.shop ?? 0,
       )
       .subscribe((responseGame) => (this.game = responseGame));
   }
@@ -235,7 +235,7 @@ export class EditGameComponent implements OnInit {
     this.gameService
       .addPlatformsToGame(
         this.platformsGame.value.id ?? 0,
-        this.platformsGame.value.platform ?? 0
+        this.platformsGame.value.platform ?? 0,
       )
       .subscribe((responseGame) => (this.game = responseGame));
   }

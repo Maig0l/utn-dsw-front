@@ -1,6 +1,6 @@
 export interface Shop {
-  id: number
-  name: string
-  img: string
-  site: string
+  id: number;
+  name: string;
+  img: string;
+  site: string;
 }

@@ -3,85 +3,85 @@ import { RouterOutlet } from '@angular/router';
 import { PlatformService } from '../../services/platform.service';
 import { FormControl, FormGroup, ReactiveFormsModule } from '@angular/forms';
 import { CommonModule } from '@angular/common';
-import {Platform} from "../../model/platform.model";
+import { Platform } from '../../model/platform.model';
 
 @Component({
   selector: 'app-platform',
   standalone: true,
   imports: [ReactiveFormsModule, CommonModule],
-  providers: [RouterOutlet,PlatformService],
+  providers: [RouterOutlet, PlatformService],
   templateUrl: './platform.component.html',
-  styleUrl: './platform.component.css'
+  styleUrl: './platform.component.css',
 })
 export class PlatformComponent {
+  platformForm = new FormGroup({
+    name: new FormControl(''),
+    img: new FormControl(''),
+  });
 
-    platformForm = new FormGroup({
-      name: new FormControl(''),
-      img: new FormControl('')
-    });
+  deleteForm = new FormGroup({
+    id: new FormControl(0),
+  });
 
-    deleteForm = new FormGroup({
-      id: new FormControl(0)
-    })
+  updateForm = new FormGroup({
+    id: new FormControl(0),
+    name: new FormControl(''),
+    img: new FormControl(''),
+  });
 
-    updateForm = new FormGroup({
-      id: new FormControl(0),
-      name: new FormControl(''),
-      img: new FormControl('')
-    })
+  platformIdForm = new FormGroup({
+    id: new FormControl(0),
+  });
 
-    platformIdForm = new FormGroup({
-      id: new FormControl(0)
-    });
+  platform: Platform | undefined;
+  platforms: Platform[] | undefined;
 
+  constructor(private platformService: PlatformService) {}
 
-    platform: Platform | undefined
-    platforms: Platform[] | undefined
+  showPlatforms() {
+    this.platformService
+      .getAllPlatforms()
+      .subscribe((responsePlatforms) => (this.platforms = responsePlatforms));
+  }
 
-    constructor(private platformService: PlatformService) { }
+  addPlatform() {
+    this.platformService
+      .addPlatform(
+        this.platformForm.value.name ?? '',
+        this.platformForm.value.img ?? '',
+      )
+      .subscribe((responsePlatform) => (this.platform = responsePlatform));
+  }
 
-    showPlatforms() {
-      this.platformService.getAllPlatforms()
-      .subscribe(responsePlatforms => this.platforms = responsePlatforms)
-    }
-
-    addPlatform() {
-      this.platformService.addPlatform(
-        this.platformForm.value.name ?? "",
-        this.platformForm.value.img ?? ""
-      ).subscribe(responsePlatform => this.platform = responsePlatform)
-    }
-
-    updatePlatform() {
-      this.platformService.updatePlatform(
+  updatePlatform() {
+    this.platformService
+      .updatePlatform(
         this.updateForm.value.id ?? 0,
-        this.updateForm.value.name ?? "",
-        this.updateForm.value.img ?? ""
+        this.updateForm.value.name ?? '',
+        this.updateForm.value.img ?? '',
       )
-      .subscribe(responsePlatform => this.platform = responsePlatform)
-    }
+      .subscribe((responsePlatform) => (this.platform = responsePlatform));
+  }
 
-    deletePlatform() {
-      this.platformService.deletePlatform(
-        this.deleteForm.value.id ?? 0
-      )
-      .subscribe(res => console.log(res))
-    }
+  deletePlatform() {
+    this.platformService
+      .deletePlatform(this.deleteForm.value.id ?? 0)
+      .subscribe((res) => console.log(res));
+  }
 
   editReady = false;
 
   populateForm() {
     const id = this.platformIdForm.get('id')?.value;
     if (id) {
-      this.platformService.getOnePlatform(id).subscribe(
-        (data: Platform) => {
-          this.updateForm.setValue({
-            id: data.id,
-            name: data.name,
-            img: data.img
-          });
-          this.editReady = true;
-        }); //TODO handle error?
+      this.platformService.getOnePlatform(id).subscribe((data: Platform) => {
+        this.updateForm.setValue({
+          id: data.id,
+          name: data.name,
+          img: data.img,
+        });
+        this.editReady = true;
+      }); //TODO handle error?
     } else {
       this.editReady = false;
     }

@@ -75,9 +75,9 @@
         (optionSelected)="selectFranchise($event)"
       >
         @for (option of frFilteredOptions | async; track option) {
-        <mat-option [value]="option.name" viewValue="option.name"
-          >{{ option.name }} (id:{{ option.id }})</mat-option
-        >
+          <mat-option [value]="option.name" viewValue="option.name"
+            >{{ option.name }} (id:{{ option.id }})</mat-option
+          >
         }
       </mat-autocomplete>
     </mat-form-field>

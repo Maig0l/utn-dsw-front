@@ -76,8 +76,8 @@
   <h1>Add Tag</h1>
 
   <mat-chip-set aria-label="Tags">
-    @for (tag of gametags; track tag.id){
-    <mat-chip>{{ tag.name }}</mat-chip>
+    @for (tag of gametags; track tag.id) {
+      <mat-chip>{{ tag.name }}</mat-chip>
     }
   </mat-chip-set>
 

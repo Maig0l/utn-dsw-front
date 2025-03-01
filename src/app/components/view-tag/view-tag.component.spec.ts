@@ -8,10 +8,9 @@ describe('ViewTagComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      imports: [ViewTagComponent]
-    })
-    .compileComponents();
-    
+      imports: [ViewTagComponent],
+    }).compileComponents();
+
     fixture = TestBed.createComponent(ViewTagComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();

@@ -7,14 +7,13 @@ import { Router } from '@angular/router';
   standalone: true,
   imports: [],
   templateUrl: './footer.component.html',
-  styleUrl: './footer.component.css'
+  styleUrl: './footer.component.css',
 })
 export class FooterComponent implements OnInit {
+  constructor(private router: Router) {}
 
-    constructor(private router: Router) {}
-
-    redirect(path: string) {
-      this.router.navigate([path]); // Funcion para redirigir a una ruta
+  redirect(path: string) {
+    this.router.navigate([path]); // Funcion para redirigir a una ruta
   }
 
   private platformId = inject(PLATFORM_ID);

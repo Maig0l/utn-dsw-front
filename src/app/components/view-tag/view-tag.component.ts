@@ -3,63 +3,71 @@ import { TagService } from '../../services/tag.service';
 import { RouterOutlet } from '@angular/router';
 import { DatePipe, NgFor, NgIf } from '@angular/common';
 import { ReactiveFormsModule } from '@angular/forms';
-import {MatProgressBarModule} from '@angular/material/progress-bar';
-import {MatCardModule} from '@angular/material/card';
-import {MatChipsModule} from '@angular/material/chips';
-import {MatGridListModule, MatGridTile} from '@angular/material/grid-list';
-import {AsyncPipe} from '@angular/common';
+import { MatProgressBarModule } from '@angular/material/progress-bar';
+import { MatCardModule } from '@angular/material/card';
+import { MatChipsModule } from '@angular/material/chips';
+import { MatGridListModule, MatGridTile } from '@angular/material/grid-list';
+import { AsyncPipe } from '@angular/common';
 
 import { MatFormField } from '@angular/material/form-field';
-import {MatAutocompleteModule} from '@angular/material/autocomplete';
-import {MatInputModule} from '@angular/material/input';
-import {MatFormFieldModule} from '@angular/material/form-field';
-import {Tag} from "../../model/tag.model";
+import { MatAutocompleteModule } from '@angular/material/autocomplete';
+import { MatInputModule } from '@angular/material/input';
+import { MatFormFieldModule } from '@angular/material/form-field';
+import { Tag } from '../../model/tag.model';
 
 @Component({
   selector: 'app-view-tag',
   standalone: true,
-  imports: [MatCardModule, MatChipsModule, MatProgressBarModule, DatePipe, ReactiveFormsModule, MatFormField,NgIf , NgFor, MatAutocompleteModule, MatInputModule, MatFormFieldModule, AsyncPipe],
-  providers: [RouterOutlet,TagService, MatGridListModule, MatGridTile],
+  imports: [
+    MatCardModule,
+    MatChipsModule,
+    MatProgressBarModule,
+    DatePipe,
+    ReactiveFormsModule,
+    MatFormField,
+    NgIf,
+    NgFor,
+    MatAutocompleteModule,
+    MatInputModule,
+    MatFormFieldModule,
+    AsyncPipe,
+  ],
+  providers: [RouterOutlet, TagService, MatGridListModule, MatGridTile],
   templateUrl: './view-tag.component.html',
-  styleUrl: './view-tag.component.css'
+  styleUrl: './view-tag.component.css',
 })
 export class ViewTagComponent implements OnInit {
-
-  options: string[] = [ ];
+  options: string[] = [];
   filteredOptions: string[] = [];
   inputValue = '';
   showDropdown = false;
   hoveredOption: string | null = null;
 
-  i=0;
-  tag: Tag | undefined
+  i = 0;
+  tag: Tag | undefined;
   tags: Tag[] = [];
 
-  constructor(private tagService: TagService) { }
-
-
+  constructor(private tagService: TagService) {}
 
   showTags() {
-    this.tagService.getAllTags()
-    .subscribe(responseTags => this.tags = responseTags)
-    }
-
-  ngOnInit(): void {
-
-      this.showTags();
-
+    this.tagService
+      .getAllTags()
+      .subscribe((responseTags) => (this.tags = responseTags));
   }
 
+  ngOnInit(): void {
+    this.showTags();
+  }
 
   onInput(event: Event): void {
-    if(this.i == 0)
-    {    this.tags.forEach((tag) =>  this.options.push(tag.name));
-         this.i ++;
+    if (this.i == 0) {
+      this.tags.forEach((tag) => this.options.push(tag.name));
+      this.i++;
     }
     const value = (event.target as HTMLInputElement).value.toLowerCase();
     this.inputValue = value;
-    this.filteredOptions = this.options.filter(option =>
-      option.toLowerCase().includes(value)
+    this.filteredOptions = this.options.filter((option) =>
+      option.toLowerCase().includes(value),
     );
   }
 
@@ -73,10 +81,7 @@ export class ViewTagComponent implements OnInit {
     setTimeout(() => (this.showDropdown = false), 200);
   }
 
-
-
-
-/**
+  /**
 
 
   tagForm = new FormGroup({
@@ -118,7 +123,7 @@ export class ViewTagComponent implements OnInit {
       option.name.toLocaleLowerCase().includes(searchvalue));
     }
   */
-    /** viewTagsLike() {
+  /** viewTagsLike() {
       const name = this.tagForm.get('name')?.value;
       if (name) {
       const tags =  this.tagService.getAllTags()
@@ -129,5 +134,4 @@ export class ViewTagComponent implements OnInit {
       }
     }
     */
-
 }

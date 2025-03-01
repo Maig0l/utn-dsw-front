@@ -1,8 +1,7 @@
 <main>
   <section class="selected-game">
     @if (game) {
-      <ng-container *ngTemplateOutlet="loadedGame">
-      </ng-container>
+      <ng-container *ngTemplateOutlet="loadedGame"> </ng-container>
     } @else {
       <ng-container *ngTemplateOutlet="loading"></ng-container>
     }
@@ -22,10 +21,7 @@
 
 <ng-template #loadedGame>
   <div class="game-banner">
-    <img
-      [src]="game.banner"
-      alt="Banner del videojuego"
-    />
+    <img [src]="game.banner" alt="Banner del videojuego" />
   </div>
 
   <div class="game-info">
@@ -43,14 +39,14 @@
         <p class="studio">
           Developer/s:
           @for (studio of devs; track studio.id) {
-            <a [href]="studio.site">{{studio.name}}</a>
+            <a [href]="studio.site">{{ studio.name }}</a>
           }
         </p>
 
         <p class="studio">
           Publisher/s:
           @for (studio of pubs; track studio.id) {
-            <a [href]="studio.site">{{studio.name}}</a>
+            <a [href]="studio.site">{{ studio.name }}</a>
           }
         </p>
       </div>
@@ -58,7 +54,7 @@
       <div class="platforms">
         <span>Available on:</span>
         @for (platform of game.platforms; track platform.id) {
-          <img [src]="platform.img" [alt]="platform.name">
+          <img [src]="platform.img" [alt]="platform.name" />
         }
       </div>
     </div>
@@ -87,6 +83,4 @@
   }
 </ng-template>
 
-<ng-template #reviewsSection>
-
-</ng-template>
+<ng-template #reviewsSection> </ng-template>

@@ -1,6 +1,12 @@
 import { Component, OnInit } from '@angular/core';
 import { PlaylistService } from '../../services/playlist.service';
-import { FormArray, FormBuilder, FormControl, FormGroup, ReactiveFormsModule } from '@angular/forms';
+import {
+  FormArray,
+  FormBuilder,
+  FormControl,
+  FormGroup,
+  ReactiveFormsModule,
+} from '@angular/forms';
 import { CommonModule } from '@angular/common';
 import { RouterOutlet } from '@angular/router';
 import { MatInputModule } from '@angular/material/input';
@@ -10,7 +16,7 @@ import { MatSelectModule } from '@angular/material/select';
 import { MatIconModule } from '@angular/material/icon';
 import { MatDividerModule } from '@angular/material/divider';
 import { MatCheckboxModule } from '@angular/material/checkbox';
-import {Playlist} from "../../model/playlist.model";
+import { Playlist } from '../../model/playlist.model';
 
 @Component({
   selector: 'app-playlist',
@@ -28,12 +34,12 @@ import {Playlist} from "../../model/playlist.model";
   ],
   providers: [RouterOutlet, PlaylistService, FormBuilder],
   templateUrl: './playlist.component.html',
-  styleUrl: './playlist.component.css'
+  styleUrl: './playlist.component.css',
 })
 export class PlaylistComponent implements OnInit {
   constructor(
     private playlistService: PlaylistService,
-    private formBuilder: FormBuilder
+    private formBuilder: FormBuilder,
   ) {}
 
   //#################################################
@@ -50,7 +56,7 @@ export class PlaylistComponent implements OnInit {
     this.playlistService
       .getPlaylistsByOwner(user)
       .subscribe(
-        (responsePlaylists) => (this.userPlaylists = responsePlaylists)
+        (responsePlaylists) => (this.userPlaylists = responsePlaylists),
       );
     console.log('GET PLAYLISTS ', this.userPlaylists);
   }
@@ -83,7 +89,7 @@ export class PlaylistComponent implements OnInit {
     description: [''],
     is_private: [false],
     owner: [],
-    games: this.formBuilder.array([this.formBuilder.control(0)])
+    games: this.formBuilder.array([this.formBuilder.control(0)]),
   });
 
   updateForm2 = this.formBuilder.group({
@@ -92,7 +98,7 @@ export class PlaylistComponent implements OnInit {
     description: [''],
     is_private: [false],
     owner: [],
-    games: this.formBuilder.array([this.formBuilder.control(0)])
+    games: this.formBuilder.array([this.formBuilder.control(0)]),
   });
 
   get games(): FormArray {
@@ -100,21 +106,20 @@ export class PlaylistComponent implements OnInit {
   }
 
   addGames() {
-  this.games.push(this.formBuilder.control(''));
-}
-
+    this.games.push(this.formBuilder.control(''));
+  }
 
   playlistForm = new FormGroup({
     name: new FormControl(''),
     description: new FormControl(''),
     is_private: new FormControl(false),
     owner: new FormControl(0),
-    games: new FormControl(0)
+    games: new FormControl(0),
   });
 
   deleteForm = new FormGroup({
-    id: new FormControl(0)
-  })
+    id: new FormControl(0),
+  });
 
   updateForm = new FormGroup({
     id: new FormControl(0),
@@ -122,15 +127,15 @@ export class PlaylistComponent implements OnInit {
     description: new FormControl(''),
     is_private: new FormControl(false),
     owner: new FormControl(0),
-    games: new FormControl(0)
-  })
-
-  playlistIdForm = new FormGroup({
-    id: new FormControl(0)
+    games: new FormControl(0),
   });
 
-  playlist: Playlist | undefined
-  playlists: Playlist[] | undefined
+  playlistIdForm = new FormGroup({
+    id: new FormControl(0),
+  });
+
+  playlist: Playlist | undefined;
+  playlists: Playlist[] | undefined;
 
   showPlaylists() {
     this.playlistService
@@ -147,35 +152,34 @@ export class PlaylistComponent implements OnInit {
         this.playlistForm3.value.is_private ?? false,
         this.user, //this.playlistForm3.value.owner ?? 0,
         (this.playlistForm3.get('games')?.value as (number | null)[]) //TODO: Cambiar por Game, no se si esta bien, a angular no le gusta
-          .filter((game): game is number => game !== null) ?? [0]
+          .filter((game): game is number => game !== null) ?? [0],
       )
       .subscribe((responsePlaylist) => (this.playlist = responsePlaylist));
   }
 
   updatePlaylist() {
-    this.playlistService.updatePlaylist(
-      this.updateForm.value.id ?? 0,
-      this.updateForm.value.name ?? "",
-      this.updateForm.value.description ?? "",
-      this.updateForm.value.is_private ?? false,
-      this.updateForm.value.owner ?? 0,
-      this.updateForm.value.games ?? 0
-    )
-    .subscribe(responsePlaylist => this.playlist = responsePlaylist)
+    this.playlistService
+      .updatePlaylist(
+        this.updateForm.value.id ?? 0,
+        this.updateForm.value.name ?? '',
+        this.updateForm.value.description ?? '',
+        this.updateForm.value.is_private ?? false,
+        this.updateForm.value.owner ?? 0,
+        this.updateForm.value.games ?? 0,
+      )
+      .subscribe((responsePlaylist) => (this.playlist = responsePlaylist));
   }
 
   deletePlaylist() {
-    this.playlistService.deletePlaylist(
-      this.deleteForm.value.id ?? 0
-    )
-    .subscribe(responsePlaylist => this.playlist = responsePlaylist)
+    this.playlistService
+      .deletePlaylist(this.deleteForm.value.id ?? 0)
+      .subscribe((responsePlaylist) => (this.playlist = responsePlaylist));
   }
 
   getOnePlaylist() {
-    this.playlistService.getOnePlaylist(
-      this.playlistIdForm.value.id ?? 0
-    )
-    .subscribe(responsePlaylist => this.playlist = responsePlaylist)
+    this.playlistService
+      .getOnePlaylist(this.playlistIdForm.value.id ?? 0)
+      .subscribe((responsePlaylist) => (this.playlist = responsePlaylist));
   }
 
   editReady = false;
@@ -183,18 +187,17 @@ export class PlaylistComponent implements OnInit {
   populateForm() {
     const id = this.playlistIdForm.get('id')?.value;
     if (id) {
-      this.playlistService.getOnePlaylist(id).subscribe(
-        (data: Playlist) => {
-          this.updateForm.setValue({
-            id: data.id,
-            name: data.name,
-            description: data.description,
-            is_private: data.is_private,
-            owner: data.owner,
-            games: data.games
-          });
-          this.editReady = true;
-        }); //TODO handle error?
+      this.playlistService.getOnePlaylist(id).subscribe((data: Playlist) => {
+        this.updateForm.setValue({
+          id: data.id,
+          name: data.name,
+          description: data.description,
+          is_private: data.is_private,
+          owner: data.owner,
+          games: data.games,
+        });
+        this.editReady = true;
+      }); //TODO handle error?
     } else {
       this.editReady = false;
     }

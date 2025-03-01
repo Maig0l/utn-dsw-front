@@ -7,10 +7,13 @@ import { ReactiveFormsModule } from '@angular/forms';
 @Component({
   selector: 'app-root',
   standalone: true,
-  imports: [ReactiveFormsModule, RouterOutlet, HeaderComponent, FooterComponent],
+  imports: [
+    ReactiveFormsModule,
+    RouterOutlet,
+    HeaderComponent,
+    FooterComponent,
+  ],
   templateUrl: './app.component.html',
-  styleUrl: './app.component.css'
+  styleUrl: './app.component.css',
 })
-export class AppComponent {
-
-}
+export class AppComponent {}

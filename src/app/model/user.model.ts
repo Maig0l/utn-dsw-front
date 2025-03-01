@@ -4,5 +4,5 @@ export interface User {
   email: string;
   profile_img?: string;
   bio_text?: string;
-  linked_accounts?: string[]
+  linked_accounts?: string[];
 }

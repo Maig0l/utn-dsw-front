@@ -1,6 +1,6 @@
 .footer {
   background-color: #12161a;
-  color: #E5E5E5;
+  color: #e5e5e5;
   padding: 0.5rem 0;
   margin-top: 2rem;
 }
@@ -24,7 +24,7 @@
 }
 
 .footer-social a {
-  color: #E5E5E5;
+  color: #e5e5e5;
   font-size: 1.2rem;
   margin-left: 1rem;
 }
@@ -33,7 +33,7 @@
   color: var(--hover-color);
 }
 
-.footer-bottom p{
+.footer-bottom p {
   text-align: center;
   font-size: 0.9rem;
   margin-top: 1rem;

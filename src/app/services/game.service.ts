@@ -1,19 +1,18 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { map, Observable } from 'rxjs';
-import {ApiResponse} from "../model/apiResponse.model";
-import {Game} from "../model/game.model";
-import {API_URL} from "../../main";
-
+import { ApiResponse } from '../model/apiResponse.model';
+import { Game } from '../model/game.model';
+import { API_URL } from '../../main';
 
 @Injectable({
-  providedIn: 'root'
+  providedIn: 'root',
 })
 export class GameService {
   constructor(private http: HttpClient) {}
 
   // TODO: Guardar la URL base y rutas de endpoints en algún archivo de config global
-  gamesEndpoint = `${API_URL}/games`
+  gamesEndpoint = `${API_URL}/games`;
 
   findGamesByTitle(title: string): Observable<Game[]> {
     const url = this.gamesEndpoint + `/search?title=${title}`;
@@ -57,7 +56,7 @@ export class GameService {
     releaseDate: string,
     portrait: string,
     banner: string,
-    franchise: number
+    franchise: number,
   ): Observable<Game> {
     return this.http.post<Game>(this.gamesEndpoint, {
       title,
@@ -82,7 +81,7 @@ export class GameService {
     portrait: string,
     banner: string,
     pictures: string[],
-    franchise: number
+    franchise: number,
   ): Observable<Game> {
     const url = this.gamesEndpoint + `/${id}`;
     return this.http.patch<Game>(url, {
@@ -99,7 +98,9 @@ export class GameService {
 
   deleteGame(id: number): Observable<Game> {
     const url = this.gamesEndpoint + `/${id}`;
-    return this.http.delete<ApiResponse<Game>>(url).pipe(map((res) => res.data));
+    return this.http
+      .delete<ApiResponse<Game>>(url)
+      .pipe(map((res) => res.data));
   }
 
   getOneGame(id: number): Observable<Game> {
@@ -114,11 +115,10 @@ export class GameService {
    * For now, just get all games and return 3 or 4
    */
   getHotGames() {
-    return this.http.get<ApiResponse<Game[]>>(this.gamesEndpoint)
-      .pipe(
-        map(res => {
-          return res.data.slice(0, 3)
-        })
-      )
+    return this.http.get<ApiResponse<Game[]>>(this.gamesEndpoint).pipe(
+      map((res) => {
+        return res.data.slice(0, 3);
+      }),
+    );
   }
 }

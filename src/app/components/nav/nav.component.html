@@ -2,12 +2,24 @@
   <ul>
     <li>
       <details class="dropdown">
-        <summary>
-          Account
-        </summary>
+        <summary>Account</summary>
         <ul dir="rtl">
-          <li *ngIf="!userLoginOn"><a routerLink="/log-in" routerLinkActive="active" (click)="redirect('/log-in')">Login</a></li>
-          <li *ngIf="!userLoginOn"><a routerLink="/register" routerLinkActive="active" (click)="redirect('/register')">Register</a></li>
+          <li *ngIf="!userLoginOn">
+            <a
+              routerLink="/log-in"
+              routerLinkActive="active"
+              (click)="redirect('/log-in')"
+              >Login</a
+            >
+          </li>
+          <li *ngIf="!userLoginOn">
+            <a
+              routerLink="/register"
+              routerLinkActive="active"
+              (click)="redirect('/register')"
+              >Register</a
+            >
+          </li>
 
           <li *ngIf="userLoginOn"><a href="#">Profile</a></li>
           <li *ngIf="userLoginOn"><a href="#">Settings</a></li>

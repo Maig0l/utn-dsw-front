@@ -1,5 +1,5 @@
 .review-card {
-  background-color: #2F2F92;
+  background-color: #2f2f92;
   border-radius: 12px;
   min-width: 20em;
   padding: 0.5em;
@@ -27,8 +27,8 @@
 }
 
 .star-full:before {
-  content: '*';
+  content: "*";
 }
 .star-empty:before {
-  content: '-';
+  content: "-";
 }

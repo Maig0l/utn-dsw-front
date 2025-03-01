@@ -1,7 +1,7 @@
-import {Review} from "./review.model";
-import {Platform} from "./platform.model";
-import {Studio} from "./studio.model";
-import {Tag} from "./tag.model";
+import { Review } from './review.model';
+import { Platform } from './platform.model';
+import { Studio } from './studio.model';
+import { Tag } from './tag.model';
 
 export interface Pictures {
   url: string[];

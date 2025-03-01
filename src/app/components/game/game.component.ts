@@ -1,8 +1,6 @@
-import {Component, OnInit} from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { Router, RouterOutlet } from '@angular/router';
-import {
-  GameService,
-} from '../../services/game.service';
+import { GameService } from '../../services/game.service';
 import {
   FormArray,
   FormControl,
@@ -18,11 +16,14 @@ import { MatButtonModule } from '@angular/material/button';
 import { MatIconModule } from '@angular/material/icon';
 import { MatDividerModule } from '@angular/material/divider';
 import { FranchiseService } from '../../services/franchise.service';
-import {MatAutocompleteModule, MatAutocompleteSelectedEvent} from '@angular/material/autocomplete';
+import {
+  MatAutocompleteModule,
+  MatAutocompleteSelectedEvent,
+} from '@angular/material/autocomplete';
 import { Observable, of, startWith, switchMap } from 'rxjs';
-import {Game} from "../../model/game.model";
-import {Franchise} from "../../model/franchise.model";
-import {Tag} from "../../model/tag.model";
+import { Game } from '../../model/game.model';
+import { Franchise } from '../../model/franchise.model';
+import { Tag } from '../../model/tag.model';
 
 @Component({
   selector: 'app-game',
@@ -110,7 +111,7 @@ export class GameComponent implements OnInit {
     private gameService: GameService,
     private tagService: TagService,
     private franchiseService: FranchiseService,
-    private router: Router
+    private router: Router,
   ) {}
 
   frAutoc = new FormControl('');
@@ -128,7 +129,7 @@ export class GameComponent implements OnInit {
 
     this.frFilteredOptions = this.frAutoc.valueChanges.pipe(
       startWith(''),
-      switchMap((value) => this._filter(value || ''))
+      switchMap((value) => this._filter(value || '')),
     );
   }
 
@@ -139,8 +140,8 @@ export class GameComponent implements OnInit {
     }
     return of(
       this.frOptions.filter((option) =>
-        option.name.toLowerCase().includes(filterValue)
-      )
+        option.name.toLowerCase().includes(filterValue),
+      ),
     );
   }
 
@@ -180,7 +181,7 @@ export class GameComponent implements OnInit {
         this.gameForm.value.releaseDate ?? '',
         this.gameForm.value.portrait ?? '',
         this.gameForm.value.banner ?? '',
-        this.gameForm.value.franchise ?? 0
+        this.gameForm.value.franchise ?? 0,
       )
       .subscribe((responseGame) => {
         this.game = responseGame;
@@ -188,8 +189,8 @@ export class GameComponent implements OnInit {
           .addPicturesToGame(
             this.game.id,
             (this.gameForm.value.pictures as (string | null)[]).filter(
-              (picture): picture is string => picture !== null
-            ) ?? []
+              (picture): picture is string => picture !== null,
+            ) ?? [],
           )
           .subscribe((responsePictures) => console.log(responsePictures));
       });
@@ -212,7 +213,7 @@ export class GameComponent implements OnInit {
     this.gameService
       .addStudiosToGame(
         this.studiosGame.value.id ?? 0,
-        this.studiosGame.value.studio ?? 0
+        this.studiosGame.value.studio ?? 0,
       )
       .subscribe((responseGame) => (this.game = responseGame));
   }
@@ -221,7 +222,7 @@ export class GameComponent implements OnInit {
     this.gameService
       .addShopsToGame(
         this.shopsGame.value.id ?? 0,
-        this.shopsGame.value.shop ?? 0
+        this.shopsGame.value.shop ?? 0,
       )
       .subscribe((responseGame) => (this.game = responseGame));
   }
@@ -230,7 +231,7 @@ export class GameComponent implements OnInit {
     this.gameService
       .addPlatformsToGame(
         this.platformsGame.value.id ?? 0,
-        this.platformsGame.value.platform ?? 0
+        this.platformsGame.value.platform ?? 0,
       )
       .subscribe((responseGame) => (this.game = responseGame));
   }

@@ -5,10 +5,10 @@
   <button (click)="showFranchises()">Get Franchises</button>
 
   @for (franchise of franchises; track franchise.id) {
-  <div class="franchise-item">
-    <small>[{{ franchise.id }}]</small>&nbsp;
-    <b>{{ franchise.name }}</b> &nbsp;
-  </div>
+    <div class="franchise-item">
+      <small>[{{ franchise.id }}]</small>&nbsp;
+      <b>{{ franchise.name }}</b> &nbsp;
+    </div>
   }
 </section>
 
@@ -17,10 +17,10 @@
   <h1>Create new franchise</h1>
   <form [formGroup]="franchiseForm" (submit)="addFranchise()">
     <label for="name">Name</label>
-    <input type="text" id="name" formControlName="name">
+    <input type="text" id="name" formControlName="name" />
 
     <label for="img">Games (TODO)</label>
-    <input type="text" id="game" formControlName="game">
+    <input type="text" id="game" formControlName="game" />
 
     <button type="submit" class="primary">Create</button>
   </form>
@@ -43,7 +43,8 @@
       <div>
         <label for="name">Name:</label>
         <input id="name" formControlName="name" />
-      </div> <!--TODO modify games from here -->
+      </div>
+      <!--TODO modify games from here -->
       <button type="submit" class="primary">Update</button>
     </form>
   </div>
@@ -52,7 +53,7 @@
 <section>
   <h1>Delete a franchise</h1>
   <form [formGroup]="deleteForm" (submit)="deleteFranchise()">
-    <input type="number" formControlName="id">
-    <input type="submit">
+    <input type="number" formControlName="id" />
+    <input type="submit" />
   </form>
 </section>

@@ -1,17 +1,21 @@
 <div class="review-card">
   <div class="head">
-    <img [src]="review().author.profile_img" [alt]="review().author.nick + '\'s profile picture'"> <!--user profile pic-->
+    <img
+      [src]="review().author.profile_img"
+      [alt]="review().author.nick + '\'s profile picture'"
+    />
+    <!--user profile pic-->
     <span class="top-text">
-      <span id="author">{{review().author.nick}}</span> rated
-      <br/>
-      <span id="game">{{review().game.title}}</span>
+      <span id="author">{{ review().author.nick }}</span> rated
+      <br />
+      <span id="game">{{ review().game.title }}</span>
     </span>
   </div>
 
-  <hr>
+  <hr />
 
   <div id="rating">
-    @for (star of [1,2,3,4,5]; track $index) {
+    @for (star of [1, 2, 3, 4, 5]; track $index) {
       @if (star < review().score) {
         <span class="star-full"></span>
       } @else {
@@ -21,9 +25,9 @@
   </div>
 
   @if (review().title !== "") {
-    <p class="title">{{review().title}}</p>
+    <p class="title">{{ review().title }}</p>
   }
   @if (review().body !== "") {
-    <p class="body">{{review().body}}</p>
+    <p class="body">{{ review().body }}</p>
   }
 </div>

@@ -11,29 +11,34 @@ import { HttpClientModule } from '@angular/common/http';
   standalone: true,
   imports: [ReactiveFormsModule, CommonModule, HttpClientModule],
   templateUrl: './login.component.html',
-  styleUrl: './login.component.css'
+  styleUrl: './login.component.css',
 })
 export class LoginComponent {
-
-  loginError = "";
+  loginError = '';
 
   loginForm = this.fb.group({
     username: ['', Validators.required], //, Validators.minLength(6) lo rompe todo?
-    password: ['', Validators.required]
+    password: ['', Validators.required],
   });
-  constructor(private fb: FormBuilder, private router: Router, private loginService: LoginService
-  ) { }
+  constructor(
+    private fb: FormBuilder,
+    private router: Router,
+    private loginService: LoginService,
+  ) {}
 
-  get username() { return this.loginForm.controls.username ?? '' }
-  get password() { return this.loginForm.controls.password ?? '' }
-
+  get username() {
+    return this.loginForm.controls.username ?? '';
+  }
+  get password() {
+    return this.loginForm.controls.password ?? '';
+  }
 
   login() {
     if (this.loginForm.valid) {
       const requestBody: LoginRequest = {
         nick: this.username.value ?? '',
-        password: this.password.value ?? ''
-      }
+        password: this.password.value ?? '',
+      };
 
       this.loginService.login(requestBody).subscribe({
         next: (userData) => {
@@ -44,16 +49,14 @@ export class LoginComponent {
           this.loginError = error;
         },
         complete: () => {
-          console.info("Login completed");
+          console.info('Login completed');
           this.router.navigateByUrl('/homepage'); //TODO al inicio
           this.loginForm.reset();
-        }
-
+        },
       });
-
     } else {
       this.loginForm.markAllAsTouched();
-      alert("Form is invalid");
+      alert('Form is invalid');
     }
   }
 }

@@ -1,22 +1,82 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { Playlist, PlaylistService } from '../../services/playlist.service';
 import { FormArray, FormBuilder, FormControl, FormGroup, ReactiveFormsModule } from '@angular/forms';
 import { CommonModule } from '@angular/common';
 import { RouterOutlet } from '@angular/router';
+import { MatInputModule } from '@angular/material/input';
+import { MatFormFieldModule } from '@angular/material/form-field';
+import { MatButtonModule } from '@angular/material/button';
+import { MatSelectModule } from '@angular/material/select';
+import { MatIconModule } from '@angular/material/icon';
+import { MatDividerModule } from '@angular/material/divider';
+import { MatCheckboxModule } from '@angular/material/checkbox';
 import { Game } from '../../services/game.service';
 
 @Component({
   selector: 'app-playlist',
   standalone: true,
-  imports: [ReactiveFormsModule, CommonModule],
-  providers: [RouterOutlet,PlaylistService, FormBuilder],
+  imports: [
+    ReactiveFormsModule,
+    CommonModule,
+    MatIconModule,
+    MatDividerModule,
+    MatFormFieldModule,
+    MatButtonModule,
+    MatInputModule,
+    MatSelectModule,
+    MatCheckboxModule,
+  ],
+  providers: [RouterOutlet, PlaylistService, FormBuilder],
   templateUrl: './playlist.component.html',
   styleUrl: './playlist.component.css'
 })
-export class PlaylistComponent {
+export class PlaylistComponent implements OnInit {
+  constructor(
+    private playlistService: PlaylistService,
+    private formBuilder: FormBuilder
+  ) {}
 
-  constructor(private playlistService: PlaylistService, private formBuilder: FormBuilder){}
+  //#################################################
+  ngOnInit(): void {
+    this.getPlaylistsByOwner(this.user);
+  }
 
+  userPlaylists: Playlist[] = [];
+  user: number = 1; //TODO: Cambiar por User
+
+  getPlaylistsByOwner(user: number) {
+    console.log('GET PLAYLISTS BY OWNER ', user);
+    //de algun lado sacar el usuario (acá o en el servicio)
+    this.playlistService
+      .getPlaylistsByOwner(user)
+      .subscribe(
+        (responsePlaylists) => (this.userPlaylists = responsePlaylists)
+      );
+    console.log('GET PLAYLISTS ', this.userPlaylists);
+  }
+
+  //este es el que uso para crear
+  playlistForm3 = new FormGroup({
+    name: new FormControl(''),
+    description: new FormControl(''),
+    is_private: new FormControl(false),
+    owner: new FormControl(1), //TODO: Cambiar por User
+    games: new FormArray([
+      new FormControl(0), //REVISAR
+    ]),
+  });
+
+  get gamesForm3(): FormArray {
+    return this.playlistForm3.get('games') as FormArray;
+  }
+
+  addGameInput(): void {
+    this.games.push(new FormControl(''));
+  }
+
+  removeGameInput(index: number): void {
+    this.games.removeAt(index);
+  }
 
   playlistForm2 = this.formBuilder.group({
     name: [''],
@@ -73,21 +133,23 @@ export class PlaylistComponent {
   playlists: Playlist[] | undefined
 
   showPlaylists() {
-    this.playlistService.getAllPlaylists()
-    .subscribe(responsePlaylists => this.playlists = responsePlaylists)
+    this.playlistService
+      .getAllPlaylists()
+      .subscribe((responsePlaylists) => (this.playlists = responsePlaylists));
   }
 
   addPlaylist() {
-    this.playlistService.addPlaylist(
-      this.playlistForm2.value.name ?? "",
-      this.playlistForm2.value.description ?? "",
-      this.playlistForm2.value.is_private ?? false,
-      this.playlistForm2.value.owner ?? 0,
-      (this.playlistForm2.get('games')?.value as (number | null)[]) //TODO: Cambiar por Game, no se si esta bien, a angular no le gusta
-        .filter((game): game is number => game !== null) ?? [0]
-
-
-    ).subscribe(responsePlaylist => this.playlist = responsePlaylist)
+    console.log('ADD PLAYLIST ', this.playlistForm3.value);
+    this.playlistService
+      .addPlaylist(
+        this.playlistForm3.value.name ?? '',
+        this.playlistForm3.value.description ?? '',
+        this.playlistForm3.value.is_private ?? false,
+        this.user, //this.playlistForm3.value.owner ?? 0,
+        (this.playlistForm3.get('games')?.value as (number | null)[]) //TODO: Cambiar por Game, no se si esta bien, a angular no le gusta
+          .filter((game): game is number => game !== null) ?? [0]
+      )
+      .subscribe((responsePlaylist) => (this.playlist = responsePlaylist));
   }
 
   updatePlaylist() {

@@ -31,23 +31,24 @@
       <input matInput type="text" id="banner" formControlName="banner" />
     </mat-form-field>
 
-    <div *ngFor="let picture of pictures2; let i = index">
-      <mat-form-field>
-        <mat-label for="pictures">Picture {{ i + 1 }}:</mat-label>
-        <input
-          matInput
-          type="text"
-          id="pictures-{{ i }}"
-          formControlName="picture"
-          value="{{ picture }}"
-        />
-      </mat-form-field>
-      <img src="{{ picture }}" class="picture" />
+    <div formArrayName="pictures">
+      <div *ngFor="let picture of pictures2; let i = index">
+        <mat-form-field>
+          <mat-label for="pictures">Picture {{ i + 1 }}:</mat-label>
+          <input
+            matInput
+            type="text"
+            id="pictures-{{ i }}"
+            formControlName="picture"
+            value="{{ picture }}"
+          />
+        </mat-form-field>
+        <img src="{{ picture }}" class="picture" />
+      </div>
+      <button mat-mini-fab type="button" (click)="addPictureInput()">
+        <mat-icon>add</mat-icon>
+      </button>
     </div>
-    <button mat-mini-fab type="button" (click)="addPictureInput()">
-      <mat-icon>add</mat-icon>
-    </button>
-
     <mat-form-field>
       <mat-label for="franchise">Franchise ID:</mat-label>
       <input matInput type="text" id="franchise" formControlName="franchise" />

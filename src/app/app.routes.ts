@@ -3,18 +3,18 @@ import { NgModule} from '@angular/core';
 import { StudioComponent } from './components/studio/studio.component';
 import { ShopComponent } from './components/shop/shop.component';
 import { PlatformComponent } from './components/platform/platform.component';
-import { LoginComponent } from './auth/login/login.component.js';
+import { LoginComponent} from "./components/login/login.component";
 import { HomepageComponent } from './pages/homepage/homepage.component.js';
-import { FranchiseComponent } from './franchise/franchise.component.js';
-import { GameComponent } from './game/game.component.js';
+import { FranchiseComponent } from './components/franchise/franchise.component.js';
+import { GameComponent } from './components/game/game.component.js';
 import { PlaylistComponent } from './components/playlist/playlist.component.js';
-import { ViewGameComponent } from './game/view-game/view-game.component.js';
+import { ViewGameComponent } from './components/view-game/view-game.component.js';
 import { TagComponent } from './components/tag/tag.component.js';
 import { ReviewComponent } from './components/review/review.component.js';
-import { RegisterComponent } from './auth/register/register.component.js';
+import { RegisterComponent } from "./components/register/register.component";
 import { GameDetailsComponent } from './pages/game-details/game-details.component.js';
-import { EditGameComponent } from './game/edit-game/edit-game.component';
-import { ViewTagComponent } from './components/tag/view-tag/view-tag.component.js';
+import { EditGameComponent } from './components/edit-game/edit-game.component';
+import { ViewTagComponent } from './components/view-tag/view-tag.component.js';
 
 
 export const routes: Routes = [

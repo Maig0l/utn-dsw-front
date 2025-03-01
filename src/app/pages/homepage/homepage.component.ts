@@ -3,7 +3,7 @@ import {Component, OnDestroy, signal} from '@angular/core';
 import { Router, RouterOutlet } from '@angular/router';
 import { LoginService } from '../../services/auth/login.service.js';
 import { User } from '../../model/user';
-import { ViewGameComponent } from '../../game/view-game/view-game.component.js';
+import { ViewGameComponent } from '../../components/view-game/view-game.component.js';
 import { IReview, ReviewService } from '../../services/review.service';
 import {ReviewCardComponent} from "../../components/review-card/review-card.component";
 import {Review} from "../../model/review.type";

@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { Tag, TagService } from '../../../services/tag.service';
+import { Tag, TagService } from '../../services/tag.service';
 import { RouterOutlet } from '@angular/router';
 import { DatePipe, NgFor, NgIf } from '@angular/common';
 import { FormControl, FormGroup, ReactiveFormsModule } from '@angular/forms';

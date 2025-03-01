@@ -3,7 +3,7 @@
     <div class="header-content">
       <div class="logo">
         <a class="pico" routerLink="/homepage" routerLinkActive="active" (click)="redirect('/homepage')">
-          <img src="assets/logo-ggwp150.png" alt="Placeholder Logo"/>
+          <img src="../../../assets/logo-ggwp150.png" alt="Placeholder Logo"/>
         </a>
       </div>
       <nav class="navigation">
@@ -39,7 +39,7 @@
                     <mat-option [value]="option">
                       <span class="option-title">{{ option.title }}</span>
                       <img class="option-portrait" [src]="option.portrait" alt="{{ option.title }}"/>
-                    </mat-option> 
+                    </mat-option>
                   </a>}
                 </mat-autocomplete>
               </mat-form-field>

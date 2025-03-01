@@ -4,7 +4,9 @@ import {map, Observable} from 'rxjs';
 import {Platform} from "../model/platform.model";
 import {ApiResponse} from "../model/apiResponse.model";
 
-@Injectable()
+@Injectable({
+  providedIn: 'root'
+})
 export class PlatformService {
   constructor(private http: HttpClient) { }
 

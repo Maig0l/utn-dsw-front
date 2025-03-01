@@ -8,14 +8,17 @@ import {Game} from "../model/game.model";
 import {Platform} from "../model/platform.model";
 import {Studio} from "../model/studio.model";
 import {Tag} from "../model/tag.model";
+import {API_URL} from "../../main";
 
 
-@Injectable()
+@Injectable({
+  providedIn: 'root'
+})
 export class GameService {
   constructor(private http: HttpClient) {}
 
   // TODO: Guardar la URL base y rutas de endpoints en algún archivo de config global
-  gamesEndpoint = 'http://localhost:8080/api/games';
+  gamesEndpoint = `${API_URL}/games`
 
   findGamesByTitle(title: string): Observable<Game[]> {
     const url = this.gamesEndpoint + `/search?title=${title}`;
@@ -109,5 +112,18 @@ export class GameService {
     return this.http
       .get<ApiResponse<Game>>(url)
       .pipe(map((response) => response.data));
+  }
+
+  /** Retrieves most recently reviews games
+   * TODO: Implement 'hotness' (which games are retrieved) in backend
+   * For now, just get all games and return 3 or 4
+   */
+  getHotGames() {
+    return this.http.get<ApiResponse<Game[]>>(this.gamesEndpoint)
+      .pipe(
+        map(res => {
+          return res.data.slice(0, 3)
+        })
+      )
   }
 }

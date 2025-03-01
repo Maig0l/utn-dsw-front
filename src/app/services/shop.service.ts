@@ -8,7 +8,9 @@ interface ApiResponse {
   data: any
 }
 
-@Injectable()
+@Injectable({
+  providedIn: 'root'
+})
 export class ShopService {
   constructor(private http: HttpClient) { }
 

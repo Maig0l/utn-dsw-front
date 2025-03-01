@@ -5,7 +5,9 @@ import { Game } from '../model/game.model';
 import {Franchise} from "../model/franchise.model";
 import {ApiResponse} from "../model/apiResponse.model";
 
-@Injectable()
+@Injectable({
+  providedIn: 'root'
+})
 export class FranchiseService {
   constructor(private http: HttpClient) { }
 

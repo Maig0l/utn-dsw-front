@@ -11,7 +11,9 @@ export type ReviewPostBody = {
   body: string | undefined;
 }
 
-@Injectable()
+@Injectable({
+  providedIn: 'root'
+})
 export class ReviewService {
   http = inject(HttpClient);
   reviewsEndpoint = `${API_URL}/reviews`;

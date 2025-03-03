@@ -24,11 +24,19 @@ import { Observable, of, startWith, switchMap } from 'rxjs';
 import { Game } from '../../model/game.model';
 import { Franchise } from '../../model/franchise.model';
 import { Tag } from '../../model/tag.model';
+import { MatRippleModule } from '@angular/material/core';
+import { StudioService } from '../../services/studio.service';
+import { ShopService } from '../../services/shop.service';
+import { PlatformService } from '../../services/platform.service';
+import { Platform } from '../../model/platform.model';
+import { Shop } from '../../model/shop.model';
+import { Studio } from '../../model/studio.model';
 
 @Component({
   selector: 'app-game',
   standalone: true,
   imports: [
+    MatRippleModule,
     ReactiveFormsModule,
     CommonModule,
     MatIconModule,
@@ -54,31 +62,7 @@ export class GameComponent implements OnInit {
       new FormControl(''), //REVISAR
     ]),
     franchise: new FormControl(0),
-  });
-
-  deleteForm = new FormGroup({
-    id: new FormControl(0),
-  });
-
-  tagGames = new FormGroup({
-    id: new FormControl(0),
-    tag: new FormControl(0),
-  });
-
-  studiosGame = new FormGroup({
-    id: new FormControl(0),
-    studio: new FormControl(0),
-  });
-
-  shopsGame = new FormGroup({
-    id: new FormControl(0),
-    shop: new FormControl(0),
-  });
-
-  platformsGame = new FormGroup({
-    id: new FormControl(0),
-    platform: new FormControl(0),
-  });
+  }); // add tags, studios, shops, platforms?
 
   gameIdForm = new FormGroup({
     id: new FormControl(0),
@@ -105,26 +89,51 @@ export class GameComponent implements OnInit {
   game: Game | undefined;
   games: Game[] = [];
   tag: Tag | undefined;
-  franchises: Franchise[] = [];
+  franchiseOptions: Franchise[] = [];
+  franchiseSelected: Franchise[] = [];
+  tagOptions: Tag[] = [];
+  tagSelected: Tag[] = [];
+  studioOptions: Studio[] = [];
+  studioSelected: Studio[] = [];
+  shopOptions: Shop[] = [];
+  shopSelected: Shop[] = [];
+  platformOptions: Platform[] = [];
+  platformSelected: Platform[] = [];
 
   constructor(
     private gameService: GameService,
     private tagService: TagService,
     private franchiseService: FranchiseService,
+    private platformService: PlatformService,
+    private shopService: ShopService,
+    private studioService: StudioService,
     private router: Router,
   ) {}
 
   frAutoc = new FormControl('');
-  frOptions: Franchise[] = [];
+  //franchiseOptions: Franchise[] = [];
   frFilteredOptions!: Observable<Franchise[]>;
 
   ngOnInit(): void {
-    this.gameService
-      .getAllGames()
-      .subscribe((responseGames) => (this.games = responseGames));
-
     this.franchiseService.getAllFranchises().subscribe((responseFranchises) => {
-      this.frOptions = responseFranchises;
+      this.franchiseOptions = responseFranchises;
+      console.log(this.franchiseOptions);
+    });
+    this.tagService.getAllTags().subscribe((responseTags) => {
+      this.tagOptions = responseTags;
+      console.log(this.tagOptions);
+    });
+    this.studioService.getAllStudios().subscribe((responseStudios) => {
+      this.studioOptions = responseStudios;
+      console.log(this.studioOptions);
+    });
+    this.shopService.getAllShops().subscribe((responseShops) => {
+      this.shopOptions = responseShops;
+      console.log(this.shopOptions);
+    });
+    this.platformService.getAllPlatforms().subscribe((responsePlatforms) => {
+      this.platformOptions = responsePlatforms;
+      console.log(this.platformOptions);
     });
 
     this.frFilteredOptions = this.frAutoc.valueChanges.pipe(
@@ -139,7 +148,7 @@ export class GameComponent implements OnInit {
       return new Observable<Franchise[]>();
     }
     return of(
-      this.frOptions.filter((option) =>
+      this.franchiseOptions.filter((option) =>
         option.name.toLowerCase().includes(filterValue),
       ),
     );
@@ -147,7 +156,7 @@ export class GameComponent implements OnInit {
 
   selectFranchise($event: MatAutocompleteSelectedEvent): void {
     const frName = $event.option.value;
-    const frId = this.frOptions.find((fr) => fr.name === frName)?.id;
+    const frId = this.franchiseOptions.find((fr) => fr.name === frName)?.id;
     this.gameForm.patchValue({ franchise: frId });
   }
 
@@ -168,12 +177,8 @@ export class GameComponent implements OnInit {
     this.showDropdown = false;
   }
 
-  onBlur(): void {
-    // Delay hiding the dropdown to allow click events to register
-    setTimeout(() => (this.showDropdown = false), 200);
-  }
-
   addGame() {
+    console.log('PLATAFORMAS ELEGIDAS', this.platformSelected);
     this.gameService
       .addGame(
         this.gameForm.value.title ?? '',
@@ -196,11 +201,31 @@ export class GameComponent implements OnInit {
       });
   }
 
-  deleteGame() {
-    this.gameService
-      .deleteGame(this.deleteForm.value.id ?? 0)
-      .subscribe((res) => console.log(res));
+  /*
+  onBlur(): void {
+    // Delay hiding the dropdown to allow click events to register
+    setTimeout(() => (this.showDropdown = false), 200);
   }
+    
+      tagGames = new FormGroup({
+        id: new FormControl(0),
+        tag: new FormControl(0),
+      });
+    
+      studiosGame = new FormGroup({
+        id: new FormControl(0),
+        studio: new FormControl(0),
+      });
+      
+      shopsGame = new FormGroup({
+        id: new FormControl(0),
+        shop: new FormControl(0),
+      });
+    
+      platformsGame = new FormGroup({
+        id: new FormControl(0),
+        platform: new FormControl(0),
+      });
   editReady = false;
 
   addTagsToGame() {
@@ -235,7 +260,6 @@ export class GameComponent implements OnInit {
       )
       .subscribe((responseGame) => (this.game = responseGame));
   }
-  /*
   populateForm() {
     const id = this.gameIdForm.get('id')?.value;
     if (id) {

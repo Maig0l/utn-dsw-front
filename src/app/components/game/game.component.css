@@ -8,6 +8,23 @@ section {
   color: #e5e5e5;
 }
 
+.pictures {
+  width: 100%;
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+}
+.pictureInput {
+  width: 90%;
+}
+.addPictureButton {
+  margin-bottom: 20px;
+  align-self: flex-end;
+}
+.deletePictureButton {
+  margin: 0 10px;
+}
+
 form {
   display: flex;
   flex-direction: column;

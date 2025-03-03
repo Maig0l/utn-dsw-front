@@ -117,7 +117,7 @@ export class GameService {
   getHotGames() {
     return this.http.get<ApiResponse<Game[]>>(this.gamesEndpoint).pipe(
       map((res) => {
-        return res.data.slice(0, 3);
+        return res.data.slice(0, 5);
       }),
     );
   }

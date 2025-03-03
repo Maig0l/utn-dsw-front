@@ -2,7 +2,7 @@ import { Component } from '@angular/core';
 import { FormControl, FormGroup, ReactiveFormsModule } from '@angular/forms';
 import { GameService } from '../../services/game.service';
 import { ReviewService } from '../../services/review.service';
-import { ActivatedRoute, RouterOutlet } from '@angular/router';
+import { ActivatedRoute, Router, RouterOutlet } from '@angular/router';
 import { CommonModule, NgOptimizedImage } from '@angular/common';
 import { ReviewComponent } from '../../components/review/review.component';
 
@@ -10,6 +10,9 @@ import { Input, OnDestroy, OnInit } from '@angular/core';
 import { Game } from '../../model/game.model';
 import { Review } from '../../model/review.model';
 import { Studio } from '../../model/studio.model';
+
+import { MatIconModule } from '@angular/material/icon';
+import { MatButtonModule } from '@angular/material/button';
 
 export interface SlideInterface {
   id: number;
@@ -25,6 +28,8 @@ export interface SlideInterface {
     CommonModule,
     ReviewComponent,
     NgOptimizedImage,
+    MatIconModule,
+    MatButtonModule,
   ],
   providers: [RouterOutlet, GameService, ReviewService],
   templateUrl: './game-details.component.html',
@@ -35,6 +40,7 @@ export class GameDetailsComponent implements OnInit, OnDestroy {
     private route: ActivatedRoute,
     private gameService: GameService,
     private reviewService: ReviewService,
+    private router: Router,
   ) {}
 
   @Input() slides: SlideInterface[] = [];
@@ -105,5 +111,14 @@ export class GameDetailsComponent implements OnInit, OnDestroy {
       JSON.stringify(this.game.pictures[this.currentIndex]),
     );
     return pic.url;
+  }
+
+  // DELETE GAME ( TODO: maybe inside edit game??)
+  deleteGame() {
+    console.log('deleting game');
+    this.gameService.deleteGame(this.gameId ?? 0).subscribe((res) => {
+      console.log(res);
+      this.router.navigate(['/homepage']);
+    });
   }
 }

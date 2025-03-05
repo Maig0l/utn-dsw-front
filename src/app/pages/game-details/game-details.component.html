@@ -67,8 +67,24 @@
       Edit
     </button>
   </a>
-  <!--TODO: add "are you sure" dalog or modal -->
-  <button mat-fab extended (click)="deleteGame()">
+
+  <dialog id="deleteModal">
+    <h1>Delete game: {{ game.title }}</h1>
+    <p>Are you sure?</p>
+    <button mat-fab extended (click)="closeModal()" id="closeModal">
+      <mat-icon>close</mat-icon>Cancel
+    </button>
+    <button
+      mat-fab
+      extended
+      (click)="deleteGame(); closeModal()"
+      id="closeModal"
+    >
+      <mat-icon>delete</mat-icon>
+      Delete
+    </button>
+  </dialog>
+  <button mat-fab extended (click)="openModal()" id="openModal">
     <mat-icon>delete</mat-icon>
     Delete
   </button>

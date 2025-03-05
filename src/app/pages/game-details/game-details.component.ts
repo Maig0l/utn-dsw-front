@@ -78,6 +78,20 @@ export class GameDetailsComponent implements OnInit, OnDestroy {
     window.clearTimeout(this.timeoutId);
   }
 
+  openModal() {
+    const deleteModal = document.getElementById(
+      'deleteModal',
+    ) as HTMLDialogElement;
+    deleteModal.showModal();
+  }
+
+  closeModal() {
+    const deleteModal = document.getElementById(
+      'deleteModal',
+    ) as HTMLDialogElement;
+    deleteModal.close();
+  }
+
   // TODO: If this is for the carousel, why is it in OnInit
   resetTimer() {
     if (this.timeoutId) {

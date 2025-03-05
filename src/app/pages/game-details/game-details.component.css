@@ -1,3 +1,33 @@
+#deleteModal {
+  z-index: 1;
+  padding: 16px;
+  background-color: #fff;
+  border-radius: 8px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  animation: fadeIn 0.5s ease;
+  transform: translate(-50%, -50%);
+}
+@keyframes fadeIn {
+  0% {
+    opacity: 0;
+    scale: 0;
+    box-shadow: 0 0px red;
+  }
+  25% {
+    opacity: 0.75;
+    scale: 1;
+    box-shadow: 0 4px 500px red;
+  }
+  100% {
+    opacity: 1;
+    scale: 1;
+    box-shadow: 0 0px red;
+  }
+}
+
 .slide {
   width: 100%;
   height: 500px;

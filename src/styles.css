@@ -2,30 +2,35 @@
 
 :root {
   --bg-color: #001d3d;
-  --text-color: #E5E5E5;
+  --text-color: #e5e5e5;
   --hover-color: #666666;
 }
-
 
 body {
   background-color: var(--bg-color);
   color: var(--text-color);
 }
 
-/* FORMS 
-.ng-valid:not(form) {
-  border-left: 5px solid #42A948;
-}
-
-.ng-invalid:not(form) {
-  border-left: 5px solid #a94442;
-}
-*/
 .text-danger {
-  color:red;
+  color: red;
 }
-html, body { height: 100%; background-color: #001d3d; color: #E5E5E5 }
-body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
 
-html, body { height: 100%; }
-body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
+html,
+body {
+  height: 100%;
+  background-color: #001d3d;
+  color: #e5e5e5;
+}
+body {
+  margin: 0;
+  font-family: Roboto, "Helvetica Neue", sans-serif;
+}
+
+html,
+body {
+  height: 100%;
+}
+body {
+  margin: 0;
+  font-family: Roboto, "Helvetica Neue", sans-serif;
+}

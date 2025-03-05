@@ -14,13 +14,8 @@ import { MatInputModule } from '@angular/material/input';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatButtonModule } from '@angular/material/button';
 import { MatIconModule } from '@angular/material/icon';
-import { MatDividerModule } from '@angular/material/divider';
 import { FranchiseService } from '../../services/franchise.service';
-import {
-  MatAutocompleteModule,
-  MatAutocompleteSelectedEvent,
-} from '@angular/material/autocomplete';
-import { Observable, of, startWith, switchMap } from 'rxjs';
+import { MatAutocompleteModule } from '@angular/material/autocomplete';
 import { Game } from '../../model/game.model';
 import { Franchise } from '../../model/franchise.model';
 import { Tag } from '../../model/tag.model';
@@ -40,7 +35,6 @@ import { Studio } from '../../model/studio.model';
     ReactiveFormsModule,
     CommonModule,
     MatIconModule,
-    MatDividerModule,
     MatFormFieldModule,
     MatButtonModule,
     MatInputModule,
@@ -64,31 +58,7 @@ export class GameComponent implements OnInit {
     franchise: new FormControl(0),
   }); // add tags, studios, shops, platforms?
 
-  gameIdForm = new FormGroup({
-    id: new FormControl(0),
-  });
-
-  addPictureForm = new FormGroup({
-    id: new FormControl(0),
-    picture: new FormControl(''),
-  });
-
-  removePictureForm = new FormGroup({
-    id: new FormControl(0),
-    picture_id: new FormControl(''),
-  });
-
-  options: string[] = [];
-  filteredOptions: string[] = [];
-  inputValue = '';
-  showDropdown = false;
-  hoveredOption: string | null = null;
-
-  i = 0;
-
   game: Game | undefined;
-  games: Game[] = [];
-  tag: Tag | undefined;
   franchiseOptions: Franchise[] = [];
   franchiseSelected: Franchise[] = [];
   tagOptions: Tag[] = [];
@@ -110,54 +80,28 @@ export class GameComponent implements OnInit {
     private router: Router,
   ) {}
 
-  frAutoc = new FormControl('');
-  //franchiseOptions: Franchise[] = [];
-  frFilteredOptions!: Observable<Franchise[]>;
-
+  //get all franchises, tags, studios, shops, platforms. inneficient?
   ngOnInit(): void {
     this.franchiseService.getAllFranchises().subscribe((responseFranchises) => {
       this.franchiseOptions = responseFranchises;
-      console.log(this.franchiseOptions);
+      console.log('FRANCHISES: ', this.franchiseOptions);
     });
     this.tagService.getAllTags().subscribe((responseTags) => {
       this.tagOptions = responseTags;
-      console.log(this.tagOptions);
+      console.log('TAGS: ', this.tagOptions);
     });
     this.studioService.getAllStudios().subscribe((responseStudios) => {
       this.studioOptions = responseStudios;
-      console.log(this.studioOptions);
+      console.log('STUDIOS: ', this.studioOptions);
     });
     this.shopService.getAllShops().subscribe((responseShops) => {
       this.shopOptions = responseShops;
-      console.log(this.shopOptions);
+      console.log('SHOPS: ', this.shopOptions);
     });
     this.platformService.getAllPlatforms().subscribe((responsePlatforms) => {
       this.platformOptions = responsePlatforms;
-      console.log(this.platformOptions);
+      console.log('PLATFORMS: ', this.platformOptions);
     });
-
-    this.frFilteredOptions = this.frAutoc.valueChanges.pipe(
-      startWith(''),
-      switchMap((value) => this._filter(value || '')),
-    );
-  }
-
-  private _filter(value2: string): Observable<Franchise[]> {
-    const filterValue = value2.toLowerCase();
-    if (filterValue === '') {
-      return new Observable<Franchise[]>();
-    }
-    return of(
-      this.franchiseOptions.filter((option) =>
-        option.name.toLowerCase().includes(filterValue),
-      ),
-    );
-  }
-
-  selectFranchise($event: MatAutocompleteSelectedEvent): void {
-    const frName = $event.option.value;
-    const frId = this.franchiseOptions.find((fr) => fr.name === frName)?.id;
-    this.gameForm.patchValue({ franchise: frId });
   }
 
   get pictures(): FormArray {
@@ -172,11 +116,6 @@ export class GameComponent implements OnInit {
     this.pictures.removeAt(index);
   }
 
-  selectOption(option: string): void {
-    this.inputValue = option;
-    this.showDropdown = false;
-  }
-
   addGame() {
     console.log('PLATAFORMAS ELEGIDAS', this.platformSelected);
     this.gameService
@@ -187,9 +126,14 @@ export class GameComponent implements OnInit {
         this.gameForm.value.portrait ?? '',
         this.gameForm.value.banner ?? '',
         this.gameForm.value.franchise ?? 0,
+        this.tagSelected.map((tag) => tag.id),
+        this.studioSelected.map((studio) => studio.id),
+        this.shopSelected.map((shop) => shop.id),
+        this.platformSelected.map((platform) => platform.id),
       )
       .subscribe((responseGame) => {
         this.game = responseGame;
+
         this.gameService
           .addPicturesToGame(
             this.game.id,
@@ -198,139 +142,8 @@ export class GameComponent implements OnInit {
             ) ?? [],
           )
           .subscribe((responsePictures) => console.log(responsePictures));
+        console.log('GAME CREATED: ', responseGame);
       });
+    //router.navigate(['/games']);
   }
-
-  /*
-  onBlur(): void {
-    // Delay hiding the dropdown to allow click events to register
-    setTimeout(() => (this.showDropdown = false), 200);
-  }
-    
-      tagGames = new FormGroup({
-        id: new FormControl(0),
-        tag: new FormControl(0),
-      });
-    
-      studiosGame = new FormGroup({
-        id: new FormControl(0),
-        studio: new FormControl(0),
-      });
-      
-      shopsGame = new FormGroup({
-        id: new FormControl(0),
-        shop: new FormControl(0),
-      });
-    
-      platformsGame = new FormGroup({
-        id: new FormControl(0),
-        platform: new FormControl(0),
-      });
-  editReady = false;
-
-  addTagsToGame() {
-    this.gameService
-      .addTagsToGame(this.tagGames.value.id ?? 0, this.tagGames.value.tag ?? 0)
-      .subscribe((responseGame) => (this.game = responseGame));
-  }
-
-  addStudiosToGame() {
-    this.gameService
-      .addStudiosToGame(
-        this.studiosGame.value.id ?? 0,
-        this.studiosGame.value.studio ?? 0,
-      )
-      .subscribe((responseGame) => (this.game = responseGame));
-  }
-
-  addShopsToGame() {
-    this.gameService
-      .addShopsToGame(
-        this.shopsGame.value.id ?? 0,
-        this.shopsGame.value.shop ?? 0,
-      )
-      .subscribe((responseGame) => (this.game = responseGame));
-  }
-
-  addPlatformsToGame() {
-    this.gameService
-      .addPlatformsToGame(
-        this.platformsGame.value.id ?? 0,
-        this.platformsGame.value.platform ?? 0,
-      )
-      .subscribe((responseGame) => (this.game = responseGame));
-  }
-  populateForm() {
-    const id = this.gameIdForm.get('id')?.value;
-    if (id) {
-      this.gameService.getOneGame(id).subscribe((data: Game) => {
-        this.updateForm.setValue({
-          id: data.id,
-          title: data.title,
-          synopsis: data.synopsis,
-          releaseDate: data.releaseDate,
-          portrait: data.portrait,
-          banner: data.banner,
-          pictures: data.pictures,
-          franchise: data.franchise,
-        });
-        this.editReady = true;
-      }); //TODO handle error?
-    } else {
-      this.editReady = false;
-  }
-}*/
-  /* depricated?
-onInput(event: Event): void {
-  if (this.i == 0) {
-    this.games.forEach((game) => this.options.push(game.title));
-    this.i++;
-  }
-  const value = (event.target as HTMLInputElement).value.toLowerCase();
-  this.inputValue = value;
-  this.filteredOptions = this.options.filter((option) =>
-  option.toLowerCase().includes(value)
-);
-}
-*/
-  /* depricated?
-editGame(option: string) {
-  this.games.forEach((game) => {
-    if (option === game.title) {
-      console.log(game.id);
-      this.router.navigate(['edit-game', game.id]);
-    }
-  });
-}
-*/
-  /* moved to edit-game.component.ts
-updateGame() {
-  this.gameService
-  .updateGame(
-    this.updateForm.value.id ?? 0,
-    this.updateForm.value.title ?? '',
-    this.updateForm.value.synopsis ?? '',
-    this.updateForm.value.releaseDate ?? '',
-    this.updateForm.value.portrait ?? '',
-    this.updateForm.value.banner ?? '',
-    (this.gameForm.value.pictures as (string | null)[]).filter(
-      (picture): picture is string => picture !== null
-    ) ?? [],
-    this.updateForm.value.franchise ?? 0
-  )
-  .subscribe((responseGame) => (this.game = responseGame));
-}
-*/
-  /* moved to edit-game.component.ts
-updateForm = new FormGroup({
-  id: new FormControl(0),
-  title: new FormControl(''),
-  synopsis: new FormControl(''),
-  releaseDate: new FormControl(''),
-  portrait: new FormControl(''),
-  banner: new FormControl(''),
-  pictures: new FormArray([new FormControl('')]),
-  franchise: new FormControl(0),
-});
-*/
 }

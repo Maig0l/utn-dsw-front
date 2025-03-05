@@ -57,6 +57,10 @@ export class GameService {
     portrait: string,
     banner: string,
     franchise: number,
+    tags: number[],
+    studios: number[],
+    shops: number[],
+    platforms: number[],
   ): Observable<Game> {
     return this.http.post<Game>(this.gamesEndpoint, {
       title,
@@ -65,6 +69,10 @@ export class GameService {
       portrait,
       banner,
       franchise,
+      tags,
+      studios,
+      shops,
+      platforms,
     });
   }
 

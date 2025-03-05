@@ -64,6 +64,7 @@ export class GameDetailsComponent implements OnInit, OnDestroy {
     this.gameId = +this.route.snapshot.paramMap.get('id')!;
     this.gameService.getOneGame(this.gameId).subscribe((response) => {
       this.game = response;
+      console.log('GAME: ', this.game);
       this.devs = this.game.studios.filter(
         (studio) => studio.type === 'Developer',
       );

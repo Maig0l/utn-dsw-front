@@ -1,35 +1,3 @@
 body {
   background-color: antiquewhite;
 }
-
-.pill-pfp {
-  height: 25px;
-  border-radius: 100%;
-}
-
-.menu {
-  list-style: none;
-  display: flex;
-  justify-content: space-between;
-  background-color: #ffffff;
-  padding: 10px;
-  margin: 0;
-}
-
-.menu li {
-  display: inline;
-}
-
-.menu a {
-  color: rgb(0, 0, 0);
-  text-decoration: none;
-  padding: 10px 20px;
-}
-
-.menu a:hover {
-  background-color: #575757;
-}
-
-.active {
-  border-bottom: 2px solid #fff;
-}

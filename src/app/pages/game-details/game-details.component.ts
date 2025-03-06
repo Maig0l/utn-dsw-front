@@ -13,6 +13,7 @@ import { Studio } from '../../model/studio.model';
 
 import { MatIconModule } from '@angular/material/icon';
 import { MatButtonModule } from '@angular/material/button';
+import { MatMenuModule } from '@angular/material/menu';
 
 export interface SlideInterface {
   id: number;
@@ -30,6 +31,7 @@ export interface SlideInterface {
     NgOptimizedImage,
     MatIconModule,
     MatButtonModule,
+    MatMenuModule,
   ],
   providers: [RouterOutlet, GameService, ReviewService],
   templateUrl: './game-details.component.html',

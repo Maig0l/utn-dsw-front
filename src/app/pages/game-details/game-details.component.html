@@ -21,19 +21,59 @@
 
 <ng-template #loadedGame>
   <div class="game-banner">
-    <img [src]="game.banner" alt="Banner del videojuego" />
+    <img [src]="game.banner" alt="Game's banner" />
   </div>
 
-  <div class="game-info">
-    <img
-      [src]="game.portrait"
-      alt="Imagen del videojuego"
-      class="game-portrait"
-    />
+  <dialog id="deleteModal">
+    <h1>Delete game: {{ game.title }}</h1>
+    <p>Are you sure?</p>
+    <div class="modalButtons">
+      <button mat-fab extended (click)="closeModal()" id="closeModal">
+        <mat-icon>close</mat-icon>Cancel
+      </button>
+      <button
+        mat-fab
+        extended
+        (click)="deleteGame(); closeModal()"
+        id="closeModal"
+        class="deleteButton"
+      >
+        <mat-icon>delete</mat-icon>
+        Delete
+      </button>
+    </div>
+  </dialog>
 
+  <button mat-button [matMenuTriggerFor]="menu" id="menuButton">
+    <mat-icon>menu</mat-icon>
+  </button>
+  <mat-menu #menu="matMenu" xPosition="before">
+    <a id="menu-item-link" href="edit-game/{{ game.id }}">
+      <button mat-menu-item>
+        <mat-icon>edit</mat-icon>
+        Edit
+      </button>
+    </a>
+
+    <button mat-menu-item (click)="openModal()" id="openModal">
+      <mat-icon>delete</mat-icon>
+      Delete
+    </button>
+  </mat-menu>
+
+  <div class="game-info">
+    <div class="first-column">
+      <img
+        [src]="game.portrait"
+        alt="Imagen del videojuego"
+        class="game-portrait"
+      />
+
+      <!-- TODO: If user.isAdmin . <button> inside <a>?? -->
+      <div class="game-actions"></div>
+    </div>
     <div class="game-details">
       <h1 class="game-title">{{ game.title }}</h1>
-
       <p class="game-synopsis">{{ game.synopsis }}</p>
       <div class="studio-container">
         <p class="studio">
@@ -42,7 +82,6 @@
             <a [href]="studio.site">{{ studio.name }}</a>
           }
         </p>
-
         <p class="studio">
           Publisher/s:
           @for (studio of pubs; track studio.id) {
@@ -50,7 +89,6 @@
           }
         </p>
       </div>
-
       <div class="platforms">
         <span>Available on:</span>
         @for (platform of game.platforms; track platform.id) {
@@ -59,35 +97,6 @@
       </div>
     </div>
   </div>
-
-  <!-- TODO: If user.isAdmin . <button> inside <a>?? -->
-  <a href="edit-game/{{ game.id }}">
-    <button mat-fab extended>
-      <mat-icon>edit</mat-icon>
-      Edit
-    </button>
-  </a>
-
-  <dialog id="deleteModal">
-    <h1>Delete game: {{ game.title }}</h1>
-    <p>Are you sure?</p>
-    <button mat-fab extended (click)="closeModal()" id="closeModal">
-      <mat-icon>close</mat-icon>Cancel
-    </button>
-    <button
-      mat-fab
-      extended
-      (click)="deleteGame(); closeModal()"
-      id="closeModal"
-    >
-      <mat-icon>delete</mat-icon>
-      Delete
-    </button>
-  </dialog>
-  <button mat-fab extended (click)="openModal()" id="openModal">
-    <mat-icon>delete</mat-icon>
-    Delete
-  </button>
 
   <!-- TODO: Crear componente picture-carousel y extraer allí -->
   @if (game.pictures.length > 0) {

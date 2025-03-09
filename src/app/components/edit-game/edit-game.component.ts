@@ -18,6 +18,15 @@ import { MatIconModule } from '@angular/material/icon';
 import { MatDividerModule } from '@angular/material/divider';
 import { Game } from '../../model/game.model';
 import { Tag } from '../../model/tag.model';
+import { Franchise } from '../../model/franchise.model';
+import { Studio } from '../../model/studio.model';
+import { Shop } from '../../model/shop.model';
+import { Platform } from '../../model/platform.model';
+import { FranchiseService } from '../../services/franchise.service';
+import { PlatformService } from '../../services/platform.service';
+import { ShopService } from '../../services/shop.service';
+import { StudioService } from '../../services/studio.service';
+import { MatAutocompleteModule } from '@angular/material/autocomplete';
 
 @Component({
   selector: 'app-edit-game',
@@ -32,12 +41,40 @@ import { Tag } from '../../model/tag.model';
     MatButtonModule,
     MatInputModule,
     MatSelectModule,
+    MatAutocompleteModule,
   ],
   providers: [GameService, TagService, RouterOutlet],
   templateUrl: './edit-game.component.html',
   styleUrl: './edit-game.component.css',
 })
 export class EditGameComponent implements OnInit {
+  //----------------------------------------------------------
+  updateForm2 = new FormGroup({
+    id: new FormControl(0),
+    title: new FormControl(''),
+    synopsis: new FormControl(''),
+    releaseDate: new FormControl(''),
+    portrait: new FormControl(''),
+    banner: new FormControl(''),
+    /*pictures: new FormArray([
+      new FormControl(''), //REVISAR
+    ]),*/
+    franchise: new FormControl(0),
+  }); // add tags, studios, shops, platforms?
+
+  //game: Game | undefined;
+  franchiseOptions: Franchise[] = [];
+  franchiseSelected: Franchise[] = [];
+  tagOptions: Tag[] = [];
+  tagSelected: Tag[] = [];
+  studioOptions: Studio[] = [];
+  studioSelected: Studio[] = [];
+  shopOptions: Shop[] = [];
+  shopSelected: Shop[] = [];
+  platformOptions: Platform[] = [];
+  platformSelected: Platform[] = [];
+
+  //----------------------------------------------------------
   id!: number;
   game!: Game;
   tag: Tag | undefined;
@@ -59,56 +96,36 @@ export class EditGameComponent implements OnInit {
     private route: ActivatedRoute,
     private gameService: GameService,
     private tagService: TagService,
+    private franchiseService: FranchiseService,
+    private platformService: PlatformService,
+    private shopService: ShopService,
+    private studioService: StudioService,
   ) {}
 
-  /*searchTags = new FormGroup({
-    tagName: new FormControl('')
-  })
-  */
-  updateForm = new FormGroup({
-    id: new FormControl(0),
-    title: new FormControl(''),
-    synopsis: new FormControl(''),
-    releaseDate: new FormControl(''),
-    portrait: new FormControl(''),
-    banner: new FormControl(''),
-    pictures: new FormArray([
-      new FormControl(''), //REVISAR
-    ]),
-    franchise: new FormControl(0),
-  });
-
-  deleteForm = new FormGroup({
-    id: new FormControl(0),
-  });
-
-  tagGames = new FormGroup({
-    id: new FormControl(0),
-    tag: new FormControl(0),
-  });
-
-  studiosGame = new FormGroup({
-    id: new FormControl(0),
-    studio: new FormControl(0),
-  });
-
-  shopsGame = new FormGroup({
-    id: new FormControl(0),
-    shop: new FormControl(0),
-  });
-
-  platformsGame = new FormGroup({
-    id: new FormControl(0),
-    platform: new FormControl(0),
-  });
-
   ngOnInit() {
-    this.tagService
-      .getAllTags()
-      .subscribe((responseTags) => (this.tags = responseTags));
+    //--------------
+    this.franchiseService.getAllFranchises().subscribe((responseFranchises) => {
+      this.franchiseOptions = responseFranchises;
+    });
+    this.tagService.getAllTags().subscribe((responseTags) => {
+      this.tagOptions = responseTags;
+    });
+    this.studioService.getAllStudios().subscribe((responseStudios) => {
+      this.studioOptions = responseStudios;
+    });
+    this.shopService.getAllShops().subscribe((responseShops) => {
+      this.shopOptions = responseShops;
+    });
+    this.platformService.getAllPlatforms().subscribe((responsePlatforms) => {
+      this.platformOptions = responsePlatforms;
+    });
+
+    //---------------
+
     this.id = +this.route.snapshot.paramMap.get('id')!;
     this.gameService.getOneGame(this.id).subscribe((data: Game) => {
-      const stringified = JSON.parse(JSON.stringify(data.pictures));
+      console.log(data);
+      this.game = data;
 
       const date = new Date(data.releaseDate);
       const year = date.getFullYear();
@@ -116,24 +133,57 @@ export class EditGameComponent implements OnInit {
       const day = ('0' + date.getDate()).slice(-2);
       const formatedDate = `${year}-${month}-${day}`;
 
+      /*const stringified = JSON.parse(JSON.stringify(data.pictures));
       for (const i of stringified.length) {
         this.pictures2.push(stringified[i].url);
-      }
+      }*/
       //this.index = this.pictures.length;
       this.gametags = data.tags;
-      this.updateForm.setValue({
+      this.updateForm2.setValue({
         id: data.id,
         title: data.title,
         synopsis: data.synopsis,
         releaseDate: formatedDate,
         portrait: data.portrait,
         banner: data.banner,
-        pictures: data.pictures,
+        //pictures: data.pictures,
         franchise: data.franchise,
       });
     }); //TODO handle error?
   }
 
+  updateForm = new FormGroup({
+    id: new FormControl(0),
+    title: new FormControl(''),
+    synopsis: new FormControl(''),
+    releaseDate: new FormControl(''),
+    portrait: new FormControl(''),
+    banner: new FormControl(''),
+    /*pictures: new FormArray([
+      new FormControl(''), //REVISAR
+    ]),*/
+    franchise: new FormControl(0),
+  });
+
+  updateGame() {
+    this.gameService
+      .updateGame(
+        this.id,
+        this.updateForm.value.title ?? '',
+        this.updateForm.value.synopsis ?? '',
+        this.updateForm.value.releaseDate ?? '',
+        this.updateForm.value.portrait ?? '',
+        this.updateForm.value.banner ?? '',
+        /*(this.updateForm.value.pictures ?? []).filter(
+          (picture): picture is string => picture !== null,
+        ),*/
+        [],
+        this.updateForm.value.franchise ?? 0,
+      )
+      .subscribe((responseGame) => {
+        this.game = responseGame;
+      });
+  }
   //REVISAR
   /*getTagsLookupList(){
       this.tagService.getTagsByName(
@@ -164,7 +214,7 @@ export class EditGameComponent implements OnInit {
     setTimeout(() => (this.showDropdown = false), 200);
   }
 
-  //picture handling
+  /*picture handling
   get pictures(): FormArray {
     return this.updateForm.get('pictures') as FormArray;
   }
@@ -176,32 +226,7 @@ export class EditGameComponent implements OnInit {
   removePictureInput(index: number): void {
     this.pictures.removeAt(index);
   }
-
-  updateGame() {
-    this.gameService
-      .updateGame(
-        this.id,
-        this.updateForm.value.title ?? '',
-        this.updateForm.value.synopsis ?? '',
-        this.updateForm.value.releaseDate ?? '',
-        this.updateForm.value.portrait ?? '',
-        this.updateForm.value.banner ?? '',
-        (this.updateForm.value.pictures ?? []).filter(
-          (picture): picture is string => picture !== null,
-        ),
-        this.updateForm.value.franchise ?? 0,
-      )
-      .subscribe((responseGame) => {
-        this.game = responseGame;
-      });
-  }
-
-  deleteGame() {
-    this.gameService
-      .deleteGame(this.deleteForm.value.id ?? 0)
-      .subscribe((res) => console.log(res));
-  }
-
+*/
   addTag(option: string) {
     this.tags.forEach((tag) => {
       if (option === tag.name) {
@@ -210,33 +235,6 @@ export class EditGameComponent implements OnInit {
     });
     this.gameService
       .addTagsToGame(this.id ?? 0, this.tagid ?? 0)
-      .subscribe((responseGame) => (this.game = responseGame));
-  }
-
-  addStudiosToGame() {
-    this.gameService
-      .addStudiosToGame(
-        this.studiosGame.value.id ?? 0,
-        this.studiosGame.value.studio ?? 0,
-      )
-      .subscribe((responseGame) => (this.game = responseGame));
-  }
-
-  addShopsToGame() {
-    this.gameService
-      .addShopsToGame(
-        this.shopsGame.value.id ?? 0,
-        this.shopsGame.value.shop ?? 0,
-      )
-      .subscribe((responseGame) => (this.game = responseGame));
-  }
-
-  addPlatformsToGame() {
-    this.gameService
-      .addPlatformsToGame(
-        this.platformsGame.value.id ?? 0,
-        this.platformsGame.value.platform ?? 0,
-      )
       .subscribe((responseGame) => (this.game = responseGame));
   }
 }

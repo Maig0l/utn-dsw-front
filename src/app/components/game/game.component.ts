@@ -84,23 +84,18 @@ export class GameComponent implements OnInit {
   ngOnInit(): void {
     this.franchiseService.getAllFranchises().subscribe((responseFranchises) => {
       this.franchiseOptions = responseFranchises;
-      console.log('FRANCHISES: ', this.franchiseOptions);
     });
     this.tagService.getAllTags().subscribe((responseTags) => {
       this.tagOptions = responseTags;
-      console.log('TAGS: ', this.tagOptions);
     });
     this.studioService.getAllStudios().subscribe((responseStudios) => {
       this.studioOptions = responseStudios;
-      console.log('STUDIOS: ', this.studioOptions);
     });
     this.shopService.getAllShops().subscribe((responseShops) => {
       this.shopOptions = responseShops;
-      console.log('SHOPS: ', this.shopOptions);
     });
     this.platformService.getAllPlatforms().subscribe((responsePlatforms) => {
       this.platformOptions = responsePlatforms;
-      console.log('PLATFORMS: ', this.platformOptions);
     });
   }
 
@@ -144,6 +139,6 @@ export class GameComponent implements OnInit {
           .subscribe((responsePictures) => console.log(responsePictures));
         console.log('GAME CREATED: ', responseGame);
       });
-    //router.navigate(['/games']);
+    //router.navigate(['/games']); TODO
   }
 }

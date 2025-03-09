@@ -17,6 +17,7 @@ import { MatIconModule } from '@angular/material/icon';
 import { MatDividerModule } from '@angular/material/divider';
 import { MatCheckboxModule } from '@angular/material/checkbox';
 import { Playlist } from '../../model/playlist.model';
+import { Game } from '../../model/game.model';
 
 @Component({
   selector: 'app-playlist',
@@ -37,12 +38,14 @@ import { Playlist } from '../../model/playlist.model';
   styleUrl: './playlist.component.css',
 })
 export class PlaylistComponent implements OnInit {
+  gameOptions: Game[] = [];
+  gameSelected: Game[] = [];
+
   constructor(
     private playlistService: PlaylistService,
     private formBuilder: FormBuilder,
   ) {}
 
-  //#################################################
   ngOnInit(): void {
     this.getPlaylistsByOwner(this.user);
   }

@@ -1,4 +1,132 @@
+<!------------------------------------------------------------------------------------->
 <section>
+  <h1>frfr Update game id:{{ id }}</h1>
+  <form [formGroup]="updateForm2" (submit)="updateGame()">
+    <mat-form-field>
+      <mat-label>Title</mat-label>
+      <input required matInput type="text" id="title" formControlName="title" />
+      <mat-error>Title is required</mat-error>
+    </mat-form-field>
+    <mat-form-field>
+      <mat-label for="synopsis">Synopsis</mat-label>
+      <textarea
+        matInput
+        type="text"
+        id="synopsis"
+        formControlName="synopsis"
+      ></textarea>
+    </mat-form-field>
+    <mat-form-field>
+      <mat-label for="releaseDate">Release date</mat-label>
+      <input
+        matInput
+        type="date"
+        id="releaseDate"
+        formControlName="releaseDate"
+      />
+    </mat-form-field>
+    <mat-form-field>
+      <mat-label for="portrait">Portrait</mat-label>
+      <input matInput type="text" id="portrait" formControlName="portrait" />
+    </mat-form-field>
+    <mat-form-field>
+      <mat-label for="banner">Banner</mat-label>
+      <input matInput type="text" id="banner" formControlName="banner" />
+    </mat-form-field>
+    <h3>Pictures (coming soon...)</h3>
+    <!-- PICTURES: TODO
+    <div class="pictures">
+      <div class="pictureInputCont" formArrayName="pictures">
+        <div *ngFor="let picture of pictures.controls; let i = index">
+          <mat-form-field class="pictureInput">
+            <mat-label>Picture {{ i + 1 }}</mat-label>
+            <input
+              matInput
+              type="text"
+              id="pictures-{{ i }}"
+              [formControlName]="i"
+            />
+          </mat-form-field>
+          <button
+            class="deletePictureButton"
+            *ngIf="i !== 0"
+            mat-mini-fab
+            type="button"
+            (click)="removePictureInput(i)"
+          >
+            <mat-icon>delete</mat-icon>
+          </button>
+        </div>
+      </div>
+      <button
+        mat-fab
+        extended
+        type="button"
+        class="addPictureButton"
+        (click)="addPictureInput()"
+      >
+        <mat-icon>add</mat-icon>Add picture
+      </button>
+    </div-->
+    <mat-form-field>
+      <mat-label>Franchise</mat-label>
+      <mat-select [(value)]="franchiseSelected">
+        @for (franchise of franchiseOptions; track franchise) {
+          <mat-option [value]="franchise">{{ franchise.name }}</mat-option>
+        }
+      </mat-select>
+    </mat-form-field>
+
+    <mat-form-field>
+      <mat-label>Tags</mat-label>
+      <!-- quizás mejor otro metodo donde entren mas resultados en pantalla o que permita buscar -->
+      <mat-select [(value)]="tagSelected" multiple>
+        @for (tag of tagOptions; track tag) {
+          <mat-option [value]="tag">{{ tag.name }}</mat-option>
+        }
+      </mat-select>
+    </mat-form-field>
+
+    <mat-form-field>
+      <mat-label>Studios</mat-label>
+      <mat-select [(value)]="studioSelected" multiple>
+        @for (studio of studioOptions; track studio) {
+          <mat-option [value]="studio">{{ studio.name }}</mat-option>
+        }
+      </mat-select>
+    </mat-form-field>
+
+    <mat-form-field>
+      <mat-label>Shops</mat-label>
+      <mat-select [(value)]="shopSelected" multiple>
+        @for (shop of shopOptions; track shop) {
+          <mat-option [value]="shop">{{ shop.name }}</mat-option>
+        }
+      </mat-select>
+    </mat-form-field>
+
+    <mat-form-field>
+      <mat-label>Platforms</mat-label>
+      <mat-select [(value)]="platformSelected" multiple>
+        @for (platform of platformOptions; track platform) {
+          <mat-option [value]="platform">{{ platform.name }}</mat-option>
+        }
+      </mat-select>
+    </mat-form-field>
+
+    <button
+      mat-fab
+      extended
+      aria-label="save game"
+      type="submit"
+      class="primary"
+    >
+      <mat-icon>save</mat-icon>Save game
+    </button>
+  </form>
+</section>
+<!------------------------------------------------------------------------------------->
+<!--section>
   <h1>Edit Game ID: {{ id }}</h1>
   <form [formGroup]="updateForm" (submit)="updateGame()">
     <mat-form-field>
@@ -58,21 +186,8 @@
       <mat-icon>save</mat-icon>
     </button>
   </form>
-</section>
-
-<!-- REVISAR TODO ESTO>
-<section>
-  Tag search to add to the game...
-  Work in progress...
-  <form [formGroup]="searchTags"> < required (selectionChange)="displaySelectedTag()">
-    <div class="outline" class="lookup-search-input-field">
-      <input  type="text" formControlName="tagName" placeholder="Tag"> < (input)="searchTags()" o en el tuto dice (keyup)="onKey($event)" >
-    </div>
-    <div class="option" *ngFor="let lookup of tagsLookup">{{lookup.name}}</div> < revisar >
-  </form>
 </section-->
-
-<section>
+<!--section>
   <h1>Add Tag</h1>
 
   <mat-chip-set aria-label="Tags">
@@ -120,4 +235,4 @@
     </ul>
     <button (click)="addTag(inputValue)">Add</button>
   </div>
-</section>
+</section-->

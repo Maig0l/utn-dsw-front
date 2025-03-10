@@ -64,7 +64,7 @@ export class EditGameComponent implements OnInit {
 
   //game: Game | undefined;
   franchiseOptions: Franchise[] = [];
-  franchiseSelected: Franchise[] = [];
+  franchiseSelected!: Franchise;
   tagOptions: Tag[] = [];
   tagSelected: Tag[] = [];
   studioOptions: Studio[] = [];
@@ -169,19 +169,21 @@ export class EditGameComponent implements OnInit {
     this.gameService
       .updateGame(
         this.id,
-        this.updateForm.value.title ?? '',
-        this.updateForm.value.synopsis ?? '',
-        this.updateForm.value.releaseDate ?? '',
-        this.updateForm.value.portrait ?? '',
-        this.updateForm.value.banner ?? '',
-        /*(this.updateForm.value.pictures ?? []).filter(
-          (picture): picture is string => picture !== null,
-        ),*/
-        [],
-        this.updateForm.value.franchise ?? 0,
+        this.updateForm2.value.title ?? '',
+        this.updateForm2.value.synopsis ?? '',
+        this.updateForm2.value.releaseDate ?? '',
+        this.updateForm2.value.portrait ?? '',
+        this.updateForm2.value.banner ?? '',
+        this.updateForm2.value.franchise ?? 0,
+        //pictures
+        this.tagSelected.map((tag) => tag.id),
+        this.studioSelected.map((studio) => studio.id),
+        this.shopSelected.map((shop) => shop.id),
+        this.platformSelected.map((platform) => platform.id),
       )
       .subscribe((responseGame) => {
         this.game = responseGame;
+        console.log('GAME UPDATED: ', responseGame);
       });
   }
   //REVISAR
@@ -191,7 +193,7 @@ export class EditGameComponent implements OnInit {
         .subscribe(response => this.tagsLookup = response)
     }
     */
-
+  /*
   onInput(event: Event): void {
     if (this.i == 0) {
       this.tags.forEach((tag) => this.options.push(tag.name));
@@ -226,7 +228,6 @@ export class EditGameComponent implements OnInit {
   removePictureInput(index: number): void {
     this.pictures.removeAt(index);
   }
-*/
   addTag(option: string) {
     this.tags.forEach((tag) => {
       if (option === tag.name) {
@@ -234,7 +235,8 @@ export class EditGameComponent implements OnInit {
       }
     });
     this.gameService
-      .addTagsToGame(this.id ?? 0, this.tagid ?? 0)
-      .subscribe((responseGame) => (this.game = responseGame));
+    .addTagsToGame(this.id ?? 0, this.tagid ?? 0)
+    .subscribe((responseGame) => (this.game = responseGame));
   }
+  */
 }

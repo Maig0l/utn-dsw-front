@@ -14,31 +14,11 @@ export class GameService {
   // TODO: Guardar la URL base y rutas de endpoints en algún archivo de config global
   gamesEndpoint = `${API_URL}/games`;
 
-  findGamesByTitle(title: string): Observable<Game[]> {
-    const url = this.gamesEndpoint + `/search?title=${title}`;
+  getOneGame(id: number): Observable<Game> {
+    const url = this.gamesEndpoint + `/${id}`;
     return this.http
-      .get<ApiResponse<Game[]>>(url)
+      .get<ApiResponse<Game>>(url)
       .pipe(map((response) => response.data));
-  }
-
-  addTagsToGame(id: number, tags: number): Observable<Game> {
-    const url = this.gamesEndpoint + `/${id}`;
-    return this.http.patch<Game>(url, { tags });
-  }
-
-  addStudiosToGame(id: number, studios: number): Observable<Game> {
-    const url = this.gamesEndpoint + `/${id}`;
-    return this.http.patch<Game>(url, { studios });
-  }
-
-  addShopsToGame(id: number, shops: number): Observable<Game> {
-    const url = this.gamesEndpoint + `/${id}`;
-    return this.http.patch<Game>(url, { shops });
-  }
-
-  addPlatformsToGame(id: number, platforms: number): Observable<Game> {
-    const url = this.gamesEndpoint + `/${id}`;
-    return this.http.patch<Game>(url, { platforms });
   }
 
   getAllGames(): Observable<Game[]> {
@@ -76,11 +56,6 @@ export class GameService {
     });
   }
 
-  addPicturesToGame(game_id: number, urls: string[]): Observable<string[]> {
-    const url = 'http://localhost:8080/api/game-picture';
-    return this.http.post<string[]>(url, { game_id, urls });
-  }
-
   updateGame(
     id: number,
     title: string,
@@ -88,8 +63,11 @@ export class GameService {
     releaseDate: string,
     portrait: string,
     banner: string,
-    pictures: string[],
     franchise: number,
+    tags: number[],
+    studios: number[],
+    shops: number[],
+    platforms: number[],
   ): Observable<Game> {
     const url = this.gamesEndpoint + `/${id}`;
     return this.http.patch<Game>(url, {
@@ -99,8 +77,11 @@ export class GameService {
       releaseDate,
       portrait,
       banner,
-      pictures,
       franchise,
+      tags,
+      studios,
+      shops,
+      platforms,
     });
   }
 
@@ -111,10 +92,14 @@ export class GameService {
       .pipe(map((res) => res.data));
   }
 
-  getOneGame(id: number): Observable<Game> {
-    const url = this.gamesEndpoint + `/${id}`;
+  addPicturesToGame(game_id: number, urls: string[]): Observable<string[]> {
+    const url = 'http://localhost:8080/api/game-picture';
+    return this.http.post<string[]>(url, { game_id, urls });
+  }
+  findGamesByTitle(title: string): Observable<Game[]> {
+    const url = this.gamesEndpoint + `/search?title=${title}`;
     return this.http
-      .get<ApiResponse<Game>>(url)
+      .get<ApiResponse<Game[]>>(url)
       .pipe(map((response) => response.data));
   }
 
@@ -129,4 +114,25 @@ export class GameService {
       }),
     );
   }
+  /*
+    addTagsToGame(id: number, tags: number): Observable<Game> {
+      const url = this.gamesEndpoint + `/${id}`;
+      return this.http.patch<Game>(url, { tags });
+    }
+  
+    addStudiosToGame(id: number, studios: number): Observable<Game> {
+      const url = this.gamesEndpoint + `/${id}`;
+      return this.http.patch<Game>(url, { studios });
+    }
+  
+    addShopsToGame(id: number, shops: number): Observable<Game> {
+      const url = this.gamesEndpoint + `/${id}`;
+      return this.http.patch<Game>(url, { shops });
+    }
+  
+    addPlatformsToGame(id: number, platforms: number): Observable<Game> {
+      const url = this.gamesEndpoint + `/${id}`;
+      return this.http.patch<Game>(url, { platforms });
+    }
+  */
 }

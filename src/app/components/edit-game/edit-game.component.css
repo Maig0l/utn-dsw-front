@@ -11,6 +11,16 @@ section {
 mat-form-field {
   width: 100%;
 }
+.currents-container {
+  font-size: small;
+  display: flex;
+  opacity: 0.5;
+}
+.currents {
+  margin-left: 8px;
+  list-style-type: decimal;
+  font-style: italic;
+}
 
 .picture {
   display: flex;

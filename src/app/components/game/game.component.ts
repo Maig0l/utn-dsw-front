@@ -128,7 +128,7 @@ export class GameComponent implements OnInit {
       )
       .subscribe((responseGame) => {
         this.game = responseGame;
-
+        /*
         this.gameService
           .addPicturesToGame(
             this.game.id,
@@ -137,6 +137,7 @@ export class GameComponent implements OnInit {
             ) ?? [],
           )
           .subscribe((responsePictures) => console.log(responsePictures));
+          */
         console.log('GAME CREATED: ', responseGame);
       });
     //router.navigate(['/games']); TODO

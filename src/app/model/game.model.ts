@@ -2,6 +2,7 @@ import { Review } from './review.model';
 import { Platform } from './platform.model';
 import { Studio } from './studio.model';
 import { Tag } from './tag.model';
+import { Shop } from './shop.model.js';
 
 export interface Pictures {
   url: string[];
@@ -20,4 +21,5 @@ export interface Game {
   studios: Studio[];
   platforms: Platform[];
   reviews: Review[];
+  shops: Shop[];
 }

@@ -18,6 +18,7 @@ import { MatDividerModule } from '@angular/material/divider';
 import { MatCheckboxModule } from '@angular/material/checkbox';
 import { Playlist } from '../../model/playlist.model';
 import { Game } from '../../model/game.model';
+import { User } from '../../model/user.model.js';
 
 @Component({
   selector: 'app-playlist',
@@ -38,8 +39,19 @@ import { Game } from '../../model/game.model';
   styleUrl: './playlist.component.css',
 })
 export class PlaylistComponent implements OnInit {
+  //TODO: use the current user
+  user: User = {
+    id: 1,
+    nick: 'Cienfuegos',
+    email: 'cien@fuegos.com',
+    profile_img: 'https://example.com/image.jpg',
+    bio_text: 'Wi wi wi, uyaya, wu wu wi',
+    linked_accounts: ['https://example.com/linked_account'],
+  };
+
   gameOptions: Game[] = [];
   gameSelected: Game[] = [];
+  userPlaylists: Playlist[] = [];
 
   constructor(
     private playlistService: PlaylistService,
@@ -47,11 +59,8 @@ export class PlaylistComponent implements OnInit {
   ) {}
 
   ngOnInit(): void {
-    this.getPlaylistsByOwner(this.user);
+    this.getPlaylistsByOwner(this.user.id);
   }
-
-  userPlaylists: Playlist[] = [];
-  user = 1; //TODO: Cambiar por User
 
   getPlaylistsByOwner(user: number) {
     console.log('GET PLAYLISTS BY OWNER ', user);
@@ -153,7 +162,7 @@ export class PlaylistComponent implements OnInit {
         this.playlistForm3.value.name ?? '',
         this.playlistForm3.value.description ?? '',
         this.playlistForm3.value.is_private ?? false,
-        this.user, //this.playlistForm3.value.owner ?? 0,
+        this.user.id, //this.playlistForm3.value.owner ?? 0,
         (this.playlistForm3.get('games')?.value as (number | null)[]) //TODO: Cambiar por Game, no se si esta bien, a angular no le gusta
           .filter((game): game is number => game !== null) ?? [0],
       )

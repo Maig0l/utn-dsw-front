@@ -19,6 +19,9 @@ import { MatCheckboxModule } from '@angular/material/checkbox';
 import { Playlist } from '../../model/playlist.model';
 import { Game } from '../../model/game.model';
 import { User } from '../../model/user.model.js';
+import { MatAutocompleteModule } from '@angular/material/autocomplete';
+import { debounceTime, map, Observable, switchMap } from 'rxjs';
+import { GameService } from '../../services/game.service.js';
 
 @Component({
   selector: 'app-playlist',
@@ -33,12 +36,51 @@ import { User } from '../../model/user.model.js';
     MatInputModule,
     MatSelectModule,
     MatCheckboxModule,
+    MatAutocompleteModule,
   ],
   providers: [RouterOutlet, PlaylistService, FormBuilder],
   templateUrl: './playlist.component.html',
   styleUrl: './playlist.component.css',
 })
 export class PlaylistComponent implements OnInit {
+  constructor(
+    private playlistService: PlaylistService,
+    private formBuilder: FormBuilder,
+    private gameService: GameService,
+  ) {}
+
+  //----------------------------
+  // Autocomplete
+  myControl = new FormControl('');
+  options: Game[] = [];
+  filteredOptions!: Observable<Game[]>;
+
+  private _filter(value: string): Observable<Game[]> {
+    const filterValue = value.toLowerCase();
+    if (filterValue === '') {
+      return new Observable<Game[]>();
+    }
+    return this.gameService.findGamesByTitle(filterValue).pipe(
+      map((data: Game[]) => {
+        this.options = data;
+        console.log(this.options);
+        return this.options.filter((option) =>
+          option.title.toLowerCase().includes(filterValue),
+        );
+      }),
+    );
+  }
+  //----------------------------
+  gameSelected: Game[] = [];
+  addGame(game: Game) {
+    console.log('ADD GAME ', game);
+    if (this.gameSelected.includes(game)) {
+      return;
+    }
+    this.gameSelected.push(game);
+    this.gamesForm3.push(new FormControl(game.id));
+  }
+  //----------------------------
   //TODO: use the current user
   user: User = {
     id: 1,
@@ -49,17 +91,18 @@ export class PlaylistComponent implements OnInit {
     linked_accounts: ['https://example.com/linked_account'],
   };
 
-  gameOptions: Game[] = [];
-  gameSelected: Game[] = [];
   userPlaylists: Playlist[] = [];
-
-  constructor(
-    private playlistService: PlaylistService,
-    private formBuilder: FormBuilder,
-  ) {}
 
   ngOnInit(): void {
     this.getPlaylistsByOwner(this.user.id);
+    //----------------------------
+    this.filteredOptions = this.myControl.valueChanges.pipe(
+      //filter(value => value !== ''), // Ignore initial empty value
+      debounceTime(2000),
+      //startWith(''),
+      switchMap((value) => this._filter(value || '')),
+    );
+    //----------------------------
   }
 
   getPlaylistsByOwner(user: number) {

@@ -22,6 +22,11 @@ import { User } from '../../model/user.model.js';
 import { MatAutocompleteModule } from '@angular/material/autocomplete';
 import { debounceTime, map, Observable, switchMap } from 'rxjs';
 import { GameService } from '../../services/game.service.js';
+import {
+  MatChipEditedEvent,
+  MatChipInputEvent,
+  MatChipsModule,
+} from '@angular/material/chips';
 
 @Component({
   selector: 'app-playlist',
@@ -37,6 +42,7 @@ import { GameService } from '../../services/game.service.js';
     MatSelectModule,
     MatCheckboxModule,
     MatAutocompleteModule,
+    MatChipsModule,
   ],
   providers: [RouterOutlet, PlaylistService, FormBuilder],
   templateUrl: './playlist.component.html',
@@ -78,8 +84,12 @@ export class PlaylistComponent implements OnInit {
       return;
     }
     this.gameSelected.push(game);
-    this.gamesForm3.push(new FormControl(game.id));
   }
+  remove(game: Game): void {
+    this.gameSelected.splice(this.gameSelected.indexOf(game), 1);
+    console.log(`Removed ${game.title}`);
+  }
+
   //----------------------------
   //TODO: use the current user
   user: User = {

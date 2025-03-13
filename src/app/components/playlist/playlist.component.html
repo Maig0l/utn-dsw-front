@@ -65,6 +65,16 @@
 <!----------------------------------------------------------------------------->
 <section>
   <h1>search test</h1>
+  <mat-chip-grid #chipGrid aria-label="Enter games">
+    @for (game of gameSelected; track game) {
+      <mat-chip-row (removed)="remove(game)">
+        {{ game.title }}
+        <button matChipRemove [attr.aria-label]="'remove ' + game.title">
+          <mat-icon>cancel</mat-icon>
+        </button>
+      </mat-chip-row>
+    }
+  </mat-chip-grid>
   <form class="example-form">
     <mat-form-field class="example-full-width">
       <input

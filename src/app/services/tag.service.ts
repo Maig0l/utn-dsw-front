@@ -3,6 +3,8 @@ import { HttpClient } from '@angular/common/http';
 import { map, Observable } from 'rxjs';
 import { Tag } from '../model/tag.model';
 import { ApiResponse } from '../model/apiResponse.model';
+import { API_URL } from '../../main';
+
 
 type responseTag = ApiResponse<Tag>;
 type responseTagList = ApiResponse<Tag[]>;
@@ -14,15 +16,15 @@ export class TagService {
   constructor(private http: HttpClient) {}
 
   // TODO: Guardar la URL base y rutas de endpoints en algún archivo de config global
-  tagsEndpoint = 'http://localhost:8080/api/tags';
+  tagsEndpoint = `${API_URL}/tags`;
 
   //REVISAR 100% xq no se si esta bien pasado el nombre
   // la idea es que pasas el nombre del tag y que devuelva un array de tags
   getTagsByName(name: string): Observable<Tag[]> {
-    const url = this.tagsEndpoint + `/name/${name}`;
-    return this.http
-      .get<responseTagList>(url)
-      .pipe(map((response) => response.data));
+     const url = this.tagsEndpoint + `/search?name=${name}`;
+        return this.http
+          .get<ApiResponse<Tag[]>>(url)
+          .pipe(map((response) => response.data));
   }
   getAllTags(): Observable<Tag[]> {
     return (

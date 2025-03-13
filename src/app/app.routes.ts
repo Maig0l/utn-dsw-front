@@ -15,6 +15,8 @@ import { RegisterComponent } from './components/register/register.component';
 import { GameDetailsComponent } from './pages/game-details/game-details.component.js';
 import { EditGameComponent } from './components/edit-game/edit-game.component';
 import { ViewTagComponent } from './components/view-tag/view-tag.component.js';
+import { SearchFiltersComponent } from './search-filters/search-filters.component.js';
+
 
 export const routes: Routes = [
   { path: 'studio', component: StudioComponent },
@@ -29,6 +31,8 @@ export const routes: Routes = [
   { path: 'review/:id', component: ReviewComponent },
   { path: 'game/:id', component: GameDetailsComponent },
   { path: 'edit-game/:id', component: EditGameComponent },
+  { path: 'search-filters', component: SearchFiltersComponent },
+
   { path: 'playlist', component: PlaylistComponent },
   { path: 'homepage', component: HomepageComponent },
   { path: '', redirectTo: '/homepage', pathMatch: 'full' }, // Redirección en caso de ruta vacía

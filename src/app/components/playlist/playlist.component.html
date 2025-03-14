@@ -1,14 +1,16 @@
 <section *ngIf="userPlaylists.length > 0">
+  <small style="text-shadow: 2px 2px rgb(255, 0, 0)"
+    >(delete this section when user page is implemented)</small
+  >
   <h1>{{ user.nick }}'s playlists</h1>
-  <p>delete this when user page is implemented</p>
   <div *ngFor="let playlist of userPlaylists">
     <div class="playlist-item">
       <small>[{{ playlist.id }}]</small>&nbsp; <b>{{ playlist.name }}</b> &nbsp;
+      <span>{{ playlist.description }}</span>
     </div>
   </div>
 </section>
 
-<!-- CREATE -->
 <section>
   <h1>Create new playlist</h1>
 
@@ -27,55 +29,20 @@
       ></textarea>
     </mat-form-field>
 
-    <mat-checkbox id="is_private" formControlName="is_private"
-      >Private</mat-checkbox
+    <mat-checkbox id="isPrivate" formControlName="isPrivate"
+      >Make this playlist private</mat-checkbox
     >
-    <!--div class="games">
-    <div class="pictureInputCont" formArrayName="games">
-      <div *ngFor="let game of games.controls; let i = index">
-        <mat-form-field class="gameInput">
-          <mat-label>Game {{ i + 1 }}</mat-label>
-          <input
-            matInput
-            type="text"
-            id="games-{{ i }}"
-            [formControlName]="i"
-          />
-        </mat-form-field>
-        <button
-          class="deleteGameButton"
-          *ngIf="i !== 0"
-          mat-mini-fab
-          type="button"
-          (click)="removeGameInput(i)"
-        >
-          <mat-icon>delete</mat-icon>
-        </button>
-      </div>
-    </div>
-    <button mat-fab extended type="button" (click)="addGameInput()">
-      <mat-icon>add</mat-icon>Add game
-    </button>
-  </div-->
-    <button mat-mini-fab type="submit" class="primary">
-      <mat-icon>save</mat-icon>
-    </button>
-  </form>
-</section>
-<!----------------------------------------------------------------------------->
-<section>
-  <h1>search test</h1>
-  <mat-chip-grid #chipGrid aria-label="Enter games">
-    @for (game of gameSelected; track game) {
-      <mat-chip-row (removed)="remove(game)">
-        {{ game.title }}
-        <button matChipRemove [attr.aria-label]="'remove ' + game.title">
-          <mat-icon>cancel</mat-icon>
-        </button>
-      </mat-chip-row>
-    }
-  </mat-chip-grid>
-  <form class="example-form">
+
+    <mat-chip-grid #chipGrid aria-label="Enter games">
+      @for (game of gameSelected; track game) {
+        <mat-chip-row (removed)="remove(game)">
+          {{ game.title }}
+          <button matChipRemove [attr.aria-label]="'remove ' + game.title">
+            <mat-icon>cancel</mat-icon>
+          </button>
+        </mat-chip-row>
+      }
+    </mat-chip-grid>
     <mat-form-field class="example-full-width">
       <input
         class="custom-input"
@@ -102,52 +69,8 @@
         }
       </mat-autocomplete>
     </mat-form-field>
-  </form>
-  <h5>Selected games</h5>
-  <div *ngFor="let game of gameSelected">
-    <div class="game-selected">
-      <span class="game-title selected">{{ game.title }}</span>
-    </div>
-  </div>
-</section>
-<!----------------------------------------------------------------------------->
-<!-- UPDATE -->
-<section class="column">
-  <h1>Enter Playlist ID to Edit (soon to be separate page)</h1>
-  <form [formGroup]="playlistIdForm">
-    <div>
-      <label for="playlistId">Playlist ID:</label>
-      <input id="playlistId" formControlName="id" />
-    </div>
-    <button type="button" (click)="populateForm()">Fetch Playlist</button>
-  </form>
-
-  <div *ngIf="editReady">
-    <h1>Edit Playlist</h1>
-    <form [formGroup]="updateForm" (submit)="updatePlaylist()">
-      <div>
-        <label for="name">Name:</label>
-        <input id="name" formControlName="name" />
-      </div>
-      <div>
-        <label for="description">Description:</label>
-        <input id="description" formControlName="description" />
-      </div>
-      <div>
-        <label for="is_private">Private:</label>
-        <input type="checkbox" id="is_private" formControlName="is_private" />
-      </div>
-      <div>EDIT GAMES</div>
-      <button type="submit" class="primary">Update</button>
-    </form>
-  </div>
-</section>
-
-<!-- DELETE -->
-<section>
-  <h1>Delete a playlist (should be done from somewhere else)</h1>
-  <form [formGroup]="deleteForm" (submit)="deletePlaylist()">
-    <input type="number" formControlName="id" />
-    <input type="submit" />
+    <button mat-mini-fab type="submit" class="primary">
+      <mat-icon>save</mat-icon>
+    </button>
   </form>
 </section>

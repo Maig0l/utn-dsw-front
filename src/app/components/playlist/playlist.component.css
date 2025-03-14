@@ -9,8 +9,8 @@ section {
 }
 mat-checkbox {
   background-color: #ffffff;
-  width: 100px;
-  border-radius: 10%;
+  width: 250px;
+  border-radius: 5%;
   margin-bottom: 22px;
 }
 

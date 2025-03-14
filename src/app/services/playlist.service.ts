@@ -32,14 +32,14 @@ export class PlaylistService {
   addPlaylist(
     name: string,
     description: string,
-    is_private: boolean,
+    isPrivate: boolean,
     owner: number,
     games: number[],
   ): Observable<Playlist> {
     return this.http.post<Playlist>(this.playlistEndpoint, {
       name,
       description,
-      is_private,
+      isPrivate,
       owner,
       games,
     });

@@ -22,11 +22,7 @@ import { User } from '../../model/user.model.js';
 import { MatAutocompleteModule } from '@angular/material/autocomplete';
 import { debounceTime, map, Observable, switchMap } from 'rxjs';
 import { GameService } from '../../services/game.service.js';
-import {
-  MatChipEditedEvent,
-  MatChipInputEvent,
-  MatChipsModule,
-} from '@angular/material/chips';
+import { MatChipsModule } from '@angular/material/chips';
 
 @Component({
   selector: 'app-playlist',
@@ -55,10 +51,9 @@ export class PlaylistComponent implements OnInit {
     private gameService: GameService,
   ) {}
 
-  //----------------------------
   // Autocomplete
   myControl = new FormControl('');
-  options: Game[] = [];
+  options: Game[] = []; //stores all games from the search
   filteredOptions!: Observable<Game[]>;
 
   private _filter(value: string): Observable<Game[]> {
@@ -104,15 +99,35 @@ export class PlaylistComponent implements OnInit {
   userPlaylists: Playlist[] = [];
 
   ngOnInit(): void {
-    this.getPlaylistsByOwner(this.user.id);
-    //----------------------------
+    this.getPlaylistsByOwner(this.user.id); //TODO remove
+
     this.filteredOptions = this.myControl.valueChanges.pipe(
-      //filter(value => value !== ''), // Ignore initial empty value
       debounceTime(2000),
-      //startWith(''),
       switchMap((value) => this._filter(value || '')),
     );
-    //----------------------------
+  }
+  //este es el que uso para crear
+  playlistForm3 = new FormGroup({
+    name: new FormControl(''),
+    description: new FormControl(''),
+    isPrivate: new FormControl(false),
+    owner: new FormControl(1), //TODO: Cambiar por User
+  });
+
+  addPlaylist() {
+    console.log('ADD PLAYLIST ', this.playlistForm3.value, this.gameSelected);
+    this.playlistService
+      .addPlaylist(
+        this.playlistForm3.value.name ?? '',
+        this.playlistForm3.value.description ?? '',
+        this.playlistForm3.value.isPrivate ?? false,
+        this.user.id, // TODO cambiar por los datos del user bien puestos
+        this.gameSelected.map((game) => game.id),
+      )
+      .subscribe((responsePlaylist) => {
+        this.playlist = responsePlaylist;
+        console.log('ADD PLAYLIST ', responsePlaylist);
+      });
   }
 
   getPlaylistsByOwner(user: number) {
@@ -126,20 +141,17 @@ export class PlaylistComponent implements OnInit {
     console.log('GET PLAYLISTS ', this.userPlaylists);
   }
 
-  //este es el que uso para crear
-  playlistForm3 = new FormGroup({
-    name: new FormControl(''),
-    description: new FormControl(''),
-    is_private: new FormControl(false),
-    owner: new FormControl(1), //TODO: Cambiar por User
-    games: new FormArray([
-      new FormControl(0), //REVISAR
-    ]),
-  });
+  //
+  //
+  //
+  //
+  //
+  //
+  // unused code
 
-  get gamesForm3(): FormArray {
-    return this.playlistForm3.get('games') as FormArray;
-  }
+  // get gamesForm3(): FormArray {
+  //   return this.playlistForm3.get('games') as FormArray;
+  // }
 
   addGameInput(): void {
     this.games.push(new FormControl(''));
@@ -152,7 +164,7 @@ export class PlaylistComponent implements OnInit {
   playlistForm2 = this.formBuilder.group({
     name: [''],
     description: [''],
-    is_private: [false],
+    isPrivate: [false],
     owner: [],
     games: this.formBuilder.array([this.formBuilder.control(0)]),
   });
@@ -161,7 +173,7 @@ export class PlaylistComponent implements OnInit {
     id: [0],
     name: [''],
     description: [''],
-    is_private: [false],
+    isPrivate: [false],
     owner: [],
     games: this.formBuilder.array([this.formBuilder.control(0)]),
   });
@@ -177,7 +189,7 @@ export class PlaylistComponent implements OnInit {
   playlistForm = new FormGroup({
     name: new FormControl(''),
     description: new FormControl(''),
-    is_private: new FormControl(false),
+    isPrivate: new FormControl(false),
     owner: new FormControl(0),
     games: new FormControl(0),
   });
@@ -190,7 +202,7 @@ export class PlaylistComponent implements OnInit {
     id: new FormControl(0),
     name: new FormControl(''),
     description: new FormControl(''),
-    is_private: new FormControl(false),
+    isPrivate: new FormControl(false),
     owner: new FormControl(0),
     games: new FormControl(0),
   });
@@ -208,27 +220,13 @@ export class PlaylistComponent implements OnInit {
       .subscribe((responsePlaylists) => (this.playlists = responsePlaylists));
   }
 
-  addPlaylist() {
-    console.log('ADD PLAYLIST ', this.playlistForm3.value);
-    this.playlistService
-      .addPlaylist(
-        this.playlistForm3.value.name ?? '',
-        this.playlistForm3.value.description ?? '',
-        this.playlistForm3.value.is_private ?? false,
-        this.user.id, //this.playlistForm3.value.owner ?? 0,
-        (this.playlistForm3.get('games')?.value as (number | null)[]) //TODO: Cambiar por Game, no se si esta bien, a angular no le gusta
-          .filter((game): game is number => game !== null) ?? [0],
-      )
-      .subscribe((responsePlaylist) => (this.playlist = responsePlaylist));
-  }
-
   updatePlaylist() {
     this.playlistService
       .updatePlaylist(
         this.updateForm.value.id ?? 0,
         this.updateForm.value.name ?? '',
         this.updateForm.value.description ?? '',
-        this.updateForm.value.is_private ?? false,
+        this.updateForm.value.isPrivate ?? false,
         this.updateForm.value.owner ?? 0,
         this.updateForm.value.games ?? 0,
       )
@@ -257,7 +255,7 @@ export class PlaylistComponent implements OnInit {
           id: data.id,
           name: data.name,
           description: data.description,
-          is_private: data.is_private,
+          isPrivate: data.isPrivate,
           owner: data.owner,
           games: data.games,
         });

@@ -14,7 +14,6 @@ export class PlaylistService {
 
   getPlaylistsByOwner(owner: number): Observable<Playlist[]> {
     const url = this.playlistEndpoint + `/search?owner=${owner}`;
-    console.log(url);
     return this.http
       .get<ApiResponse<Playlist[]>>(url)
       .pipe(map((response) => response.data));

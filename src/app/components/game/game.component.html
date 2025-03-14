@@ -32,7 +32,8 @@
       <mat-label for="banner">Banner</mat-label>
       <input matInput type="text" id="banner" formControlName="banner" />
     </mat-form-field>
-    <div class="pictures">
+    <mat-label>pictures rework pending</mat-label>
+    <!--div class="pictures">
       <div class="pictureInputCont" formArrayName="pictures">
         <div *ngFor="let picture of pictures.controls; let i = index">
           <mat-form-field class="pictureInput">
@@ -64,7 +65,7 @@
       >
         <mat-icon>add</mat-icon>Add picture
       </button>
-    </div>
+    </div-->
     <mat-form-field>
       <mat-label>Franchise</mat-label>
       <mat-select [(value)]="franchiseSelected">
@@ -74,9 +75,41 @@
       </mat-select>
     </mat-form-field>
 
+    <!--BETTER TAGS-->
+    <mat-chip-grid #chipGrid aria-label="Enter tags">
+      @for (tag of tagSelected; track tag) {
+        <mat-chip-row (removed)="removeTag(tag)">
+          {{ tag.name }}
+          <button matChipRemove [attr.aria-label]="'remove ' + tag.name">
+            <mat-icon>cancel</mat-icon>
+          </button>
+        </mat-chip-row>
+      }
+    </mat-chip-grid>
+    <mat-form-field class="example-full-width">
+      <input
+        class="custom-input"
+        type="text"
+        placeholder="Search tags..."
+        aria-label="Tag"
+        matInput
+        [formControl]="tagControl"
+        [matAutocomplete]="auto"
+      />
+      <mat-autocomplete #auto="matAutocomplete">
+        @for (option of filteredTagOptions | async; track option) {
+          <mat-option [value]="">
+            <span class="option-name">{{ option.name }}</span>
+            <button mat-fab extended type="button" (click)="addTag(option)">
+              <mat-icon>add</mat-icon>Add tag
+            </button>
+          </mat-option>
+        }
+      </mat-autocomplete>
+    </mat-form-field>
+
     <mat-form-field>
       <mat-label>Tags</mat-label>
-      <!-- quizás mejor otro metodo donde entren mas resultados en pantalla o que permita buscar -->
       <mat-select [(value)]="tagSelected" multiple>
         @for (tag of tagOptions; track tag) {
           <mat-option [value]="tag">{{ tag.name }}</mat-option>

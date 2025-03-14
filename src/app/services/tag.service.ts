@@ -5,7 +5,6 @@ import { Tag } from '../model/tag.model';
 import { ApiResponse } from '../model/apiResponse.model';
 import { API_URL } from '../../main';
 
-
 type responseTag = ApiResponse<Tag>;
 type responseTagList = ApiResponse<Tag[]>;
 
@@ -21,10 +20,10 @@ export class TagService {
   //REVISAR 100% xq no se si esta bien pasado el nombre
   // la idea es que pasas el nombre del tag y que devuelva un array de tags
   getTagsByName(name: string): Observable<Tag[]> {
-     const url = this.tagsEndpoint + `/search?name=${name}`;
-        return this.http
-          .get<ApiResponse<Tag[]>>(url)
-          .pipe(map((response) => response.data));
+    const url = this.tagsEndpoint + `/search?name=${name}`;
+    return this.http
+      .get<ApiResponse<Tag[]>>(url)
+      .pipe(map((response) => response.data));
   }
   getAllTags(): Observable<Tag[]> {
     return (

@@ -114,25 +114,4 @@ export class GameService {
       }),
     );
   }
-  /*
-    addTagsToGame(id: number, tags: number): Observable<Game> {
-      const url = this.gamesEndpoint + `/${id}`;
-      return this.http.patch<Game>(url, { tags });
-    }
-  
-    addStudiosToGame(id: number, studios: number): Observable<Game> {
-      const url = this.gamesEndpoint + `/${id}`;
-      return this.http.patch<Game>(url, { studios });
-    }
-  
-    addShopsToGame(id: number, shops: number): Observable<Game> {
-      const url = this.gamesEndpoint + `/${id}`;
-      return this.http.patch<Game>(url, { shops });
-    }
-  
-    addPlatformsToGame(id: number, platforms: number): Observable<Game> {
-      const url = this.gamesEndpoint + `/${id}`;
-      return this.http.patch<Game>(url, { platforms });
-    }
-  */
 }

@@ -101,7 +101,7 @@ export class PlaylistComponent implements OnInit {
     this.getPlaylistsByOwner(this.user.id); //TODO remove
 
     this.filteredOptions = this.myControl.valueChanges.pipe(
-      debounceTime(2000),
+      debounceTime(1500),
       switchMap((value) => this._filter(value || '')),
     );
   }

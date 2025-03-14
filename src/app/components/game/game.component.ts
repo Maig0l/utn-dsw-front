@@ -26,6 +26,8 @@ import { PlatformService } from '../../services/platform.service';
 import { Platform } from '../../model/platform.model';
 import { Shop } from '../../model/shop.model';
 import { Studio } from '../../model/studio.model';
+import { MatChipsModule } from '@angular/material/chips';
+import { debounceTime, map, Observable, switchMap } from 'rxjs';
 
 @Component({
   selector: 'app-game',
@@ -40,12 +42,47 @@ import { Studio } from '../../model/studio.model';
     MatInputModule,
     MatSelectModule,
     MatAutocompleteModule,
+    MatChipsModule,
   ],
   providers: [RouterOutlet, GameService, TagService, FranchiseService],
   templateUrl: './game.component.html',
   styleUrl: './game.component.css',
 })
 export class GameComponent implements OnInit {
+  //-------------------------------
+  //BETTER TAGS
+  tagControl = new FormControl();
+  tagOptions: Tag[] = [];
+  tagSelected: Tag[] = [];
+  filteredTagOptions!: Observable<Tag[]>;
+  private _tagFilter(value: string): Observable<Tag[]> {
+    const filterValue = value.toLowerCase();
+    if (filterValue === '') {
+      return new Observable<Tag[]>();
+    }
+    return this.tagService.getTagsByName(filterValue).pipe(
+      map((data: Tag[]) => {
+        this.tagOptions = data;
+        console.log(this.tagOptions);
+        return this.tagOptions.filter((option) =>
+          option.name.toLowerCase().includes(filterValue),
+        );
+      }),
+    );
+  }
+  addTag(tag: Tag) {
+    if (this.tagSelected.includes(tag)) {
+      console.log('Tag already selected');
+      return;
+    }
+    console.log('ADD TAG ', tag);
+    this.tagSelected.push(tag);
+  }
+  removeTag(tag: Tag): void {
+    this.tagSelected.splice(this.tagSelected.indexOf(tag), 1);
+    console.log(`Removed ${tag.name}`);
+  }
+  //--------------------------------
   gameForm = new FormGroup({
     title: new FormControl(''),
     synopsis: new FormControl(''),
@@ -61,8 +98,6 @@ export class GameComponent implements OnInit {
   game: Game | undefined;
   franchiseOptions: Franchise[] = [];
   franchiseSelected: Franchise[] = [];
-  tagOptions: Tag[] = [];
-  tagSelected: Tag[] = [];
   studioOptions: Studio[] = [];
   studioSelected: Studio[] = [];
   shopOptions: Shop[] = [];
@@ -88,6 +123,11 @@ export class GameComponent implements OnInit {
     this.tagService.getAllTags().subscribe((responseTags) => {
       this.tagOptions = responseTags;
     });
+    //tag autocomplete
+    this.filteredTagOptions = this.tagControl.valueChanges.pipe(
+      debounceTime(1500),
+      switchMap((value) => this._tagFilter(value || '')),
+    );
     this.studioService.getAllStudios().subscribe((responseStudios) => {
       this.studioOptions = responseStudios;
     });

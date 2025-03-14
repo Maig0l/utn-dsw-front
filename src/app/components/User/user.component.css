@@ -1,0 +1,22 @@
+.profilePic {
+  width: 150px;
+  height: 150px;
+  background-color: red;
+  border-radius: 50%;
+  position: relative;
+  top: 10px;
+  left: 10px;
+  margin-left: 2vw;
+  margin-top: 1vw;
+}
+
+.username {
+  font-size: 2vw;
+  margin-left: 2vw;
+  margin-top: 1vw;
+}
+
+.profileInfo {
+  margin-top: 2vw;
+  margin-left: 2vw;
+}

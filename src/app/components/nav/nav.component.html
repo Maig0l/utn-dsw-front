@@ -21,7 +21,13 @@
             >
           </li>
 
-          <li *ngIf="userLoginOn"><a href="#">Profile</a></li>
+          <li *ngIf="!userLoginOn"><a
+            routerLink="/profile"
+            routerLinkActive="active"
+            (click)="redirect('/profile')"
+            >Profile</a
+            > <!-- Lo dejo sin login para probarlo rapido -->
+          </li>
           <li *ngIf="userLoginOn"><a href="#">Settings</a></li>
           <li *ngIf="userLoginOn"><a href="#">Security</a></li>
           <li *ngIf="userLoginOn"><a routerLink="">Logout</a></li>

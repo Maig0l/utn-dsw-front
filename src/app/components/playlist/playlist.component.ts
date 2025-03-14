@@ -1,7 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { PlaylistService } from '../../services/playlist.service';
 import {
-  FormArray,
   FormBuilder,
   FormControl,
   FormGroup,
@@ -47,7 +46,6 @@ import { MatChipsModule } from '@angular/material/chips';
 export class PlaylistComponent implements OnInit {
   constructor(
     private playlistService: PlaylistService,
-    private formBuilder: FormBuilder,
     private gameService: GameService,
   ) {}
 
@@ -55,6 +53,8 @@ export class PlaylistComponent implements OnInit {
   myControl = new FormControl('');
   options: Game[] = []; //stores all games from the search
   filteredOptions!: Observable<Game[]>;
+
+  playlist: Playlist | undefined;
 
   private _filter(value: string): Observable<Game[]> {
     const filterValue = value.toLowerCase();
@@ -71,7 +71,7 @@ export class PlaylistComponent implements OnInit {
       }),
     );
   }
-  //----------------------------
+
   gameSelected: Game[] = [];
   addGame(game: Game) {
     console.log('ADD GAME ', game);
@@ -85,7 +85,6 @@ export class PlaylistComponent implements OnInit {
     console.log(`Removed ${game.title}`);
   }
 
-  //----------------------------
   //TODO: use the current user
   user: User = {
     id: 1,
@@ -107,7 +106,7 @@ export class PlaylistComponent implements OnInit {
     );
   }
   //este es el que uso para crear
-  playlistForm3 = new FormGroup({
+  playlistForm = new FormGroup({
     name: new FormControl(''),
     description: new FormControl(''),
     isPrivate: new FormControl(false),
@@ -115,12 +114,12 @@ export class PlaylistComponent implements OnInit {
   });
 
   addPlaylist() {
-    console.log('ADD PLAYLIST ', this.playlistForm3.value, this.gameSelected);
+    console.log('ADD PLAYLIST ', this.playlistForm.value, this.gameSelected);
     this.playlistService
       .addPlaylist(
-        this.playlistForm3.value.name ?? '',
-        this.playlistForm3.value.description ?? '',
-        this.playlistForm3.value.isPrivate ?? false,
+        this.playlistForm.value.name ?? '',
+        this.playlistForm.value.description ?? '',
+        this.playlistForm.value.isPrivate ?? false,
         this.user.id, // TODO cambiar por los datos del user bien puestos
         this.gameSelected.map((game) => game.id),
       )
@@ -139,130 +138,5 @@ export class PlaylistComponent implements OnInit {
         (responsePlaylists) => (this.userPlaylists = responsePlaylists),
       );
     console.log('GET PLAYLISTS ', this.userPlaylists);
-  }
-
-  //
-  //
-  //
-  //
-  //
-  //
-  // unused code
-
-  // get gamesForm3(): FormArray {
-  //   return this.playlistForm3.get('games') as FormArray;
-  // }
-
-  addGameInput(): void {
-    this.games.push(new FormControl(''));
-  }
-
-  removeGameInput(index: number): void {
-    this.games.removeAt(index);
-  }
-
-  playlistForm2 = this.formBuilder.group({
-    name: [''],
-    description: [''],
-    isPrivate: [false],
-    owner: [],
-    games: this.formBuilder.array([this.formBuilder.control(0)]),
-  });
-
-  updateForm2 = this.formBuilder.group({
-    id: [0],
-    name: [''],
-    description: [''],
-    isPrivate: [false],
-    owner: [],
-    games: this.formBuilder.array([this.formBuilder.control(0)]),
-  });
-
-  get games(): FormArray {
-    return this.playlistForm2.get('games') as FormArray;
-  }
-
-  addGames() {
-    this.games.push(this.formBuilder.control(''));
-  }
-
-  playlistForm = new FormGroup({
-    name: new FormControl(''),
-    description: new FormControl(''),
-    isPrivate: new FormControl(false),
-    owner: new FormControl(0),
-    games: new FormControl(0),
-  });
-
-  deleteForm = new FormGroup({
-    id: new FormControl(0),
-  });
-
-  updateForm = new FormGroup({
-    id: new FormControl(0),
-    name: new FormControl(''),
-    description: new FormControl(''),
-    isPrivate: new FormControl(false),
-    owner: new FormControl(0),
-    games: new FormControl(0),
-  });
-
-  playlistIdForm = new FormGroup({
-    id: new FormControl(0),
-  });
-
-  playlist: Playlist | undefined;
-  playlists: Playlist[] | undefined;
-
-  showPlaylists() {
-    this.playlistService
-      .getAllPlaylists()
-      .subscribe((responsePlaylists) => (this.playlists = responsePlaylists));
-  }
-
-  updatePlaylist() {
-    this.playlistService
-      .updatePlaylist(
-        this.updateForm.value.id ?? 0,
-        this.updateForm.value.name ?? '',
-        this.updateForm.value.description ?? '',
-        this.updateForm.value.isPrivate ?? false,
-        this.updateForm.value.owner ?? 0,
-        this.updateForm.value.games ?? 0,
-      )
-      .subscribe((responsePlaylist) => (this.playlist = responsePlaylist));
-  }
-
-  deletePlaylist() {
-    this.playlistService
-      .deletePlaylist(this.deleteForm.value.id ?? 0)
-      .subscribe((responsePlaylist) => (this.playlist = responsePlaylist));
-  }
-
-  getOnePlaylist() {
-    this.playlistService
-      .getOnePlaylist(this.playlistIdForm.value.id ?? 0)
-      .subscribe((responsePlaylist) => (this.playlist = responsePlaylist));
-  }
-
-  editReady = false;
-
-  populateForm() {
-    const id = this.playlistIdForm.get('id')?.value;
-    if (id) {
-      this.playlistService.getOnePlaylist(id).subscribe((data: Playlist) => {
-        this.updateForm.setValue({
-          id: data.id,
-          name: data.name,
-          description: data.description,
-          isPrivate: data.isPrivate,
-          owner: data.owner,
-          games: data.games,
-        });
-        this.editReady = true;
-      }); //TODO handle error?
-    } else {
-      this.editReady = false;
-    }
   }
 }

@@ -16,7 +16,7 @@ import { GameDetailsComponent } from './pages/game-details/game-details.componen
 import { EditGameComponent } from './components/edit-game/edit-game.component';
 import { ViewTagComponent } from './components/view-tag/view-tag.component.js';
 import { SearchFiltersComponent } from './search-filters/search-filters.component.js';
-import { UserComponent } from './components/User/user.component.js';
+import { UserComponent } from './components/user/user.component.js';
 
 export const routes: Routes = [
   { path: 'studio', component: StudioComponent },

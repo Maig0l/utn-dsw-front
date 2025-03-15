@@ -1,6 +1,6 @@
 import { inject, Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
-import { map, Observable } from 'rxjs';
+import { map } from 'rxjs';
 import { API_URL } from '../../main';
 import { User } from '../model/user.model';
 import { ApiResponse } from '../model/apiResponse.model';
@@ -32,4 +32,5 @@ export class UserService {
     const endpoint = `${this.usersEndpoint}/${userId}`;
     return this.http.delete<ApiResponse<User>>(endpoint).pipe(map((res) => res.data));
   }
+
 }

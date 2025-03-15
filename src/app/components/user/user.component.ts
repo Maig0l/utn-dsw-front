@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { FormBuilder, Validators, ReactiveFormsModule, FormGroup } from '@angular/forms';
+import { ReactiveFormsModule, FormGroup } from '@angular/forms';
 import { Router } from '@angular/router';
 import { CommonModule } from '@angular/common';
 import { UserService } from '../../services/user.service.js';
@@ -14,6 +14,7 @@ import { HttpClientModule } from '@angular/common/http';
   selector: 'app-user',
   standalone: true,
   imports: [ReactiveFormsModule, CommonModule, HttpClientModule],
+  providers: [UserService, TagService, PlaylistService],
   templateUrl: './user.component.html',
   styleUrl: './user.component.css',
 })
@@ -22,6 +23,7 @@ export class UserComponent implements OnInit {
     nick: new FormGroup(''),
     email: new FormGroup(''),
     profile_img: new FormGroup(''),
+    bio_text: new FormGroup(''),
     linked_accounts: new FormGroup(''),
   });
 
@@ -31,7 +33,7 @@ export class UserComponent implements OnInit {
   user : User | undefined;
 
   constructor(
-    private profileService: UserService,
+    private userService: UserService,
     private router: Router,
     private tagService: TagService,
     private playlistService: PlaylistService,
@@ -39,11 +41,10 @@ export class UserComponent implements OnInit {
 
   ngOnInit() {
     this.showProfile();
-    console.log(this.user);
   }
 
   showProfile() {
-    this.profileService
+    this.userService
       .getUserById(1) // Hardcodeado hasta que el login funcione
       .subscribe((responseUser) => (this.user = responseUser));
 

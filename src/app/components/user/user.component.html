@@ -1,0 +1,19 @@
+<section class="username">
+  <h1>{{user?.nick}}</h1>
+</section>
+
+<form [formGroup]="userForm" (submit)="showProfile()">
+  <section class="profilePic">
+    <div class="circle">
+      <img src="{{user?.profile_img}}" alt="Profile Picture" class="profile-img">
+    </div>
+  </section>
+  <section class="profileInfo">
+    <p>{{user?.bio_text}}</p>
+  </section>
+  <section class="linkedAccounts">
+    @for (accounts of user?.linked_accounts; track user?.linked_accounts){
+    <p>{{user?.linked_accounts}}</p>
+    }
+  </section>
+</form>

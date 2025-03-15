@@ -1,0 +1,52 @@
+.profilePic {
+  display: flex;
+  width: 150px;
+  height: 150px;
+  background-color: red;
+  border-radius: 50%;
+  position: relative;
+  top: 10px;
+  left: 10px;
+  margin-left: 2vw;
+  margin-top: 1vw;
+  justify-content: center;
+}
+
+.circle {
+  display: flex;
+  width: 150px;
+  height: 150px;
+  background-color: red;
+  border-radius: 50%;
+  justify-content: center;
+  position: relative;
+  overflow: hidden;
+}
+
+.profile-img {
+  width: 100%;
+  height: auto;
+  border-radius: 50%;
+  position: relative;
+  object-fit: cover;
+}
+
+
+.username {
+  font-size: 2vw;
+  margin-left: 1vw;
+  margin-top: 1vw;
+}
+
+.profileInfo {
+  display: flex;
+  align-items: center;
+}
+
+.linkedAccounts {
+  display: flex;
+  flex-direction: column;
+  margin-left: 2vw;
+  margin-top: 1vw;
+}
+

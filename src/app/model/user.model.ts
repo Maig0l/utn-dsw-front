@@ -1,3 +1,8 @@
+import { Playlist } from './playlist.model';
+import { Review } from './review.model.js';
+import { Tag } from './tag.model.js';
+
+
 export interface User {
   id: number;
   nick: string;
@@ -5,4 +10,7 @@ export interface User {
   profile_img?: string;
   bio_text?: string;
   linked_accounts?: string[];
+  playlists?: Playlist[];
+  liked_tags?: Tag[];
+  reviews?: Review[];
 }

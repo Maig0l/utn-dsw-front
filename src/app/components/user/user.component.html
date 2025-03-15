@@ -12,8 +12,23 @@
     <p>{{user?.bio_text}}</p>
   </section>
   <section class="linkedAccounts">
-    @for (accounts of user?.linked_accounts; track user?.linked_accounts){
+    @for (account of user?.linked_accounts; track user?.linked_accounts){
     <p>{{user?.linked_accounts}}</p>
     }
+  </section>
+  <section class="editProfile">
+    <button type="submit" class="btn btn-primary">Edit Profile</button>
+  </section>
+  <section class="reviews">
+
+  @for (review of user?.reviews; track reviews){
+    @for (game of games; track games){
+      @if (game.id == review.game){
+        <h2>{{game.title}}</h2>
+          }
+        }
+    <h2>{{review.title}}</h2>
+    <p>{{review.body}}</p>
+}
   </section>
 </form>

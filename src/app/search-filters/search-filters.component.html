@@ -1,6 +1,6 @@
 
 <section>
-  <h1>Search Tag</h1>
+  <h1>Filters</h1>
   <div style="position: relative; width: 300px;">
     <input
       type="text"
@@ -27,7 +27,18 @@
       </li>
 
     </ul>
-    <button (click)="addTag( inputValue )">Add</button>
+
+
+    <mat-form-field>
+      <mat-label>Platforms</mat-label>
+      <mat-select [(value)]="platformSelected" multiple>
+        @for (platform of platformOptions; track platform) {
+          <mat-option [value]="platform">{{ platform.name }}</mat-option>
+        }
+      </mat-select>
+    </mat-form-field>
+
+    <button (click)="filter_options( inputValue )">Add</button>
 </div>
 </section>
 
@@ -37,9 +48,16 @@
     <div class="container">
       <h2>Games</h2>
       <div class="grid-container">
+        @if (filter){
+          @for (game of filterGames; track game.id) {
+            <app-view-game [game]="game"></app-view-game>
+          }
+        }
+        @else{
         @for (game of Games; track game.id) {
             <app-view-game [game]="game"></app-view-game>
           }
+        }
       </div>
     </div>
   </section>

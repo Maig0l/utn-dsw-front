@@ -11,6 +11,10 @@ import { MatInputModule } from '@angular/material/input';
 import { MatAutocompleteModule } from '@angular/material/autocomplete';
 import { AsyncPipe, NgFor, NgIf } from '@angular/common';
 import { ViewGameComponent } from '../components/view-game/view-game.component.js';
+import { Platform } from '../model/platform.model.js';
+import { PlatformService } from '../services/platform.service.js';
+import { MatButtonModule } from '@angular/material/button';
+import { MatSelectModule } from '@angular/material/select';
 
 @Component({
   selector: 'app-search-filters',
@@ -19,6 +23,9 @@ import { ViewGameComponent } from '../components/view-game/view-game.component.j
       MatInputModule,
       MatAutocompleteModule,
       ReactiveFormsModule,
+      MatButtonModule,
+          MatInputModule,
+          MatSelectModule,
       AsyncPipe, ViewGameComponent],
   templateUrl: './search-filters.component.html',
   styleUrl: './search-filters.component.css'
@@ -45,8 +52,12 @@ export class SearchFiltersComponent {
    allGames: Game[] = [];
    filterGames: Game[] = [];
   choseTag!: Tag;
+  filter: boolean = false;
 
-  constructor(private gameService: GameService, private tagService: TagService) {}
+  platformOptions: Platform[] = [];
+  platformSelected: Platform[] = [];
+
+  constructor(private gameService: GameService, private tagService: TagService, private platformService: PlatformService) {}
 
 
   showTags() {
@@ -79,7 +90,7 @@ export class SearchFiltersComponent {
     setTimeout(() => (this.showDropdown = false), 200);
   }
 
-  addTag(option: string){
+  filter_options(option: string){
     this.tags.forEach((tag) => 
       {if(option===tag.name ){
         console.log("Hola")
@@ -89,10 +100,14 @@ export class SearchFiltersComponent {
       this.filterGames = this.Games.filter(game => 
         game.tags.some(tag => tag.name === this.choseTag.name)
       );
-      
+
+      this.filterGames = this.filterGames.filter(game => 
+        game.platforms.some(platform => platform.name === this.platformSelected[0].name)
+      );
+      this.filter = true;
       console.log(this.filterGames);
-      console.log(this.choseTag.name);
-      this.Games = this.filterGames;
+      console.log(this.platformSelected[0].name);
+      
    
     
   }
@@ -107,6 +122,9 @@ export class SearchFiltersComponent {
   ngOnInit(){
     this.showTags();
     this.getGameDetails();
+    this.platformService.getAllPlatforms().subscribe((responsePlatforms) => {
+      this.platformOptions = responsePlatforms;
+    });
   }
 
 

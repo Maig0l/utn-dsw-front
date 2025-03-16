@@ -11,6 +11,6 @@ export interface User {
   bio_text?: string;
   linked_accounts?: string[];
   playlists?: Playlist[];
-  liked_tags?: Tag[];
+  likedTags?: Tag[];
   reviews?: Review[];
 }

@@ -19,16 +19,41 @@
   <section class="editProfile">
     <button type="submit" class="btn btn-primary">Edit Profile</button>
   </section>
+
+  <h1>Reviews</h1>
+
   <section class="reviews">
 
+  <h2>Total Reviews: {{user?.reviews?.length}}</h2>
   @for (review of user?.reviews; track reviews){
     @for (game of games; track games){
       @if (game.id == review.game){
-        <h2>{{game.title}}</h2>
+        <h3>{{game.title}}</h3>
           }
         }
-    <h2>{{review.title}}</h2>
+    <h4>{{review.title}}</h4>
     <p>{{review.body}}</p>
-}
+  }
+
   </section>
+
+  <h1>playlist</h1>
+
+  <section class="playlist">
+
+  <h2>Total Playlists: {{user?.playlists?.length}}</h2>
+  @for (playlist of user?.playlists; track playlists){
+    <h3>{{playlist.name}}</h3>
+    <p>{{playlist.description}}</p>
+  }
+
+  </section>
+
+  <h1> Liked_tags </h1>
+  <section class="likedTags">
+  @for (tag of user?.likedTags; track likedTags){
+    <h2>{{tag.name}}</h2>
+    }
+</section>
+
 </form>

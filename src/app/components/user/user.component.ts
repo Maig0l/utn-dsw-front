@@ -30,7 +30,7 @@ export class UserComponent implements OnInit {
     linked_accounts: new FormGroup(''),
   });
 
-  playlist!: Playlist;
+  playlists!: Playlist[];
   likedTags!: Tag[];
   reviews!: Review[];
   games: Game[] = [];
@@ -48,6 +48,7 @@ export class UserComponent implements OnInit {
   ngOnInit() {
     this.showProfile();
     this.getGameDetails();
+    this.getTagsByUser();
   }
 
   showProfile() {
@@ -60,6 +61,17 @@ export class UserComponent implements OnInit {
     this.gameService.getAllGames().subscribe((response) => {
       this.games = response;
     });
+  }
 
+  getUserPlaylists() {
+    this.playlistService.getPlaylistsByOwner(1).subscribe((response) => {
+      this.playlists = response;
+    })
+  }
+
+  getTagsByUser() {
+    this.tagService.getAllTags().subscribe((response) => {
+      this.likedTags = response;
+    })
   }
 }

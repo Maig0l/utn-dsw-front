@@ -3,6 +3,7 @@ import { HttpClient } from '@angular/common/http';
 import { map, Observable } from 'rxjs';
 import { Studio } from '../model/studio.model';
 import { ApiResponse } from '../model/apiResponse.model';
+import { API_URL } from '../../main';
 
 type responseStudioList = ApiResponse<Studio[]>;
 type responseStudio = ApiResponse<Studio>;
@@ -13,11 +14,18 @@ type responseStudio = ApiResponse<Studio>;
 export class StudioService {
   constructor(private http: HttpClient) {}
 
-  studiosEndpoint = 'http://localhost:8080/api/studios';
+  studiosEndpoint = `${API_URL}/studios`;
 
   getAllStudios(): Observable<Studio[]> {
     return this.http
       .get<responseStudioList>(this.studiosEndpoint)
+      .pipe(map((response) => response.data));
+  }
+
+  getStudiosByName(name: string): Observable<Studio[]> {
+    const url = this.studiosEndpoint + `/search?name=${name}`;
+    return this.http
+      .get<responseStudioList>(url)
       .pipe(map((response) => response.data));
   }
 

@@ -3,7 +3,6 @@
 
 <form [formGroup]="userForm" (submit)="showProfile()">
   <div class="grid">
-    <mat-form-field>
       <section class="username">
         <h1>{{user?.nick}}</h1>
         <section class="profilePic">
@@ -12,7 +11,6 @@
           </div>
         </section>
       </section>
-    </mat-form-field>
     <mat-card>
       <mat-card-content class="profileInfo">
         <p>{{user?.bio_text}}</p>
@@ -73,7 +71,7 @@
     <h2>Total Reviews: {{user?.reviews?.length}}</h2>
     @for (review of user?.reviews; track reviews){
       @for (game of games; track games){
-        @if (game.id == review.game){
+        @if (game.id === review.game){
           <h3>{{game.title}}</h3>
             }
           }

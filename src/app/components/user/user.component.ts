@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { ReactiveFormsModule, FormGroup } from '@angular/forms';
 import { Router } from '@angular/router';
-import { CommonModule, NgFor } from '@angular/common';
+import { CommonModule} from '@angular/common';
 import { UserService } from '../../services/user.service.js';
 import { TagService } from '../../services/tag.service.js';
 import { PlaylistService } from '../../services/playlist.service.js';

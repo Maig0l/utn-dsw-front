@@ -1,21 +1,25 @@
 .profilePic {
   display: flex;
-  width: 150px;
-  height: 150px;
+  width: 20vw;
+  height: 20vw;
+  max-width: 150px;
+  max-height: 150px;
   background-color: red;
   border-radius: 50%;
   position: relative;
   top: 10px;
   left: 10px;
-  margin-left: -1vw;
+  margin-left: 1vw;
   margin-top: 1vw;
   justify-content: center;
 }
 
 .circle {
   display: flex;
-  width: 150px;
-  height: 150px;
+  width: 20vw;
+  height: 20vw;
+  max-width: 150px;
+  max-height: 150px;
   background-color: red;
   border-radius: 50%;
   justify-content: center;

@@ -15,6 +15,7 @@ import { Platform } from '../../model/platform.model.js';
 import { PlatformService } from '../../services/platform.service.js';
 import { MatButtonModule } from '@angular/material/button';
 import { MatSelectModule } from '@angular/material/select';
+import { NULL } from 'sass';
 
 @Component({
   selector: 'app-search-filters',
@@ -96,18 +97,36 @@ export class SearchFiltersComponent {
         console.log("Hola")
         this.choseTag = tag;
       }})
-
-      this.filterGames = this.Games.filter(game => 
+      console.log(option);
+      if(option !== '' && this.platformSelected.length !== 0){
+        this.filterGames = this.Games.filter(game => 
         game.tags.some(tag => tag.name === this.choseTag.name)
-      );
-      if(this.platformSelected.length != 0){
-      this.filterGames = this.filterGames.filter(game => 
+        );
+         this.filterGames = this.filterGames.filter(game => 
         game.platforms.some(platform => platform.name === this.platformSelected[0].name)
-      );
+        
+        );
+        this.filter = true;
+    
     }
-      this.filter = true;
-      console.log(this.filterGames);
-      console.log(this.platformSelected[0].name);
+    
+    else if(option !== '' ){
+       this.filterGames = this.Games.filter(game => 
+        game.tags.some(tag => tag.name === this.choseTag.name)
+       );}
+
+    else if(this.platformSelected.length !== 0){
+        this.filterGames = this.Games.filter(game => 
+         game.platforms.some(platform => platform.name === this.platformSelected[0].name)
+        
+        );
+        this.filter = true;
+    }
+
+    else{
+        this.filter = false;
+    }
+      
       
    
     

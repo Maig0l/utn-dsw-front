@@ -1,7 +1,6 @@
-
-<section>
-  <h1>Filters</h1>
-  <div style="position: relative; width: 300px;">
+<h1>Filters</h1>
+<section class="filters">
+  <div style="position: relative; width: 300px;" class="filter">
     <input
       type="text"
       [value]="inputValue"
@@ -13,12 +12,12 @@
   
     <ul
       *ngIf="showDropdown && filteredOptions.length > 0"
-      style="position: absolute; top: 100%; left: 0; right: 0; max-height: 200px; overflow-y: auto; border: 1px solid #cccccc; background: white; padding: 0; margin: 0; list-style: none; z-index: 10;"
+      style="position: absolute; top: 100%; left: 0; right: 0; max-height: 200px; overflow-y: auto;  padding: 0; margin: 0; list-style: none; z-index: 10; color: white"
     >
       <li
         *ngFor="let option of filteredOptions"
         (mousedown)="selectOption(option)"
-        style="padding: 8px; cursor: pointer;"
+        style="padding: 8px; cursor: pointer; color: black"
         [style.background]="option === hoveredOption ? '#f0f0f0' : 'white'"
         (mouseenter)="hoveredOption = option"
       >
@@ -29,7 +28,7 @@
     </ul>
   </div>
 
-    <mat-form-field>
+    <mat-form-field class="filter">
       <mat-label>Platforms</mat-label>
       <mat-select [(value)]="platformSelected" multiple>
         @for (platform of platformOptions; track platform) {
@@ -38,8 +37,9 @@
       </mat-select>
     </mat-form-field>
 
-    <button (click)="filter_options( inputValue )">Add</button>
 </section>
+
+<button (click)="filter_options( inputValue )">Add</button>
 
 
 

@@ -113,7 +113,9 @@ export class SearchFiltersComponent {
     else if(option !== '' ){
        this.filterGames = this.Games.filter(game => 
         game.tags.some(tag => tag.name === this.choseTag.name)
-       );}
+       );
+       this.filter = true;
+      }
 
     else if(this.platformSelected.length !== 0){
         this.filterGames = this.Games.filter(game => 

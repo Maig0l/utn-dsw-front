@@ -5,7 +5,10 @@
     justify-content: space-between;
 }
 
-
+.filters{
+    display: flex;
+    gap: 10px; /* Espacio entre elementos */
+}
 .card {
     flex: 0 1 24%;
 }

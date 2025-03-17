@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { ReactiveFormsModule, FormGroup } from '@angular/forms';
 import { Router } from '@angular/router';
-import { CommonModule} from '@angular/common';
+import { CommonModule } from '@angular/common';
 import { UserService } from '../../services/user.service.js';
 import { TagService } from '../../services/tag.service.js';
 import { PlaylistService } from '../../services/playlist.service.js';
@@ -13,7 +13,7 @@ import { Game} from '../../model/game.model.js';
 import { HttpClientModule } from '@angular/common/http';
 import { GameService } from '../../services/game.service.js';
 
-import {MatCardModule} from '@angular/material/card';
+import { MatCardModule } from '@angular/material/card';
 import { MatSelectModule } from '@angular/material/select';
 import { MatInputModule } from '@angular/material/input';
 import { MatFormFieldModule } from '@angular/material/form-field';
@@ -21,6 +21,7 @@ import { MatButtonModule } from '@angular/material/button';
 import { MatIconModule } from '@angular/material/icon';
 import { MatRippleModule } from '@angular/material/core';
 import { MatChipsModule } from '@angular/material/chips';
+
 
 @Component({
   selector: 'app-user',
@@ -33,7 +34,8 @@ import { MatChipsModule } from '@angular/material/chips';
     MatInputModule,
     MatSelectModule,
     MatRippleModule,
-    MatChipsModule],
+    MatChipsModule,
+    ],
   providers: [UserService, TagService, PlaylistService],
   templateUrl: './user.component.html',
   styleUrl: './user.component.css',
@@ -90,5 +92,11 @@ export class UserComponent implements OnInit {
     this.tagService.getAllTags().subscribe((response) => {
       this.likedTags = response;
     })
+  }
+
+  goToEditProfile() {
+    if (this.user) {
+      this.router.navigate([`user/${this.user.id}/edit`]);
+    }
   }
 }

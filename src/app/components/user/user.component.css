@@ -7,7 +7,7 @@
   position: relative;
   top: 10px;
   left: 10px;
-  margin-left: 2vw;
+  margin-left: -1vw;
   margin-top: 1vw;
   justify-content: center;
 }
@@ -50,3 +50,44 @@
   margin-top: 1vw;
 }
 
+.grid {
+  display: grid;
+  grid-template-columns: 1fr 500px 1fr;
+  grid-template-rows: 1fr 1fr 1fr ;
+  grid-gap: 10px;
+  grid-auto-rows: minmax(100px, auto);
+  place-items: center;
+}
+.review-card {
+  background-color: #2f2f92;
+  border-radius: 12px;
+  min-width: 20em;
+  padding: 0.5em;
+}
+
+.review-card > .head {
+  display: flex;
+  gap: 0.5em;
+  height: 3em;
+}
+
+.review-card > .head > img {
+  display: block;
+  height: 3em;
+  width: 3em;
+  aspect-ratio: 1;
+  overflow: hidden;
+  background-color: gray;
+  border-radius: 100%;
+}
+
+.top-text > #author,
+.top-text > #game {
+  font-weight: 800;
+}
+
+.star-full:before {
+  content: "*";
+}
+.star-empty:before {
+  content: "-";}

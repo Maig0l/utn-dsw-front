@@ -1,59 +1,106 @@
-<section class="username">
-  <h1>{{user?.nick}}</h1>
-</section>
+
+
 
 <form [formGroup]="userForm" (submit)="showProfile()">
-  <section class="profilePic">
-    <div class="circle">
-      <img src="{{user?.profile_img}}" alt="Profile Picture" class="profile-img">
-    </div>
-  </section>
-  <section class="profileInfo">
-    <p>{{user?.bio_text}}</p>
-  </section>
-  <section class="linkedAccounts">
-    @for (account of user?.linked_accounts; track user?.linked_accounts){
-    <p>{{user?.linked_accounts}}</p>
-    }
-  </section>
-  <section class="editProfile">
-    <button type="submit" class="btn btn-primary">Edit Profile</button>
+  <div class="grid">
+    <mat-form-field>
+      <section class="username">
+        <h1>{{user?.nick}}</h1>
+        <section class="profilePic">
+          <div class="circle">
+            <img src="{{user?.profile_img}}" alt="Profile Picture" class="profile-img">
+          </div>
+        </section>
+      </section>
+    </mat-form-field>
+    <mat-card>
+      <mat-card-content class="profileInfo">
+        <p>{{user?.bio_text}}</p>
+      </mat-card-content>
+    </mat-card>
+    <mat-form-field>
+      <mat-label for="bio_text">Bio</mat-label>
+      <textarea matInput type="text" id="bio_text" formControlName="bio_text"></textarea>
+    </mat-form-field>
+    <mat-form-field>
+        <mat-label for="bio_text">Bio</mat-label>
+        <textarea matInput type="text" id="bio_text" formControlName="bio_text"></textarea>
+
+    </mat-form-field>
+    <mat-card>
+      <mat-form-field>
+        <mat-label for="bio_text">Bio</mat-label>
+        <textarea matInput type="text" id="bio_text" formControlName="bio_text"></textarea>
+      </mat-form-field>
+    </mat-card>
+    <mat-form-field>
+      <mat-label for="reviews">Reviews</mat-label>
+      <input matInput type="text" id="reviews" formControlName="reviews" />
+    </mat-form-field>
+    <mat-form-field>
+      <mat-label for="playlists">Playlists</mat-label>
+      <input matInput type="text" id="playlists" formControlName="playlists" />
+    </mat-form-field>
+  </div>
+
+
+  <section class="username">
+    <h1>{{user?.nick}}</h1>
   </section>
 
-  <h1>Reviews</h1>
+  <form [formGroup]="userForm" (submit)="showProfile()">
+    <section class="profilePic">
+      <div class="circle">
+        <img src="{{user?.profile_img}}" alt="Profile Picture" class="profile-img">
+      </div>
+    </section>
+    <section class="profileInfo">
+      <p>{{user?.bio_text}}</p>
+    </section>
+    <section class="linkedAccounts">
+      @for (account of user?.linked_accounts; track user?.linked_accounts){
+      <p>{{user?.linked_accounts}}</p>
+      }
+    </section>
+    <section class="editProfile">
+      <button type="submit" class="btn btn-primary">Edit Profile</button>
+    </section>
 
-  <section class="reviews">
+    <h1>Reviews</h1>
 
-  <h2>Total Reviews: {{user?.reviews?.length}}</h2>
-  @for (review of user?.reviews; track reviews){
-    @for (game of games; track games){
-      @if (game.id == review.game){
-        <h3>{{game.title}}</h3>
+    <div class="review-card">
+
+    <h2>Total Reviews: {{user?.reviews?.length}}</h2>
+    @for (review of user?.reviews; track reviews){
+      @for (game of games; track games){
+        @if (game.id == review.game){
+          <h3>{{game.title}}</h3>
+            }
           }
-        }
-    <h4>{{review.title}}</h4>
-    <p>{{review.body}}</p>
-  }
-
-  </section>
-
-  <h1>playlist</h1>
-
-  <section class="playlist">
-
-  <h2>Total Playlists: {{user?.playlists?.length}}</h2>
-  @for (playlist of user?.playlists; track playlists){
-    <h3>{{playlist.name}}</h3>
-    <p>{{playlist.description}}</p>
-  }
-
-  </section>
-
-  <h1> Liked_tags </h1>
-  <section class="likedTags">
-  @for (tag of user?.likedTags; track likedTags){
-    <h2>{{tag.name}}</h2>
+      <h4>{{review.title}}</h4>
+      <p>{{review.body}}</p>
     }
-</section>
 
-</form>
+  </div>
+
+    <h1>playlist</h1>
+
+    <section class="playlist">
+
+    <h2>Total Playlists: {{user?.playlists?.length}}</h2>
+    @for (playlist of user?.playlists; track playlists){
+      <h3>{{playlist.name}}</h3>
+      <p>{{playlist.description}}</p>
+    }
+
+    </section>
+
+    <h1> Liked_tags </h1>
+    <section class="likedTags">
+    @for (tag of user?.likedTags; track likedTags){
+      <h2>{{tag.name}}</h2>
+      }
+  </section>
+
+  </form>
+

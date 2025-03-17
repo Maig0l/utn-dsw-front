@@ -13,7 +13,7 @@
   
     <ul
       *ngIf="showDropdown && filteredOptions.length > 0"
-      style="position: absolute; top: 100%; left: 0; right: 0; max-height: 200px; overflow-y: auto; border: 1px solid #ccc; background: white; padding: 0; margin: 0; list-style: none; z-index: 10;"
+      style="position: absolute; top: 100%; left: 0; right: 0; max-height: 200px; overflow-y: auto; border: 1px solid #cccccc; background: white; padding: 0; margin: 0; list-style: none; z-index: 10;"
     >
       <li
         *ngFor="let option of filteredOptions"
@@ -27,7 +27,7 @@
       </li>
 
     </ul>
-
+  </div>
 
     <mat-form-field>
       <mat-label>Platforms</mat-label>
@@ -39,25 +39,26 @@
     </mat-form-field>
 
     <button (click)="filter_options( inputValue )">Add</button>
-</div>
 </section>
 
 
 
 <section class="features">
+  <h2>Games</h2>
     <div class="container">
-      <h2>Games</h2>
-      <div class="grid-container">
         @if (filter){
           @for (game of filterGames; track game.id) {
+            <div class="card">
             <app-view-game [game]="game"></app-view-game>
+          </div>
           }
         }
         @else{
         @for (game of Games; track game.id) {
+          <div class="card">
             <app-view-game [game]="game"></app-view-game>
+          </div>
           }
         }
-      </div>
     </div>
   </section>

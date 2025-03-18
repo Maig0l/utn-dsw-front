@@ -52,11 +52,12 @@
 
 .grid {
   display: grid;
-  grid-template-columns: 1fr 3fr 1fr;
+  grid-template-columns: repeat(auto-fill, 1fr);
   grid-template-rows: 1fr ;
   grid-gap: 10px;
   grid-auto-rows: minmax(100px, auto);
   place-items: center;
+  justify-content: center;
 }
 
 .user-container {

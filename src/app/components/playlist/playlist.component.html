@@ -1,16 +1,3 @@
-<section *ngIf="userPlaylists.length > 0">
-  <small style="text-shadow: 2px 2px rgb(255, 0, 0)"
-    >(delete this section when user page is implemented)</small
-  >
-  <h1>{{ user.nick }}'s playlists</h1>
-  <div *ngFor="let playlist of userPlaylists">
-    <div class="playlist-item">
-      <small>[{{ playlist.id }}]</small>&nbsp; <b>{{ playlist.name }}</b> &nbsp;
-      <span>{{ playlist.description }}</span>
-    </div>
-  </div>
-</section>
-
 <section>
   <h1>Create new playlist</h1>
 

@@ -17,6 +17,7 @@ import { EditGameComponent } from './components/edit-game/edit-game.component';
 import { ViewTagComponent } from './components/view-tag/view-tag.component.js';
 import { SearchFiltersComponent } from './pages/search-filters/search-filters.component.js';
 import { UserComponent } from './components/user/user.component.js';
+import { UserEditComponent } from './components/user-edit/user-edit.component.js';
 
 export const routes: Routes = [
   { path: 'studio', component: StudioComponent },
@@ -40,7 +41,7 @@ export const routes: Routes = [
   { path: 'log-in', component: LoginComponent },
   { path: 'register', component: RegisterComponent },
   { path: 'user/:id', component: UserComponent },
-  { path: 'user/:id/edit', component: UserComponent },
+  { path: 'user/:id/edit', component: UserEditComponent },
 ];
 
 @NgModule({

@@ -66,13 +66,37 @@
         <mat-icon>add</mat-icon>Add picture
       </button>
     </div-->
-    <mat-form-field>
-      <mat-label>Franchise</mat-label>
-      <mat-select [(value)]="franchiseSelected">
-        @for (franchise of franchiseOptions; track franchise) {
-          <mat-option [value]="franchise">{{ franchise.name }}</mat-option>
+
+    @if (isFrSelected == true) {
+      <mat-chip-grid #chipGrid aria-label="Enter franchise">
+        <mat-chip-row (removed)="removeFranchise(franchiseSelected)">
+          {{ franchiseSelected.name }}
+          <button
+            matChipRemove
+            [attr.aria-label]="'remove ' + franchiseSelected.name"
+          >
+            <mat-icon>cancel</mat-icon>
+          </button>
+        </mat-chip-row>
+      </mat-chip-grid>
+    }
+    <mat-form-field class="example-full-width">
+      <input
+        class="custom-input"
+        type="text"
+        placeholder="Search franchises..."
+        aria-label="Franchise"
+        matInput
+        [formControl]="franchiseControl"
+        [matAutocomplete]="autoFranchise"
+      />
+      <mat-autocomplete #autoFranchise="matAutocomplete">
+        @for (option of filteredFranchiseOptions | async; track option) {
+          <mat-option [value]="" (click)="addFranchise(option)">
+            <span class="option-name">{{ option.name }}</span>
+          </mat-option>
         }
-      </mat-select>
+      </mat-autocomplete>
     </mat-form-field>
 
     <mat-chip-grid #chipGrid aria-label="Enter tags">
@@ -97,11 +121,8 @@
       />
       <mat-autocomplete #autoTag="matAutocomplete">
         @for (option of filteredTagOptions | async; track option) {
-          <mat-option [value]="">
+          <mat-option [value]="" (click)="addTag(option)">
             <span class="option-name">{{ option.name }}</span>
-            <button mat-fab extended type="button" (click)="addTag(option)">
-              <mat-icon>add</mat-icon>Add tag
-            </button>
           </mat-option>
         }
       </mat-autocomplete>

@@ -25,6 +25,13 @@ export class ShopService {
     );
   }
 
+  getShopsByName(name: string): Observable<Shop[]> {
+    const url = this.shopsEndpoint + `/search?name=${name}`;
+    return this.http
+      .get<ApiResponse<Shop[]>>(url)
+      .pipe(map((response) => response.data));
+  }
+
   addShop(name: string, img: string, site: string): Observable<Shop> {
     return this.http.post<Shop>(this.shopsEndpoint, { name, img, site });
   }

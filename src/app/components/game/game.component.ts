@@ -119,7 +119,7 @@ export class GameComponent implements OnInit {
   //BETTER FRANCHISES
   franchiseControl = new FormControl();
   franchiseOptions: Franchise[] = [];
-  franchiseSelected: Franchise[] = [];
+  franchiseSelected!: Franchise;
   filteredFranchiseOptions!: Observable<Franchise[]>;
   private _franchiseFilter(value: string): Observable<Franchise[]> {
     const filterValue = value.toLowerCase();
@@ -136,16 +136,19 @@ export class GameComponent implements OnInit {
       }),
     );
   }
+  isFrSelected: boolean = false;
   addFranchise(franchise: Franchise) {
-    if (this.franchiseSelected.length > 0) {
+    if (this.franchiseSelected === franchise) {
       console.log('Franchise already selected');
       return;
     }
     console.log('ADD FRANCHISE ', franchise);
-    this.franchiseSelected.push(franchise);
+    this.franchiseSelected = franchise;
+    this.isFrSelected = true;
   }
   removeFranchise(franchise: Franchise): void {
-    this.franchiseSelected.splice(this.franchiseSelected.indexOf(franchise), 1);
+    this.isFrSelected = false;
+    this.franchiseSelected = { id: 0, name: '', games: [] }; //TODO
     console.log(`Removed ${franchise.name}`);
   }
   //--------------------------------
@@ -240,12 +243,7 @@ export class GameComponent implements OnInit {
     private router: Router,
   ) {}
 
-  //get all franchises, tags, studios, shops, platforms. inneficient?
   ngOnInit(): void {
-    this.franchiseService.getAllFranchises().subscribe((responseFranchises) => {
-      this.franchiseOptions = responseFranchises;
-    });
-    //tag autocomplete
     this.filteredTagOptions = this.tagControl.valueChanges.pipe(
       debounceTime(1500),
       switchMap((value) => this._tagFilter(value || '')),
@@ -254,12 +252,18 @@ export class GameComponent implements OnInit {
       debounceTime(1500),
       switchMap((value) => this._studioFilter(value || '')),
     );
-    this.shopService.getAllShops().subscribe((responseShops) => {
-      this.shopOptions = responseShops;
-    });
-    this.platformService.getAllPlatforms().subscribe((responsePlatforms) => {
-      this.platformOptions = responsePlatforms;
-    });
+    this.filteredFranchiseOptions = this.franchiseControl.valueChanges.pipe(
+      debounceTime(1500),
+      switchMap((value) => this._franchiseFilter(value || '')),
+    );
+    this.filteredShopOptions = this.shopControl.valueChanges.pipe(
+      debounceTime(1500),
+      switchMap((value) => this._shopFilter(value || '')),
+    );
+    this.filteredPlatformOptions = this.platformControl.valueChanges.pipe(
+      debounceTime(1500),
+      switchMap((value) => this._platformFilter(value || '')),
+    );
   }
 
   get pictures(): FormArray {

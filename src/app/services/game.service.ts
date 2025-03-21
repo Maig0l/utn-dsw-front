@@ -96,6 +96,7 @@ export class GameService {
     const url = 'http://localhost:8080/api/game-picture';
     return this.http.post<string[]>(url, { game_id, urls });
   }
+
   findGamesByTitle(title: string): Observable<Game[]> {
     const url = this.gamesEndpoint + `/search?title=${title}`;
     return this.http

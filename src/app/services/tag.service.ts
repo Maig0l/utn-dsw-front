@@ -22,7 +22,7 @@ export class TagService {
   getTagsByName(name: string): Observable<Tag[]> {
     const url = this.tagsEndpoint + `/search?name=${name}`;
     return this.http
-      .get<ApiResponse<Tag[]>>(url)
+      .get<responseTagList>(url)
       .pipe(map((response) => response.data));
   }
   getAllTags(): Observable<Tag[]> {

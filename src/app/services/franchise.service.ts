@@ -23,6 +23,20 @@ export class FranchiseService {
     );
   }
 
+  getOneFranchise(id: number): Observable<Franchise> {
+    const url = this.franchisesEndpoint + `/${id}`;
+    return this.http
+      .get<ApiResponse<Franchise>>(url)
+      .pipe(map((response) => response.data));
+  }
+
+  getFranchisesByName(name: string): Observable<Franchise[]> {
+    const url = this.franchisesEndpoint + `/search?name=${name}`;
+    return this.http
+      .get<ApiResponse<Franchise[]>>(url)
+      .pipe(map((response) => response.data));
+  }
+
   addFranchise(name: string, games: Game[]): Observable<Franchise> {
     return this.http.post<Franchise>(this.franchisesEndpoint, { name, games });
   }
@@ -40,12 +54,5 @@ export class FranchiseService {
     return this.http
       .delete<ApiResponse<Franchise>>(url)
       .pipe(map((res) => res.data));
-  }
-
-  getOneFranchise(id: number): Observable<Franchise> {
-    const url = this.franchisesEndpoint + `/${id}`;
-    return this.http
-      .get<ApiResponse<Franchise>>(url)
-      .pipe(map((response) => response.data));
   }
 }

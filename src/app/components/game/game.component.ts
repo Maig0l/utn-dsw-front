@@ -63,7 +63,7 @@ export class GameComponent implements OnInit {
     return this.tagService.getTagsByName(filterValue).pipe(
       map((data: Tag[]) => {
         this.tagOptions = data;
-        console.log(this.tagOptions);
+
         return this.tagOptions.filter((option) =>
           option.name.toLowerCase().includes(filterValue),
         );
@@ -72,18 +72,14 @@ export class GameComponent implements OnInit {
   }
   addTag(tag: Tag) {
     if (this.tagSelected.includes(tag)) {
-      console.log('Tag already selected');
       return;
     }
-    console.log('ADD TAG ', tag);
     this.tagSelected.push(tag);
   }
   removeTag(tag: Tag): void {
     this.tagSelected.splice(this.tagSelected.indexOf(tag), 1);
-    console.log(`Removed ${tag.name}`);
   }
   //--------------------------------
-  //BETTER STUDIOS
   studioControl = new FormControl();
   studioOptions: Studio[] = [];
   studioSelected: Studio[] = [];
@@ -96,7 +92,6 @@ export class GameComponent implements OnInit {
     return this.studioService.getStudiosByName(filterValue).pipe(
       map((data: Studio[]) => {
         this.studioOptions = data;
-        console.log(this.studioOptions);
         return this.studioOptions.filter((option) =>
           option.name.toLowerCase().includes(filterValue),
         );
@@ -105,21 +100,17 @@ export class GameComponent implements OnInit {
   }
   addStudio(studio: Studio) {
     if (this.studioSelected.includes(studio)) {
-      console.log('Studio already selected');
       return;
     }
-    console.log('ADD STUDIO ', studio);
     this.studioSelected.push(studio);
   }
   removeStudio(studio: Studio): void {
     this.studioSelected.splice(this.studioSelected.indexOf(studio), 1);
-    console.log(`Removed ${studio.name}`);
   }
   //--------------------------------
-  //BETTER FRANCHISES
   franchiseControl = new FormControl();
   franchiseOptions: Franchise[] = [];
-  franchiseSelected!: Franchise;
+  franchiseSelected: Franchise = { id: 0, name: '', games: [] };
   filteredFranchiseOptions!: Observable<Franchise[]>;
   private _franchiseFilter(value: string): Observable<Franchise[]> {
     const filterValue = value.toLowerCase();
@@ -129,7 +120,6 @@ export class GameComponent implements OnInit {
     return this.franchiseService.getFranchisesByName(filterValue).pipe(
       map((data: Franchise[]) => {
         this.franchiseOptions = data;
-        console.log(this.franchiseOptions);
         return this.franchiseOptions.filter((option) =>
           option.name.toLowerCase().includes(filterValue),
         );
@@ -139,20 +129,16 @@ export class GameComponent implements OnInit {
   isFrSelected: boolean = false;
   addFranchise(franchise: Franchise) {
     if (this.franchiseSelected === franchise) {
-      console.log('Franchise already selected');
       return;
     }
-    console.log('ADD FRANCHISE ', franchise);
     this.franchiseSelected = franchise;
     this.isFrSelected = true;
   }
   removeFranchise(franchise: Franchise): void {
     this.isFrSelected = false;
     this.franchiseSelected = { id: 0, name: '', games: [] }; //TODO
-    console.log(`Removed ${franchise.name}`);
   }
   //--------------------------------
-  //BETTER SHOPS
   shopControl = new FormControl();
   shopOptions: Shop[] = [];
   shopSelected: Shop[] = [];
@@ -165,7 +151,6 @@ export class GameComponent implements OnInit {
     return this.shopService.getShopsByName(filterValue).pipe(
       map((data: Shop[]) => {
         this.shopOptions = data;
-        console.log(this.shopOptions);
         return this.shopOptions.filter((option) =>
           option.name.toLowerCase().includes(filterValue),
         );
@@ -174,18 +159,14 @@ export class GameComponent implements OnInit {
   }
   addShop(shop: Shop) {
     if (this.shopSelected.includes(shop)) {
-      console.log('Shop already selected');
       return;
     }
-    console.log('ADD SHOP ', shop);
     this.shopSelected.push(shop);
   }
   removeShop(shop: Shop): void {
     this.shopSelected.splice(this.shopSelected.indexOf(shop), 1);
-    console.log(`Removed ${shop.name}`);
   }
   //--------------------------------
-  //BETTER PLATFORMS
   platformControl = new FormControl();
   platformOptions: Platform[] = [];
   platformSelected: Platform[] = [];
@@ -198,7 +179,6 @@ export class GameComponent implements OnInit {
     return this.platformService.getPlatformsByName(filterValue).pipe(
       map((data: Platform[]) => {
         this.platformOptions = data;
-        console.log(this.platformOptions);
         return this.platformOptions.filter((option) =>
           option.name.toLowerCase().includes(filterValue),
         );
@@ -207,15 +187,12 @@ export class GameComponent implements OnInit {
   }
   addPlatform(platform: Platform) {
     if (this.platformSelected.includes(platform)) {
-      console.log('Platform already selected');
       return;
     }
-    console.log('ADD PLATFORM ', platform);
     this.platformSelected.push(platform);
   }
   removePlatform(platform: Platform): void {
     this.platformSelected.splice(this.platformSelected.indexOf(platform), 1);
-    console.log(`Removed ${platform.name}`);
   }
   //--------------------------------
 
@@ -229,7 +206,7 @@ export class GameComponent implements OnInit {
       new FormControl(''), //REVISAR
     ]),
     franchise: new FormControl(0),
-  }); // add tags, studios, shops, platforms?
+  });
 
   game: Game | undefined;
 
@@ -266,20 +243,10 @@ export class GameComponent implements OnInit {
     );
   }
 
-  get pictures(): FormArray {
-    return this.gameForm.get('pictures') as FormArray;
-  }
-
-  addPictureInput(): void {
-    this.pictures.push(new FormControl(''));
-  }
-
-  removePictureInput(index: number): void {
-    this.pictures.removeAt(index);
-  }
-
+  gameCreated = false;
+  lastGameId = 0;
   addGame() {
-    console.log('PLATAFORMAS ELEGIDAS', this.platformSelected);
+    this.gameCreated = false;
     this.gameService
       .addGame(
         this.gameForm.value.title ?? '',
@@ -295,6 +262,8 @@ export class GameComponent implements OnInit {
       )
       .subscribe((responseGame) => {
         this.game = responseGame;
+        this.lastGameId = responseGame.id;
+        this.gameCreated = true;
         /*
         this.gameService
           .addPicturesToGame(
@@ -305,8 +274,34 @@ export class GameComponent implements OnInit {
           )
           .subscribe((responsePictures) => console.log(responsePictures));
           */
-        console.log('GAME CREATED: ', responseGame);
       });
     //router.navigate(['/games']); TODO
   }
+  goToGame() {
+    this.router.navigate(['/game', this.lastGameId]);
+  }
+  goToHomepage() {
+    this.router.navigate(['/']);
+  }
+  addNewGame() {
+    this.gameForm.reset();
+    this.gameCreated = false;
+    this.tagSelected = [];
+    this.studioSelected = [];
+    this.franchiseSelected = { id: 0, name: '', games: [] };
+    this.shopSelected = [];
+    this.platformSelected = [];
+  }
+
+  // get pictures(): FormArray {
+  //   return this.gameForm.get('pictures') as FormArray;
+  // }
+
+  // addPictureInput(): void {
+  //   this.pictures.push(new FormControl(''));
+  // }
+
+  // removePictureInput(index: number): void {
+  //   this.pictures.removeAt(index);
+  // }
 }

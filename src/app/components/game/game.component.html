@@ -225,4 +225,21 @@
       <mat-icon>save</mat-icon>Save game
     </button>
   </form>
+  <div *ngIf="gameCreated" class="game-created">
+    <h1>Game created succesfully</h1>
+    <span class="success-buttons">
+      <button mat-raised-button color="primary" (click)="goToGame()">
+        <mat-icon>gamepad</mat-icon>
+        Go to game
+      </button>
+      <button mat-raised-button color="primary" (click)="goToHomepage()">
+        <mat-icon>home</mat-icon>
+        Go to homepage
+      </button>
+      <button mat-raised-button color="primary" (click)="addNewGame()">
+        <mat-icon>add</mat-icon>
+        Add new game
+      </button>
+    </span>
+  </div>
 </section>

@@ -31,6 +31,7 @@
   width: 100%;
   height: 100%;
   object-fit: cover;
+  margin-left: 10px;
 }
 
 .username {
@@ -52,12 +53,12 @@
 
 .grid {
   display: grid;
-  grid-template-columns: repeat(auto-fill, 1fr);
+  grid-template-columns: 1fr 2fr 1fr;
   grid-template-rows: 1fr ;
-  grid-gap: 10px;
+  grid-gap: 20px;
   grid-auto-rows: minmax(100px, auto);
   place-items: center;
-  justify-content: center;
+  width: 100%;
 }
 
 .user-container {
@@ -77,45 +78,36 @@
   text-align: center;
 }
 
-.review-card > .head {
+.profilePic {
   display: flex;
-  gap: 0.5em;
-  height: 3em;
+  flex-direction: column;
+  align-items: center;
 }
 
-.review-card > .head > img {
-  display: block;
-  height: 3em;
-  width: 3em;
-  aspect-ratio: 1;
-  overflow: hidden;
-  background-color: gray;
-  border-radius: 100%;
+.profile-img {
+  width: 120px;
+  height: 120px;
+  border-radius: 50%;
+  object-fit: cover;
+  margin-bottom: 10px;
 }
 
-.top-text > #author,
-.top-text > #game {
-  font-weight: 800;
+.full-width {
+  width: 100%;
+  max-width: 250px;
 }
+
+.save-button {
+  margin-top: 20px;
+}
+
 
 mat-card, mat-form-field {
   background: transparent !important;
   box-shadow: none !important;
 }
 
-mat-card-content {
+mat-card, mat-form-field {
   background: transparent !important;
-  color: white;
+  box-shadow: none !important;
 }
-
-textarea {
-  background: transparent !important;
-  color: white !important;
-  border: 1px solid rgba(255, 255, 255, 0.5);
-}
-
-.star-full:before {
-  content: "*";
-}
-.star-empty:before {
-  content: "-";}

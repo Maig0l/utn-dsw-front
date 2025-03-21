@@ -1,59 +1,97 @@
-<section class="username">
-  <h1>{{user?.nick}}</h1>
-</section>
-
 <form [formGroup]="userForm" (submit)="showProfile()">
-  <section class="profilePic">
-    <div class="circle">
-      <img src="{{user?.profile_img}}" alt="Profile Picture" class="profile-img">
-    </div>
-  </section>
-  <section class="profileInfo">
-    <p>{{user?.bio_text}}</p>
-  </section>
-  <section class="linkedAccounts">
-    @for (account of user?.linked_accounts; track user?.linked_accounts){
-    <p>{{user?.linked_accounts}}</p>
-    }
-  </section>
-  <section class="editProfile">
-    <button type="submit" class="btn btn-primary">Edit Profile</button>
-  </section>
+  <div class="grid">
+      <div class="username">
+        <h1>{{user?.nick}}</h1>
+        <section class="profilePic">
+          <section class="circle">
+            <img src="{{user?.profile_img}}" alt="Profile Picture" class="profile-img">
+          </section>
+        </section>
+      </div>
+    <mat-card>
+      <mat-card-content class="profileInfo">
+      <div>
+        <section>
+          <h2>Bio</h2>
+        </section>
+        <section>
+          <p>{{user?.bio_text}}</p>
+        </section>
+        <section class="linkedAccounts">
+          @for (account of user?.linked_accounts; track user?.linked_accounts){
+          <p>
+            <a [href]="account" target="_blank" rel="noopener noreferrer">
+              {{user?.linked_accounts}}
+            </a>
+          </p>
+          }
+        </section>
+      </div>
+      </mat-card-content>
+    </mat-card>
+    <mat-form-field>
+      <h3> Liked tags </h3>
+      <section class="likedTags">
+        @for (tag of user?.likedTags; track likedTags){
+          <mat-chip>{{tag.name}}</mat-chip>
+          }
+      </section>
+      <section class="editProfile">
+        <button mat-icon-button (click)="goToEditProfile()"> <!-- add click event -->
+          <mat-icon>edit</mat-icon>
+        </button>
+      </section>
+    </mat-form-field>
+  </div>
 
-  <h1>Reviews</h1>
 
-  <section class="reviews">
+    <h2>Total Reviews: {{user?.reviews?.length}}</h2>
 
-  <h2>Total Reviews: {{user?.reviews?.length}}</h2>
-  @for (review of user?.reviews; track reviews){
-    @for (game of games; track games){
-      @if (game.id == review.game){
-        <h3>{{game.title}}</h3>
+    <div class="user-container">
+
+
+      @for (review of user?.reviews; track reviews){
+        <div class="user-card">
+        @for (game of games; track games){
+          @if (game.id === review.game){
+            <h3>{{game.title}}</h3>
+              }
+            }
+        <h4>{{review.title}}</h4>
+        <p>{{review.body}}</p>
+        @for (star of [0 ,1, 2, 3, 4]; track $index){
+          @if (star < review.score){
+            <span class="star-full"></span>
+          } @else {
+            <span class="star-empty
+            "></span>
           }
         }
-    <h4>{{review.title}}</h4>
-    <p>{{review.body}}</p>
+      </div>
+      }
+    </div>
+
+
+    <h2>Total Playlists: {{user?.playlists?.length}}</h2>
+
+    <div class="user-container">
+
+    @for (playlist of user?.playlists; track playlists){
+      <div class="user-card">
+      <h3>{{playlist.name}}</h3>
+      <p>{{playlist.description}}</p>
+    </div>
   }
+  </div>
 
-  </section>
+<!--
+  <h1>Reviews</h1>
+  <div *ngFor="let review of reviews">
+    <h3>{{ review.Game.title }}</h3>      Esto parece que podria funcionar
+    <h4>{{ review.title }}</h4>           Si usamos game como Game y no number
+    <p>{{ review.body }}</p>
+  </div>
 
-  <h1>playlist</h1>
+-->
+  </form>
 
-  <section class="playlist">
-
-  <h2>Total Playlists: {{user?.playlists?.length}}</h2>
-  @for (playlist of user?.playlists; track playlists){
-    <h3>{{playlist.name}}</h3>
-    <p>{{playlist.description}}</p>
-  }
-
-  </section>
-
-  <h1> Liked_tags </h1>
-  <section class="likedTags">
-  @for (tag of user?.likedTags; track likedTags){
-    <h2>{{tag.name}}</h2>
-    }
-</section>
-
-</form>

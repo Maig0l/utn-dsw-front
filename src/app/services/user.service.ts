@@ -23,7 +23,7 @@ export class UserService {
     return this.http.get<ApiResponse<User>>(endpoint).pipe(map((res) => res.data));
   }
 
-  updateUser(user: User) {
+  updateUser(p0: number, user: User) { //p0 es una modificacion temporal, ver si es realmente necesario
     const endpoint = `${this.usersEndpoint}/${user.id}`;
     return this.http.put<ApiResponse<User>>(endpoint, user).pipe(map((res) => res.data));
   }

@@ -1,20 +1,21 @@
 import { Component,  EventEmitter, Output } from '@angular/core';
 import { BehaviorSubject, debounceTime, map, Observable, switchMap } from 'rxjs';
 
-import { GameService } from '../services/game.service.js';
-import { Game } from '../model/game.model.js';
-import { Tag } from '../model/tag.model.js';
-import { TagService } from '../services/tag.service.js';
+import { GameService } from '../../services/game.service.js';
+import { Game } from '../../model/game.model.js';
+import { Tag } from '../../model/tag.model.js';
+import { TagService } from '../../services/tag.service.js';
 import { FormControl, FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
 import { MatAutocompleteModule } from '@angular/material/autocomplete';
 import { AsyncPipe, NgFor, NgIf } from '@angular/common';
-import { ViewGameComponent } from '../components/view-game/view-game.component.js';
-import { Platform } from '../model/platform.model.js';
-import { PlatformService } from '../services/platform.service.js';
+import { ViewGameComponent } from '../../components/view-game/view-game.component.js';
+import { Platform } from '../../model/platform.model.js';
+import { PlatformService } from '../../services/platform.service.js';
 import { MatButtonModule } from '@angular/material/button';
 import { MatSelectModule } from '@angular/material/select';
+import { NULL } from 'sass';
 
 @Component({
   selector: 'app-search-filters',
@@ -96,17 +97,38 @@ export class SearchFiltersComponent {
         console.log("Hola")
         this.choseTag = tag;
       }})
-
-      this.filterGames = this.Games.filter(game => 
+      console.log(option);
+      if(option !== '' && this.platformSelected.length !== 0){
+        this.filterGames = this.Games.filter(game => 
         game.tags.some(tag => tag.name === this.choseTag.name)
-      );
-
-      this.filterGames = this.filterGames.filter(game => 
+        );
+         this.filterGames = this.filterGames.filter(game => 
         game.platforms.some(platform => platform.name === this.platformSelected[0].name)
-      );
-      this.filter = true;
-      console.log(this.filterGames);
-      console.log(this.platformSelected[0].name);
+        
+        );
+        this.filter = true;
+    
+    }
+    
+    else if(option !== '' ){
+       this.filterGames = this.Games.filter(game => 
+        game.tags.some(tag => tag.name === this.choseTag.name)
+       );
+       this.filter = true;
+      }
+
+    else if(this.platformSelected.length !== 0){
+        this.filterGames = this.Games.filter(game => 
+         game.platforms.some(platform => platform.name === this.platformSelected[0].name)
+        
+        );
+        this.filter = true;
+    }
+
+    else{
+        this.filter = false;
+    }
+      
       
    
     

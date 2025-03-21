@@ -66,7 +66,7 @@
         <mat-icon>add</mat-icon>Add picture
       </button>
     </div-->
-
+    <!---------------------------------------------------------------------FRANCHISE-->
     @if (isFrSelected == true) {
       <mat-chip-grid #chipGrid aria-label="Enter franchise">
         <mat-chip-row (removed)="removeFranchise(franchiseSelected)">
@@ -98,7 +98,7 @@
         }
       </mat-autocomplete>
     </mat-form-field>
-
+    <!---------------------------------------------------------------------TAGS-->
     <mat-chip-grid #chipGrid aria-label="Enter tags">
       @for (tag of tagSelected; track tag) {
         <mat-chip-row (removed)="removeTag(tag)">
@@ -127,16 +127,7 @@
         }
       </mat-autocomplete>
     </mat-form-field>
-
-    <mat-form-field>
-      <mat-label>Studios</mat-label>
-      <mat-select [(value)]="studioSelected" multiple>
-        @for (studio of studioOptions; track studio) {
-          <mat-option [value]="studio">{{ studio.name }}</mat-option>
-        }
-      </mat-select>
-    </mat-form-field>
-
+    <!---------------------------------------------------------------------STUDIOS-->
     <mat-chip-grid #chipGrid aria-label="Enter studios">
       @for (studio of studioSelected; track studio) {
         <mat-chip-row (removed)="removeStudio(studio)">
@@ -159,16 +150,13 @@
       />
       <mat-autocomplete #autoStudio="matAutocomplete">
         @for (option of filteredStudioOptions | async; track option) {
-          <mat-option [value]="">
+          <mat-option [value]="" (click)="addStudio(option)">
             <span class="option-name">{{ option.name }}</span>
-            <button mat-fab extended type="button" (click)="addStudio(option)">
-              <mat-icon>add</mat-icon>Add studio
-            </button>
           </mat-option>
         }
       </mat-autocomplete>
     </mat-form-field>
-
+    <!---------------------------------------------------------------------SHOPS-->
     <mat-chip-grid #chipGrid aria-label="Enter shops">
       @for (shop of shopSelected; track shop) {
         <mat-chip-row (removed)="removeShop(shop)">
@@ -191,16 +179,13 @@
       />
       <mat-autocomplete #autoShop="matAutocomplete">
         @for (option of filteredShopOptions | async; track option) {
-          <mat-option [value]="">
+          <mat-option [value]="" (click)="addShop(option)">
             <span class="option-name">{{ option.name }}</span>
-            <button mat-fab extended type="button" (click)="addShop(option)">
-              <mat-icon>add</mat-icon>Add shop
-            </button>
           </mat-option>
         }
       </mat-autocomplete>
     </mat-form-field>
-
+    <!---------------------------------------------------------------------PLATFORMS-->
     <mat-chip-grid #chipGrid aria-label="Enter platforms">
       @for (platform of platformSelected; track platform) {
         <mat-chip-row (removed)="removePlatform(platform)">
@@ -223,16 +208,8 @@
       />
       <mat-autocomplete #autoPlatform="matAutocomplete">
         @for (option of filteredPlatformOptions | async; track option) {
-          <mat-option [value]="">
+          <mat-option [value]="" (click)="addPlatform(option)">
             <span class="option-name">{{ option.name }}</span>
-            <button
-              mat-fab
-              extended
-              type="button"
-              (click)="addPlatform(option)"
-            >
-              <mat-icon>add</mat-icon>Add platform
-            </button>
           </mat-option>
         }
       </mat-autocomplete>

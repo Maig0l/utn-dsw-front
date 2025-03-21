@@ -287,7 +287,7 @@ export class GameComponent implements OnInit {
         this.gameForm.value.releaseDate ?? '',
         this.gameForm.value.portrait ?? '',
         this.gameForm.value.banner ?? '',
-        this.gameForm.value.franchise ?? 0,
+        this.franchiseSelected.id ?? 0,
         this.tagSelected.map((tag) => tag.id),
         this.studioSelected.map((studio) => studio.id),
         this.shopSelected.map((shop) => shop.id),

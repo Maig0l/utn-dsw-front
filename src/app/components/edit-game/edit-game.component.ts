@@ -22,6 +22,7 @@ import { PlatformService } from '../../services/platform.service';
 import { ShopService } from '../../services/shop.service';
 import { StudioService } from '../../services/studio.service';
 import { MatAutocompleteModule } from '@angular/material/autocomplete';
+import { debounceTime, map, Observable, switchMap } from 'rxjs';
 
 @Component({
   selector: 'app-edit-game',
@@ -55,16 +56,152 @@ export class EditGameComponent implements OnInit {
   id!: number;
   game!: Game;
 
-  franchiseOptions: Franchise[] = [];
-  franchiseSelected!: Franchise;
+  //-------------------------------
+  //BETTER TAGS
+  tagControl = new FormControl();
   tagOptions: Tag[] = [];
   tagSelected: Tag[] = [];
+  filteredTagOptions!: Observable<Tag[]>;
+  private _tagFilter(value: string): Observable<Tag[]> {
+    const filterValue = value.toLowerCase();
+    if (filterValue === '') {
+      return new Observable<Tag[]>();
+    }
+    return this.tagService.getTagsByName(filterValue).pipe(
+      map((data: Tag[]) => {
+        this.tagOptions = data;
+
+        return this.tagOptions.filter((option) =>
+          option.name.toLowerCase().includes(filterValue),
+        );
+      }),
+    );
+  }
+  addTag(tag: Tag) {
+    if (this.tagSelected.includes(tag)) {
+      return;
+    }
+    this.tagSelected.push(tag);
+  }
+  removeTag(tag: Tag): void {
+    this.tagSelected.splice(this.tagSelected.indexOf(tag), 1);
+  }
+  //--------------------------------
+  studioControl = new FormControl();
   studioOptions: Studio[] = [];
   studioSelected: Studio[] = [];
+  filteredStudioOptions!: Observable<Studio[]>;
+  private _studioFilter(value: string): Observable<Studio[]> {
+    const filterValue = value.toLowerCase();
+    if (filterValue === '') {
+      return new Observable<Studio[]>();
+    }
+    return this.studioService.getStudiosByName(filterValue).pipe(
+      map((data: Studio[]) => {
+        this.studioOptions = data;
+        return this.studioOptions.filter((option) =>
+          option.name.toLowerCase().includes(filterValue),
+        );
+      }),
+    );
+  }
+  addStudio(studio: Studio) {
+    if (this.studioSelected.includes(studio)) {
+      return;
+    }
+    this.studioSelected.push(studio);
+  }
+  removeStudio(studio: Studio): void {
+    this.studioSelected.splice(this.studioSelected.indexOf(studio), 1);
+  }
+  //--------------------------------
+  franchiseControl = new FormControl();
+  franchiseOptions: Franchise[] = [];
+  franchiseSelected: Franchise = { id: 0, name: '', games: [] };
+  filteredFranchiseOptions!: Observable<Franchise[]>;
+  private _franchiseFilter(value: string): Observable<Franchise[]> {
+    const filterValue = value.toLowerCase();
+    if (filterValue === '') {
+      return new Observable<Franchise[]>();
+    }
+    return this.franchiseService.getFranchisesByName(filterValue).pipe(
+      map((data: Franchise[]) => {
+        this.franchiseOptions = data;
+        return this.franchiseOptions.filter((option) =>
+          option.name.toLowerCase().includes(filterValue),
+        );
+      }),
+    );
+  }
+  isFrSelected: boolean = false;
+  addFranchise(franchise: Franchise) {
+    if (this.franchiseSelected === franchise) {
+      return;
+    }
+    this.franchiseSelected = franchise;
+    this.isFrSelected = true;
+  }
+  removeFranchise(franchise: Franchise): void {
+    this.isFrSelected = false;
+    this.franchiseSelected = { id: 0, name: '', games: [] }; //TODO
+  }
+  //--------------------------------
+  shopControl = new FormControl();
   shopOptions: Shop[] = [];
   shopSelected: Shop[] = [];
+  filteredShopOptions!: Observable<Shop[]>;
+  private _shopFilter(value: string): Observable<Shop[]> {
+    const filterValue = value.toLowerCase();
+    if (filterValue === '') {
+      return new Observable<Shop[]>();
+    }
+    return this.shopService.getShopsByName(filterValue).pipe(
+      map((data: Shop[]) => {
+        this.shopOptions = data;
+        return this.shopOptions.filter((option) =>
+          option.name.toLowerCase().includes(filterValue),
+        );
+      }),
+    );
+  }
+  addShop(shop: Shop) {
+    if (this.shopSelected.includes(shop)) {
+      return;
+    }
+    this.shopSelected.push(shop);
+  }
+  removeShop(shop: Shop): void {
+    this.shopSelected.splice(this.shopSelected.indexOf(shop), 1);
+  }
+  //--------------------------------
+  platformControl = new FormControl();
   platformOptions: Platform[] = [];
   platformSelected: Platform[] = [];
+  filteredPlatformOptions!: Observable<Platform[]>;
+  private _platformFilter(value: string): Observable<Platform[]> {
+    const filterValue = value.toLowerCase();
+    if (filterValue === '') {
+      return new Observable<Platform[]>();
+    }
+    return this.platformService.getPlatformsByName(filterValue).pipe(
+      map((data: Platform[]) => {
+        this.platformOptions = data;
+        return this.platformOptions.filter((option) =>
+          option.name.toLowerCase().includes(filterValue),
+        );
+      }),
+    );
+  }
+  addPlatform(platform: Platform) {
+    if (this.platformSelected.includes(platform)) {
+      return;
+    }
+    this.platformSelected.push(platform);
+  }
+  removePlatform(platform: Platform): void {
+    this.platformSelected.splice(this.platformSelected.indexOf(platform), 1);
+  }
+  //--------------------------------
 
   constructor(
     private router: Router,
@@ -78,23 +215,26 @@ export class EditGameComponent implements OnInit {
   ) {}
 
   ngOnInit() {
-    console.log(this.shopSelected);
-    // Get all options for the select fields
-    this.franchiseService.getAllFranchises().subscribe((responseFranchises) => {
-      this.franchiseOptions = responseFranchises;
-    });
-    this.tagService.getAllTags().subscribe((responseTags) => {
-      this.tagOptions = responseTags;
-    });
-    this.studioService.getAllStudios().subscribe((responseStudios) => {
-      this.studioOptions = responseStudios;
-    });
-    this.shopService.getAllShops().subscribe((responseShops) => {
-      this.shopOptions = responseShops;
-    });
-    this.platformService.getAllPlatforms().subscribe((responsePlatforms) => {
-      this.platformOptions = responsePlatforms;
-    });
+    this.filteredTagOptions = this.tagControl.valueChanges.pipe(
+      debounceTime(1500),
+      switchMap((value) => this._tagFilter(value || '')),
+    );
+    this.filteredStudioOptions = this.studioControl.valueChanges.pipe(
+      debounceTime(1500),
+      switchMap((value) => this._studioFilter(value || '')),
+    );
+    this.filteredFranchiseOptions = this.franchiseControl.valueChanges.pipe(
+      debounceTime(1500),
+      switchMap((value) => this._franchiseFilter(value || '')),
+    );
+    this.filteredShopOptions = this.shopControl.valueChanges.pipe(
+      debounceTime(1500),
+      switchMap((value) => this._shopFilter(value || '')),
+    );
+    this.filteredPlatformOptions = this.platformControl.valueChanges.pipe(
+      debounceTime(1500),
+      switchMap((value) => this._platformFilter(value || '')),
+    );
 
     // Get the game to update
     this.id = +this.route.snapshot.paramMap.get('id')!;
@@ -102,12 +242,20 @@ export class EditGameComponent implements OnInit {
       console.log('Game: ', data);
       this.game = data;
 
-      // Format date
-      const date = new Date(data.releaseDate);
-      const year = date.getFullYear();
-      const month = ('0' + (date.getMonth() + 1)).slice(-2);
+      // date formatting
+      console.log('Release date: ', data.releaseDate);
+      const dateParts = data.releaseDate.split('-');
+      const date = new Date(
+        parseInt(dateParts[0], 10),
+        parseInt(dateParts[1], 10) - 1,
+        parseInt(dateParts[2], 10),
+      );
+      console.log('Date: ', date);
       const day = ('0' + date.getDate()).slice(-2);
+      const month = ('0' + (date.getMonth() + 1)).slice(-2);
+      const year = ('000' + date.getFullYear()).slice(-4);
       const formatedDate = `${year}-${month}-${day}`;
+      console.log('Formated date: ', formatedDate);
 
       this.tagSelected = data.tags;
       this.studioSelected = data.studios;
@@ -124,7 +272,9 @@ export class EditGameComponent implements OnInit {
     }); //TODO handle error?
   }
 
+  gameUpdated = false;
   updateGame() {
+    this.gameUpdated = false;
     console.log('GAME BEFORE UPDATE: ', this.game);
     const franchiseId = this.franchiseSelected ? this.franchiseSelected.id : 0;
     this.gameService
@@ -135,7 +285,7 @@ export class EditGameComponent implements OnInit {
         this.updateForm.value.releaseDate ?? '',
         this.updateForm.value.portrait ?? '',
         this.updateForm.value.banner ?? '',
-        franchiseId ?? 0,
+        this.franchiseSelected.id ?? 0,
         this.tagSelected.map((tag) => tag.id),
         this.studioSelected.map((studio) => studio.id),
         this.shopSelected.map((shop) => shop.id),
@@ -144,6 +294,13 @@ export class EditGameComponent implements OnInit {
       .subscribe((responseGame) => {
         this.game = responseGame;
         console.log('GAME AFTER UPDATE: ', responseGame);
+        this.gameUpdated = true;
       });
+  }
+  goToGame() {
+    this.router.navigate(['/game', this.id]);
+  }
+  goToHomepage() {
+    this.router.navigate(['/']);
   }
 }

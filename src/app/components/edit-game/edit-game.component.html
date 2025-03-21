@@ -1,6 +1,5 @@
-<!------------------------------------------------------------------------------------->
 <section>
-  <h1>frfr Update game id:{{ id }}</h1>
+  <h1>Update game id:{{ id }}</h1>
   <form [formGroup]="updateForm" (submit)="updateGame()">
     <mat-form-field>
       <mat-label>Title</mat-label>
@@ -69,78 +68,152 @@
       </button>
     </div-->
 
-    <div class="currents-container" *ngIf="franchiseSelected !== undefined">
-      Current franchise:
-      <li class="currents">{{ franchiseSelected.name }}</li>
-    </div>
-    <mat-form-field>
-      <mat-label for="franchise">Franchise</mat-label>
-      <mat-select [(value)]="franchiseSelected">
-        @for (franchise of franchiseOptions; track franchise) {
-          <mat-option [value]="franchise">{{ franchise.name }}</mat-option>
+    @if (isFrSelected == true) {
+      <mat-chip-grid #chipGrid aria-label="Enter franchise">
+        <mat-chip-row (removed)="removeFranchise(franchiseSelected)">
+          {{ franchiseSelected.name }}
+          <button
+            matChipRemove
+            [attr.aria-label]="'remove ' + franchiseSelected.name"
+          >
+            <mat-icon>cancel</mat-icon>
+          </button>
+        </mat-chip-row>
+      </mat-chip-grid>
+    }
+    <mat-form-field class="example-full-width">
+      <input
+        class="custom-input"
+        type="text"
+        placeholder="Search franchises..."
+        aria-label="Franchise"
+        matInput
+        [formControl]="franchiseControl"
+        [matAutocomplete]="autoFranchise"
+      />
+      <mat-autocomplete #autoFranchise="matAutocomplete">
+        @for (option of filteredFranchiseOptions | async; track option) {
+          <mat-option [value]="" (click)="addFranchise(option)">
+            <span class="option-name">{{ option.name }}</span>
+          </mat-option>
         }
-      </mat-select>
+      </mat-autocomplete>
     </mat-form-field>
-
-    <div class="currents-container" *ngIf="tagSelected.length > 0">
-      Current tags:
+    <!---------------------------------------------------------------------TAGS-->
+    <mat-chip-grid #chipGrid aria-label="Enter tags">
       @for (tag of tagSelected; track tag) {
-        <li class="currents">{{ tag.name }}</li>
+        <mat-chip-row (removed)="removeTag(tag)">
+          {{ tag.name }}
+          <button matChipRemove [attr.aria-label]="'remove ' + tag.name">
+            <mat-icon>cancel</mat-icon>
+          </button>
+        </mat-chip-row>
       }
-    </div>
-    <mat-form-field>
-      <mat-label>Tags:</mat-label>
-      <!-- quizás mejor otro metodo donde entren mas resultados en pantalla o que permita buscar -->
-      <mat-select [(value)]="tagSelected" multiple>
-        @for (tag of tagOptions; track tag) {
-          <mat-option [value]="tag">{{ tag.name }}</mat-option>
+    </mat-chip-grid>
+    <mat-form-field class="example-full-width">
+      <input
+        class="custom-input"
+        type="text"
+        placeholder="Search tags..."
+        aria-label="Tag"
+        matInput
+        [formControl]="tagControl"
+        [matAutocomplete]="autoTag"
+      />
+      <mat-autocomplete #autoTag="matAutocomplete">
+        @for (option of filteredTagOptions | async; track option) {
+          <mat-option [value]="" (click)="addTag(option)">
+            <span class="option-name">{{ option.name }}</span>
+          </mat-option>
         }
-      </mat-select>
+      </mat-autocomplete>
     </mat-form-field>
-
-    <div class="currents-container" *ngIf="studioSelected.length > 0">
-      Current studios:
+    <!---------------------------------------------------------------------STUDIOS-->
+    <mat-chip-grid #chipGrid aria-label="Enter studios">
       @for (studio of studioSelected; track studio) {
-        <li class="currents">{{ studio.name }}</li>
+        <mat-chip-row (removed)="removeStudio(studio)">
+          {{ studio.name }}
+          <button matChipRemove [attr.aria-label]="'remove ' + studio.name">
+            <mat-icon>cancel</mat-icon>
+          </button>
+        </mat-chip-row>
       }
-    </div>
-    <mat-form-field>
-      <mat-label>Studios</mat-label>
-      <mat-select [(value)]="studioSelected" multiple>
-        @for (studio of studioOptions; track studio) {
-          <mat-option [value]="studio">{{ studio.name }}</mat-option>
+    </mat-chip-grid>
+    <mat-form-field class="example-full-width">
+      <input
+        class="custom-input"
+        type="text"
+        placeholder="Search studios..."
+        aria-label="Studio"
+        matInput
+        [formControl]="studioControl"
+        [matAutocomplete]="autoStudio"
+      />
+      <mat-autocomplete #autoStudio="matAutocomplete">
+        @for (option of filteredStudioOptions | async; track option) {
+          <mat-option [value]="" (click)="addStudio(option)">
+            <span class="option-name">{{ option.name }}</span>
+          </mat-option>
         }
-      </mat-select>
+      </mat-autocomplete>
     </mat-form-field>
-
-    <div class="currents-container" *ngIf="shopSelected.length > 0">
-      Current shops:
+    <!---------------------------------------------------------------------SHOPS-->
+    <mat-chip-grid #chipGrid aria-label="Enter shops">
       @for (shop of shopSelected; track shop) {
-        <li class="currents">{{ shop.name }}</li>
+        <mat-chip-row (removed)="removeShop(shop)">
+          {{ shop.name }}
+          <button matChipRemove [attr.aria-label]="'remove ' + shop.name">
+            <mat-icon>cancel</mat-icon>
+          </button>
+        </mat-chip-row>
       }
-    </div>
-    <mat-form-field>
-      <mat-label>Shops</mat-label>
-      <mat-select [(value)]="shopSelected" multiple>
-        @for (shop of shopOptions; track shop) {
-          <mat-option [value]="shop">{{ shop.name }}</mat-option>
+    </mat-chip-grid>
+    <mat-form-field class="example-full-width">
+      <input
+        class="custom-input"
+        type="text"
+        placeholder="Search shops..."
+        aria-label="Shop"
+        matInput
+        [formControl]="shopControl"
+        [matAutocomplete]="autoShop"
+      />
+      <mat-autocomplete #autoShop="matAutocomplete">
+        @for (option of filteredShopOptions | async; track option) {
+          <mat-option [value]="" (click)="addShop(option)">
+            <span class="option-name">{{ option.name }}</span>
+          </mat-option>
         }
-      </mat-select>
+      </mat-autocomplete>
     </mat-form-field>
-
-    <div class="currents-container" *ngIf="platformSelected.length > 0">
-      Current platforms:
+    <!---------------------------------------------------------------------PLATFORMS-->
+    <mat-chip-grid #chipGrid aria-label="Enter platforms">
       @for (platform of platformSelected; track platform) {
-        <li class="currents">{{ platform.name }}</li>
+        <mat-chip-row (removed)="removePlatform(platform)">
+          {{ platform.name }}
+          <button matChipRemove [attr.aria-label]="'remove ' + platform.name">
+            <mat-icon>cancel</mat-icon>
+          </button>
+        </mat-chip-row>
       }
-    </div>
-    <mat-form-field>
-      <mat-label>Platforms</mat-label>
-      <mat-select [(value)]="platformSelected" multiple>
-        @for (platform of platformOptions; track platform) {
-          <mat-option [value]="platform">{{ platform.name }}</mat-option>
+    </mat-chip-grid>
+    <mat-form-field class="example-full-width">
+      <input
+        class="custom-input"
+        type="text"
+        placeholder="Search platforms..."
+        aria-label="Platform"
+        matInput
+        [formControl]="platformControl"
+        [matAutocomplete]="autoPlatform"
+      />
+      <mat-autocomplete #autoPlatform="matAutocomplete">
+        @for (option of filteredPlatformOptions | async; track option) {
+          <mat-option [value]="" (click)="addPlatform(option)">
+            <span class="option-name">{{ option.name }}</span>
+          </mat-option>
         }
-      </mat-select>
+      </mat-autocomplete>
     </mat-form-field>
 
     <button
@@ -153,4 +226,17 @@
       <mat-icon>save</mat-icon>Save game
     </button>
   </form>
+  <div *ngIf="gameUpdated" class="game-updated">
+    <h1>Game updated succesfully</h1>
+    <span class="success-buttons">
+      <button mat-raised-button color="primary" (click)="goToGame()">
+        <mat-icon>gamepad</mat-icon>
+        Go to game
+      </button>
+      <button mat-raised-button color="primary" (click)="goToHomepage()">
+        <mat-icon>home</mat-icon>
+        Go to homepage
+      </button>
+    </span>
+  </div>
 </section>

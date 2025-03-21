@@ -205,7 +205,6 @@ export class GameComponent implements OnInit {
     pictures: new FormArray([
       new FormControl(''), //REVISAR
     ]),
-    franchise: new FormControl(0),
   });
 
   game: Game | undefined;

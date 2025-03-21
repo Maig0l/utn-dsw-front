@@ -21,7 +21,23 @@ mat-form-field {
   list-style-type: decimal;
   font-style: italic;
 }
-
+.game-updated {
+  color: green;
+  margin-top: 10px;
+  border: 2px solid green;
+  box-shadow: green 0 0 10px;
+  padding: 8px;
+  border-radius: 4px;
+}
+.game-updated h1 {
+  margin-top: 0;
+  text-align: center;
+}
+.success-buttons {
+  color: green;
+  display: flex;
+  justify-content: space-around;
+}
 .picture {
   display: flex;
   justify-content: center;

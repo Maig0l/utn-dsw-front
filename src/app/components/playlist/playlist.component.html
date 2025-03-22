@@ -23,12 +23,17 @@
 
     <mat-chip-grid #chipGrid aria-label="Enter games">
       @for (game of gameSelected; track game) {
-        <mat-chip-row (removed)="remove(game)">
+        <mat-chip (removed)="remove(game)">
+          <img
+            class="chip-portrait"
+            [src]="game.portrait"
+            alt="{{ game.title }}"
+          />
           {{ game.title }}
           <button matChipRemove [attr.aria-label]="'remove ' + game.title">
             <mat-icon>cancel</mat-icon>
           </button>
-        </mat-chip-row>
+        </mat-chip>
       }
     </mat-chip-grid>
     <mat-form-field class="example-full-width">
@@ -43,16 +48,13 @@
       />
       <mat-autocomplete #auto="matAutocomplete">
         @for (option of filteredOptions | async; track option) {
-          <mat-option [value]="">
+          <mat-option [value]="" (click)="addGame(option)">
             <img
               class="option-portrait"
               [src]="option.portrait"
               alt="{{ option.title }}"
             />
             <span class="option-title">{{ option.title }}</span>
-            <button mat-fab extended type="button" (click)="addGame(option)">
-              <mat-icon>add</mat-icon>Add game
-            </button>
           </mat-option>
         }
       </mat-autocomplete>
@@ -61,4 +63,21 @@
       <mat-icon>save</mat-icon>
     </button>
   </form>
+  <div *ngIf="playlistCreated" class="playlist-created">
+    <h1>Playlist created succesfully</h1>
+    <span class="success-buttons">
+      <button mat-raised-button color="primary" (click)="goToPlaylist()">
+        <mat-icon>list</mat-icon>
+        Go to playlist
+      </button>
+      <button mat-raised-button color="primary" (click)="goToHomepage()">
+        <mat-icon>home</mat-icon>
+        Go to homepage
+      </button>
+      <button mat-raised-button color="primary" (click)="addNewPlaylist()">
+        <mat-icon>add</mat-icon>
+        Add new playlist
+      </button>
+    </span>
+  </div>
 </section>

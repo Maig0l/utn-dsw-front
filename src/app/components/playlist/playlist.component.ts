@@ -7,7 +7,7 @@ import {
   ReactiveFormsModule,
 } from '@angular/forms';
 import { CommonModule } from '@angular/common';
-import { RouterOutlet } from '@angular/router';
+import { Router, RouterOutlet } from '@angular/router';
 import { MatInputModule } from '@angular/material/input';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatButtonModule } from '@angular/material/button';
@@ -47,6 +47,7 @@ export class PlaylistComponent implements OnInit {
   constructor(
     private playlistService: PlaylistService,
     private gameService: GameService,
+    private router: Router,
   ) {}
 
   // Autocomplete
@@ -54,7 +55,7 @@ export class PlaylistComponent implements OnInit {
   options: Game[] = []; //stores all games from the search
   filteredOptions!: Observable<Game[]>;
 
-  playlist: Playlist | undefined;
+  playlist!: Playlist;
 
   private _filter(value: string): Observable<Game[]> {
     const filterValue = value.toLowerCase();
@@ -113,8 +114,10 @@ export class PlaylistComponent implements OnInit {
     owner: new FormControl(1), //TODO: Cambiar por User
   });
 
+  playlistCreated = false;
+  lastPlaylistId = 0;
   addPlaylist() {
-    console.log('ADD PLAYLIST ', this.playlistForm.value, this.gameSelected);
+    this.playlistCreated = false;
     this.playlistService
       .addPlaylist(
         this.playlistForm.value.name ?? '',
@@ -125,8 +128,25 @@ export class PlaylistComponent implements OnInit {
       )
       .subscribe((responsePlaylist) => {
         this.playlist = responsePlaylist;
-        console.log('ADD PLAYLIST ', responsePlaylist);
+        //TODO responsePlaylist tiene adentro el data, eso necesito
+        console.log('ADDed PLAYLIST ', responsePlaylist);
+        console.log('PLAYLIST ', responsePlaylist.id);
+        this.playlistCreated = true;
+        this.lastPlaylistId = responsePlaylist.id;
+        console.log('PLAYLIST id ', this.lastPlaylistId);
       });
+  }
+  goToPlaylist() {
+    console.log('GO TO PLAYLIST ', this.lastPlaylistId);
+    this.router.navigate(['/playlist', this.lastPlaylistId]);
+  }
+  goToHomepage() {
+    this.router.navigate(['/']);
+  }
+  addNewPlaylist() {
+    this.playlistCreated = false;
+    this.playlistForm.reset();
+    this.gameSelected = [];
   }
 
   getPlaylistsByOwner(user: number) {

@@ -18,6 +18,7 @@ import { ViewTagComponent } from './components/view-tag/view-tag.component.js';
 import { SearchFiltersComponent } from './pages/search-filters/search-filters.component.js';
 import { UserComponent } from './components/user/user.component.js';
 import { UserEditComponent } from './components/user-edit/user-edit.component.js';
+import { PlaylistEditComponent } from './components/playlist-edit/playlist-edit.component';
 
 export const routes: Routes = [
   { path: 'studio', component: StudioComponent },
@@ -33,8 +34,9 @@ export const routes: Routes = [
   { path: 'game/:id', component: GameDetailsComponent },
   { path: 'edit-game/:id', component: EditGameComponent },
   { path: 'search-filters', component: SearchFiltersComponent },
-
+  { path: 'playlist/:id', component: PlaylistEditComponent },
   { path: 'playlist', component: PlaylistComponent },
+
   { path: 'homepage', component: HomepageComponent },
   { path: '', redirectTo: '/homepage', pathMatch: 'full' }, // Redirección en caso de ruta vacía
   //{path: '**', redirectTo: '/studio'}, // Redirección en caso de ruta no encontrada

@@ -46,7 +46,7 @@ export class PlaylistService {
     description: string,
     is_private: boolean,
     owner: number,
-    games: number[]
+    games: number[],
   ): Observable<Playlist> {
     return this.http.post<Playlist>(this.playlistEndpoint, {
       name,
@@ -63,7 +63,7 @@ export class PlaylistService {
     description: string,
     is_private: boolean,
     owner: number,
-    games: number
+    games: number[],
   ): Observable<Playlist> {
     const url = this.playlistEndpoint + `/${id}`;
     return this.http.put<Playlist>(url, {

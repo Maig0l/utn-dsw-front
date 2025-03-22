@@ -2,6 +2,7 @@
   <div class="container">
     <div class="header-content">
       <div class="logo">
+        <!--TODO review this router link. Doesnt work -->
         <a
           class="pico"
           routerLink="/homepage"
@@ -14,62 +15,62 @@
       <nav class="navigation">
         <ul class="menu">
           <li>
-            <a
+            <span
               routerLink="/studio"
               routerLinkActive="active"
               (click)="redirect('/studio')"
-              >Studio</a
+              >Studio</span
             >
           </li>
           <li>
-            <a
+            <span
               routerLink="/shop"
               routerLinkActive="active"
               (click)="redirect('/shop')"
-              >Shop</a
+              >Shop</span
             >
           </li>
           <li>
-            <a
+            <span
               routerLink="/platform"
               routerLinkActive="active"
               (click)="redirect('/platform')"
-              >Platform</a
+              >Platform</span
             >
           </li>
           <li>
-            <a
+            <span
               routerLink="/franchise"
               routerLinkActive="active"
               (click)="redirect('/franchise')"
-              >Franchise</a
+              >Franchise</span
             >
           </li>
           <li>
-            <a
+            <span
               routerLink="/game"
               routerLinkActive="active"
               (click)="redirect('/game')"
-              >Game</a
+              >Game</span
             >
           </li>
           <li>
-            <a
+            <span
               routerLink="/tag"
               routerLinkActive="active"
               (click)="redirect('/tag')"
-              >Tag</a
+              >Tag</span
             >
           </li>
           <li>
-            <a
+            <span
               routerLink="/playlist"
               routerLinkActive="active"
               (click)="redirect('/playlist')"
-              >Playlist</a
+              >Playlist</span
             >
           </li>
-          <li>
+          <li class="search">
             <form class="example-form">
               <mat-form-field class="example-full-width">
                 <input

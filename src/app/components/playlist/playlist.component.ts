@@ -65,7 +65,6 @@ export class PlaylistComponent implements OnInit {
     return this.gameService.findGamesByTitle(filterValue).pipe(
       map((data: Game[]) => {
         this.options = data;
-        console.log(this.options);
         return this.options.filter((option) =>
           option.title.toLowerCase().includes(filterValue),
         );
@@ -75,7 +74,6 @@ export class PlaylistComponent implements OnInit {
 
   gameSelected: Game[] = [];
   addGame(game: Game) {
-    console.log('ADD GAME ', game);
     if (this.gameSelected.includes(game)) {
       return;
     }
@@ -83,7 +81,6 @@ export class PlaylistComponent implements OnInit {
   }
   remove(game: Game): void {
     this.gameSelected.splice(this.gameSelected.indexOf(game), 1);
-    console.log(`Removed ${game.title}`);
   }
 
   //TODO: use the current user
@@ -99,8 +96,6 @@ export class PlaylistComponent implements OnInit {
   userPlaylists: Playlist[] = [];
 
   ngOnInit(): void {
-    this.getPlaylistsByOwner(this.user.id); //TODO remove
-
     this.filteredOptions = this.myControl.valueChanges.pipe(
       debounceTime(1500),
       switchMap((value) => this._filter(value || '')),
@@ -115,7 +110,6 @@ export class PlaylistComponent implements OnInit {
   });
 
   playlistCreated = false;
-  lastPlaylistId = 0;
   addPlaylist() {
     this.playlistCreated = false;
     this.playlistService
@@ -128,17 +122,11 @@ export class PlaylistComponent implements OnInit {
       )
       .subscribe((responsePlaylist) => {
         this.playlist = responsePlaylist;
-        //TODO responsePlaylist tiene adentro el data, eso necesito
-        console.log('ADDed PLAYLIST ', responsePlaylist);
-        console.log('PLAYLIST ', responsePlaylist.id);
         this.playlistCreated = true;
-        this.lastPlaylistId = responsePlaylist.id;
-        console.log('PLAYLIST id ', this.lastPlaylistId);
       });
   }
   goToPlaylist() {
-    console.log('GO TO PLAYLIST ', this.lastPlaylistId);
-    this.router.navigate(['/playlist', this.lastPlaylistId]);
+    this.router.navigate(['/playlist', this.playlist.id]);
   }
   goToHomepage() {
     this.router.navigate(['/']);
@@ -147,16 +135,5 @@ export class PlaylistComponent implements OnInit {
     this.playlistCreated = false;
     this.playlistForm.reset();
     this.gameSelected = [];
-  }
-
-  getPlaylistsByOwner(user: number) {
-    console.log('GET PLAYLISTS BY OWNER ', user);
-    //de algun lado sacar el usuario (acá o en el servicio)
-    this.playlistService
-      .getPlaylistsByOwner(user)
-      .subscribe(
-        (responsePlaylists) => (this.userPlaylists = responsePlaylists),
-      );
-    console.log('GET PLAYLISTS ', this.userPlaylists);
   }
 }

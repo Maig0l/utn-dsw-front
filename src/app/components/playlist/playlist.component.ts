@@ -17,10 +17,10 @@ import { MatDividerModule } from '@angular/material/divider';
 import { MatCheckboxModule } from '@angular/material/checkbox';
 import { Playlist } from '../../model/playlist.model';
 import { Game } from '../../model/game.model';
-import { User } from '../../model/user.model.js';
+import { User } from '../../model/user.model';
 import { MatAutocompleteModule } from '@angular/material/autocomplete';
 import { debounceTime, map, Observable, switchMap } from 'rxjs';
-import { GameService } from '../../services/game.service.js';
+import { GameService } from '../../services/game.service';
 import { MatChipsModule } from '@angular/material/chips';
 
 @Component({

@@ -7,18 +7,18 @@ import {
   switchMap,
 } from 'rxjs';
 
-import { GameService } from '../../services/game.service.js';
-import { Game } from '../../model/game.model.js';
-import { Tag } from '../../model/tag.model.js';
-import { TagService } from '../../services/tag.service.js';
+import { GameService } from '../../services/game.service';
+import { Game } from '../../model/game.model';
+import { Tag } from '../../model/tag.model';
+import { TagService } from '../../services/tag.service';
 import { FormControl, FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
 import { MatAutocompleteModule } from '@angular/material/autocomplete';
 import { AsyncPipe, NgFor, NgIf } from '@angular/common';
-import { ViewGameComponent } from '../../components/view-game/view-game.component.js';
-import { Platform } from '../../model/platform.model.js';
-import { PlatformService } from '../../services/platform.service.js';
+import { ViewGameComponent } from '../../components/view-game/view-game.component';
+import { Platform } from '../../model/platform.model';
+import { PlatformService } from '../../services/platform.service';
 import { MatButtonModule } from '@angular/material/button';
 import { MatSelectModule } from '@angular/material/select';
 import { NULL } from 'sass';

@@ -2,8 +2,8 @@ import { Component } from '@angular/core';
 import { FormBuilder, Validators, ReactiveFormsModule } from '@angular/forms';
 import { Router } from '@angular/router';
 import { CommonModule } from '@angular/common';
-import { LoginService } from '../../services/auth/login.service.js';
-import { LoginRequest } from '../../services/auth/loginRequest.js';
+import { LoginService } from '../../services/auth/login.service';
+import { LoginRequest } from '../../services/auth/loginRequest';
 import { HttpClientModule } from '@angular/common/http';
 
 @Component({

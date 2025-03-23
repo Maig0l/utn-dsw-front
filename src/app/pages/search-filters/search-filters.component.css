@@ -1,29 +1,30 @@
 .container {
-    display: flex;
-    flex-wrap: wrap;  /* Permite que las tarjetas se distribuyan en varias filas */
-    gap: 10px;        /* Espacio entre las tarjetas */
-    justify-content: space-between;
+  display: flex;
+  flex-wrap: wrap; /* Permite que las tarjetas se distribuyan en varias filas */
+  gap: 10px; /* Espacio entre las tarjetas */
+  justify-content: space-between;
 }
 
-.filters{
-    display: flex;
-    gap: 10px; /* Espacio entre elementos */
+.filters {
+  display: flex;
+  gap: 10px; /* Espacio entre elementos */
 }
 .card {
-    flex: 0 1 24%;
+  flex: 0 1 24%;
 }
 
-
-@media (max-width: 768px) { /* Para tablets */
-    .card {
-        flex: 1 1 calc(50% - 20px); /* 2 columnas */
-        max-width: calc(50% - 20px);
-    }
+@media (max-width: 768px) {
+  /* Para tablets */
+  .card {
+    flex: 1 1 calc(50% - 20px); /* 2 columnas */
+    max-width: calc(50% - 20px);
+  }
 }
 
-@media (max-width: 480px) { /* Para móviles */
-    .card {
-        flex: 1 1 100%; /* 1 columna */
-        max-width: 100%;
-    }
+@media (max-width: 480px) {
+  /* Para móviles */
+  .card {
+    flex: 1 1 100%; /* 1 columna */
+    max-width: 100%;
+  }
 }

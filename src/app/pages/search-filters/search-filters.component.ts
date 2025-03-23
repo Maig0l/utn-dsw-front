@@ -1,5 +1,11 @@
-import { Component,  EventEmitter, Output } from '@angular/core';
-import { BehaviorSubject, debounceTime, map, Observable, switchMap } from 'rxjs';
+import { Component, EventEmitter, Output } from '@angular/core';
+import {
+  BehaviorSubject,
+  debounceTime,
+  map,
+  Observable,
+  switchMap,
+} from 'rxjs';
 
 import { GameService } from '../../services/game.service.js';
 import { Game } from '../../model/game.model.js';
@@ -20,70 +26,75 @@ import { NULL } from 'sass';
 @Component({
   selector: 'app-search-filters',
   standalone: true,
-  imports: [ FormsModule, NgIf, NgFor, MatFormFieldModule,
-      MatInputModule,
-      MatAutocompleteModule,
-      ReactiveFormsModule,
-      MatButtonModule,
-          MatInputModule,
-          MatSelectModule,
-      AsyncPipe, ViewGameComponent],
+  imports: [
+    FormsModule,
+    NgIf,
+    NgFor,
+    MatFormFieldModule,
+    MatInputModule,
+    MatAutocompleteModule,
+    ReactiveFormsModule,
+    MatButtonModule,
+    MatInputModule,
+    MatSelectModule,
+    AsyncPipe,
+    ViewGameComponent,
+  ],
   templateUrl: './search-filters.component.html',
-  styleUrl: './search-filters.component.css'
+  styleUrl: './search-filters.component.css',
 })
 export class SearchFiltersComponent {
-
   Games: Game[] = [];
-  unfilteredData: Game[] | undefined ;
- 
+  unfilteredData: Game[] | undefined;
 
   tag: Tag | undefined;
   Tags: Tag[] | undefined;
 
-  tags: Tag[] = []
-   tagid!: number;
-   i=0;
- 
-   options: string[] = [ ];
-   filteredOptions: string[] = [];
-   inputValue: string = '';
-   showDropdown: boolean = false;
-   hoveredOption: string | null = null;
+  tags: Tag[] = [];
+  tagid!: number;
+  i = 0;
 
-   allGames: Game[] = [];
-   filterGames: Game[] = [];
+  options: string[] = [];
+  filteredOptions: string[] = [];
+  inputValue = '';
+  showDropdown = false;
+  hoveredOption: string | null = null;
+
+  allGames: Game[] = [];
+  filterGames: Game[] = [];
   choseTag!: Tag;
-  filter: boolean = false;
+  filter = false;
 
   platformOptions: Platform[] = [];
   platformSelected: Platform[] = [];
 
-  constructor(private gameService: GameService, private tagService: TagService, private platformService: PlatformService) {}
-
+  constructor(
+    private gameService: GameService,
+    private tagService: TagService,
+    private platformService: PlatformService,
+  ) {}
 
   showTags() {
-    this.tagService.getAllTags()
-    .subscribe(responseTags => this.tags = responseTags)
-    }
+    this.tagService
+      .getAllTags()
+      .subscribe((responseTags) => (this.tags = responseTags));
+  }
 
-
- 
   onInput(event: Event): void {
-    if(this.i == 0)
-    {    this.tags.forEach((tag) =>  this.options.push(tag.name));
-         this.i ++;
+    if (this.i == 0) {
+      this.tags.forEach((tag) => this.options.push(tag.name));
+      this.i++;
     }
     const value = (event.target as HTMLInputElement).value.toLowerCase();
     this.inputValue = value;
-    this.filteredOptions = this.options.filter(option =>
-      option.toLowerCase().includes(value)
+    this.filteredOptions = this.options.filter((option) =>
+      option.toLowerCase().includes(value),
     );
   }
 
   selectOption(option: string): void {
     this.inputValue = option;
     this.showDropdown = false;
-
   }
 
   onBlur(): void {
@@ -91,64 +102,50 @@ export class SearchFiltersComponent {
     setTimeout(() => (this.showDropdown = false), 200);
   }
 
-  filter_options(option: string){
-    this.tags.forEach((tag) => 
-      {if(option===tag.name ){
-        console.log("Hola")
+  filter_options(option: string) {
+    this.tags.forEach((tag) => {
+      if (option === tag.name) {
+        console.log('Hola');
         this.choseTag = tag;
-      }})
-      console.log(option);
-      if(option !== '' && this.platformSelected.length !== 0){
-        this.filterGames = this.Games.filter(game => 
-        game.tags.some(tag => tag.name === this.choseTag.name)
-        );
-         this.filterGames = this.filterGames.filter(game => 
-        game.platforms.some(platform => platform.name === this.platformSelected[0].name)
-        
-        );
-        this.filter = true;
-    
-    }
-    
-    else if(option !== '' ){
-       this.filterGames = this.Games.filter(game => 
-        game.tags.some(tag => tag.name === this.choseTag.name)
-       );
-       this.filter = true;
       }
-
-    else if(this.platformSelected.length !== 0){
-        this.filterGames = this.Games.filter(game => 
-         game.platforms.some(platform => platform.name === this.platformSelected[0].name)
-        
-        );
-        this.filter = true;
+    });
+    console.log(option);
+    if (option !== '' && this.platformSelected.length !== 0) {
+      this.filterGames = this.Games.filter((game) =>
+        game.tags.some((tag) => tag.name === this.choseTag.name),
+      );
+      this.filterGames = this.filterGames.filter((game) =>
+        game.platforms.some(
+          (platform) => platform.name === this.platformSelected[0].name,
+        ),
+      );
+      this.filter = true;
+    } else if (option !== '') {
+      this.filterGames = this.Games.filter((game) =>
+        game.tags.some((tag) => tag.name === this.choseTag.name),
+      );
+      this.filter = true;
+    } else if (this.platformSelected.length !== 0) {
+      this.filterGames = this.Games.filter((game) =>
+        game.platforms.some(
+          (platform) => platform.name === this.platformSelected[0].name,
+        ),
+      );
+      this.filter = true;
+    } else {
+      this.filter = false;
     }
-
-    else{
-        this.filter = false;
-    }
-      
-      
-   
-    
   }
 
-
-
   myControl = new FormControl('');
-    
-  
-  
 
-  ngOnInit(){
+  ngOnInit() {
     this.showTags();
     this.getGameDetails();
     this.platformService.getAllPlatforms().subscribe((responsePlatforms) => {
       this.platformOptions = responsePlatforms;
     });
   }
-
 
   getTagDetails() {
     this.tagService.getAllTags().subscribe((response) => {
@@ -160,10 +157,5 @@ export class SearchFiltersComponent {
     this.gameService.getAllGames().subscribe((response) => {
       this.Games = response;
     });
-    
   }
-
-
-
-
 }

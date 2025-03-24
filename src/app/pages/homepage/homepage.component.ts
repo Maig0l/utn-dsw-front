@@ -1,9 +1,9 @@
 import { CommonModule } from '@angular/common';
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
-import { LoginService } from '../../services/auth/login.service.js';
+import { LoginService } from '../../services/auth/login.service';
 import { User } from '../../model/user.model';
-import { ViewGameComponent } from '../../components/view-game/view-game.component.js';
+import { ViewGameComponent } from '../../components/view-game/view-game.component';
 import { ReviewService } from '../../services/review.service';
 import { ReviewCardComponent } from '../../components/review-card/review-card.component';
 import { Review } from '../../model/review.model';

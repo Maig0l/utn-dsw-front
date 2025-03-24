@@ -25,7 +25,6 @@ import { Studio } from '../../model/studio.model.js';
 import { StudioService } from '../../services/studio.service.js';
 import { Franchise } from '../../model/franchise.model.js';
 import { FranchiseService } from '../../services/franchise.service.js';
-import { Router } from '@angular/router';
 import { provideNativeDateAdapter } from '@angular/material/core';
 import { MatDatepickerModule } from '@angular/material/datepicker';
 import { MatSliderModule } from '@angular/material/slider';
@@ -189,25 +188,7 @@ export class SearchFiltersComponent implements OnInit {
   minStarValue = 0;
   maxStarValue = 5;
 
-  unfilteredData: Game[] | undefined;
-
-  tag: Tag | undefined;
-  Tags: Tag[] | undefined;
-
-  tags: Tag[] = [];
-  tagid!: number;
-  i = 0;
-
-  options: string[] = [];
-  filteredOptions: string[] = [];
-  inputValue = '';
-  showDropdown = false;
-  hoveredOption: string | null = null;
-
-  allGames: Game[] = [];
   filteredGames: Game[] = [];
-  choseTag!: Tag;
-  filter = false;
 
   constructor(
     private gameService: GameService,
@@ -215,60 +196,7 @@ export class SearchFiltersComponent implements OnInit {
     private franchiseService: FranchiseService,
     private platformService: PlatformService,
     private studioService: StudioService,
-    private router: Router,
   ) {}
-
-  master_filter() {
-    this.gameService
-      .filterGames(
-        this.tagSelected.map((tag) => tag.id),
-        this.platformSelected.map((platform) => platform.id),
-        this.studioSelected.map((studio) => studio.id),
-        this.franchiseSelected.map((franchise) => franchise.id),
-        this.range.value.start ?? this.defaultDate,
-        this.range.value.end ?? this.defaultDate,
-        this.minStarValue,
-        this.maxStarValue,
-      )
-      .subscribe((response) => {
-        this.filteredGames = response;
-      });
-  }
-
-  filter_options(option: string) {
-    this.tags.forEach((tag) => {
-      if (option === tag.name) {
-        console.log('Hola');
-        this.choseTag = tag;
-      }
-    });
-    console.log(option);
-    if (option !== '' && this.platformSelected.length !== 0) {
-      this.filteredGames = this.allGames.filter((game) =>
-        game.tags.some((tag) => tag.name === this.choseTag.name),
-      );
-      this.filteredGames = this.filteredGames.filter((game) =>
-        game.platforms.some(
-          (platform) => platform.name === this.platformSelected[0].name,
-        ),
-      );
-      this.filter = true;
-    } else if (option !== '') {
-      this.filteredGames = this.allGames.filter((game) =>
-        game.tags.some((tag) => tag.name === this.choseTag.name),
-      );
-      this.filter = true;
-    } else if (this.platformSelected.length !== 0) {
-      this.filteredGames = this.allGames.filter((game) =>
-        game.platforms.some(
-          (platform) => platform.name === this.platformSelected[0].name,
-        ),
-      );
-      this.filter = true;
-    } else {
-      this.filter = false;
-    }
-  }
 
   ngOnInit() {
     this.filteredTagOptions = this.tagControl.valueChanges.pipe(
@@ -287,10 +215,24 @@ export class SearchFiltersComponent implements OnInit {
       debounceTime(1500),
       switchMap((value) => this._franchiseFilter(value || '')),
     );
+  }
 
-    //TODO replace
-    this.gameService.getAllGames().subscribe((response) => {
-      this.allGames = response;
-    });
+  filterActivated = false;
+  master_filter() {
+    this.filterActivated = true;
+    this.gameService
+      .filterGames(
+        this.tagSelected.map((tag) => tag.id),
+        this.platformSelected.map((platform) => platform.id),
+        this.studioSelected.map((studio) => studio.id),
+        this.franchiseSelected.map((franchise) => franchise.id),
+        this.range.value.start ?? this.defaultDate,
+        this.range.value.end ?? this.defaultDate,
+        this.minStarValue,
+        this.maxStarValue,
+      )
+      .subscribe((response) => {
+        this.filteredGames = response;
+      });
   }
 }

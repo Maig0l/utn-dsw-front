@@ -168,24 +168,19 @@
   </div>
 </section>
 
-<!-- filterGames.length !== 0 -->
-@if (true) {
+@if (filterActivated) {
   <section>
     <h2>Results:</h2>
-    <div class="games-container">
-      @if (filter) {
+    @if (filteredGames.length === 0) {
+      <p>No games found</p>
+    } @else {
+      <div class="games-container">
         @for (game of filteredGames; track game.id) {
           <div class="card">
             <app-view-game [game]="game"></app-view-game>
           </div>
         }
-      } @else {
-        @for (game of allGames; track game.id) {
-          <div class="card">
-            <app-view-game [game]="game"></app-view-game>
-          </div>
-        }
-      }
-    </div>
+      </div>
+    }
   </section>
 }

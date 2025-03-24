@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpParams } from '@angular/common/http';
 import { map, Observable } from 'rxjs';
 import { ApiResponse } from '../model/apiResponse.model';
 import { Game } from '../model/game.model';
@@ -28,6 +28,41 @@ export class GameService {
         // Devuelve lo que está dentro de data en el objeto de respuesta
         .pipe(map((response) => response.data))
     );
+  }
+
+  findGamesByTitle(title: string): Observable<Game[]> {
+    const url = this.gamesEndpoint + `/search?title=${title}`;
+    return this.http
+      .get<ApiResponse<Game[]>>(url)
+      .pipe(map((response) => response.data));
+  }
+
+  filterGames(
+    tags: number[],
+    platform: number[],
+    studio: number[],
+    franchise: number[],
+    startDate: Date,
+    endDate: Date,
+    minStarValue: number,
+    maxStarValue: number,
+  ): Observable<Game[]> {
+    const url = this.gamesEndpoint + `/filter`;
+
+    // Construct query parameters
+    const params = new HttpParams()
+      .set('tags', tags.join(',')) // Convert array to comma-separated string
+      .set('platform', platform.join(','))
+      .set('studio', studio.join(','))
+      .set('franchise', franchise.join(','))
+      .set('startDate', startDate.toISOString()) // Convert Date to ISO string
+      .set('endDate', endDate.toISOString())
+      .set('minStarValue', minStarValue.toString())
+      .set('maxStarValue', maxStarValue.toString());
+
+    return this.http
+      .get<ApiResponse<Game[]>>(url, { params })
+      .pipe(map((response) => response.data));
   }
 
   addGame(
@@ -95,13 +130,6 @@ export class GameService {
   addPicturesToGame(game_id: number, urls: string[]): Observable<string[]> {
     const url = 'http://localhost:8080/api/game-picture';
     return this.http.post<string[]>(url, { game_id, urls });
-  }
-
-  findGamesByTitle(title: string): Observable<Game[]> {
-    const url = this.gamesEndpoint + `/search?title=${title}`;
-    return this.http
-      .get<ApiResponse<Game[]>>(url)
-      .pipe(map((response) => response.data));
   }
 
   /** Retrieves most recently reviews games

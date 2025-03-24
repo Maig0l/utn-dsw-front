@@ -183,6 +183,7 @@ export class SearchFiltersComponent implements OnInit {
     end: new FormControl<Date | null>(null),
   });
   readonly startDate = new Date(2016, 0, 1);
+  readonly defaultDate = new Date(1970, 0, 1);
   //--------------------------------
   //STAR FILTER
   minStarValue = 0;
@@ -216,6 +217,23 @@ export class SearchFiltersComponent implements OnInit {
     private studioService: StudioService,
     private router: Router,
   ) {}
+
+  master_filter() {
+    this.gameService
+      .filterGames(
+        this.tagSelected.map((tag) => tag.id),
+        this.platformSelected.map((platform) => platform.id),
+        this.studioSelected.map((studio) => studio.id),
+        this.franchiseSelected.map((franchise) => franchise.id),
+        this.range.value.start ?? this.defaultDate,
+        this.range.value.end ?? this.defaultDate,
+        this.minStarValue,
+        this.maxStarValue,
+      )
+      .subscribe((response) => {
+        this.filteredGames = response;
+      });
+  }
 
   filter_options(option: string) {
     this.tags.forEach((tag) => {

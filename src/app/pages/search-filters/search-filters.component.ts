@@ -1,10 +1,15 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ChangeDetectionStrategy } from '@angular/core';
 import { debounceTime, map, Observable, switchMap } from 'rxjs';
 import { GameService } from '../../services/game.service';
 import { Game } from '../../model/game.model';
 import { Tag } from '../../model/tag.model';
 import { TagService } from '../../services/tag.service';
-import { FormControl, FormsModule, ReactiveFormsModule } from '@angular/forms';
+import {
+  FormControl,
+  FormGroup,
+  FormsModule,
+  ReactiveFormsModule,
+} from '@angular/forms';
 import { MatAutocompleteModule } from '@angular/material/autocomplete';
 import { AsyncPipe } from '@angular/common';
 import { ViewGameComponent } from '../../components/view-game/view-game.component';
@@ -20,8 +25,10 @@ import { Studio } from '../../model/studio.model.js';
 import { StudioService } from '../../services/studio.service.js';
 import { Franchise } from '../../model/franchise.model.js';
 import { FranchiseService } from '../../services/franchise.service.js';
-import { ShopService } from '../../services/shop.service.js';
 import { Router } from '@angular/router';
+import { provideNativeDateAdapter } from '@angular/material/core';
+import { MatDatepickerModule } from '@angular/material/datepicker';
+import { MatSliderModule } from '@angular/material/slider';
 
 @Component({
   selector: 'app-search-filters',
@@ -42,7 +49,12 @@ import { Router } from '@angular/router';
     MatFormFieldModule,
     MatButtonModule,
     MatIconModule,
+    MatFormFieldModule,
+    MatDatepickerModule,
+    MatSliderModule,
   ],
+  providers: [provideNativeDateAdapter()],
+  changeDetection: ChangeDetectionStrategy.OnPush,
   templateUrl: './search-filters.component.html',
   styleUrl: './search-filters.component.css',
 })
@@ -136,6 +148,7 @@ export class SearchFiltersComponent implements OnInit {
     this.studioSelected.splice(this.studioSelected.indexOf(studio), 1);
   }
   //--------------------------------
+  // FRANCHISE FILTER
   franchiseControl = new FormControl();
   franchiseOptions: Franchise[] = [];
   franchiseSelected: Franchise[] = [];
@@ -163,8 +176,18 @@ export class SearchFiltersComponent implements OnInit {
   removeFranchise(franchise: Franchise): void {
     this.franchiseSelected.splice(this.franchiseSelected.indexOf(franchise), 1);
   }
+  //--------------------------------
+  // DATE FILTER (from Angular Material)
+  readonly range = new FormGroup({
+    start: new FormControl<Date | null>(null),
+    end: new FormControl<Date | null>(null),
+  });
+  readonly startDate = new Date(2016, 0, 1);
+  //--------------------------------
+  //STAR FILTER
+  minStarValue = 0;
+  maxStarValue = 5;
 
-  Games: Game[] = [];
   unfilteredData: Game[] | undefined;
 
   tag: Tag | undefined;
@@ -181,7 +204,7 @@ export class SearchFiltersComponent implements OnInit {
   hoveredOption: string | null = null;
 
   allGames: Game[] = [];
-  filterGames: Game[] = [];
+  filteredGames: Game[] = [];
   choseTag!: Tag;
   filter = false;
 
@@ -190,7 +213,6 @@ export class SearchFiltersComponent implements OnInit {
     private tagService: TagService,
     private franchiseService: FranchiseService,
     private platformService: PlatformService,
-    private shopService: ShopService,
     private studioService: StudioService,
     private router: Router,
   ) {}
@@ -204,22 +226,22 @@ export class SearchFiltersComponent implements OnInit {
     });
     console.log(option);
     if (option !== '' && this.platformSelected.length !== 0) {
-      this.filterGames = this.Games.filter((game) =>
+      this.filteredGames = this.allGames.filter((game) =>
         game.tags.some((tag) => tag.name === this.choseTag.name),
       );
-      this.filterGames = this.filterGames.filter((game) =>
+      this.filteredGames = this.filteredGames.filter((game) =>
         game.platforms.some(
           (platform) => platform.name === this.platformSelected[0].name,
         ),
       );
       this.filter = true;
     } else if (option !== '') {
-      this.filterGames = this.Games.filter((game) =>
+      this.filteredGames = this.allGames.filter((game) =>
         game.tags.some((tag) => tag.name === this.choseTag.name),
       );
       this.filter = true;
     } else if (this.platformSelected.length !== 0) {
-      this.filterGames = this.Games.filter((game) =>
+      this.filteredGames = this.allGames.filter((game) =>
         game.platforms.some(
           (platform) => platform.name === this.platformSelected[0].name,
         ),
@@ -229,8 +251,6 @@ export class SearchFiltersComponent implements OnInit {
       this.filter = false;
     }
   }
-
-  myControl = new FormControl('');
 
   ngOnInit() {
     this.filteredTagOptions = this.tagControl.valueChanges.pipe(
@@ -250,21 +270,9 @@ export class SearchFiltersComponent implements OnInit {
       switchMap((value) => this._franchiseFilter(value || '')),
     );
 
-    this.getGameDetails();
-    this.platformService.getAllPlatforms().subscribe((responsePlatforms) => {
-      this.platformOptions = responsePlatforms;
-    });
-  }
-
-  getTagDetails() {
-    this.tagService.getAllTags().subscribe((response) => {
-      this.Tags = response;
-    });
-  }
-
-  getGameDetails() {
+    //TODO replace
     this.gameService.getAllGames().subscribe((response) => {
-      this.Games = response;
+      this.allGames = response;
     });
   }
 }

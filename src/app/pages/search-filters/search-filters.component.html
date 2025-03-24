@@ -1,6 +1,6 @@
 <section>
-  <h2>Search by:</h2>
-  <span class="filters">
+  <h2>Search games by:</h2>
+  <div class="filters-container">
     <!-- TAGS ---------------------------------------------------------------------TAGS-->
     <div class="filter tags">
       <mat-chip-grid #chipGrid aria-label="Enter tags">
@@ -128,35 +128,68 @@
         </mat-autocomplete>
       </mat-form-field>
     </div>
-    <!-- DATE RANGE --------------------------------------------------------------------STUDIOS-->
-    <div class="filter date-range">date-range filter (wip)</div>
     <!-- SCORE RANGE --------------------------------------------------------------------STUDIOS-->
-    <div class="filter score-range">score-range filter (wip)</div>
-  </span>
-  <button
-    mat-raised-button
-    color="primary"
-    (click)="filter_options(inputValue)"
-  >
-    <mat-icon>search</mat-icon>Add
-  </button>
-</section>
-
-<section>
-  <h2>Games</h2>
-  <div class="games-container">
-    @if (filter) {
-      @for (game of filterGames; track game.id) {
-        <div class="card">
-          <app-view-game [game]="game"></app-view-game>
-        </div>
-      }
-    } @else {
-      @for (game of Games; track game.id) {
-        <div class="card">
-          <app-view-game [game]="game"></app-view-game>
-        </div>
-      }
-    }
+    <div class="filter score-range">
+      <p>Star range (0-5 stars)</p>
+      <mat-slider min="0" max="5" step="0.5" discrete showTickMarks>
+        <input [(value)]="minStarValue" matSliderStartThumb />
+        <input [(value)]="maxStarValue" matSliderEndThumb />
+      </mat-slider>
+    </div>
+    <!-- DATE RANGE --------------------------------------------------------------------STUDIOS-->
+    <div class="filter date-range">
+      <mat-form-field>
+        <mat-label>Enter a date range</mat-label>
+        <mat-date-range-input [formGroup]="range" [rangePicker]="picker">
+          <input
+            matStartDate
+            formControlName="start"
+            placeholder="Start date"
+          />
+          <input matEndDate formControlName="end" placeholder="End date" />
+        </mat-date-range-input>
+        <mat-hint>MM/DD/YYYY</mat-hint>
+        <mat-datepicker-toggle
+          matIconSuffix
+          [for]="picker"
+        ></mat-datepicker-toggle>
+        <mat-date-range-picker
+          #picker
+          startView="multi-year"
+          [startAt]="startDate"
+        ></mat-date-range-picker>
+      </mat-form-field>
+    </div>
+  </div>
+  <div class="search-button">
+    <button
+      mat-raised-button
+      color="primary"
+      (click)="filter_options(inputValue)"
+    >
+      <mat-icon>search</mat-icon>Search
+    </button>
   </div>
 </section>
+
+<!-- filterGames.length !== 0 -->
+@if (true) {
+  <section>
+    <h2>Results:</h2>
+    <div class="games-container">
+      @if (filter) {
+        @for (game of filteredGames; track game.id) {
+          <div class="card">
+            <app-view-game [game]="game"></app-view-game>
+          </div>
+        }
+      } @else {
+        @for (game of allGames; track game.id) {
+          <div class="card">
+            <app-view-game [game]="game"></app-view-game>
+          </div>
+        }
+      }
+    </div>
+  </section>
+}

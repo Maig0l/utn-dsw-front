@@ -11,27 +11,39 @@ describe('TagComponent', () => {
   let component: TagComponent;
   let fixture: ComponentFixture<TagComponent>;
   let service: TagService;
-  //let httpMock: HttpTestingController;
+  let httpMock: HttpTestingController;
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      imports: [TagComponent, HttpClientModule, AppComponent],providers:[TagService]
+      imports: [TagComponent, HttpClientModule, AppComponent, HttpClientTestingModule],providers:[TagService]
     }).compileComponents();
 
     fixture = TestBed.createComponent(TagComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
     service = TestBed.inject(TagService);
-  });
-
-  
- // httpMock = TestBed.inject(HttpTestingController);
-
-
-  it('should create', () => {
-    expect(component).toBeTruthy();
+    httpMock = TestBed.inject(HttpTestingController);
   });
 
 
- 
+
+  it('should create service', () => {
+    expect(service).toBeTruthy();
+  });
+
+  it('get all tags', ()=>{
+    const mockData = [{ id: 1, name: 'Item 1', description: 'Cosas' }, { id: 2, name: 'Item 2', description: 'Cosas' }];
+
+    service.getAllTags().subscribe((data) => {
+      expect(data).toEqual(mockData);
+    });
+
+    const req = httpMock.expectOne('http://localhost:8080/api/tags'); // Verifica la URL
+    expect(req.request.method).toBe('GET'); // Asegura que sea un GET
+    req.flush(mockData); // Responde con datos mockeados
+
+
+
+  })
+    
 });

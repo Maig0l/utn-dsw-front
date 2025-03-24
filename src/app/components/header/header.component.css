@@ -71,3 +71,12 @@ li span:hover {
 li.search {
   padding-top: 22px;
 }
+
+span.advanced-search {
+  display: block;
+  text-align: center;
+  font-size: small;
+  border: 1px solid #e5e5e5;
+  padding: 4px;
+  border-radius: 4px;
+}

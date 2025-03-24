@@ -9,7 +9,6 @@ import {
 } from '@angular/forms';
 import { CommonModule } from '@angular/common';
 import { TagService } from '../../services/tag.service';
-import { MatSelectModule } from '@angular/material/select';
 import { MatInputModule } from '@angular/material/input';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatButtonModule } from '@angular/material/button';
@@ -19,7 +18,6 @@ import { MatAutocompleteModule } from '@angular/material/autocomplete';
 import { Game } from '../../model/game.model';
 import { Franchise } from '../../model/franchise.model';
 import { Tag } from '../../model/tag.model';
-import { MatRippleModule } from '@angular/material/core';
 import { StudioService } from '../../services/studio.service';
 import { ShopService } from '../../services/shop.service';
 import { PlatformService } from '../../services/platform.service';
@@ -33,14 +31,12 @@ import { debounceTime, map, Observable, switchMap } from 'rxjs';
   selector: 'app-game',
   standalone: true,
   imports: [
-    MatRippleModule,
     ReactiveFormsModule,
     CommonModule,
     MatIconModule,
     MatFormFieldModule,
     MatButtonModule,
     MatInputModule,
-    MatSelectModule,
     MatAutocompleteModule,
     MatChipsModule,
   ],
@@ -126,7 +122,7 @@ export class GameComponent implements OnInit {
       }),
     );
   }
-  isFrSelected: boolean = false;
+  isFrSelected = false;
   addFranchise(franchise: Franchise) {
     if (this.franchiseSelected === franchise) {
       return;
@@ -134,7 +130,7 @@ export class GameComponent implements OnInit {
     this.franchiseSelected = franchise;
     this.isFrSelected = true;
   }
-  removeFranchise(franchise: Franchise): void {
+  removeFranchise(): void {
     this.isFrSelected = false;
     this.franchiseSelected = { id: 0, name: '', games: [] }; //TODO
   }

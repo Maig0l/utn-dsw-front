@@ -67,9 +67,9 @@
       </button>
     </div-->
     <!---------------------------------------------------------------------FRANCHISE-->
-    @if (isFrSelected == true) {
+    @if (isFrSelected === true) {
       <mat-chip-grid #chipGrid aria-label="Enter franchise">
-        <mat-chip-row (removed)="removeFranchise(franchiseSelected)">
+        <mat-chip-row (removed)="removeFranchise()">
           {{ franchiseSelected.name }}
           <button
             matChipRemove

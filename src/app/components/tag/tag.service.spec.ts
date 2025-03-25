@@ -45,5 +45,94 @@ describe('TagComponent', () => {
 
 
   })
+
+
+  it('get one tags', ()=>{
+    const mockData = { id: 1, name: 'Fantasy', description: 'Cosas' };
+
+    service.getOneTag(1).subscribe((data) => {
+      expect(data).toEqual(mockData);
+    });
+
+    const req = httpMock.expectOne('http://localhost:8080/api/tags/1'); // Verifica la URL
+    expect(req.request.method).toBe('GET'); // Asegura que sea un GET
+    req.flush(mockData); // Responde con datos mockeados
+
+  })
     
+  
+  it('delete one tag', () => {
+    const id = 1;
+
+    service.deleteTag(id).subscribe((response) => {
+      expect(response).toBeUndefined(); // DELETE devuelve vacío (void)
+    });
+
+    const req = httpMock.expectOne(`http://localhost:8080/api/tags/${id}`);
+    expect(req.request.method).toBe('DELETE');
+
+    req.flush(null); // Simula respuesta vacía
+  });
+
+  it('add one tag', () => {
+    const newItem = {name: 'Science Fiction', description: 'Cosas' };
+    const mockResponse = { id: 1 };
+
+    service.addTag('Science Fiction', 'Cosas').subscribe((response) => {
+      expect(response).toEqual(mockResponse);
+    });
+
+    const req = httpMock.expectOne('http://localhost:8080/api/tags');
+    expect(req.request.method).toBe('POST');
+    expect(req.request.body).toEqual(newItem);
+
+    req.flush(mockResponse); // Simula respuesta con ID
+  });
+
+
+  it('update one tag', () => {
+    const id = 1;
+    const updatedItem = {id:1, name:'Science Fiction',description: 'Cosas' };
+    const mockResponse = { success: true };
+
+    service.updateTag(id, 'Science Fiction', 'Cosas').subscribe((response) => {
+      expect(response).toEqual(mockResponse);
+    });
+
+    const req = httpMock.expectOne(`http://localhost:8080/api/tags/${id}`);
+    expect(req.request.method).toBe('PUT');
+    expect(req.request.body).toEqual(updatedItem);
+
+    req.flush(mockResponse); // Simula respuesta de éxito
+  });
+
+  it('get tags by name', () => {
+    const tagName = 'Fantasy';
+    const mockResponse = {
+      data: [{ id: 1, name: 'Fantasy',description: 'Cosas'  }, { id: 2, name: 'Strategy', description: 'Cosas' }],
+    };
+
+    service.getTagsByName(tagName).subscribe((tags) => {
+      expect(tags).toEqual(mockResponse.data);
+    });
+
+    const req = httpMock.expectOne(`http://localhost:8080/api/tags/search?name=${tagName}`);
+    expect(req.request.method).toBe('GET');
+
+    req.flush(mockResponse);
+
+  });
+
+
+  it('debería devolver un array vacío si no hay tags', () => {
+    const tagName = 'unknown';
+    const mockResponse = { data: [] };
+  
+    service.getTagsByName(tagName).subscribe((tags) => {
+      expect(tags).toEqual([]);
+    });
+  
+    const req = httpMock.expectOne(`http://localhost:8080/api/tags/search?name=${tagName}`);
+    req.flush(mockResponse);
+  });
 });

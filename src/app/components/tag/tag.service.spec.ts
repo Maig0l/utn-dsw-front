@@ -7,7 +7,7 @@ import { HttpClientTestingModule, HttpTestingController } from '@angular/common/
 import { AppComponent } from '../../app.component';
 
 
-describe('TagComponent', () => {
+describe('TagService', () => {
   let component: TagComponent;
   let fixture: ComponentFixture<TagComponent>;
   let service: TagService;

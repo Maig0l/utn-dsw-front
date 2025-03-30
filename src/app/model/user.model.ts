@@ -10,7 +10,7 @@ export interface User {
   profile_img?: string;
   bio_text?: string;
   linked_accounts?: string[];
-  playlists?: Playlist[];
-  likedTags?: Tag[];
-  reviews?: Review[];
+  playlists: Playlist[];
+  likedTags: Tag[];
+  reviews: Review[];
 }

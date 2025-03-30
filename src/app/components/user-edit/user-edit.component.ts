@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { FormBuilder, FormGroup, FormArray, ReactiveFormsModule } from '@angular/forms';
+import { FormBuilder, FormGroup, FormArray, ReactiveFormsModule, FormControl } from '@angular/forms';
 import { UserService } from '../../services/user.service';
 
 import { MatCardModule } from '@angular/material/card';
@@ -11,27 +11,137 @@ import { MatIconModule } from '@angular/material/icon';
 import { MatRippleModule } from '@angular/material/core';
 import { MatChipsModule } from '@angular/material/chips';
 import { CommonModule } from '@angular/common';
+import { MatDividerModule } from '@angular/material/divider/index.js';
+import { MatAutocompleteModule } from '@angular/material/autocomplete/index.js';
+import { TagService } from '../../services/tag.service.js';
+import { Tag } from '../../model/tag.model';
+import { debounceTime, map, Observable, switchMap } from 'rxjs';
+import { ActivatedRoute, Router } from '@angular/router';
+import { User } from '../../model/user.model.js';
+
 
 @Component({
   selector: 'app-user-edit',
   standalone: true,
-    imports: [ReactiveFormsModule, CommonModule,
-      MatCardModule,
-      MatIconModule,
-      MatFormFieldModule,
-      MatButtonModule,
-      MatInputModule,
-      MatSelectModule,
-      MatRippleModule,
-      MatChipsModule,
+    imports: [    ReactiveFormsModule,
+        CommonModule,
+        MatChipsModule,
+        MatIconModule,
+        MatDividerModule,
+        MatFormFieldModule,
+        MatButtonModule,
+        MatInputModule,
+        MatSelectModule,
+        MatAutocompleteModule,
+        MatCardModule
       ],
+  providers: [UserService, TagService],
   templateUrl: './user-edit.component.html',
   styleUrls: ['./user-edit.component.scss'],
 })
 export class UserEditComponent implements OnInit {
-  userForm!: FormGroup;
+  updateForm = new FormGroup({
+    id: new FormControl(0),
+    nick: new FormControl(''),
+    profile_img: new FormControl(''),
+    bio_text: new FormControl(''),
+    linked_accounts: new FormArray<FormControl<string>>([]),
+  });
 
-  constructor(private fb: FormBuilder, private userService: UserService) {
+  id!: number;
+  user!: User;
+
+    //-------------------------------
+    //BETTER TAGS
+    tagControl = new FormControl();
+    tagOptions: Tag[] = [];
+    tagSelected: Tag[] = [];
+    filteredTagOptions!: Observable<Tag[]>;
+    private _tagFilter(value: string): Observable<Tag[]> {
+      const filterValue = value.toLowerCase();
+      if (filterValue === '') {
+        return new Observable<Tag[]>();
+      }
+      return this.tagService.getTagsByName(filterValue).pipe(
+        map((data: Tag[]) => {
+          this.tagOptions = data;
+
+          return this.tagOptions.filter((option) =>
+            option.name.toLowerCase().includes(filterValue),
+          );
+        }),
+      );
+    }
+    addTag(tag: Tag) {
+      if (this.tagSelected.includes(tag)) {
+        return;
+      }
+      this.tagSelected.push(tag);
+    }
+    removeTag(tag: Tag): void {
+      this.tagSelected.splice(this.tagSelected.indexOf(tag), 1);
+    }
+    //--------------------------------
+
+  constructor(
+    private router: Router,
+    private route: ActivatedRoute,
+    private userService: UserService,
+    private tagService: TagService,
+  ) {}
+
+  ngOnInit(){
+        this.filteredTagOptions = this.tagControl.valueChanges.pipe(
+      debounceTime(1500),
+      switchMap((value) => this._tagFilter(value || '')),
+    );
+
+    //Get the current user id
+    this.id = +this.route.snapshot.paramMap.get('id')!;
+    this.userService.getUserById(this.id).subscribe((data : User) => {
+      this.user = data;
+
+      this.tagSelected = data.likedTags;
+      this.updateForm.setValue({
+        id: data.id,
+        nick: data.nick,
+        profile_img: data.profile_img ?? '',
+        bio_text: data.bio_text ?? '',
+        linked_accounts: data.linked_accounts || [],
+      });
+  })
+  }
+
+  userUpdated = false;
+  updateUser() {
+    this.userUpdated = true;
+    this.userService
+      .updateUser(
+        this.id,
+        this.updateForm.value.nick ?? '',
+        this.updateForm.value.profile_img ?? '',
+        this.updateForm.value.bio_text ?? '',
+        this.updateForm.value.linked_accounts ?? [],
+        this.tagSelected.map((tag) => tag.id),
+      )
+      .subscribe((responseUser) => {
+        this.user = responseUser;
+        this.userUpdated = true;
+        this.router.navigate(['/user/' + this.id]);
+      });
+  }
+  addLinkedAccount() {
+    const linkedAccounts = this.updateForm.get('linked_accounts') as FormArray;
+    linkedAccounts.push(new FormControl(''));
+  }
+  removeLinkedAccount(index: number) {
+    const linkedAccounts = this.updateForm.get('linked_accounts') as FormArray;
+    linkedAccounts.removeAt(index);
+  }
+  get linkedAccounts() {
+    return this.updateForm.get('linked_accounts') as FormArray;
+  }
+  /*constructor(private fb: FormBuilder, private userService: UserService) {
     this.userForm = this.fb.group({
       nick: [''],
       profile_img: [''],
@@ -84,5 +194,5 @@ export class UserEditComponent implements OnInit {
     this.userService.updateUser(1, this.userForm.value).subscribe(response => {
       console.log('Perfil actualizado', response);
     });
-  }
+  }*/
 }

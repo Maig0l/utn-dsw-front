@@ -18,6 +18,7 @@ import { MatCheckboxModule } from '@angular/material/checkbox';
 import { Playlist } from '../../model/playlist.model';
 import { Game } from '../../model/game.model';
 import { User } from '../../model/user.model';
+import { UserService } from '../../services/user.service';
 import { MatAutocompleteModule } from '@angular/material/autocomplete';
 import { debounceTime, map, Observable, switchMap } from 'rxjs';
 import { GameService } from '../../services/game.service';
@@ -39,7 +40,7 @@ import { MatChipsModule } from '@angular/material/chips';
     MatAutocompleteModule,
     MatChipsModule,
   ],
-  providers: [RouterOutlet, PlaylistService, FormBuilder],
+  providers: [RouterOutlet, PlaylistService, FormBuilder, UserService, GameService],
   templateUrl: './playlist.component.html',
   styleUrl: './playlist.component.css',
 })
@@ -48,6 +49,7 @@ export class PlaylistComponent implements OnInit {
     private playlistService: PlaylistService,
     private gameService: GameService,
     private router: Router,
+    private userService: UserService,
   ) {}
 
   // Autocomplete
@@ -56,6 +58,7 @@ export class PlaylistComponent implements OnInit {
   filteredOptions!: Observable<Game[]>;
 
   playlist!: Playlist;
+  user!: User;
 
   private _filter(value: string): Observable<Game[]> {
     const filterValue = value.toLowerCase();
@@ -83,15 +86,7 @@ export class PlaylistComponent implements OnInit {
     this.gameSelected.splice(this.gameSelected.indexOf(game), 1);
   }
 
-  //TODO: use the current user
-  user: User = {
-    id: 1,
-    nick: 'Cienfuegos',
-    email: 'cien@fuegos.com',
-    profile_img: 'https://example.com/image.jpg',
-    bio_text: 'Wi wi wi, uyaya, wu wu wi',
-    linked_accounts: ['https://example.com/linked_account'],
-  };
+
 
   userPlaylists: Playlist[] = [];
 
@@ -100,6 +95,7 @@ export class PlaylistComponent implements OnInit {
       debounceTime(1500),
       switchMap((value) => this._filter(value || '')),
     );
+    this.getUser();
   }
   //este es el que uso para crear
   playlistForm = new FormGroup({
@@ -136,4 +132,10 @@ export class PlaylistComponent implements OnInit {
     this.playlistForm.reset();
     this.gameSelected = [];
   }
+
+  getUser() {
+    this.userService.getUserById(1).subscribe((data : User) => { // recontra hardcodeado
+      this.user = data;
+  });
+}
 }

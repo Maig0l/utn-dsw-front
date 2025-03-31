@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { FormBuilder, FormGroup, FormArray, ReactiveFormsModule, FormControl } from '@angular/forms';
+import { FormGroup, FormArray, ReactiveFormsModule, FormControl } from '@angular/forms';
 import { UserService } from '../../services/user.service';
 
 import { MatCardModule } from '@angular/material/card';
@@ -11,8 +11,8 @@ import { MatIconModule } from '@angular/material/icon';
 import { MatRippleModule } from '@angular/material/core';
 import { MatChipsModule } from '@angular/material/chips';
 import { CommonModule } from '@angular/common';
-import { MatDividerModule } from '@angular/material/divider/index.js';
-import { MatAutocompleteModule } from '@angular/material/autocomplete/index.js';
+import { MatDividerModule } from '@angular/material/divider';
+import { MatAutocompleteModule } from '@angular/material/autocomplete';
 import { TagService } from '../../services/tag.service.js';
 import { Tag } from '../../model/tag.model';
 import { debounceTime, map, Observable, switchMap } from 'rxjs';
@@ -33,7 +33,9 @@ import { User } from '../../model/user.model.js';
         MatInputModule,
         MatSelectModule,
         MatAutocompleteModule,
-        MatCardModule
+        MatCardModule,
+        MatRippleModule,
+
       ],
   providers: [UserService, TagService],
   templateUrl: './user-edit.component.html',
@@ -127,7 +129,7 @@ export class UserEditComponent implements OnInit {
       .subscribe((responseUser) => {
         this.user = responseUser;
         this.userUpdated = true;
-        this.router.navigate(['/user/' + this.id]);
+      //  this.router.navigate(['/user/' + this.id]);
       });
   }
   addLinkedAccount() {

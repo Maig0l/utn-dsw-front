@@ -1,4 +1,4 @@
-<form [formGroup]="updateForm" (ngSubmit)="updateUser()">
+<form [formGroup]="updateForm" (submit)="updateUser()">
   <div class="grid">
     <div class="username">
       <h2>User edit</h2>
@@ -46,21 +46,47 @@
       </mat-card-content>
     </mat-card>
 
-    <!--div class="tags-column">
+    <div class="tags-column">
       <h3>Liked Tags</h3>
-      <div formArrayName="likedTags">
-        <div *ngFor="let tag of likedTags.controls; let i = index">
-          <mat-form-field>
-            <mat-label>Tag {{ i + 1 }}</mat-label>
-            <input matInput [formControlName]="i">
-          </mat-form-field>
-          <button mat-icon-button (click)="removeTag(i)" aria-label="Remove tag">
-            ❌
-          </button>
-        </div>
-        <button mat-raised-button color="accent" (click)="addTag()">Add Tag</button>
+      <mat-chip-grid #chipGrid aria-label="Enter tags">
+        @for (tag of tagSelected; track tag) {
+          <mat-chip-row (removed)="removeTag(tag)">
+            {{ tag.name }}
+            <button matChipRemove [attr.aria-label]="'remove ' + tag.name">
+              <mat-icon>cancel</mat-icon>
+            </button>
+          </mat-chip-row>
+        }
+      </mat-chip-grid>
+      <mat-form-field class="example-full-width">
+        <input
+          class="custom-input"
+          type="text"
+          placeholder="Search tags..."
+          aria-label="Tag"
+          matInput
+          [formControl]="tagControl"
+          [matAutocomplete]="autoTag"
+        />
+        <mat-autocomplete #autoTag="matAutocomplete">
+          @for (option of filteredTagOptions | async; track option) {
+            <mat-option [value]="" (click)="addTag(option)">
+              <span class="option-name">{{ option.name }}</span>
+            </mat-option>
+          }
+        </mat-autocomplete>
+      </mat-form-field>
       </div>
-      <button mat-raised-button color="primary" type="submit" class="save-button">Save</button>
-    </div-->
+
+      <button
+      mat-fab
+      extended
+      aria-label="save game"
+      type="submit"
+      class="primary"
+    >
+      <mat-icon>save</mat-icon>Save game
+    </button>
+
   </div>
 </form>

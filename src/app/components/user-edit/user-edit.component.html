@@ -76,17 +76,21 @@
           }
         </mat-autocomplete>
       </mat-form-field>
+      <div>
+        <button
+        mat-fab
+        extended
+        aria-label="save game"
+        type="button"
+        class="primary"
+        (click)="updateUser()"
+      >
+        <mat-icon>save</mat-icon>Save game
+      </button>
+      </div>
       </div>
 
-      <button
-      mat-fab
-      extended
-      aria-label="save game"
-      type="submit"
-      class="primary"
-    >
-      <mat-icon>save</mat-icon>Save game
-    </button>
+
 
   </div>
 </form>

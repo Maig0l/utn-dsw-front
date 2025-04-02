@@ -20,7 +20,9 @@ export class UserService {
 
   getUserById(userId: number) {
     const endpoint = `${this.usersEndpoint}/${userId}`;
-    return this.http.get<ApiResponse<User>>(endpoint).pipe(map((res) => res.data));
+    return this.http
+      .get<ApiResponse<User>>(endpoint)
+      .pipe(map((res) => res.data));
   }
 
   updateUser(
@@ -42,7 +44,7 @@ export class UserService {
     });
   }
 
-/*  deleteUser(userId: number) {
+  /*  deleteUser(userId: number) {
     const endpoint = `${this.usersEndpoint}/${userId}`;
     return this.http.delete<ApiResponse<User>>(endpoint).pipe(map((res) => res.data));
   }

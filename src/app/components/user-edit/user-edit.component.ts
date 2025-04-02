@@ -1,5 +1,10 @@
 import { Component, OnInit } from '@angular/core';
-import { FormGroup, FormArray, ReactiveFormsModule, FormControl } from '@angular/forms';
+import {
+  FormGroup,
+  FormArray,
+  ReactiveFormsModule,
+  FormControl,
+} from '@angular/forms';
 import { UserService } from '../../services/user.service';
 
 import { MatCardModule } from '@angular/material/card';
@@ -19,24 +24,23 @@ import { debounceTime, map, Observable, switchMap } from 'rxjs';
 import { ActivatedRoute, Router } from '@angular/router';
 import { User } from '../../model/user.model.js';
 
-
 @Component({
   selector: 'app-user-edit',
   standalone: true,
-    imports: [    ReactiveFormsModule,
-        CommonModule,
-        MatChipsModule,
-        MatIconModule,
-        MatDividerModule,
-        MatFormFieldModule,
-        MatButtonModule,
-        MatInputModule,
-        MatSelectModule,
-        MatAutocompleteModule,
-        MatCardModule,
-        MatRippleModule,
-
-      ],
+  imports: [
+    ReactiveFormsModule,
+    CommonModule,
+    MatChipsModule,
+    MatIconModule,
+    MatDividerModule,
+    MatFormFieldModule,
+    MatButtonModule,
+    MatInputModule,
+    MatSelectModule,
+    MatAutocompleteModule,
+    MatCardModule,
+    MatRippleModule,
+  ],
   providers: [UserService, TagService],
   templateUrl: './user-edit.component.html',
   styleUrls: ['./user-edit.component.scss'],
@@ -53,37 +57,37 @@ export class UserEditComponent implements OnInit {
   id!: number;
   user!: User;
 
-    //-------------------------------
-    //BETTER TAGS
-    tagControl = new FormControl();
-    tagOptions: Tag[] = [];
-    tagSelected: Tag[] = [];
-    filteredTagOptions!: Observable<Tag[]>;
-    private _tagFilter(value: string): Observable<Tag[]> {
-      const filterValue = value.toLowerCase();
-      if (filterValue === '') {
-        return new Observable<Tag[]>();
-      }
-      return this.tagService.getTagsByName(filterValue).pipe(
-        map((data: Tag[]) => {
-          this.tagOptions = data;
+  //-------------------------------
+  //BETTER TAGS
+  tagControl = new FormControl();
+  tagOptions: Tag[] = [];
+  tagSelected: Tag[] = [];
+  filteredTagOptions!: Observable<Tag[]>;
+  private _tagFilter(value: string): Observable<Tag[]> {
+    const filterValue = value.toLowerCase();
+    if (filterValue === '') {
+      return new Observable<Tag[]>();
+    }
+    return this.tagService.getTagsByName(filterValue).pipe(
+      map((data: Tag[]) => {
+        this.tagOptions = data;
 
-          return this.tagOptions.filter((option) =>
-            option.name.toLowerCase().includes(filterValue),
-          );
-        }),
-      );
+        return this.tagOptions.filter((option) =>
+          option.name.toLowerCase().includes(filterValue),
+        );
+      }),
+    );
+  }
+  addTag(tag: Tag) {
+    if (this.tagSelected.includes(tag)) {
+      return;
     }
-    addTag(tag: Tag) {
-      if (this.tagSelected.includes(tag)) {
-        return;
-      }
-      this.tagSelected.push(tag);
-    }
-    removeTag(tag: Tag): void {
-      this.tagSelected.splice(this.tagSelected.indexOf(tag), 1);
-    }
-    //--------------------------------
+    this.tagSelected.push(tag);
+  }
+  removeTag(tag: Tag): void {
+    this.tagSelected.splice(this.tagSelected.indexOf(tag), 1);
+  }
+  //--------------------------------
 
   constructor(
     private router: Router,
@@ -92,15 +96,15 @@ export class UserEditComponent implements OnInit {
     private tagService: TagService,
   ) {}
 
-  ngOnInit(){
-        this.filteredTagOptions = this.tagControl.valueChanges.pipe(
+  ngOnInit() {
+    this.filteredTagOptions = this.tagControl.valueChanges.pipe(
       debounceTime(1500),
       switchMap((value) => this._tagFilter(value || '')),
     );
 
     //Get the current user id
     this.id = +this.route.snapshot.paramMap.get('id')!;
-    this.userService.getUserById(this.id).subscribe((data : User) => {
+    this.userService.getUserById(this.id).subscribe((data: User) => {
       this.user = data;
 
       this.tagSelected = data.likedTags;
@@ -111,11 +115,13 @@ export class UserEditComponent implements OnInit {
         bio_text: data.bio_text ?? '',
         linked_accounts: data.linked_accounts || [],
       });
-  })
+    });
   }
 
   userUpdated = false;
   updateUser() {
+    console.log('Updating user...', this.updateForm.value); // 🔍 Verifica los valores
+
     this.userUpdated = true;
     this.userService
       .updateUser(
@@ -129,7 +135,7 @@ export class UserEditComponent implements OnInit {
       .subscribe((responseUser) => {
         this.user = responseUser;
         this.userUpdated = true;
-      //  this.router.navigate(['/user/' + this.id]);
+        //  this.router.navigate(['/user/' + this.id]);
       });
   }
   addLinkedAccount() {

@@ -7,6 +7,7 @@ import { LoginService } from '../../services/auth/login.service';
   selector: 'app-nav',
   standalone: true,
   imports: [CommonModule, RouterOutlet],
+  providers: [LoginService],
   templateUrl: './nav.component.html',
   styleUrl: './nav.component.css',
 })

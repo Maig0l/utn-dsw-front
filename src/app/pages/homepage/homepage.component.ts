@@ -15,7 +15,7 @@ import { GameService } from '../../services/game.service';
   selector: 'app-homepage',
   standalone: true,
   imports: [CommonModule, ViewGameComponent, ReviewCardComponent],
-  providers: [ReviewService],
+  providers: [ReviewService, LoginService,GameService],
   templateUrl: './homepage.component.html',
   styleUrl: './homepage.component.css',
 })

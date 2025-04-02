@@ -119,31 +119,33 @@ describe('GameComponent', () => {
 
     req.flush(mockResponse); // Simula respuesta con ID
   });
-/*
+
   it('update one game', () => {
     const id = 1;
-    const updatedItem = {id:1, name:'Science Fiction',description: 'Cosas' };
+    const updatedItem = {id: id,title: 'Age of mythology', synopsis:'mythology', releaseDate: "2020-09-06T00:00:00.000Z" , portrait: 'asd', banner:'asd' , franchise: 1, tags: [1,2,3,4], studios: [1,2,3], shops: [5,4], platforms: [4,2] };
     const mockResponse = { success: true };
 
-    service.updateGame(id, 'Science Fiction', 'Cosas').subscribe((response) => {
+    service.updateGame(id, 'Age of mythology', 'mythology', "2020-09-06T00:00:00.000Z" ,  'asd', 'asd' ,  1, [1,2,3,4],  [1,2,3],  [5,4], [4,2]).subscribe((response) => {
       expect(response).toEqual(mockResponse);
     });
 
     const req = httpMock.expectOne(`http://localhost:8080/api/games/${id}`);
-    expect(req.request.method).toBe('PUT');
+    expect(req.request.method).toBe('PATCH');
     expect(req.request.body).toEqual(updatedItem);
 
     req.flush(mockResponse); // Simula respuesta de éxito
   });
 
+  
+
   it('get games by name', () => {
-    const gameTitle = 'Fallout';
+    const gameTitle = 'a';
     const mockResponse = {
-      data: [{ id: 1, name: 'Fantasy',description: 'Cosas'  }, { id: 2, name: 'Strategy', description: 'Cosas' }],
+      data: [ {id: 1,title: 'Age of mythology', synopsis:'mythology', releaseDate: "2020-09-06T00:00:00.000Z" , portrait: 'asd', banner:'asd' , franchise: 1, tags: [1,2,3,4], studios: [1,2,3], shops: [5,4], platforms: [4,2]  }, {id: 2,title: 'Fallout', synopsis:'mythology', releaseDate: "2020-09-06T00:00:00.000Z" , portrait: 'asd', banner:'asd' , franchise: 1, tags: [1,2,3,4], studios: [1,2,3], shops: [5,4], platforms: [4,2] }],
     };
 
-    service.findGamesByTitle(gameTitle).subscribe((tags) => {
-      expect(tags).toEqual(mockResponse.data);
+    service.findGamesByTitle(gameTitle).subscribe((games) => {
+      expect(games).toEqual(mockResponse.data);
     });
 
     const req = httpMock.expectOne(`http://localhost:8080/api/games/search?title=${gameTitle}`);
@@ -152,7 +154,6 @@ describe('GameComponent', () => {
     req.flush(mockResponse);
 
   });
-*/
 
   it('debería devolver un array vacío si no hay games', () => {
     const gameTitle = 'unknown';

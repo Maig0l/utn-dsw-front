@@ -37,7 +37,7 @@ export class FranchiseService {
       .pipe(map((response) => response.data));
   }
 
-  addFranchise(name: string, games: Game[]): Observable<Franchise> {
+  addFranchise(name: string, games: number[]): Observable<Franchise> {
     return this.http.post<Franchise>(this.franchisesEndpoint, { name, games });
   }
 

@@ -19,8 +19,45 @@
     <label for="name">Name</label>
     <input type="text" id="name" formControlName="name" />
 
-    <label for="img">Games (TODO)</label>
-    <input type="text" id="game" formControlName="game" />
+    <label for="img">Games</label>
+    <mat-chip-grid #chipGrid aria-label="Enter games">
+      @for (game of gameSelected; track game) {
+        <mat-chip (removed)="remove(game)">
+          <!--img
+            class="chip-portrait"
+            [src]="game.portrait"
+            alt="{{ game.title }}"
+          /-->
+          {{ game.title }}
+          <button matChipRemove [attr.aria-label]="'remove ' + game.title">
+            <mat-icon>cancel</mat-icon>
+          </button>
+        </mat-chip>
+      }
+    </mat-chip-grid>
+    <mat-form-field class="example-full-width">
+      <input
+        class="custom-input"
+        type="text"
+        placeholder="Search games..."
+        aria-label="Game"
+        matInput
+        [formControl]="myControl"
+        [matAutocomplete]="auto"
+      />
+      <mat-autocomplete #auto="matAutocomplete">
+        @for (option of filteredOptions | async; track option) {
+          <mat-option [value]="" (click)="addGame(option)">
+            <!--img
+              class="option-portrait"
+              [src]="option.portrait"
+              alt="{{ option.title }}"
+            /-->
+            <span class="option-title">{{ option.title }}</span>
+          </mat-option>
+        }
+      </mat-autocomplete>
+    </mat-form-field>
 
     <button type="submit" class="primary">Create</button>
   </form>
@@ -44,7 +81,44 @@
         <label for="name">Name:</label>
         <input id="name" formControlName="name" />
       </div>
-      <!--TODO modify games from here -->
+      <mat-chip-grid #chipGrid aria-label="Enter games">
+        @for (game of gameSelected; track game) {
+          <mat-chip (removed)="remove(game)">
+            <!--img
+              class="chip-portrait"
+              [src]="game.portrait"
+              alt="{{ game.title }}"
+            /-->
+            {{ game.title }}
+            <button matChipRemove [attr.aria-label]="'remove ' + game.title">
+              <mat-icon>cancel</mat-icon>
+            </button>
+          </mat-chip>
+        }
+      </mat-chip-grid>
+      <mat-form-field class="example-full-width">
+        <input
+          class="custom-input"
+          type="text"
+          placeholder="Search games..."
+          aria-label="Game"
+          matInput
+          [formControl]="myControl"
+          [matAutocomplete]="auto"
+        />
+        <mat-autocomplete #auto="matAutocomplete">
+          @for (option of filteredOptions | async; track option) {
+            <mat-option [value]="" (click)="addGame(option)">
+              <!--img
+                class="option-portrait"
+                [src]="option.portrait"
+                alt="{{ option.title }}"
+              /-->
+              <span class="option-title">{{ option.title }}</span>
+            </mat-option>
+          }
+        </mat-autocomplete>
+      </mat-form-field>
       <button type="submit" class="primary">Update</button>
     </form>
   </div>

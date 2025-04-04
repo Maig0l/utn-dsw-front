@@ -122,6 +122,14 @@ export class UserEditComponent implements OnInit {
   updateUser() {
     console.log('Updating user...', this.updateForm.value); // 🔍 Verifica los valores
 
+    // Iterar por todos los controles del formulario linkedAccounts y guardar esos valores en un array
+
+    const linked_accounts = this.updateForm.get('linked_accounts') as FormArray;
+    const linked_accounts_array: string[] = [];
+    for (let i = 0; i < linked_accounts.length; i++) {
+      const control = linked_accounts.at(i) as FormControl;
+      linked_accounts_array.push(control.value); // Save the control value into the array
+    }
     this.userUpdated = true;
     this.userService
       .updateUser(
@@ -129,7 +137,7 @@ export class UserEditComponent implements OnInit {
         this.updateForm.value.nick ?? '',
         this.updateForm.value.profile_img ?? '',
         this.updateForm.value.bio_text ?? '',
-        this.updateForm.value.linked_accounts ?? [],
+        linked_accounts_array, // Use the linkedAccountsArray here
         this.tagSelected.map((tag) => tag.id),
       )
       .subscribe((responseUser) => {
@@ -139,68 +147,11 @@ export class UserEditComponent implements OnInit {
       });
   }
   addLinkedAccount() {
-    const linkedAccounts = this.updateForm.get('linked_accounts') as FormArray;
-    linkedAccounts.push(new FormControl(''));
+    const linked_accounts = this.updateForm.get('linked_accounts') as FormArray;
+    linked_accounts.push(new FormControl(''));
   }
   removeLinkedAccount(index: number) {
-    const linkedAccounts = this.updateForm.get('linked_accounts') as FormArray;
-    linkedAccounts.removeAt(index);
+    const linked_accounts = this.updateForm.get('linked_accounts') as FormArray;
+    linked_accounts.removeAt(index);
   }
-  get linkedAccounts() {
-    return this.updateForm.get('linked_accounts') as FormArray;
-  }
-  /*constructor(private fb: FormBuilder, private userService: UserService) {
-    this.userForm = this.fb.group({
-      nick: [''],
-      profile_img: [''],
-      bio_text: [''],
-      linked_accounts: [this.fb.array([])],
-      likedTags: this.fb.array([]),
-    });
-  }
-
-  ngOnInit() {
-    this.userService.getUserById(1).subscribe(user => {
-      this.userForm.patchValue(user);
-
-      user?.linked_accounts?.forEach(account => {
-        this.linkedAccounts.push(this.fb.control(account));
-      }
-   )
-      user?.likedTags?.forEach(tag => {
-        this.likedTags.push(this.fb.control(tag.name));
-        });
-      });
-  }
-
- addLinkedAccount() {
-    (this.userForm.get('linked_accounts') as FormArray).push(this.fb.control(''));
-  }
-
- removeLinkedAccount(index: number) {
-    (this.userForm.get('linked_accounts') as FormArray).removeAt(index);
-  }
-
- addTag() {
-    (this.userForm.get('likedTags') as FormArray).push(this.fb.control(''));
-  }
-
- removeTag(index: number) {
-    (this.userForm.get('likedTags') as FormArray).removeAt(index);
-  }
-
-  get linkedAccounts() {
-    return this.userForm.get('linked_accounts') as FormArray;
-  }
-
-  get likedTags() {
-    return this.userForm.get('likedTags') as FormArray;
-  }
-
- saveProfile() {
-    console.log(this.userForm.value);
-    this.userService.updateUser(1, this.userForm.value).subscribe(response => {
-      console.log('Perfil actualizado', response);
-    });
-  }*/
 }

@@ -31,18 +31,26 @@
           </mat-form-field>
           <h3>Linked Accounts</h3>
           <div formArrayName="linkedAccounts">
-            <div *ngFor="let account of linkedAccounts.controls; let i = index">
-              <mat-form-field>
+            <section class="linkedAccounts">
+              @for (account of user.linked_accounts; track user?.linked_accounts){
+              <p>
+                <mat-label target="_blank" rel="noopener noreferrer">
+                  {{user.linked_accounts}}
+                </mat-label>
+              </p>
+              }
+            </section>
+
+              <!--mat-form-field>
                 <mat-label>Account Link {{ i + 1 }}</mat-label>
                 <input matInput [formControlName]="i">
               </mat-form-field>
               <button mat-icon-button (click)="removeLinkedAccount(i)" aria-label="Remove account">
                 ❌
-              </button>
+              </button-->
             </div>
             <button mat-raised-button color="accent" (click)="addLinkedAccount()">Add Account</button>
           </div>
-        </div>
       </mat-card-content>
     </mat-card>
 

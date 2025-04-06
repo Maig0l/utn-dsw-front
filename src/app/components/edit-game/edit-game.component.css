@@ -73,3 +73,22 @@ label {
   margin-bottom: 10px;
   color: #e5e5e5;
 }
+
+.picture-container {
+  display: flex;
+  gap: 20px;
+  flex-wrap: wrap;
+}
+
+.image-upload {
+  flex: 1 1 45%;
+  min-width: 250px;
+  padding-bottom: 10px;
+}
+
+.preview-image {
+  max-height: 150px;
+  display: block;
+  margin-top: 10px;
+}
+

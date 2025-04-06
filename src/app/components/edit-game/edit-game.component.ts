@@ -23,6 +23,7 @@ import { ShopService } from '../../services/shop.service';
 import { StudioService } from '../../services/studio.service';
 import { MatAutocompleteModule } from '@angular/material/autocomplete';
 import { debounceTime, map, Observable, switchMap } from 'rxjs';
+import { environment } from '../../../enviroment/enviroment.js';
 
 @Component({
   selector: 'app-edit-game',
@@ -55,6 +56,51 @@ export class EditGameComponent implements OnInit {
 
   id!: number;
   game!: Game;
+  portraitFile: File | null = null;
+  bannerFile: File | null = null;
+  portraitUrl: string = '';
+  bannerUrl: string = '';
+
+  apiUrl = environment.apiUrl;
+
+  //------------------------------
+  // IMAGE UPLOAD
+  onPortraitFileSelected(event: Event) {
+    const input = event.target as HTMLInputElement;
+    if (input.files && input.files.length > 0) {
+      this.portraitFile = input.files[0];
+      console.log('Portrait file selected: ', this.portraitFile);
+    }
+  }
+  onBannerFileSelected(event: Event) {
+    const input = event.target as HTMLInputElement;
+    if (input.files && input.files.length > 0) {
+      this.bannerFile = input.files[0];
+      console.log('Banner file selected: ', this.bannerFile);
+    }
+  }
+
+  uploadImages() {
+    if (this.portraitFile) {
+      this.gameService.uploadPortrait(this.id, this.portraitFile).subscribe({
+        next: () => {
+          console.log('Portrait uploaded successfully');
+          this.portraitFile = null;
+        },
+        error: (error) => console.error('Error uploading portrait:', error),
+      });
+    }
+
+    if (this.bannerFile) {
+      this.gameService.uploadBanner(this.id, this.bannerFile).subscribe({
+        next: () => {
+          console.log('Banner uploaded successfully');
+          this.bannerFile = null;
+        },
+        error: (error) => console.error('Error uploading banner:', error),
+      });
+    }
+  }
 
   //-------------------------------
   //BETTER TAGS
@@ -215,6 +261,7 @@ export class EditGameComponent implements OnInit {
   ) {}
 
   ngOnInit() {
+    // Get all tags
     this.filteredTagOptions = this.tagControl.valueChanges.pipe(
       debounceTime(1500),
       switchMap((value) => this._tagFilter(value || '')),
@@ -295,6 +342,7 @@ export class EditGameComponent implements OnInit {
         this.game = responseGame;
         console.log('GAME AFTER UPDATE: ', responseGame);
         this.gameUpdated = true;
+        this.uploadImages();
       });
   }
   goToGame() {

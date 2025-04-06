@@ -26,6 +26,7 @@ import { Shop } from '../../model/shop.model';
 import { Studio } from '../../model/studio.model';
 import { MatChipsModule } from '@angular/material/chips';
 import { debounceTime, map, Observable, switchMap } from 'rxjs';
+import { environment } from '../../../enviroment/enviroment.js';
 
 @Component({
   selector: 'app-game',
@@ -45,6 +46,63 @@ import { debounceTime, map, Observable, switchMap } from 'rxjs';
   styleUrl: './game.component.css',
 })
 export class GameComponent implements OnInit {
+  //------------------------------
+  // IMAGE UPLOAD
+  onPortraitSelected(event: Event): void {
+    const file = (event.target as HTMLInputElement)?.files?.[0];
+    if (!file) return;
+
+    this.gameService.uploadPortrait(this.lastGameId, file).subscribe({
+      next: (response) => {
+        // Suponiendo que te devuelve el path como string o en un objeto
+        const imagePath = response.path || response.url || response; // ajustá esto según tu backend
+        this.gameForm.patchValue({ portrait: imagePath });
+        console.log('Portrait subido. Path:', imagePath);
+      },
+      error: (err) => {
+        console.error('Error al subir portrait:', err);
+      },
+    });
+  }
+
+  onBannerSelected(event: Event): void {
+    const file = (event.target as HTMLInputElement)?.files?.[0];
+    if (!file) return;
+
+    this.gameService.uploadBanner(this.lastGameId, file).subscribe({
+      next: (response) => {
+        // Suponiendo que te devuelve el path como string o en un objeto
+        const imagePath = response.path || response.url || response; // ajustá esto según tu backend
+        this.gameForm.patchValue({ banner: imagePath });
+        console.log('Banner subido. Path:', imagePath);
+      },
+      error: (err) => {
+        console.error('Error al subir banner:', err);
+      },
+    });
+  }
+
+  uploadImages() {
+    if (this.portraitFile) {
+      this.gameService.uploadPortrait(this.id, this.portraitFile).subscribe({
+        next: () => {
+          console.log('Portrait uploaded successfully');
+          this.portraitFile = null;
+        },
+        error: (error) => console.error('Error uploading portrait:', error),
+      });
+    }
+
+    if (this.bannerFile) {
+      this.gameService.uploadBanner(this.id, this.bannerFile).subscribe({
+        next: () => {
+          console.log('Banner uploaded successfully');
+          this.bannerFile = null;
+        },
+        error: (error) => console.error('Error uploading banner:', error),
+      });
+    }
+  }
   //-------------------------------
   //BETTER TAGS
   tagControl = new FormControl();
@@ -190,6 +248,7 @@ export class GameComponent implements OnInit {
   removePlatform(platform: Platform): void {
     this.platformSelected.splice(this.platformSelected.indexOf(platform), 1);
   }
+
   //--------------------------------
 
   gameForm = new FormGroup({
@@ -203,7 +262,14 @@ export class GameComponent implements OnInit {
     ]),
   });
 
+  id!: number;
   game: Game | undefined;
+  portraitFile: File | null = null;
+  bannerFile: File | null = null;
+  portraitUrl: string = '';
+  bannerUrl: string = '';
+
+  apiUrl = environment.apiUrl;
 
   constructor(
     private gameService: GameService,
@@ -242,6 +308,7 @@ export class GameComponent implements OnInit {
   lastGameId = 0;
   addGame() {
     this.gameCreated = false;
+
     this.gameService
       .addGame(
         this.gameForm.value.title ?? '',
@@ -259,6 +326,7 @@ export class GameComponent implements OnInit {
         this.game = responseGame;
         this.lastGameId = responseGame.id;
         this.gameCreated = true;
+        this.uploadImages();
         /*
         this.gameService
           .addPicturesToGame(

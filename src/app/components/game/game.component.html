@@ -35,7 +35,7 @@
     <mat-label>pictures rework pending</mat-label>
     <h3>Pictures</h3>
     <div class="picture-container">
-      <!-- Imagen retrato -->
+
       <div class="image-upload">
         <label>Portrait:</label>
         <input type="file" (change)="onPortraitSelected($event)" />
@@ -47,9 +47,8 @@
         />
       </div>
 
-      <!-- Imagen banner -->
       <div class="image-upload">
-        <label>Imagen banner:</label>
+        <label>Banner:</label>
         <input type="file" (change)="onBannerSelected($event)" />
         <img
           *ngIf="gameForm?.value?.banner"

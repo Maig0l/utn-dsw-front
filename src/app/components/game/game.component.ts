@@ -54,8 +54,7 @@ export class GameComponent implements OnInit {
 
     this.gameService.uploadPortrait(this.lastGameId, file).subscribe({
       next: (response) => {
-        // Suponiendo que te devuelve el path como string o en un objeto
-        const imagePath = response.path || response.url || response; // ajustá esto según tu backend
+        const imagePath = response.path || response.url || response;
         this.gameForm.patchValue({ portrait: imagePath });
         console.log('Portrait subido. Path:', imagePath);
       },
@@ -71,8 +70,7 @@ export class GameComponent implements OnInit {
 
     this.gameService.uploadBanner(this.lastGameId, file).subscribe({
       next: (response) => {
-        // Suponiendo que te devuelve el path como string o en un objeto
-        const imagePath = response.path || response.url || response; // ajustá esto según tu backend
+        const imagePath = response.path || response.url || response;
         this.gameForm.patchValue({ banner: imagePath });
         console.log('Banner subido. Path:', imagePath);
       },
@@ -266,8 +264,8 @@ export class GameComponent implements OnInit {
   game: Game | undefined;
   portraitFile: File | null = null;
   bannerFile: File | null = null;
-  portraitUrl: string = '';
-  bannerUrl: string = '';
+  portraitUrl!: string;
+  bannerUrl!: string;
 
   apiUrl = environment.apiUrl;
 
@@ -327,16 +325,6 @@ export class GameComponent implements OnInit {
         this.lastGameId = responseGame.id;
         this.gameCreated = true;
         this.uploadImages();
-        /*
-        this.gameService
-          .addPicturesToGame(
-            this.game.id,
-            (this.gameForm.value.pictures as (string | null)[]).filter(
-              (picture): picture is string => picture !== null,
-            ) ?? [],
-          )
-          .subscribe((responsePictures) => console.log(responsePictures));
-          */
       });
     //router.navigate(['/games']); TODO
   }
@@ -355,16 +343,4 @@ export class GameComponent implements OnInit {
     this.shopSelected = [];
     this.platformSelected = [];
   }
-
-  // get pictures(): FormArray {
-  //   return this.gameForm.get('pictures') as FormArray;
-  // }
-
-  // addPictureInput(): void {
-  //   this.pictures.push(new FormControl(''));
-  // }
-
-  // removePictureInput(index: number): void {
-  //   this.pictures.removeAt(index);
-  // }
 }

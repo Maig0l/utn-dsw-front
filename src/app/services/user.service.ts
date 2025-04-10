@@ -44,6 +44,15 @@ export class UserService {
     });
   }
 
+  uploadProfileImg(userId: number = 1, file: File): Observable<any> {
+    const formData = new FormData();
+    formData.append('profile_img', file);
+    return this.http.patch(
+      `${this.usersEndpoint}/${userId}/uploads/profile_img`,
+      formData,
+    );
+  }
+
   /*  deleteUser(userId: number) {
     const endpoint = `${this.usersEndpoint}/${userId}`;
     return this.http.delete<ApiResponse<User>>(endpoint).pipe(map((res) => res.data));

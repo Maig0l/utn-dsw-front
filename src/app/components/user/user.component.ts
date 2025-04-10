@@ -9,7 +9,7 @@ import { Playlist } from '../../model/playlist.model';
 import { Tag } from '../../model/tag.model';
 import { User } from '../../model/user.model';
 import { Review } from '../../model/review.model';
-import { Game} from '../../model/game.model';
+import { Game } from '../../model/game.model';
 import { HttpClientModule } from '@angular/common/http';
 import { GameService } from '../../services/game.service';
 
@@ -21,12 +21,15 @@ import { MatButtonModule } from '@angular/material/button';
 import { MatIconModule } from '@angular/material/icon';
 import { MatRippleModule } from '@angular/material/core';
 import { MatChipsModule } from '@angular/material/chips';
-
+import { environment } from '../../../enviroment/enviroment.js';
 
 @Component({
   selector: 'app-user',
   standalone: true,
-  imports: [ReactiveFormsModule, CommonModule, HttpClientModule,
+  imports: [
+    ReactiveFormsModule,
+    CommonModule,
+    HttpClientModule,
     MatCardModule,
     MatIconModule,
     MatFormFieldModule,
@@ -35,7 +38,7 @@ import { MatChipsModule } from '@angular/material/chips';
     MatSelectModule,
     MatRippleModule,
     MatChipsModule,
-    ],
+  ],
   providers: [UserService, TagService, PlaylistService],
   templateUrl: './user.component.html',
   styleUrl: './user.component.css',
@@ -54,7 +57,9 @@ export class UserComponent implements OnInit {
   reviews!: Review[];
   games: Game[] = [];
 
-  user : User | undefined;
+  user: User | undefined;
+
+  apiUrl = environment.apiUrl;
 
   constructor(
     private userService: UserService,
@@ -85,13 +90,13 @@ export class UserComponent implements OnInit {
   getUserPlaylists() {
     this.playlistService.getPlaylistsByOwner(1).subscribe((response) => {
       this.playlists = response;
-    })
+    });
   }
 
   getTagsByUser() {
     this.tagService.getAllTags().subscribe((response) => {
       this.likedTags = response;
-    })
+    });
   }
 
   goToEditProfile() {

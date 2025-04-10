@@ -58,8 +58,8 @@ export class EditGameComponent implements OnInit {
   game!: Game;
   portraitFile: File | null = null;
   bannerFile: File | null = null;
-  portraitUrl: string = '';
-  bannerUrl: string = '';
+  portraitPreview: string | null = null;
+  bannerPreview: string | null = null;
 
   apiUrl = environment.apiUrl;
 
@@ -70,13 +70,26 @@ export class EditGameComponent implements OnInit {
     if (input.files && input.files.length > 0) {
       this.portraitFile = input.files[0];
       console.log('Portrait file selected: ', this.portraitFile);
+
+      const reader = new FileReader();
+      reader.onload = () => {
+        this.portraitPreview = reader.result as string;
+      };
+      reader.readAsDataURL(this.portraitFile);
     }
   }
+
   onBannerFileSelected(event: Event) {
     const input = event.target as HTMLInputElement;
     if (input.files && input.files.length > 0) {
       this.bannerFile = input.files[0];
       console.log('Banner file selected: ', this.bannerFile);
+
+      const reader = new FileReader();
+      reader.onload = () => {
+        this.bannerPreview = reader.result as string;
+      };
+      reader.readAsDataURL(this.bannerFile);
     }
   }
 

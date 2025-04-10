@@ -48,7 +48,7 @@ import { environment } from '../../../enviroment/enviroment.js';
 export class GameComponent implements OnInit {
   //------------------------------
   // IMAGE UPLOAD
-  onPortraitSelected(event: Event): void {
+  /*  onPortraitSelected(event: Event): void {
     const file = (event.target as HTMLInputElement)?.files?.[0];
     if (!file) return;
 
@@ -101,6 +101,7 @@ export class GameComponent implements OnInit {
       });
     }
   }
+    */
   //-------------------------------
   //BETTER TAGS
   tagControl = new FormControl();
@@ -324,7 +325,7 @@ export class GameComponent implements OnInit {
         this.game = responseGame;
         this.lastGameId = responseGame.id;
         this.gameCreated = true;
-        this.uploadImages();
+        //        this.uploadImages();
       });
     //router.navigate(['/games']); TODO
   }

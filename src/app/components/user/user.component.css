@@ -79,6 +79,24 @@
   text-align: center;
 }
 
+.editProfile {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding-top: 25%; /*Temporalmete queda asi*/
+
+}
+
+.custom-button {
+  background-color: #ff4081 !important;
+}
+
+.custom-button:hover {
+  background-color: #94185a !important;
+}
+
+
 .review-card > .head {
   display: flex;
   gap: 0.5em;

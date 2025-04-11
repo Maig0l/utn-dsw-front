@@ -36,26 +36,45 @@
     <div class="picture-container">
       <div class="image-upload">
         <label>Portrait Preview:</label>
-        <input type="file" (change)="onPortraitFileSelected($event)" />
         <img
-          *ngIf="updateForm.value.portrait"
-          [src]="portraitPreview ? portraitPreview: apiUrl + updateForm.value.portrait"
+          *ngIf="portraitPreview || updateForm.value.portrait"
+          [src]="portraitPreview ? portraitPreview : apiUrl + updateForm.value.portrait"
           alt=""
           class="preview-image"
+        />
+
+        <button mat-button color="primary" type="button" (click)="portraitInput.click()">
+          <mat-icon>upload</mat-icon> Upload Portrait
+        </button>
+        <input
+          type="file"
+          #portraitInput
+          style="display: none"
+          (change)="onPortraitFileSelected($event)"
         />
       </div>
 
       <div class="image-upload">
         <label>Banner Preview:</label>
-        <input type="file" (change)="onBannerFileSelected($event)" />
         <img
-          *ngIf="updateForm.value.banner"
-          [src]="bannerPreview ? bannerPreview: apiUrl + updateForm.value.banner"
-          alt=""
-          class="preview-image"
+        *ngIf="bannerPreview || updateForm.value.banner"
+        [src]="bannerPreview ? bannerPreview : apiUrl + updateForm.value.banner"
+        alt=""
+        class="preview-image"
+      />
+
+        <button mat-button color="primary" type="button" (click)="bannerInput.click()">
+          <mat-icon>upload</mat-icon> Upload Banner
+        </button>
+        <input
+          type="file"
+          #bannerInput
+          style="display: none"
+          (change)="onBannerFileSelected($event)"
         />
       </div>
     </div>
+
 
     <!-- PICTURES: TODO
     <div class="pictures">

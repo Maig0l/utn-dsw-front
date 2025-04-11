@@ -47,9 +47,16 @@
           <mat-chip>{{tag.name}}</mat-chip>
           }
       </section>
+
       <section class="editProfile">
-        <button mat-icon-button (click)="goToEditProfile()"> <!-- add click event -->
-          <mat-icon>edit</mat-icon>
+        <button
+         mat-flat-button
+         extended
+         aria-label="Edit user"
+         type="button"
+         class="custom-button"
+         (click)="goToEditProfile()">
+          <mat-icon>edit</mat-icon>Edit Profile
         </button>
       </section>
     </mat-form-field>

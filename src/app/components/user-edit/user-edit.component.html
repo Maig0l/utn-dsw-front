@@ -18,10 +18,17 @@
       </section>
 
       <div>
-        <label class="image-upload-button">
-          <input type="file" (change)="onProfileImgFileSelected($event)">
-        </label>
+        <button mat-button color="primary" type="button" (click)="fileInput.click()">
+          <mat-icon>upload</mat-icon> Upload Picture
+        </button>
+        <input
+          #fileInput
+          type="file"
+          hidden
+          (change)="onProfileImgFileSelected($event)"
+        />
       </div>
+
     </div>
 
     <mat-card>
@@ -35,28 +42,6 @@
             <textarea matInput formControlName="bio_text"></textarea>
           </mat-form-field>
 
-          <!-- Implementacion fea pero funcional -->
-          <!--h3>Linked Accounts</h3>
-
-          <div formArrayName="linked_accounts">
-            <mat-chip-set>
-              <mat-chip
-                *ngFor="let control of linkedAccounts.controls; let i = index"
-                [removable]="true"
-                (removed)="removeLinkedAccount(i)"
-              >
-                <mat-form-field class="chip-input">
-                  <input matInput [formControl]="control" placeholder="https://example.com" />
-                </mat-form-field>
-                <button matChipRemove>
-                  <mat-icon>cancel</mat-icon>
-                </button>
-              </mat-chip>
-            </mat-chip-set>
-          </div>
-
-          <button mat-raised-button color="accent" type="button" (click)="addLinkedAccount()">Add Account</button-->
-          <!-- Implementacion linda pero no funca-->
           <h3>Linked Accounts</h3>
 
           <div *ngIf="showAccountInput">

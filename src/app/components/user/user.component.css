@@ -45,10 +45,12 @@
 
 .linkedAccounts {
   display: flex;
-  flex-direction: column;
-  margin-left: 2vw;
-  margin-top: 1vw;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin-top: 10px;
+
 }
+
 
 .grid {
   display: grid;

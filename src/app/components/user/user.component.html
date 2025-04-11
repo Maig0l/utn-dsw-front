@@ -17,14 +17,25 @@
         <section>
           <p>{{user?.bio_text}}</p>
         </section>
-        <section class="linkedAccounts">
-          @for (account of user?.linked_accounts; track user?.linked_accounts){
-          <p>
-            <a [href]="account" target="_blank" rel="noopener noreferrer">
-              {{user?.linked_accounts}}
-            </a>
-          </p>
-          }
+        <section>
+          <h2>Linked Accounts</h2>
+
+          <mat-chip-set aria-label="Linked Accounts" class="linkedAccounts">
+            @for (account of user?.linked_accounts; track account) {
+              <mat-chip color="primary" selected>
+                <a
+                  [href]="'https://www.' + account"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  style="color: black; text-decoration: none"
+                >
+                  {{ account }}
+                </a>
+                <!--Esto es muy feo y no me convence, habria que decir como cargar las linked accounts-->
+              </mat-chip>
+            }
+          </mat-chip-set>
+
         </section>
       </div>
       </mat-card-content>

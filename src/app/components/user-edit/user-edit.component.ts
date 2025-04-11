@@ -1,9 +1,10 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, NgModule } from '@angular/core';
 import {
   FormGroup,
   FormArray,
   ReactiveFormsModule,
   FormControl,
+  FormsModule,
 } from '@angular/forms';
 import { UserService } from '../../services/user.service';
 
@@ -40,6 +41,7 @@ import { User } from '../../model/user.model.js';
     MatAutocompleteModule,
     MatCardModule,
     MatRippleModule,
+    FormsModule,
   ],
   providers: [UserService, TagService],
   templateUrl: './user-edit.component.html',
@@ -56,6 +58,8 @@ export class UserEditComponent implements OnInit {
 
   id!: number;
   user!: User;
+  newAccount = '';
+  showAccountInput = false;
 
   //-------------------------------
   //BETTER TAGS
@@ -108,12 +112,21 @@ export class UserEditComponent implements OnInit {
       this.user = data;
 
       this.tagSelected = data.likedTags;
-      this.updateForm.setValue({
+
+      this.updateForm.patchValue({
         id: data.id,
         nick: data.nick,
         profile_img: data.profile_img ?? '',
         bio_text: data.bio_text ?? '',
-        linked_accounts: data.linked_accounts || [],
+      });
+
+      this.linkedAccounts.clear();
+
+      (data.linked_accounts ?? []).forEach((account) => {
+        //los parentesis de data.linked_accounts mas ?? hicieron magia
+        this.linkedAccounts.push(
+          new FormControl<string>(account ?? '', { nonNullable: true }),
+        );
       });
     });
   }
@@ -146,12 +159,38 @@ export class UserEditComponent implements OnInit {
         //  this.router.navigate(['/user/' + this.id]);
       });
   }
-  addLinkedAccount() {
+
+  get linkedAccounts() {
+    return this.updateForm.get('linked_accounts') as FormArray<
+      FormControl<string>
+    >;
+  }
+  addLinkedAccount(): void {
     const linked_accounts = this.updateForm.get('linked_accounts') as FormArray;
     linked_accounts.push(new FormControl(''));
   }
   removeLinkedAccount(index: number) {
     const linked_accounts = this.updateForm.get('linked_accounts') as FormArray;
     linked_accounts.removeAt(index);
+  }
+  showAddAccountInput() {
+    this.showAccountInput = true;
+  }
+
+  // Método para añadir la cuenta cuando se completa el input
+  confirmNewAccount() {
+    if (this.newAccount.trim()) {
+      this.linkedAccounts.push(
+        new FormControl(this.newAccount, { nonNullable: true }),
+      );
+      this.newAccount = '';
+    }
+    this.showAccountInput = false;
+  }
+
+  // Método para cancelar la adición
+  cancelNewAccount() {
+    this.newAccount = '';
+    this.showAccountInput = false;
   }
 }

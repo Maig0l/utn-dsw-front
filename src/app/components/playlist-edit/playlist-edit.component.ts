@@ -1,5 +1,5 @@
 import { CommonModule } from '@angular/common';
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { FormControl, FormGroup, ReactiveFormsModule } from '@angular/forms';
 import { MatAutocompleteModule } from '@angular/material/autocomplete';
 import { MatButtonModule } from '@angular/material/button';
@@ -14,6 +14,7 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { debounceTime, map, Observable, switchMap } from 'rxjs';
 import { Game } from '../../model/game.model';
 import { User } from '../../model/user.model';
+import { UserService } from '../../services/user.service';
 
 @Component({
   selector: 'app-playlist-edit',
@@ -32,12 +33,13 @@ import { User } from '../../model/user.model';
   templateUrl: './playlist-edit.component.html',
   styleUrl: './playlist-edit.component.css',
 })
-export class PlaylistEditComponent {
+export class PlaylistEditComponent implements OnInit {
   constructor(
     private playlistService: PlaylistService,
     private gameService: GameService,
     private router: Router,
     private route: ActivatedRoute,
+    private userService: UserService,
   ) {}
 
   myControl = new FormControl('');
@@ -45,6 +47,7 @@ export class PlaylistEditComponent {
   filteredOptions!: Observable<Game[]>;
 
   playlist!: Playlist;
+  user!: User;
 
   private _filter(value: string): Observable<Game[]> {
     const filterValue = value.toLowerCase();
@@ -72,16 +75,6 @@ export class PlaylistEditComponent {
     this.gameSelected.splice(this.gameSelected.indexOf(game), 1);
   }
 
-  //TODO: use the current user
-  user: User = {
-    id: 1,
-    nick: 'Cienfuegos',
-    email: 'cien@fuegos.com',
-    profile_img: 'https://example.com/image.jpg',
-    bio_text: 'Wi wi wi, uyaya, wu wu wi',
-    linked_accounts: ['https://example.com/linked_account'],
-  };
-
   userPlaylists: Playlist[] = [];
   id!: number;
 
@@ -103,6 +96,7 @@ export class PlaylistEditComponent {
         isPrivate: playlist.is_private,
         owner: playlist.owner,
       });
+      this.getUser();
     });
 
     this.filteredOptions = this.myControl.valueChanges.pipe(
@@ -138,4 +132,9 @@ export class PlaylistEditComponent {
     this.playlistForm.reset();
     this.gameSelected = [];
   }
+    getUser() {
+    this.userService.getUserById(1).subscribe((data : User) => { // recontra hardcodeado
+      this.user = data;
+  }); //Importar lueguito
+}
 }

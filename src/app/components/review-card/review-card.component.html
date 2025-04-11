@@ -1,7 +1,7 @@
 <div class="review-card">
   <div class="head">
     <img
-      [src]="review().author.profile_img"
+      [src]="apiUrl + review().author.profile_img"
       [alt]="review().author.nick + '\'s profile picture'"
     />
     <!--user profile pic-->
@@ -12,22 +12,26 @@
     </span>
   </div>
 
-  <!--div id="rating">
+  <div id="rating">
     @for (star of [1, 2, 3, 4, 5]; track $index) {
-      @if (star  review().score) {
-        <span class="star-full"></span>
-      } @else {
-        <span class="star-empty"></span>
-      }
+      <span
+        class="material-symbols-rounded moon"
+        [ngClass]="{ filled: star <= review().score }"
+      >
+        dark_mode
+      </span>
     }
   </div>
-<div>
+
+
+
+
   @if (review().title !== "") {
     <p class="title">{{ review().title }}</p>
   }
   @if (review().body !== "") {
     <p class="body">{{ review().body }}</p>
   }
-    </div-->
+    </div>
 
 

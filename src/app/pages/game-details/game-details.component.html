@@ -21,7 +21,7 @@
 
 <ng-template #loadedGame>
   <div class="game-banner">
-    <img [src]="game.banner" alt="Game's banner" />
+    <img [src]="apiUrl + game.banner" alt="Game's banner" />
   </div>
 
   <dialog id="deleteModal">
@@ -63,7 +63,7 @@
 
   <div class="game-info">
     <div class="first-column">
-      <img [src]="game.portrait" alt="Game's portrait" class="game-portrait" />
+      <img [src]="apiUrl + game.portrait" alt="Game's portrait" class="game-portrait" />
 
       <!-- TODO: If user.isAdmin . <button> inside <a>?? -->
       <div class="game-actions"></div>

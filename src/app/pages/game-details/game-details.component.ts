@@ -15,6 +15,8 @@ import { MatIconModule } from '@angular/material/icon';
 import { MatButtonModule } from '@angular/material/button';
 import { MatMenuModule } from '@angular/material/menu';
 
+import { environment } from '../../../enviroment/enviroment.js';
+
 export interface SlideInterface {
   id: number;
   url: string;
@@ -61,6 +63,8 @@ export class GameDetailsComponent implements OnInit, OnDestroy {
     title: new FormControl(''),
     body: new FormControl(''),
   });
+
+  apiUrl = environment.apiUrl;
 
   ngOnInit() {
     this.gameId = +this.route.snapshot.paramMap.get('id')!;

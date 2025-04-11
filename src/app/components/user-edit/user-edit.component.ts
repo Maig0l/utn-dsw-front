@@ -1,4 +1,4 @@
-import { Component, OnInit, NgModule } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import {
   FormGroup,
   FormArray,
@@ -48,7 +48,7 @@ import { environment } from '../../../enviroment/enviroment.js';
   ],
   imports: [MatDialogModule],
 })
-export class UserEditSuccessDialog {}
+export class UserEditSuccessDialogComponent {}
 
 @Component({
   selector: 'app-user-edit',
@@ -88,6 +88,7 @@ export class UserEditComponent implements OnInit {
   showAccountInput = false;
   profileImgFile: File | null = null;
   profileImgPreview: string | null = null;
+  newAccountControl = new FormControl('');
 
   apiUrl = environment.apiUrl;
 
@@ -221,7 +222,7 @@ export class UserEditComponent implements OnInit {
         this.uploadImages();
         // this.router.navigate(['/user/' + this.id]);
 
-        const dialogRef = this.dialog.open(UserEditSuccessDialog);
+        const dialogRef = this.dialog.open(UserEditSuccessDialogComponent);
 
         setTimeout(() => {
           dialogRef.close();
@@ -247,20 +248,19 @@ export class UserEditComponent implements OnInit {
     this.showAccountInput = true;
   }
 
-  // Método para añadir la cuenta cuando se completa el input
   confirmNewAccount() {
-    if (this.newAccount.trim()) {
+    const value = this.newAccountControl.value?.trim();
+    if (value) {
       this.linkedAccounts.push(
-        new FormControl(this.newAccount, { nonNullable: true }),
+        new FormControl<string>(value, { nonNullable: true }),
       );
-      this.newAccount = '';
     }
+    this.newAccountControl.reset();
     this.showAccountInput = false;
   }
 
-  // Método para cancelar la adición
   cancelNewAccount() {
-    this.newAccount = '';
+    this.newAccountControl.reset();
     this.showAccountInput = false;
   }
 }

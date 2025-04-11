@@ -111,3 +111,13 @@ mat-card, mat-form-field {
   background: transparent !important;
   box-shadow: none !important;
 }
+
+.account-input-container {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.account-button {
+  flex: 1;
+}

@@ -36,7 +36,7 @@
           </mat-form-field>
 
           <!-- Implementacion fea pero funcional -->
-          <h3>Linked Accounts</h3>
+          <!--h3>Linked Accounts</h3>
 
           <div formArrayName="linked_accounts">
             <mat-chip-set>
@@ -55,20 +55,23 @@
             </mat-chip-set>
           </div>
 
-          <button mat-raised-button color="accent" (click)="addLinkedAccount()">Add Account</button>
+          <button mat-raised-button color="accent" type="button" (click)="addLinkedAccount()">Add Account</button-->
           <!-- Implementacion linda pero no funca-->
-          <!--h3>Linked Accounts</h3>
+          <h3>Linked Accounts</h3>
 
           <div *ngIf="showAccountInput">
-            <mat-form-field class="full-width">
-              <input matInput placeholder="Enter account link" [(ngModel)]="newAccount" name="newAccount">
-              <button mat-icon-button matSuffix (click)="confirmNewAccount()">
+            <mat-form-field class="account-input-container">
+              <input matInput placeholder="Enter account link" [formControl]="newAccountControl">
+            </mat-form-field>
+
+            <div class="account-buttons">
+              <button mat-icon-button color="primary" (click)="confirmNewAccount()">
                 <mat-icon>check</mat-icon>
               </button>
-              <button mat-icon-button matSuffix (click)="cancelNewAccount()">
+              <button mat-icon-button color="warn" (click)="cancelNewAccount()">
                 <mat-icon>close</mat-icon>
               </button>
-            </mat-form-field>
+            </div>
           </div>
 
           <mat-chip-set>
@@ -82,7 +85,8 @@
 
           <button mat-button color="primary" (click)="showAddAccountInput()" *ngIf="!showAccountInput">
             <mat-icon>add</mat-icon> Add Account
-          </button-->
+          </button>
+
           </div>
       </mat-card-content>
     </mat-card>

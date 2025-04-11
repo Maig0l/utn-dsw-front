@@ -7,6 +7,7 @@ import { MatCardModule } from '@angular/material/card';
 import { MatChipsModule } from '@angular/material/chips';
 import { MatGridListModule, MatGridTile } from '@angular/material/grid-list';
 import { Game } from '../../model/game.model';
+import { environment } from '../../../enviroment/enviroment.js';
 
 @Component({
   selector: 'app-view-game',
@@ -26,4 +27,6 @@ export class ViewGameComponent {
   constructor(private gameService: GameService) {}
 
   @Input({ required: true }) game!: Game;
+
+  apiUrl = environment.apiUrl;
 }

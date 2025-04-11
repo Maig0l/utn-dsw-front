@@ -24,8 +24,9 @@
         formControlName="releaseDate"
       />
     </mat-form-field>
-    <mat-form-field>
-      <mat-label for="portrait">Portrait</mat-label>
+    <!--No vamos a subir fotos en el post por una decision de diseno-->
+    <!--mat-form-field>
+    <mat-label for="portrait">Portrait</mat-label>
       <input matInput type="text" id="portrait" formControlName="portrait" />
     </mat-form-field>
     <mat-form-field>
@@ -33,6 +34,31 @@
       <input matInput type="text" id="banner" formControlName="banner" />
     </mat-form-field>
     <mat-label>pictures rework pending</mat-label>
+    <h3>Pictures</h3>
+    <div class="picture-container">
+
+      <div class="image-upload">
+        <label>Portrait:</label>
+        <input type="file" (change)="onPortraitSelected($event)" />
+        <img
+          *ngIf="gameForm?.value?.portrait"
+          [src]="apiUrl + gameForm.value.portrait"
+          alt="Portrait Preview"
+          class="preview-image"
+        />
+      </div>
+
+      <div class="image-upload">
+        <label>Banner:</label>
+        <input type="file" (change)="onBannerSelected($event)" />
+        <img
+          *ngIf="gameForm?.value?.banner"
+          [src]="apiUrl + gameForm.value.banner"
+          alt="Banner Preview"
+          class="preview-image"
+        />
+      </div>
+    </div-->
     <!--div class="pictures">
       <div class="pictureInputCont" formArrayName="pictures">
         <div *ngFor="let picture of pictures.controls; let i = index">

@@ -143,4 +143,20 @@ export class GameService {
       }),
     );
   }
+  uploadPortrait(gameId: number, file: File): Observable<any> {
+    const formData = new FormData();
+    formData.append('portrait', file);
+    return this.http.patch(
+      `${this.gamesEndpoint}/${gameId}/uploads/portrait`,
+      formData,
+    );
+  }
+  uploadBanner(gameId: number, file: File): Observable<any> {
+    const formData = new FormData();
+    formData.append('banner', file);
+    return this.http.patch(
+      `${this.gamesEndpoint}/${gameId}/uploads/banner`,
+      formData,
+    );
+  }
 }

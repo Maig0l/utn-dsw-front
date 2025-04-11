@@ -24,15 +24,41 @@
         formControlName="releaseDate"
       />
     </mat-form-field>
-    <mat-form-field>
+    <!--mat-form-field>
       <mat-label for="portrait">Portrait</mat-label>
       <input matInput type="text" id="portrait" formControlName="portrait" />
     </mat-form-field>
     <mat-form-field>
       <mat-label for="banner">Banner</mat-label>
       <input matInput type="text" id="banner" formControlName="banner" />
-    </mat-form-field>
-    <h3>Pictures (coming soon...)</h3>
+    </mat-form-field-->
+    <h3>Pictures</h3>
+    <div class="picture-container">
+      <!-- Imagen retrato -->
+      <div class="image-upload">
+        <label>Portrait Preview:</label>
+        <input type="file" (change)="onPortraitFileSelected($event)" />
+        <img
+          *ngIf="updateForm.value.portrait"
+          [src]="portraitPreview ? portraitPreview: apiUrl + updateForm.value.portrait"
+          alt=""
+          class="preview-image"
+        />
+      </div>
+
+      <!-- Imagen banner -->
+      <div class="image-upload">
+        <label>Banner Preview:</label>
+        <input type="file" (change)="onBannerFileSelected($event)" />
+        <img
+          *ngIf="updateForm.value.banner"
+          [src]="bannerPreview ? bannerPreview: apiUrl + updateForm.value.banner"
+          alt=""
+          class="preview-image"
+        />
+      </div>
+    </div>
+
     <!-- PICTURES: TODO
     <div class="pictures">
       <div class="pictureInputCont" formArrayName="pictures">

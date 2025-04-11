@@ -6,16 +6,21 @@
         <mat-label>Username</mat-label>
         <input matInput formControlName="nick">
       </mat-form-field>
+      <h3>Profile Picture</h3>
       <section class="profilePic">
         <section class="circle">
-          <img [src]="updateForm.get('profile_img')?.value" alt="Profile Picture" class="profile-img">
+          <img
+            [src]="profileImgPreview ? profileImgPreview : apiUrl + user.profile_img"
+            alt="Profile Picture"
+            class="profile-img"
+          />
         </section>
       </section>
+
       <div>
-        <mat-form-field class="full-width">
-          <mat-label>Profile Image URL</mat-label>
-          <input matInput formControlName="profile_img">
-        </mat-form-field>
+        <label class="image-upload-button">
+          <input type="file" (change)="onProfileImgFileSelected($event)">
+        </label>
       </div>
     </div>
 
@@ -121,7 +126,7 @@
         class="primary"
         (click)="updateUser()"
       >
-        <mat-icon>save</mat-icon>Save game
+        <mat-icon>save</mat-icon>Save changes
       </button>
       </div>
       </div>

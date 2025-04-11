@@ -19,11 +19,36 @@ import { MatChipsModule } from '@angular/material/chips';
 import { CommonModule } from '@angular/common';
 import { MatDividerModule } from '@angular/material/divider';
 import { MatAutocompleteModule } from '@angular/material/autocomplete';
+import { MatDialog, MatDialogModule } from '@angular/material/dialog';
 import { TagService } from '../../services/tag.service.js';
 import { Tag } from '../../model/tag.model';
 import { debounceTime, map, Observable, switchMap } from 'rxjs';
 import { ActivatedRoute, Router } from '@angular/router';
 import { User } from '../../model/user.model.js';
+import { environment } from '../../../enviroment/enviroment.js';
+
+@Component({
+  selector: 'app-user-edit-succss-dialog',
+  standalone: true,
+  template: `
+    <h2 mat-dialog-title>Update Successful!</h2>
+    <mat-dialog-content>
+      User data updated correctly, returning to profile.
+    </mat-dialog-content>
+  `,
+  styles: [
+    `
+      h2 {
+        color: #4caf50;
+      }
+      mat-dialog-content {
+        font-size: 16px;
+      }
+    `,
+  ],
+  imports: [MatDialogModule],
+})
+export class UserEditSuccessDialog {}
 
 @Component({
   selector: 'app-user-edit',
@@ -42,6 +67,7 @@ import { User } from '../../model/user.model.js';
     MatCardModule,
     MatRippleModule,
     FormsModule,
+    MatDialogModule,
   ],
   providers: [UserService, TagService],
   templateUrl: './user-edit.component.html',
@@ -60,6 +86,41 @@ export class UserEditComponent implements OnInit {
   user!: User;
   newAccount = '';
   showAccountInput = false;
+  profileImgFile: File | null = null;
+  profileImgPreview: string | null = null;
+
+  apiUrl = environment.apiUrl;
+
+  //------------------------------
+  // IMAGE UPLOAD
+  onProfileImgFileSelected(event: Event) {
+    const input = event.target as HTMLInputElement;
+    if (input.files && input.files.length > 0) {
+      this.profileImgFile = input.files[0];
+      console.log('Profile picture file selected: ', this.profileImgFile);
+
+      const reader = new FileReader();
+      reader.onload = () => {
+        this.profileImgPreview = reader.result as string;
+      };
+      reader.readAsDataURL(this.profileImgFile);
+    }
+  }
+
+  uploadImages() {
+    if (this.profileImgFile) {
+      this.userService
+        .uploadProfileImg(this.id, this.profileImgFile)
+        .subscribe({
+          next: () => {
+            console.log('Profile picture uploaded successfully');
+            this.profileImgFile = null;
+          },
+          error: (error) =>
+            console.error('Error uploading Profile picture:', error),
+        });
+    }
+  }
 
   //-------------------------------
   //BETTER TAGS
@@ -98,6 +159,7 @@ export class UserEditComponent implements OnInit {
     private route: ActivatedRoute,
     private userService: UserService,
     private tagService: TagService,
+    private dialog: MatDialog,
   ) {}
 
   ngOnInit() {
@@ -156,7 +218,15 @@ export class UserEditComponent implements OnInit {
       .subscribe((responseUser) => {
         this.user = responseUser;
         this.userUpdated = true;
-        //  this.router.navigate(['/user/' + this.id]);
+        this.uploadImages();
+        // this.router.navigate(['/user/' + this.id]);
+
+        const dialogRef = this.dialog.open(UserEditSuccessDialog);
+
+        setTimeout(() => {
+          dialogRef.close();
+          this.router.navigate(['../'], { relativeTo: this.route });
+        }, 2000);
       });
   }
 

@@ -3,10 +3,10 @@
 </header>
 <main class="pico">
   <!--Información del juego seleccionado -->
-  <!-- ng-container *ngIf="game">
+  <ng-container *ngIf="game">
             <section class="selected-game">
                 <div class="game-info">
-                    <img src= {{game.portrait}} alt="Imagen del videojuego" class="game-image">
+                    <img src= {{apiUrl + game.portrait}} alt="Imagen del videojuego" class="game-image">
                     <div class="game-details">
                         <h1 class="game-title">{{game.title}}</h1>
                         <h2 class="game-synopsis">{{game.synopsis}}</h2>
@@ -31,7 +31,7 @@
                     </div>
                 </div>
             </section>
-        </ng-container -->
+        </ng-container>
 
   <!--Formulario para escribir una nueva reseña -->
   <section class="write-review">
@@ -52,14 +52,24 @@
         placeholder="I think this game was.."
       ></textarea>
 
-      <label for="review-rating">Rating:</label>
-      <select id="review-rating" formControlName="score">
-        <option value="5">★★★★★</option>
-        <option value="4">★★★★☆</option>
-        <option value="3">★★★☆☆</option>
-        <option value="2">★★☆☆☆</option>
-        <option value="1">★☆☆☆☆</option>
-      </select>
+      <label>Rating:</label>
+      <div class="star-rating">
+        <div class="stars">
+          <span
+            *ngFor="let i of [1, 2, 3, 4, 5]"
+            class="star"
+            (click)="setRating(i)"
+            (mouseenter)="setHoverRating(i)"
+            (mouseleave)="clearHoverRating()"
+          >
+            <mat-icon class="material-symbols-outlined" [ngClass]="{'filled': (hoverRating || reviewForm.get('score')?.value || 0) >= i}">
+              dark_mode
+            </mat-icon>
+          </span>
+        </div>
+
+        <span class="rating-text">{{ reviewForm.get('score')?.value }} stars</span>
+      </div>
 
       <button type="submit" class="primary">Share Review</button>
     </form>
@@ -74,8 +84,12 @@
         <p class="review-rating">
           Score:
           <span *ngFor="let star of [1, 2, 3, 4, 5]; let i = index">
-            <span *ngIf="i < review.score">★</span>
-            <span *ngIf="i >= review.score">☆</span>
+            <mat-icon
+              class="moon"
+              [ngClass]="{ 'filled': i < review.score }"
+            >
+              dark_mode
+            </mat-icon>
           </span>
         </p>
       </div>

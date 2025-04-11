@@ -70,14 +70,15 @@
             }
         <h4>{{review.title}}</h4>
         <p>{{review.body}}</p>
-        @for (star of [0 ,1, 2, 3, 4]; track $index){
-          @if (star < review.score){
-            <span class="star-full"></span>
-          } @else {
-            <span class="star-empty
-            "></span>
-          }
+        @for (star of [0, 1, 2, 3, 4]; track $index) {
+          <span
+            class="material-symbols-rounded luna"
+            [ngClass]="{ filled: star < review.score }"
+          >
+            dark_mode
+          </span>
         }
+
       </div>
       }
     </div>

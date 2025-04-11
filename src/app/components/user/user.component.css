@@ -116,8 +116,17 @@ textarea {
   border: 1px solid rgba(255, 255, 255, 0.5);
 }
 
-.star-full:before {
-  content: "*";
+.luna {
+  font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 48;
+  font-size: 28px;
+  color: gray;
+  cursor: default;
+  user-select: none;
+  vertical-align: middle;
+  transition: color 0.3s, font-variation-settings 0.3s;
 }
-.star-empty:before {
-  content: "-";}
+
+.filled {
+  font-variation-settings: 'FILL' 1;
+  color: #ffc107;
+}

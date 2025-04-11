@@ -6,7 +6,9 @@
   <ng-container *ngIf="game">
             <section class="selected-game">
                 <div class="game-info">
-                    <img src= {{apiUrl + game.portrait}} alt="Imagen del videojuego" class="game-image">
+                  <img [src]="game.portrait ? (apiUrl + game.portrait) : 'assets/no-image.png'"
+                      alt="Imagen del videojuego"
+                      class="game-image">
                     <div class="game-details">
                         <h1 class="game-title">{{game.title}}</h1>
                         <h2 class="game-synopsis">{{game.synopsis}}</h2>

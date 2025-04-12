@@ -65,6 +65,24 @@ export class ReviewComponent implements OnInit {
     this.hoverRating = 0;
   }
 
+  getRatingLabel(score: number): string {
+    if (!score || score < 1 || score > 5) return '';
+    switch (score) {
+      case 1:
+        return 'Moonshame';
+      case 2:
+        return 'Moonster';
+      case 3:
+        return 'Moonotone';
+      case 4:
+        return 'Moonafic';
+      case 5:
+        return 'Lunar Tear';
+      default:
+        return '';
+    }
+  }
+
   addReview() {
     const score = Number.parseInt(
       this.reviewForm.value.score?.toString() ?? '0',

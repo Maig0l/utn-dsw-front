@@ -70,7 +70,10 @@
           </span>
         </div>
 
-        <span class="rating-text">{{ reviewForm.get('score')?.value }} stars</span>
+        <span class="rating-text" *ngIf="(reviewForm.get('score')?.value ?? 0) > 0">
+          {{ reviewForm.get('score')?.value }} - {{ getRatingLabel(reviewForm.get('score')?.value ?? 0) }}
+        </span>
+
       </div>
 
       <button type="submit" class="primary">Share Review</button>

@@ -32,7 +32,7 @@ export class ReviewService {
     });
   }
 
-  /** @deprecated */
+  /*@deprecated */
   addReview(
     author: number,
     game: number,

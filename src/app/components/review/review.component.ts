@@ -83,20 +83,20 @@ export class ReviewComponent implements OnInit {
     }
   }
 
+  author = 1; // falta implementar usuario
   addReview() {
     const score = Number.parseInt(
       this.reviewForm.value.score?.toString() ?? '0',
     );
-
     this.reviewService
       .addReview(
-        1 /*falta implementar usuario*/,
+        this.author /*falta implementar usuario*/,
         this.gameId,
         score,
         this.reviewForm.value.title ?? '',
         this.reviewForm.value.body ?? '',
       )
       .subscribe((responseReview) => (this.review = responseReview));
-    this.router.navigate([`/game/${this.gameId}`]);
+    //this.router.navigate([`/game/${this.gameId}`]);
   }
 }

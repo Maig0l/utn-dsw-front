@@ -4,36 +4,41 @@
 <main class="pico">
   <!--Información del juego seleccionado -->
   <ng-container *ngIf="game">
-            <section class="selected-game">
-                <div class="game-info">
-                  <img [src]="game.portrait ? (apiUrl + game.portrait) : 'assets/no-image.png'"
-                      alt="Imagen del videojuego"
-                      class="game-image">
-                    <div class="game-details">
-                        <h1 class="game-title">{{game.title}}</h1>
-                        <h2 class="game-synopsis">{{game.synopsis}}</h2>
-                        <div class="studio-container">
-                            <div class="studio-column">
-                                <p class="game-developer">Developer/s:</p>
-                                @for (studio of game.studios; track studio.id){
-                                    <ng-container *ngIf="studio.type !== 'Publisher'">
-                                        <p class="game-developer"> {{studio.name}}</p>
-                                    </ng-container>}
-                            </div>
-                            <div class="studio-column">
-                                <p class="game-publisher">Publisher/s:</p>
-                                @for (studio of game.studios; track studio.id){
-                                    <ng-container *ngIf="studio.type !== 'Developer'">
-                                    <p class="game-publisher"> {{studio.name}}</p>
-                                    </ng-container>}
-                            </div>
-                        </div>
-                           @for (platform of game.platforms; track platform.id){
-                            <img src="{{platform.img}}" class="platform-logo">}
-                    </div>
-                </div>
-            </section>
-        </ng-container>
+    <section class="selected-game">
+      <div class="game-info">
+        <img
+          [src]="game.portrait ? apiUrl + game.portrait : 'assets/no-image.png'"
+          alt="Imagen del videojuego"
+          class="game-image"
+        />
+        <div class="game-details">
+          <h1 class="game-title">{{ game.title }}</h1>
+          <h2 class="game-synopsis">{{ game.synopsis }}</h2>
+          <div class="studio-container">
+            <div class="studio-column">
+              <p class="game-developer">Developer/s:</p>
+              @for (studio of game.studios; track studio.id) {
+                <ng-container *ngIf="studio.type !== 'Publisher'">
+                  <p class="game-developer">{{ studio.name }}</p>
+                </ng-container>
+              }
+            </div>
+            <div class="studio-column">
+              <p class="game-publisher">Publisher/s:</p>
+              @for (studio of game.studios; track studio.id) {
+                <ng-container *ngIf="studio.type !== 'Developer'">
+                  <p class="game-publisher">{{ studio.name }}</p>
+                </ng-container>
+              }
+            </div>
+          </div>
+          @for (platform of game.platforms; track platform.id) {
+            <img src="{{ platform.img }}" class="platform-logo" />
+          }
+        </div>
+      </div>
+    </section>
+  </ng-container>
 
   <!--Formulario para escribir una nueva reseña -->
   <section class="write-review">
@@ -64,16 +69,25 @@
             (mouseenter)="setHoverRating(i)"
             (mouseleave)="clearHoverRating()"
           >
-            <mat-icon class="material-symbols-outlined" [ngClass]="{'filled': (hoverRating || reviewForm.get('score')?.value || 0) >= i}">
+            <mat-icon
+              class="material-symbols-outlined"
+              [ngClass]="{
+                filled:
+                  (hoverRating || reviewForm.get('score')?.value || 0) >= i,
+              }"
+            >
               dark_mode
             </mat-icon>
           </span>
         </div>
 
-        <span class="rating-text" *ngIf="(reviewForm.get('score')?.value ?? 0) > 0">
-          {{ reviewForm.get('score')?.value }} - {{ getRatingLabel(reviewForm.get('score')?.value ?? 0) }}
+        <span
+          class="rating-text"
+          *ngIf="(reviewForm.get('score')?.value ?? 0) > 0"
+        >
+          {{ reviewForm.get("score")?.value }} -
+          {{ getRatingLabel(reviewForm.get("score")?.value ?? 0) }}
         </span>
-
       </div>
 
       <button type="submit" class="primary">Share Review</button>
@@ -89,10 +103,7 @@
         <p class="review-rating">
           Score:
           <span *ngFor="let star of [1, 2, 3, 4, 5]; let i = index">
-            <mat-icon
-              class="moon"
-              [ngClass]="{ 'filled': i < review.score }"
-            >
+            <mat-icon class="moon" [ngClass]="{ filled: i < review.score }">
               dark_mode
             </mat-icon>
           </span>

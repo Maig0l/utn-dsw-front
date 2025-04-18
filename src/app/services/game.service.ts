@@ -143,6 +143,7 @@ export class GameService {
       }),
     );
   }
+
   uploadPortrait(gameId: number, file: File): Observable<any> {
     const formData = new FormData();
     formData.append('portrait', file);

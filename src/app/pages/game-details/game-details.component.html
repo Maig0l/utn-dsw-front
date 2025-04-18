@@ -54,6 +54,12 @@
         Edit
       </button>
     </a>
+    <a id="menu-item-link" href="review/{{ game.id }}">
+      <button mat-menu-item>
+        <mat-icon>star</mat-icon>
+        Review (temporary)
+      </button>
+    </a>
 
     <button mat-menu-item (click)="openModal()" id="openModal">
       <mat-icon>delete</mat-icon>
@@ -63,7 +69,11 @@
 
   <div class="game-info">
     <div class="first-column">
-      <img [src]="apiUrl + game.portrait" alt="Game's portrait" class="game-portrait" />
+      <img
+        [src]="apiUrl + game.portrait"
+        alt="Game's portrait"
+        class="game-portrait"
+      />
 
       <!-- TODO: If user.isAdmin . <button> inside <a>?? -->
       <div class="game-actions"></div>

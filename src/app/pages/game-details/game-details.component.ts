@@ -65,11 +65,15 @@ export class GameDetailsComponent implements OnInit, OnDestroy {
   });
 
   apiUrl = environment.apiUrl;
+  score = 0;
 
   ngOnInit() {
     this.gameId = +this.route.snapshot.paramMap.get('id')!;
     this.gameService.getOneGame(this.gameId).subscribe((response) => {
       this.game = response;
+      this.score = parseFloat(
+        (this.game.cumulativeRating / this.game.reviewCount).toFixed(1),
+      );
       console.log('GAME: ', this.game);
       this.devs = this.game.studios.filter(
         (studio) => studio.type === 'Developer',

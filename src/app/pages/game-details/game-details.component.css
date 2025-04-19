@@ -10,6 +10,17 @@
   animation: fadeIn 0.5s ease;
   transform: translate(-50%, -50%);
 }
+.star-rating {
+  display: inline-flex;
+}
+.game-score {
+  margin-right: 8px;
+}
+
+.filled {
+  color: #ffb400;
+}
+
 @keyframes fadeIn {
   0% {
     opacity: 0;

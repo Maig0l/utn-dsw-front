@@ -22,4 +22,6 @@ export interface Game {
   platforms: Platform[];
   reviews: Review[];
   shops: Shop[];
+  cumulativeRating: number;
+  reviewCount: number;
 }

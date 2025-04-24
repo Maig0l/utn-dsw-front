@@ -3,6 +3,7 @@ import { HttpClient, HttpErrorResponse } from '@angular/common/http';
 import { catchError, Observable, throwError } from 'rxjs';
 import { RegisterRequest } from './registerRequest';
 import { User } from '../../model/user.model';
+import { API_URL } from '../../../main';
 
 @Injectable({
   providedIn: 'root',
@@ -10,7 +11,7 @@ import { User } from '../../model/user.model';
 export class RegisterService {
   constructor(private http: HttpClient) {}
 
-  private registerEndpoint = 'http://localhost:8080/api/register'; // URL del backend para el registro
+  private registerEndpoint = `${API_URL}/users`; // URL del backend para el registro
 
   register(credentials: RegisterRequest): Observable<User> {
     return this.http.post<User>(this.registerEndpoint, credentials).pipe(

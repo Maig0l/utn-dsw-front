@@ -22,7 +22,7 @@ export class RegisterComponent {
     });*/
 
   registerForm = this.fb.group({
-    username: ['', Validators.required], //, Validators.minLength(6) lo rompe todo?
+    nick: ['', Validators.required], //, Validators.minLength(6) lo rompe todo?
     password: ['', Validators.required],
     email: ['', Validators.required],
   });
@@ -34,7 +34,7 @@ export class RegisterComponent {
   ) {}
 
   get username() {
-    return this.registerForm.controls.username;
+    return this.registerForm.controls.nick;
   }
   get password() {
     return this.registerForm.controls.password;

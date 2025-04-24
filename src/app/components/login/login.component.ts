@@ -34,29 +34,28 @@ export class LoginComponent {
   }
 
   login() {
-    if (this.loginForm.valid) {
-      const requestBody: LoginRequest = {
-        nick: this.username.value ?? '',
-        password: this.password.value ?? '',
-      };
-
-      this.loginService.login(requestBody).subscribe({
-        next: (userData) => {
-          console.log(userData);
-        },
-        error: (error) => {
-          console.error(error);
-          this.loginError = error;
-        },
-        complete: () => {
-          console.info('Login completed');
-          this.router.navigateByUrl('/homepage'); //TODO al inicio
-          this.loginForm.reset();
-        },
-      });
-    } else {
+    if (!this.loginForm.valid) {
       this.loginForm.markAllAsTouched();
       alert('Form is invalid');
     }
+
+    const requestBody: LoginRequest = {
+      nick: this.username.value ?? '',
+      password: this.password.value ?? '',
+    };
+
+    this.loginService.login(requestBody).subscribe({
+      next: (userData) => {
+        console.log(userData);
+      },
+      error: (error) => {
+        console.error(error);
+        this.loginError = error;
+      },
+      complete: () => {
+        console.info('Login completed');
+        this.loginForm.reset();
+      },
+    });
   }
 }

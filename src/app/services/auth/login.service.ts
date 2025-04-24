@@ -12,6 +12,8 @@ import { LoginRequest } from './loginRequest';
 import { API_URL } from '../../../main';
 import { ApiResponse } from '../../model/apiResponse.model';
 
+type loginResponse = ApiResponse<{ token: string }>;
+
 @Injectable({
   providedIn: 'root',
 })
@@ -24,23 +26,19 @@ export class LoginService {
   loginEndpoint = `${API_URL}/users/login`;
 
   login(credentials: LoginRequest) {
-    return this.http
-      .post<
-        ApiResponse<{ sessionToken: string }>
-      >(this.loginEndpoint, credentials)
-      .pipe(
-        tap((response) => {
-          sessionStorage.setItem('token', response.data.sessionToken);
-          this.currentUserData.next(response.data.sessionToken);
-          this.currentUserLoginOn.next(true);
-        }),
-        map((response) => response.data), //???
-        catchError(this.handleError),
-      );
+    return this.http.post<loginResponse>(this.loginEndpoint, credentials).pipe(
+      tap((response) => {
+        localStorage.setItem('token', response.data.token);
+        this.currentUserData.next(response.data.token);
+        this.currentUserLoginOn.next(true);
+      }),
+      map((response) => response.data), //???
+      catchError(this.handleError),
+    );
   }
 
   logout(): void {
-    sessionStorage.removeItem('token');
+    localStorage.removeItem('token');
     this.currentUserLoginOn.next(false);
   }
 

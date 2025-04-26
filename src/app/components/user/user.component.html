@@ -1,82 +1,82 @@
-<form [formGroup]="userForm" (submit)="showProfile()">
+<form [formGroup]="userForm">
   <div class="grid">
-      <div class="username">
-        <h1>{{user?.nick}}</h1>
-        <section class="profilePic">
-          <section class="circle">
-            <img src="{{apiUrl + user?.profile_img}}" alt="Profile Picture" class="profile-img">
-          </section>
+    <div class="username">
+      <h1>{{ user?.nick }}</h1>
+      <section class="profilePic">
+        <section class="circle">
+          <img
+            src="{{ apiUrl + user?.profile_img }}"
+            alt="Profile Picture"
+            class="profile-img"
+          />
         </section>
-      </div>
+      </section>
+    </div>
     <mat-card>
       <mat-card-content class="profileInfo">
-      <div>
-        <section>
-          <h2>Bio</h2>
-        </section>
-        <section>
-          <p>{{user?.bio_text}}</p>
-        </section>
-        <section>
-          <h2>Linked Accounts</h2>
+        <div>
+          <section>
+            <h2>Bio</h2>
+          </section>
+          <section>
+            <p>{{ user?.bio_text }}</p>
+          </section>
+          <section>
+            <h2>Linked Accounts</h2>
 
-          <mat-chip-set aria-label="Linked Accounts" class="linkedAccounts">
-            @for (account of user?.linked_accounts; track account) {
-              <mat-chip color="primary" selected>
-                <a
-                  [href]="'https://www.' + account"
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  style="color: black; text-decoration: none"
-                >
-                  {{ account }}
-                </a>
-                <!--Esto es muy feo y no me convence, habria que decir como cargar las linked accounts-->
-              </mat-chip>
-            }
-          </mat-chip-set>
-
-        </section>
-      </div>
+            <mat-chip-set aria-label="Linked Accounts" class="linkedAccounts">
+              @for (account of user?.linked_accounts; track account) {
+                <mat-chip color="primary" selected>
+                  <a
+                    [href]="'https://www.' + account"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    style="color: black; text-decoration: none"
+                  >
+                    {{ account }}
+                  </a>
+                  <!--Esto es muy feo y no me convence, habria que decir como cargar las linked accounts-->
+                </mat-chip>
+              }
+            </mat-chip-set>
+          </section>
+        </div>
       </mat-card-content>
     </mat-card>
     <mat-form-field>
-      <h3> Liked tags </h3>
+      <h3>Liked tags</h3>
       <section class="likedTags">
-        @for (tag of user?.likedTags; track likedTags){
-          <mat-chip>{{tag.name}}</mat-chip>
-          }
+        @for (tag of user?.likedTags; track likedTags) {
+          <mat-chip>{{ tag.name }}</mat-chip>
+        }
       </section>
 
       <section class="editProfile">
         <button
-         mat-flat-button
-         extended
-         aria-label="Edit user"
-         type="button"
-         class="custom-button"
-         (click)="goToEditProfile()">
+          mat-flat-button
+          extended
+          aria-label="Edit user"
+          type="button"
+          class="custom-button"
+        >
           <mat-icon>edit</mat-icon>Edit Profile
         </button>
       </section>
     </mat-form-field>
   </div>
 
+  <h2>Total Reviews: {{ user?.reviews?.length }}</h2>
 
-    <h2>Total Reviews: {{user?.reviews?.length}}</h2>
-
-    <div class="user-container">
-
-
-      @for (review of user?.reviews; track reviews){
-        <div class="user-card">
-        @for (game of games; track games){
-          @if (game.id === review.game){
-            <h3>{{game.title}}</h3>
-              }
-            }
-        <h4>{{review.title}}</h4>
-        <p>{{review.body}}</p>
+  <div class="user-container">
+    @for (review of user?.reviews; track reviews) {
+      <div class="user-card">
+        @for (game of games; track games) {
+          @if (game.id === review.game) {
+            <h3>{{ game.title }}</h3>
+          }
+        }
+        <h4>{{ review.title }}</h4>
+        <p>{{ review.body }}</p>
         @for (star of [0, 1, 2, 3, 4]; track $index) {
           <span
             class="material-symbols-rounded luna"
@@ -85,25 +85,22 @@
             dark_mode
           </span>
         }
-
       </div>
-      }
-    </div>
-
-
-    <h2>Total Playlists: {{user?.playlists?.length}}</h2>
-
-    <div class="user-container">
-
-    @for (playlist of user?.playlists; track playlists){
-      <div class="user-card">
-      <h3>{{playlist.name}}</h3>
-      <p>{{playlist.description}}</p>
-    </div>
-  }
+    }
   </div>
 
-<!--
+  <h2>Total Playlists: {{ user?.playlists?.length }}</h2>
+
+  <div class="user-container">
+    @for (playlist of user?.playlists; track playlists) {
+      <div class="user-card">
+        <h3>{{ playlist.name }}</h3>
+        <p>{{ playlist.description }}</p>
+      </div>
+    }
+  </div>
+
+  <!--
   <h1>Reviews</h1>
   <div *ngFor="let review of reviews">
     <h3>{{ review.Game.title }}</h3>      Esto parece que podria funcionar
@@ -111,6 +108,4 @@
     <p>{{ review.body }}</p>
   </div>
 
--->
-  </form>
-
+--></form>

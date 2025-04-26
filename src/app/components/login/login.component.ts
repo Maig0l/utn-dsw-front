@@ -46,14 +46,13 @@ export class LoginComponent {
 
     this.loginService.login(requestBody).subscribe({
       next: (userData) => {
-        console.log(userData);
+        this.router.navigate(['/homepage']);
       },
       error: (error) => {
         console.error(error);
         this.loginError = error;
       },
       complete: () => {
-        console.info('Login completed');
         this.loginForm.reset();
       },
     });

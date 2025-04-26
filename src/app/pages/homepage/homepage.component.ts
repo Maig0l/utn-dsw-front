@@ -15,7 +15,7 @@ import { GameService } from '../../services/game.service';
   selector: 'app-homepage',
   standalone: true,
   imports: [CommonModule, ViewGameComponent, ReviewCardComponent],
-  providers: [ReviewService, LoginService,GameService],
+  providers: [ReviewService, LoginService, GameService],
   templateUrl: './homepage.component.html',
   styleUrl: './homepage.component.css',
 })
@@ -45,13 +45,7 @@ export class HomepageComponent implements OnInit {
   }
 
   ngOnInit() {
-    this.loginService.currentUserLoginOn.subscribe({
-      next: (userLoginOn) => (this.userLoginOn = userLoginOn),
-    });
-
-    this.loginService.currentUserData.subscribe({
-      //next: (userData) => this.userData = userData
-    });
+    this.loginService.sessionState.subscribe((val) => (this.userLoginOn = val));
 
     this.reviewService
       .getAllReviews()

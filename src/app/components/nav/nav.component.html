@@ -4,35 +4,34 @@
       <details class="dropdown">
         <summary>Account</summary>
         <ul dir="rtl">
-          <li *ngIf="!userLoginOn">
-            <a
-              routerLink="/log-in"
-              routerLinkActive="active"
-              (click)="redirect('/log-in')"
-              >Login</a
-            >
-          </li>
-          <li *ngIf="!userLoginOn">
-            <a
-              routerLink="/register"
-              routerLinkActive="active"
-              (click)="redirect('/register')"
-              >Register</a
-            >
-          </li>
-
-          <li *ngIf="!userLoginOn"><a
-            routerLink="/profile"
-            routerLinkActive="active"
-            (click)="redirect('/user/1')"
-            >Profile</a
-            > <!-- Lo dejo sin login para probarlo rapido -->
-          </li>
-          <li *ngIf="userLoginOn"><a href="#">Settings</a></li>
-          <li *ngIf="userLoginOn"><a href="#">Security</a></li>
-          <li *ngIf="userLoginOn"><a routerLink="">Logout</a></li>
+          @if (userLoggedIn) {
+            <ng-container *ngTemplateOutlet="optionsSessionUser"></ng-container>
+          } @else {
+            <ng-container *ngTemplateOutlet="optionsSessionOff"></ng-container>
+          }
         </ul>
       </details>
     </li>
   </ul>
 </nav>
+
+<ng-template #optionsSessionOff>
+  <li>
+    <a routerLink="/log-in" routerLinkActive="active">Login</a>
+  </li>
+  <li>
+    <a routerLink="/register" routerLinkActive="active">Register</a>
+  </li>
+</ng-template>
+
+<ng-template #optionsSessionUser>
+  <li>
+    <a routerLink="/user/me" routerLinkActive="active">Profile</a>
+  </li>
+
+  <li><a>Settings</a></li>
+  <li><a>Security</a></li>
+  <li><a (click)="logout()">Logout</a></li>
+</ng-template>
+
+<ng-template #optionsSessionAdmin> </ng-template>

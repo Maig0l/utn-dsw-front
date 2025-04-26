@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { ReactiveFormsModule, FormGroup } from '@angular/forms';
-import { Router } from '@angular/router';
+import { ActivatedRoute, Params, Router } from '@angular/router';
 import { CommonModule } from '@angular/common';
 import { UserService } from '../../services/user.service';
 import { TagService } from '../../services/tag.service';
@@ -22,6 +22,7 @@ import { MatIconModule } from '@angular/material/icon';
 import { MatRippleModule } from '@angular/material/core';
 import { MatChipsModule } from '@angular/material/chips';
 import { environment } from '../../../enviroment/enviroment.js';
+import { LoginService } from '../../services/auth/login.service';
 
 @Component({
   selector: 'app-user',
@@ -67,19 +68,47 @@ export class UserComponent implements OnInit {
     private router: Router,
     private tagService: TagService,
     private playlistService: PlaylistService,
+    private activatedRoute: ActivatedRoute,
+    private loginService: LoginService,
   ) {}
 
   ngOnInit() {
-    this.showProfile();
-    this.getGameDetails();
-    this.getTagsByUser();
+    let userDisplayedId: number;
+
+    this.activatedRoute.params.subscribe({
+      next: (params: Params) => {
+        if (params['id'] === 'me') {
+          if (!this.loginService.isLoggedIn) {
+            this.router.navigate(['/homepage']);
+            return;
+          }
+          userDisplayedId = this.loginService.currentUserData.id;
+        } else {
+          if (!(params['id'] as number)) {
+            this.router.navigate(['/homepage']);
+            return;
+          }
+
+          userDisplayedId = params['id'];
+        }
+
+        this.userService
+          .getUserById(userDisplayedId)
+          .subscribe((responseUser) => {
+            this.user = responseUser;
+            if (!this.user) {
+              this.router.navigate(['/homepage']);
+              return;
+            }
+
+            this.getGameDetails();
+            this.getTagsByUser();
+          });
+      },
+    });
   }
 
-  showProfile() {
-    this.userService
-      .getUserById(1) // Hardcodeado hasta que el login funcione
-      .subscribe((responseUser) => (this.user = responseUser));
-  }
+  showProfile(id: number) {}
 
   getGameDetails() {
     this.gameService.getAllGames().subscribe((response) => {
@@ -87,8 +116,8 @@ export class UserComponent implements OnInit {
     });
   }
 
-  getUserPlaylists() {
-    this.playlistService.getPlaylistsByOwner(1).subscribe((response) => {
+  getUserPlaylists(id: number) {
+    this.playlistService.getPlaylistsByOwner(id).subscribe((response) => {
       this.playlists = response;
     });
   }
@@ -99,7 +128,7 @@ export class UserComponent implements OnInit {
     });
   }
 
-  goToEditProfile() {
+  goToEditProfile(id: number) {
     if (this.user) {
       this.router.navigate([`user/${this.user.id}/edit`]);
     }

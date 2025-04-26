@@ -11,6 +11,8 @@ import {
 import { LoginRequest } from './loginRequest';
 import { API_URL } from '../../../main';
 import { ApiResponse } from '../../model/apiResponse.model';
+import { JwtHelperService } from '@auth0/angular-jwt';
+import { User } from '../../model/user.model';
 
 type loginResponse = ApiResponse<{ token: string }>;
 
@@ -18,28 +20,32 @@ type loginResponse = ApiResponse<{ token: string }>;
   providedIn: 'root',
 })
 export class LoginService {
-  currentUserLoginOn = new BehaviorSubject<boolean>(false);
-  currentUserData = new BehaviorSubject<string>('');
-
-  constructor(private http: HttpClient) {}
+  constructor(
+    private http: HttpClient,
+    private jwt: JwtHelperService,
+  ) {}
 
   loginEndpoint = `${API_URL}/users/login`;
+
+  private _sessionState = new BehaviorSubject<boolean>(this.isLoggedIn());
+
+  get sessionState() {
+    return this._sessionState.asObservable();
+  }
 
   login(credentials: LoginRequest) {
     return this.http.post<loginResponse>(this.loginEndpoint, credentials).pipe(
       tap((response) => {
         localStorage.setItem('token', response.data.token);
-        this.currentUserData.next(response.data.token);
-        this.currentUserLoginOn.next(true);
+        this._sessionState.next(true);
       }),
-      map((response) => response.data), //???
       catchError(this.handleError),
     );
   }
 
   logout(): void {
     localStorage.removeItem('token');
-    this.currentUserLoginOn.next(false);
+    this._sessionState.next(false);
   }
 
   private handleError(error: HttpErrorResponse) {
@@ -56,14 +62,27 @@ export class LoginService {
     );
   }
 
-  get UserData(): Observable<string> {
-    return this.currentUserData.asObservable();
+  isLoggedIn(): boolean {
+    const token = localStorage.getItem('token');
+    if (!token) return false;
+
+    const tokenData = this.jwt.decodeToken(token);
+    if (this.jwt.isTokenExpired(token) && tokenData.sub === 'UserDataToken') {
+      localStorage.removeItem('token');
+      return false;
+    }
+
+    return true;
   }
 
-  get LoginOn(): Observable<boolean> {
-    return this.currentUserLoginOn.asObservable();
-  }
-  get userToken(): string {
-    return this.userToken;
+  get currentUserData(): User {
+    if (!this.isLoggedIn)
+      throw Error('User is not logged in. Check with isLoggedIn first');
+
+    // isLoggedIn ya asegura que el token en localStorage no es nulo
+    //  y que el tipo del token corresponde al token de usuario de Wellplayed
+    return this.jwt.decodeToken<User>(
+      localStorage.getItem('token') as string,
+    ) as User;
   }
 }

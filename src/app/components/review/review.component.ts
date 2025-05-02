@@ -7,7 +7,7 @@ import { MatIconModule } from '@angular/material/icon';
 import { CommonModule } from '@angular/common';
 import { Game } from '../../model/game.model';
 import { Review } from '../../model/review.model';
-import { environment } from '../../../enviroment/enviroment.js';
+import { environment } from '../../../enviroment/enviroment';
 
 @Component({
   selector: 'app-review',

@@ -15,7 +15,7 @@ import { MatIconModule } from '@angular/material/icon';
 import { MatButtonModule } from '@angular/material/button';
 import { MatMenuModule } from '@angular/material/menu';
 
-import { environment } from '../../../enviroment/enviroment.js';
+import { environment } from '../../../enviroment/enviroment';
 
 export interface SlideInterface {
   id: number;

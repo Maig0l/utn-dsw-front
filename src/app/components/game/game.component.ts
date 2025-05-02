@@ -26,7 +26,7 @@ import { Shop } from '../../model/shop.model';
 import { Studio } from '../../model/studio.model';
 import { MatChipsModule } from '@angular/material/chips';
 import { debounceTime, map, Observable, switchMap } from 'rxjs';
-import { environment } from '../../../enviroment/enviroment.js';
+import { environment } from '../../../enviroment/enviroment';
 
 @Component({
   selector: 'app-game',

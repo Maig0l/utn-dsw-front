@@ -20,12 +20,12 @@ import { CommonModule } from '@angular/common';
 import { MatDividerModule } from '@angular/material/divider';
 import { MatAutocompleteModule } from '@angular/material/autocomplete';
 import { MatDialog, MatDialogModule } from '@angular/material/dialog';
-import { TagService } from '../../services/tag.service.js';
+import { TagService } from '../../services/tag.service';
 import { Tag } from '../../model/tag.model';
 import { debounceTime, map, Observable, switchMap } from 'rxjs';
 import { ActivatedRoute, Router } from '@angular/router';
 import { User } from '../../model/user.model.js';
-import { environment } from '../../../enviroment/enviroment.js';
+import { environment } from '../../../enviroment/enviroment';
 
 @Component({
   selector: 'app-user-edit-succss-dialog',

@@ -21,7 +21,7 @@ import { MatButtonModule } from '@angular/material/button';
 import { MatIconModule } from '@angular/material/icon';
 import { MatRippleModule } from '@angular/material/core';
 import { MatChipsModule } from '@angular/material/chips';
-import { environment } from '../../../enviroment/enviroment.js';
+import { environment } from '../../../enviroment/enviroment';
 import { LoginService } from '../../services/auth/login.service';
 
 @Component({

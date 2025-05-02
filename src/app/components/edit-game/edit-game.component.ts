@@ -23,7 +23,7 @@ import { ShopService } from '../../services/shop.service';
 import { StudioService } from '../../services/studio.service';
 import { MatAutocompleteModule } from '@angular/material/autocomplete';
 import { debounceTime, map, Observable, switchMap } from 'rxjs';
-import { environment } from '../../../enviroment/enviroment.js';
+import { environment } from '../../../enviroment/enviroment';
 
 @Component({
   selector: 'app-edit-game',

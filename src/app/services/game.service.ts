@@ -48,6 +48,9 @@ export class GameService {
     maxStarValue: number,
   ): Observable<Game[]> {
     const url = this.gamesEndpoint + `/filter`;
+    if (endDate.getTime() === new Date('1970-01-01T03:00:00.000Z').getTime()) {
+      endDate = new Date(2030, 0, 1);
+    }
 
     // Construct query parameters
     const params = new HttpParams()
@@ -59,7 +62,6 @@ export class GameService {
       .set('endDate', endDate.toISOString())
       .set('minStarValue', minStarValue.toString())
       .set('maxStarValue', maxStarValue.toString());
-
     return this.http
       .get<ApiResponse<Game[]>>(url, { params })
       .pipe(map((response) => response.data));

@@ -1,10 +1,9 @@
 import { Component } from '@angular/core';
-import { FormControl, FormGroup, ReactiveFormsModule } from '@angular/forms';
 import { GameService } from '../../services/game.service';
 import { ReviewService } from '../../services/review.service';
 import { ActivatedRoute, Router, RouterOutlet } from '@angular/router';
 import { CommonModule, NgOptimizedImage } from '@angular/common';
-import { ReviewComponent } from '../../components/review/review.component';
+import { ReviewFormComponent } from '../../components/review-form/review-form.component';
 
 import { Input, OnDestroy, OnInit } from '@angular/core';
 import { Game } from '../../model/game.model';
@@ -15,7 +14,8 @@ import { MatIconModule } from '@angular/material/icon';
 import { MatButtonModule } from '@angular/material/button';
 import { MatMenuModule } from '@angular/material/menu';
 
-import { environment } from '../../../enviroment/enviroment.js';
+import { LoginService } from '../../services/auth/login.service.js';
+import { ReviewCardGameComponent } from "../../components/review-card-game/review-card-game.component";
 
 export interface SlideInterface {
   id: number;
@@ -27,13 +27,12 @@ export interface SlideInterface {
   selector: 'app-game-details',
   standalone: true,
   imports: [
-    ReactiveFormsModule,
     CommonModule,
-    ReviewComponent,
-    NgOptimizedImage,
     MatIconModule,
     MatButtonModule,
     MatMenuModule,
+    ReviewFormComponent,
+    ReviewCardGameComponent
   ],
   providers: [RouterOutlet, GameService, ReviewService],
   templateUrl: './game-details.component.html',
@@ -45,7 +44,10 @@ export class GameDetailsComponent implements OnInit, OnDestroy {
     private gameService: GameService,
     private reviewService: ReviewService,
     private router: Router,
-  ) {}
+    private loginService: LoginService,
+  ) { }
+
+  sessionType: boolean = false; //logged in or not
 
   @Input() slides: SlideInterface[] = [];
   currentIndex = 0;
@@ -58,30 +60,44 @@ export class GameDetailsComponent implements OnInit, OnDestroy {
   devs: Studio[] = [];
   pubs: Studio[] = [];
 
-  reviewForm = new FormGroup({
-    score: new FormControl(0),
-    title: new FormControl(''),
-    body: new FormControl(''),
-  });
-
-  apiUrl = environment.apiUrl;
+  reviews: Review[] = [];
+  reviewCount = 0;
 
   ngOnInit() {
     this.gameId = +this.route.snapshot.paramMap.get('id')!;
+
+    this.loginService.sessionState.subscribe(val => this.sessionType = val);
+
+    this.fetchGameData();
+
+    this.resetTimer();
+  }
+
+  ngOnDestroy() {
+    window.clearTimeout(this.timeoutId);
+  }
+
+  fetchGameData() {
     this.gameService.getOneGame(this.gameId).subscribe((response) => {
       this.game = response;
       console.log('GAME: ', this.game);
+
       this.devs = this.game.studios.filter(
         (studio) => studio.type === 'Developer',
       );
       this.pubs = this.game.studios.filter(
         (studio) => studio.type === 'Publisher',
       );
+
+      this.fetchReviews();
     });
-    this.resetTimer();
   }
-  ngOnDestroy() {
-    window.clearTimeout(this.timeoutId);
+
+  fetchReviews() {
+    this.reviewService.getReviewsByGame(this.game.id).subscribe(res => {
+      this.reviews = res.data.sort((a: Review, b: Review) => b.createdAt.getTime() - a.createdAt.getTime());
+      this.reviewCount = res.data.length;
+    });
   }
 
   openModal() {
@@ -141,5 +157,13 @@ export class GameDetailsComponent implements OnInit, OnDestroy {
       console.log(res);
       this.router.navigate(['/homepage']);
     });
+  }
+
+  reloadReviews(success: boolean) {
+    const msg = success ?
+      "Review sent successfully" :
+      "Something failed. Have you selected a score?";
+
+    alert(msg);
   }
 }

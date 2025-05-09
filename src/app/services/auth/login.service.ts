@@ -23,7 +23,7 @@ export class LoginService {
   constructor(
     private http: HttpClient,
     private jwt: JwtHelperService,
-  ) {}
+  ) { }
 
   loginEndpoint = `${API_URL}/users/login`;
 
@@ -84,5 +84,13 @@ export class LoginService {
     return this.jwt.decodeToken<User>(
       localStorage.getItem('token') as string,
     ) as User;
+  }
+
+  get currentUserToken() {
+    if (!this.isLoggedIn())
+      throw Error('User is not logged in. Check with isLoggedIn first');
+
+    // isLoggedIn() ya serciora que el token no es null/undefined
+    return localStorage.getItem('token')!
   }
 }

@@ -76,7 +76,7 @@ export class LoginService {
   }
 
   get currentUserData(): User {
-    if (!this.isLoggedIn)
+    if (!this.isLoggedIn())
       throw Error('User is not logged in. Check with isLoggedIn first');
 
     // isLoggedIn ya asegura que el token en localStorage no es nulo

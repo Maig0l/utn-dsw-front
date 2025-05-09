@@ -1,27 +1,41 @@
-<main>
-  <section class="selected-game">
-    @if (game) {
-      <ng-container *ngTemplateOutlet="loadedGame"> </ng-container>
-    } @else {
-      <ng-container *ngTemplateOutlet="loading"></ng-container>
+<section class="selected-game">
+  @if (game) {
+    <ng-container *ngTemplateOutlet="loadedGame"> </ng-container>
+  } @else {
+    <ng-container *ngTemplateOutlet="loading"></ng-container>
+  }
+</section>
+
+<section class="reviews">
+  @if (this.sessionType === true) {
+      <app-review-form [game]="this.game" (onSubmit)="this.fetchReviews()" ></app-review-form>
+  }
+  @else {
+    <p class="noFormMessage">Log in to share your thoughts on {{this.game.title}}</p>
+  }
+
+  <hr>
+
+  <div class="review-list">
+    @if (reviewCount === 0) {
+      <p class="noFormMessage">No reviews at the moment. Be the first!</p>
     }
-  </section>
+    @else {
+      @for (review of reviews; track review.id) {
+        <app-review-card-game [data]="review"></app-review-card-game>
+      }
+    }
+  </div>
+</section>
 
-  <section class="reviews">
-    <!-- TODO: @If(usuarioEstáLogueado) mostrar el formulario -->
-
-    <!--    <app-review-form [game]="this.game">-->
-    <!--    </app-review-form>-->
-  </section>
-</main>
-
+<!-- TODO: El template de login debería ser todo un esqueleto cargando -->
 <ng-template #loading>
   <h1>Loading</h1>
 </ng-template>
 
 <ng-template #loadedGame>
   <div class="game-banner">
-    <img [src]="apiUrl + game.banner" alt="Game's banner" />
+    <img [src]="game.banner" alt="Game's banner" />
   </div>
 
   <dialog id="deleteModal">
@@ -70,7 +84,7 @@
   <div class="game-info">
     <div class="first-column">
       <img
-        [src]="apiUrl + game.portrait"
+        [src]="game.portrait"
         alt="Game's portrait"
         class="game-portrait"
       />

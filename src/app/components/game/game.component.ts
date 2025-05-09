@@ -254,11 +254,16 @@ export class GameComponent implements OnInit {
     title: new FormControl(''),
     synopsis: new FormControl(''),
     releaseDate: new FormControl(''),
+    // URLs go in these controls
     portrait: new FormControl(''),
     banner: new FormControl(''),
     pictures: new FormArray([
       new FormControl(''), //REVISAR
     ]),
+    tags: new FormControl<Tag[]>([]),
+    studios: new FormControl<Studio[]>([]),
+    platforms: new FormControl<Platform[]>([]),
+    shops: new FormControl<Shop[]>([]),
   });
 
   id!: number;
@@ -307,7 +312,15 @@ export class GameComponent implements OnInit {
   lastGameId = 0;
   addGame() {
     this.gameCreated = false;
+    const x = this.gameForm.value as Game;
 
+    this.gameService.addGameObj(x).subscribe((res) => {
+      this.game = res;
+      this.lastGameId = res.id;
+      this.gameCreated = true;
+    });
+
+    /*
     this.gameService
       .addGame(
         this.gameForm.value.title ?? '',
@@ -327,6 +340,7 @@ export class GameComponent implements OnInit {
         this.gameCreated = true;
         //        this.uploadImages();
       });
+*/
     //router.navigate(['/games']); TODO
   }
   goToGame() {

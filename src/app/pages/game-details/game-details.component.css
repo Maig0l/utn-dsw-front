@@ -1,3 +1,13 @@
+:host {
+  display: grid;
+  grid-template-columns: 2fr 1fr;
+  grid-template-rows: 1fr;
+  grid-column-gap: 0px;
+  grid-row-gap: 0px;
+  height: 100vh;
+  overflow: hidden;
+}
+
 #deleteModal {
   z-index: 1;
   padding: 16px;
@@ -141,27 +151,9 @@
   font-size: 20px;
 }
 
-/*TODO revisar, copiado de review
-es buenas practicas pasarlo a un .css más global?
-*/
-* {
+.noFormMessage {
+  color: gray;
   margin: 0;
-  padding: 0;
-  box-sizing: border-box;
-}
-
-body {
-  font-family: Arial, sans-serif;
-  color: #000000;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  padding: 20px;
-}
-
-main {
-  width: 80%;
-  margin: auto;
 }
 
 .edit-button {
@@ -188,13 +180,11 @@ main {
 
 /* Información del juego seleccionado */
 .selected-game {
+  grid-area: 1 / 1 / 2 / 2;
   position: relative;
   background-color: #003566;
-  border-radius: 8px;
   overflow: hidden;
-  margin: 20px 0 20px;
-  box-shadow: 0 4px 8px rgb(50, 47, 247);
-  padding: 15px;
+  padding: 0.25em
 }
 
 .selected-game > * {
@@ -272,41 +262,6 @@ main {
   content: " ⎋";
 }
 
-/* Lista de reseñas */
-
-.review-list {
-  margin-top: 20px;
-}
-
-.review-list h3 {
-  color: #3498db;
-  margin-bottom: 10px;
-}
-
-.review-card {
-  color: black;
-  background-color: #e1e1e1;
-  border-radius: 8px;
-  padding: 15px;
-  margin-bottom: 10px;
-  box-shadow: 0 4px 8px rgba(255, 255, 255, 0.3);
-}
-
-.review-text {
-  margin-bottom: 5px;
-  font-size: 1.1rem;
-  color: #1f1f1f;
-}
-
-.review-rating {
-  font-size: 1.3rem;
-  color: #3498db;
-  margin-bottom: 10px;
-}
-
-.review-title {
-  font-size: 1.4rem;
-}
 
 .studio-container {
   display: flex;
@@ -328,6 +283,28 @@ main {
   object-fit: contain;
   margin-right: 15px;
 }
+
+/* Sección reviews */
+
+.reviews {
+  grid-area: 1 / 2 / 2 / 3;
+  overflow-y: scroll;
+  padding: 0.5em;
+  box-shadow: -.25em 0 10px -2px #0008;
+  z-index: 1;
+}
+
+.reviews, .review-list {
+  display: flex;
+  flex-direction: column;
+  gap: .5em;
+}
+
+.reviews > hr {
+  color: #acacac;
+  width: 100%;
+}
+
 
 /* Responsive adjustments */
 @media (max-width: 768px) {

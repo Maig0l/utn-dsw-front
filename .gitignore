@@ -13,7 +13,7 @@ yarn-error.log
 .node-version
 
 # IDEs and editors
-.idea/
+.idea/*
 .project
 .classpath
 .c9/

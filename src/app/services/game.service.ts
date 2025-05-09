@@ -37,6 +37,7 @@ export class GameService {
       .pipe(map((response) => response.data));
   }
 
+  // TODO: Cambiar firmas de las siguientes funciones para que tomen objetos Game en el parámetro
   filterGames(
     tags: number[],
     platform: number[],
@@ -67,6 +68,11 @@ export class GameService {
       .pipe(map((response) => response.data));
   }
 
+  addGameObj(game: Game): Observable<Game> {
+    return this.http.post<Game>(this.gamesEndpoint, game);
+  }
+
+  /*
   addGame(
     title: string,
     synopsis: string,
@@ -85,13 +91,14 @@ export class GameService {
       releaseDate,
       portrait,
       banner,
-      franchise,
+      franchise != 0 ? franchise : null,
       tags,
       studios,
       shops,
       platforms,
     });
   }
+*/
 
   updateGame(
     id: number,

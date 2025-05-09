@@ -8,4 +8,5 @@ export interface Review {
   score: number;
   title?: string;
   body?: string;
+  createdAt: Date;
 }

@@ -158,6 +158,10 @@ button + button {
   font-size: 16px;
   color: #e5e5e5; /* Standardized text color */
 }
+mat-error.mat-mdc-form-field-error.mat-mdc-form-field-bottom-align.ng-star-inserted {
+  color: var(--mat-form-field-error-text-color);
+  margin: -12px 0px 0px 12px;
+}
 
 /* Dialog Form Fields */
 ::ng-deep .mat-mdc-text-field-wrapper.mdc-text-field {
@@ -167,6 +171,7 @@ button + button {
 
 ::ng-deep mat-form-field.mat-mdc-form-field {
   align-items: center;
+  margin-top: 8px;
 }
 
 ::ng-deep .mat-form-field-appearance-outline .mat-form-field-outline {

@@ -143,18 +143,15 @@ export class ShopComponent implements OnInit {
   handleBackendError(errorResponse: { error: { message: string } }): void {
     if (errorResponse.error && errorResponse.error.message) {
       const errorMessage = errorResponse.error.message;
+      console.error('Backend error:', errorMessage);
 
       // Map specific error messages to form fields
-      if (errorMessage === 'NAME must be between 3 and 100 characters long') {
+      if (errorMessage.includes('name')) {
         this.dialogForm.get('name')?.setErrors({ backend: errorMessage });
-      } else if (errorMessage === 'URL must be a valid URL') {
+      } else if (errorMessage.includes('site')) {
         this.dialogForm.get('site')?.setErrors({ backend: errorMessage });
-      } else if (errorMessage === 'site URL cannot be empty') {
-        this.dialogForm.get('site')?.setErrors({ backend: errorMessage });
-      } else if (errorMessage === 'img URL cannot be empty') {
+      } else if (errorMessage.includes('img')) {
         this.dialogForm.get('img')?.setErrors({ backend: errorMessage });
-      } else if (errorMessage === 'URL must end with .com') {
-        this.dialogForm.get('site')?.setErrors({ backend: errorMessage });
       } else {
         // Handle unexpected errors
         alert('An unexpected error occurred: ' + errorMessage);

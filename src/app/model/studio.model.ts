@@ -1,6 +1,6 @@
 export interface Studio {
   id: number;
   name: string;
-  type: 'Publisher' | 'Developer';
+  type: string;
   site: string;
 }

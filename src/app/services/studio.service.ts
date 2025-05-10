@@ -35,8 +35,12 @@ export class StudioService {
       .pipe(map((response) => response.data));
   }
 
-  deleteStudio(name: string): Observable<Studio> {
-    const url = this.studiosEndpoint + `/${name}`;
+  updateStudio(id: number, studioData: Partial<Studio>): Observable<Studio> {
+    return this.http.put<Studio>(`${this.studiosEndpoint}/${id}`, studioData);
+  }
+
+  deleteStudio(id: number): Observable<Studio> {
+    const url = this.studiosEndpoint + `/${id}`;
     return this.http.delete<responseStudio>(url).pipe(map((res) => res.data));
   }
 }

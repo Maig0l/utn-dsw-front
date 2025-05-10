@@ -36,7 +36,11 @@ export class ShopService {
     return this.http.post<Shop>(this.shopsEndpoint, { name, img, site });
   }
 
-  deleteShop(id: string): Observable<Shop> {
+  updateShop(id: number, shopData: Partial<Shop>): Observable<Shop> {
+    return this.http.put<Shop>(`${this.shopsEndpoint}/${id}`, shopData);
+  }
+
+  deleteShop(id: number): Observable<Shop> {
     const url = this.shopsEndpoint + `/${id}`;
     return this.http.delete<resShopSingle>(url).pipe(map((res) => res.data));
   }

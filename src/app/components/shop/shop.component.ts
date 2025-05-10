@@ -114,20 +114,51 @@ export class ShopComponent implements OnInit {
 
   saveDialog(): void {
     const shopData = this.dialogForm.value;
+
     if (this.dialogMode === 'add') {
       this.shopService
         .addShop(shopData.name, shopData.img, shopData.site)
-        .subscribe(() => {
-          this.loadShops();
-          this.closeDialog();
+        .subscribe({
+          next: () => {
+            this.loadShops();
+            this.closeDialog();
+          },
+          error: (errorResponse) => {
+            this.handleBackendError(errorResponse);
+          },
         });
     } else if (this.dialogMode === 'edit' && this.currentShopId !== null) {
-      this.shopService
-        .updateShop(this.currentShopId, shopData)
-        .subscribe(() => {
+      this.shopService.updateShop(this.currentShopId, shopData).subscribe({
+        next: () => {
           this.loadShops();
           this.closeDialog();
-        });
+        },
+        error: (errorResponse) => {
+          this.handleBackendError(errorResponse);
+        },
+      });
+    }
+  }
+
+  handleBackendError(errorResponse: { error: { message: string } }): void {
+    if (errorResponse.error && errorResponse.error.message) {
+      const errorMessage = errorResponse.error.message;
+
+      // Map specific error messages to form fields
+      if (errorMessage === 'NAME must be between 3 and 100 characters long') {
+        this.dialogForm.get('name')?.setErrors({ backend: errorMessage });
+      } else if (errorMessage === 'URL must be a valid URL') {
+        this.dialogForm.get('site')?.setErrors({ backend: errorMessage });
+      } else if (errorMessage === 'site URL cannot be empty') {
+        this.dialogForm.get('site')?.setErrors({ backend: errorMessage });
+      } else if (errorMessage === 'img URL cannot be empty') {
+        this.dialogForm.get('img')?.setErrors({ backend: errorMessage });
+      } else if (errorMessage === 'URL must end with .com') {
+        this.dialogForm.get('site')?.setErrors({ backend: errorMessage });
+      } else {
+        // Handle unexpected errors
+        alert('An unexpected error occurred: ' + errorMessage);
+      }
     }
   }
 

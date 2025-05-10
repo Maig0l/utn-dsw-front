@@ -84,19 +84,31 @@
   </h1>
   <div mat-dialog-content>
     <form [formGroup]="dialogForm">
+      <!-- Name Field -->
       <mat-form-field appearance="outline" class="full-width">
         <mat-label>Name</mat-label>
         <input matInput formControlName="name" />
+        <mat-error *ngIf="dialogForm.get('name')?.hasError('backend')">
+          {{ dialogForm.get("name")?.getError("backend") }}
+        </mat-error>
       </mat-form-field>
 
+      <!-- Image URL Field -->
       <mat-form-field appearance="outline" class="full-width">
         <mat-label>Image URL</mat-label>
         <input matInput formControlName="img" />
+        <mat-error *ngIf="dialogForm.get('img')?.hasError('backend')">
+          {{ dialogForm.get("img")?.getError("backend") }}
+        </mat-error>
       </mat-form-field>
 
+      <!-- Site URL Field -->
       <mat-form-field appearance="outline" class="full-width">
         <mat-label>Site URL</mat-label>
         <input matInput formControlName="site" />
+        <mat-error *ngIf="dialogForm.get('site')?.hasError('backend')">
+          {{ dialogForm.get("site")?.getError("backend") }}
+        </mat-error>
       </mat-form-field>
     </form>
   </div>

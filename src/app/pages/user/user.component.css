@@ -1,3 +1,4 @@
+/*
 .profile-container {
   display: flex;
   flex-direction: column;
@@ -85,7 +86,7 @@
   align-items: center;
   justify-content: center;
   padding-top: 25%; /*Temporalmete queda asi*/
-
+/*
 }
 
 .custom-button {
@@ -148,3 +149,5 @@ textarea {
   font-variation-settings: 'FILL' 1;
   color: #ffc107;
 }
+
+*/

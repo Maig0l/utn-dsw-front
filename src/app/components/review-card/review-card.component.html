@@ -2,7 +2,7 @@
   <div class="head">
     @if (showProfilePicture) {
       <img
-        [src]="apiUrl + '/uploads/' + review().author.profile_img"
+        [src]="staticLinkTo(review().author.profile_img)"
         [alt]="review().author.nick + '\'s profile picture'"
       />
     }

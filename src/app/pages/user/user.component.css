@@ -1,3 +1,42 @@
+main {
+  display: flex;
+  padding: 1.5em;
+  flex-direction: column;
+  gap: 1.5em;
+}
+
+h1,
+h2 {
+  font-size: 1.5rem;
+  margin-top: 0;
+  margin-bottom: 0;
+}
+
+h2 {
+  font-size: 1.25rem;
+}
+
+#info-head {
+  display: flex;
+  flex-direction: row;
+  margin-bottom: 1em;
+  gap: 1em;
+}
+
+#profile-pic {
+  aspect-ratio: 1 / 1;
+  height: calc(1.5em * 4);
+  border-radius: 1.2em;
+}
+
+#info-head-text > p {
+  margin-top: 0;
+}
+
+hr {
+  margin-top: 0;
+}
+
 /*
 .profile-container {
   display: flex;

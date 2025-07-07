@@ -1,16 +1,24 @@
-<section>
-  @if (!user) {
-    <h1>Loading...</h1>
-  } @else {
-    <ng-container *ngTemplateOutlet="old"></ng-container>
-  }
-</section>
+<main>
+  <section id="section-info">
+    @if (!user) {
+      <h1>Loading profile...</h1>
+    } @else {
+      <ng-container *ngTemplateOutlet="userinfo"></ng-container>
+    }
+  </section>
+
+  <section id="section-review-list">
+    <ng-container *ngTemplateOutlet="reviews"></ng-container>
+  </section>
+
+  <section id="playlist-list">to do...</section>
+</main>
 
 <ng-template #userinfo>
   <div id="info-head">
     <img
       id="profile-pic"
-      [src]="apiUrl + '/uploads/' + user?.profile_img"
+      [src]="staticLinkTo(user?.profile_img)"
       [alt]="user?.nick + '\'s Profile Picture'"
     />
     <div id="info-head-text">
@@ -19,24 +27,28 @@
     </div>
   </div>
 
-  <div class="info-line">
-    Likes games about:
-    @for (tag of user?.likedTags; track tag.id) {
-      <!-- TODO: usar el componente que usamos en la pagina de view-game -->
-      <span class="tag-chip">{{ tag.name }}</span>
-    }
-  </div>
+  @if (!user?.likedTags) {
+    <div class="info-line">
+      Likes games about:
+      @for (tag of user?.likedTags; track tag.id) {
+        <!-- TODO: usar el componente que usamos en la pagina de view-game -->
+        <span class="tag-chip">{{ tag.name }}</span>
+      }
+    </div>
+  }
 
-  <div class="info-line">
-    Call them a gamer (derogatory) at:
-    @for (social of user?.linked_accounts; track $index) {
-      <!-- TODO: crear un componente que tome de entrada una URL y asocie el ícono de la red social -->
-    }
-  </div>
+  @if (!user?.linked_accounts) {
+    <div class="info-line">
+      Call them a gamer (derogatory) at:
+      @for (social of user?.linked_accounts; track $index) {
+        <!-- TODO: crear un componente que tome de entrada una URL y asocie el ícono de la red social -->
+      }
+    </div>
+  }
 </ng-template>
 
 <ng-template #reviews>
-  <h1>Recent reviews</h1>
+  <h2>Recent reviews</h2>
   <hr />
   <div id="review-list">
     <!--@for (review of reviews; track review.id) {}-->
@@ -113,27 +125,27 @@
 
     <h2>Total Reviews: {{ user?.reviews?.length }}</h2>
 
-    <div class="user-container">
-      @for (review of user?.reviews; track $index) {
-        <div class="user-card">
-          @for (game of games; track games) {
-            @if (game.id === review.game) {
-              <h3>{{ game.title }}</h3>
-            }
-          }
-          <h4>{{ review.title }}</h4>
-          <p>{{ review.body }}</p>
-          @for (star of [0, 1, 2, 3, 4]; track $index) {
-            <span
-              class="material-symbols-rounded luna"
-              [ngClass]="{ filled: star < review.score }"
-            >
-              dark_mode
-            </span>
-          }
-        </div>
-      }
-    </div>
+    <!--    <div class="user-container">-->
+    <!--      @for (review of user?.reviews; track $index) {-->
+    <!--        <div class="user-card">-->
+    <!--          @for (game of games; track games) {-->
+    <!--            @if (game.id === review.game) {-->
+    <!--              <h3>{{ game.title }}</h3>-->
+    <!--            }-->
+    <!--          }-->
+    <!--          <h4>{{ review.title }}</h4>-->
+    <!--          <p>{{ review.body }}</p>-->
+    <!--          @for (star of [0, 1, 2, 3, 4]; track $index) {-->
+    <!--            <span-->
+    <!--              class="material-symbols-rounded luna"-->
+    <!--              [ngClass]="{ filled: star < review.score }"-->
+    <!--            >-->
+    <!--              dark_mode-->
+    <!--            </span>-->
+    <!--          }-->
+    <!--        </div>-->
+    <!--      }-->
+    <!--    </div>-->
 
     <h2>Total Playlists: {{ user?.playlists?.length }}</h2>
 

@@ -21,8 +21,9 @@ import { MatButtonModule } from '@angular/material/button';
 import { MatIconModule } from '@angular/material/icon';
 import { MatRippleModule } from '@angular/material/core';
 import { MatChipsModule } from '@angular/material/chips';
-import { environment } from '../../../enviroment/enviroment';
+import { environment, staticLinkTo } from '../../../enviroment/enviroment';
 import { LoginService } from '../../services/auth/login.service';
+import { ReviewService } from '../../services/review.service';
 
 @Component({
   selector: 'app-user',
@@ -45,6 +46,7 @@ import { LoginService } from '../../services/auth/login.service';
   styleUrl: './user.component.css',
 })
 export class UserComponent implements OnInit {
+  // TODO: Delete
   userForm = new FormGroup({
     nick: new FormGroup(''),
     email: new FormGroup(''),
@@ -56,7 +58,6 @@ export class UserComponent implements OnInit {
   playlists!: Playlist[];
   likedTags!: Tag[];
   reviews!: Review[];
-  games: Game[] = [];
 
   user: User | undefined;
 
@@ -65,6 +66,7 @@ export class UserComponent implements OnInit {
   constructor(
     private userService: UserService,
     private gameService: GameService,
+    private reviewService: ReviewService,
     private router: Router,
     private tagService: TagService,
     private playlistService: PlaylistService,
@@ -101,7 +103,7 @@ export class UserComponent implements OnInit {
               return;
             }
 
-            this.getGameDetails();
+            this.getReviews();
             this.getTagsByUser();
           });
       },
@@ -110,9 +112,10 @@ export class UserComponent implements OnInit {
 
   showProfile(id: number) {}
 
-  getGameDetails() {
-    this.gameService.getAllGames().subscribe((response) => {
-      this.games = response;
+  getReviews(): void {
+    if (!this.user) throw Error("User didn't load in time");
+    this.reviewService.getReviewsByAuthorId(this.user.id).subscribe((value) => {
+      this.reviews = value;
     });
   }
 
@@ -133,4 +136,6 @@ export class UserComponent implements OnInit {
       this.router.navigate([`user/${this.user.id}/edit`]);
     }
   }
+
+  protected readonly staticLinkTo = staticLinkTo;
 }

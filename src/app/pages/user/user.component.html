@@ -8,7 +8,7 @@
   </section>
 
   <section id="section-review-list">
-    <ng-container *ngTemplateOutlet="reviews"></ng-container>
+    <ng-container *ngTemplateOutlet="sectionReviews"></ng-container>
   </section>
 
   <section id="playlist-list">to do...</section>
@@ -47,11 +47,16 @@
   }
 </ng-template>
 
-<ng-template #reviews>
+<ng-template #sectionReviews>
   <h2>Recent reviews</h2>
   <hr />
   <div id="review-list">
-    <!--@for (review of reviews; track review.id) {}-->
+    @for (review of reviews; track review.id) {
+      <app-review-card
+        [review]="review"
+        [showProfilePicture]="false"
+      ></app-review-card>
+    }
   </div>
 </ng-template>
 

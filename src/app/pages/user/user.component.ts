@@ -27,6 +27,7 @@ import {
 } from '../../../enviroment/enviroment';
 import { LoginService } from '../../services/auth/login.service';
 import { ReviewService } from '../../services/review.service';
+import { ReviewCardComponent } from '../../components/review-card/review-card.component';
 
 @Component({
   selector: 'app-user',
@@ -43,6 +44,7 @@ import { ReviewService } from '../../services/review.service';
     MatSelectModule,
     MatRippleModule,
     MatChipsModule,
+    ReviewCardComponent,
   ],
   providers: [UserService, TagService, PlaylistService],
   templateUrl: './user.component.html',
@@ -111,7 +113,7 @@ export class UserComponent implements OnInit {
   getReviews(): void {
     if (!this.user) throw Error("User didn't load in time");
 
-    this.reviewService.getReviewsByAuthorId(this.user.id).subscribe((value) => {
+    this.reviewService.getReviewsByAuthor(this.user).subscribe((value) => {
       this.reviews = value;
     });
   }

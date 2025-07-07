@@ -37,6 +37,12 @@ hr {
   margin-top: 0;
 }
 
+#review-list {
+  display: flex;
+  flex-direction: row;
+  gap: 1em;
+}
+
 /*
 .profile-container {
   display: flex;

@@ -4,6 +4,7 @@ import { map, Observable } from 'rxjs';
 import { API_URL } from '../../main';
 import { Review } from '../model/review.model';
 import { ApiResponse } from '../model/apiResponse.model';
+import { User } from '../model/user.model';
 
 export interface ReviewPostBody {
   score: number;
@@ -24,9 +25,11 @@ export class ReviewService {
       .pipe(map((res) => res.data as Review[]));
   }
 
-  getReviewsByAuthorId(userId: number) {
+  getReviewsByAuthor(user: User) {
+    const resourcePath = `${API_URL}/users/${user.nick}/reviews`;
+
     return this.http
-      .get<ApiResponse<Review[]>>(this.reviewsEndpoint)
+      .get<ApiResponse<Review[]>>(resourcePath)
       .pipe(map((res) => res.data as Review[]));
   }
 

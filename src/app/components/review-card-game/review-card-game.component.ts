@@ -3,7 +3,7 @@ import { Review } from '../../model/review.model.js';
 import { MatIconModule } from '@angular/material/icon';
 import { CommonModule } from '@angular/common';
 import { RouterLink } from '@angular/router';
-import { staticLinkTo } from '../../../enviroment/enviroment.js';
+import { linkToStaticResource } from '../../../enviroment/enviroment.js';
 
 @Component({
   selector: 'app-review-card-game',
@@ -14,5 +14,5 @@ import { staticLinkTo } from '../../../enviroment/enviroment.js';
 })
 export class ReviewCardGameComponent {
   @Input() data!: Review;
-  protected readonly staticLinkTo = staticLinkTo;
+  protected readonly linkToStaticResource = linkToStaticResource;
 }

@@ -1,7 +1,10 @@
 import { Component, Input, input } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { Review } from '../../model/review.model';
-import { environment, staticLinkTo } from '../../../enviroment/enviroment';
+import {
+  environment,
+  linkToStaticResource,
+} from '../../../enviroment/enviroment';
 import { MatIconModule } from '@angular/material/icon';
 
 @Component({
@@ -17,5 +20,5 @@ export class ReviewCardComponent {
 
   // Apagar para usar este componente en la página de perfil de usuario
   @Input() showProfilePicture: boolean = true;
-  protected readonly staticLinkTo = staticLinkTo;
+  protected readonly linkToStaticResource = linkToStaticResource;
 }

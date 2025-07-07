@@ -4,7 +4,19 @@ export const environment = {
   apiUrl: 'http://localhost:8080',
 };
 
-export function staticLinkTo(filename: string | undefined) {
-  if (!filename) return '';
-  return `${environment.apiUrl}/uploads/${filename}`;
+/**
+ * Devuelve un link válido para un archivo, sin importar que esté guardado en nuestro "bucket"
+ * o que sea un hotlink (archivo externo)
+ * @param value Nombre del archivo en el bucket, o URL externa
+ */
+export function linkToStaticResource(value: string | undefined) {
+  const localStorageLocation = `${environment.apiUrl}/uploads`;
+
+  if (!value) return '';
+
+  const isExternalRegex = /^https?:\/\//;
+  const isExternal = isExternalRegex.test(value);
+  if (isExternal) return value;
+
+  return `${localStorageLocation}/${value}`;
 }

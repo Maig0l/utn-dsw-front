@@ -2,7 +2,7 @@
   <div class="head">
     @if (showProfilePicture) {
       <img
-        [src]="staticLinkTo(review().author.profile_img)"
+        [src]="linkToStaticResource(review().author.profile_img)"
         [alt]="review().author.nick + '\'s profile picture'"
       />
     }

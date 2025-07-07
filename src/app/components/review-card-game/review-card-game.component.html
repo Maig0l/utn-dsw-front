@@ -15,7 +15,7 @@
 
 <div class="author">
   <a [routerLink]="'/user/' + data.author.nick">
-    <img [src]="staticLinkTo(data.author.profile_img)" alt="" />
+    <img [src]="linkToStaticResource(data.author.profile_img)" alt="" />
     {{ data.author.nick }}
   </a>
 </div>

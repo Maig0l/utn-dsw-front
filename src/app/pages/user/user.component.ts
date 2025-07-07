@@ -21,7 +21,10 @@ import { MatButtonModule } from '@angular/material/button';
 import { MatIconModule } from '@angular/material/icon';
 import { MatRippleModule } from '@angular/material/core';
 import { MatChipsModule } from '@angular/material/chips';
-import { environment, staticLinkTo } from '../../../enviroment/enviroment';
+import {
+  environment,
+  linkToStaticResource,
+} from '../../../enviroment/enviroment';
 import { LoginService } from '../../services/auth/login.service';
 import { ReviewService } from '../../services/review.service';
 
@@ -131,5 +134,5 @@ export class UserComponent implements OnInit {
     }
   }
 
-  protected readonly staticLinkTo = staticLinkTo;
+  protected readonly linkToStaticResource = linkToStaticResource;
 }

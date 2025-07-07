@@ -26,7 +26,7 @@
 
 <ng-template #optionsSessionUser>
   <li>
-    <a routerLink="/user/me" routerLinkActive="active">Profile</a>
+    <a [routerLink]="'/user/' + userNick" routerLinkActive="active">Profile</a>
   </li>
 
   <li><a>Settings</a></li>

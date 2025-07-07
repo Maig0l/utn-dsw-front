@@ -42,8 +42,8 @@ export const routes: Routes = [
   //{path: '**', redirectTo: '/studio'}, // Redirección en caso de ruta no encontrada
   { path: 'log-in', component: LoginComponent },
   { path: 'register', component: RegisterComponent },
-  { path: 'user/:id', component: UserComponent },
-  { path: 'user/:id/edit', component: UserEditComponent },
+  { path: 'user/:nick', component: UserComponent },
+  { path: 'user/:nick/edit', component: UserEditComponent },
 ];
 
 @NgModule({

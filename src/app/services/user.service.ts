@@ -18,6 +18,12 @@ export class UserService {
       .pipe(map((res) => res.data as User[]));
   }
 
+  getUserByNick(nick: string) {
+    return this.http
+      .get<ApiResponse<User>>(`${this.usersEndpoint}/${nick}`)
+      .pipe(map((res) => res.data as User));
+  }
+
   getUserById(userId: number) {
     const endpoint = `${this.usersEndpoint}/${userId}`;
     return this.http

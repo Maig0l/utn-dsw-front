@@ -76,26 +76,19 @@ export class UserComponent implements OnInit {
 
   ngOnInit() {
     let userDisplayedId: number;
+    let userDisplayedNick: string;
 
     this.activatedRoute.params.subscribe({
       next: (params: Params) => {
-        if (params['id'] === 'me') {
-          if (!this.loginService.isLoggedIn) {
-            this.router.navigate(['/homepage']);
-            return;
-          }
-          userDisplayedId = this.loginService.currentUserData.id;
-        } else {
-          if (!(params['id'] as number)) {
-            this.router.navigate(['/homepage']);
-            return;
-          }
-
-          userDisplayedId = params['id'];
+        if (!params['nick']) {
+          this.router.navigate(['/homepage']);
+          return;
         }
 
+        userDisplayedNick = params['nick'];
+
         this.userService
-          .getUserById(userDisplayedId)
+          .getUserByNick(userDisplayedNick)
           .subscribe((responseUser) => {
             this.user = responseUser;
             if (!this.user) {
@@ -114,6 +107,7 @@ export class UserComponent implements OnInit {
 
   getReviews(): void {
     if (!this.user) throw Error("User didn't load in time");
+
     this.reviewService.getReviewsByAuthorId(this.user.id).subscribe((value) => {
       this.reviews = value;
     });

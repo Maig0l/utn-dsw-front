@@ -4,7 +4,7 @@ import { Game } from './game.model';
 export interface Review {
   id: number;
   author: User;
-  game: number;
+  game: Game;
   score: number;
   title?: string;
   body?: string;

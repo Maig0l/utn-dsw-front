@@ -24,19 +24,24 @@ export class ReviewService {
       .pipe(map((res) => res.data as Review[]));
   }
 
+  getReviewsByAuthorId(userId: number) {
+    return this.http
+      .get<ApiResponse<Review[]>>(this.reviewsEndpoint)
+      .pipe(map((res) => res.data as Review[]));
+  }
+
   getReviewsByGame(gameId: number) {
     const endpoint = `${API_URL}/games/${gameId}/reviews`;
 
-    // Necesito que el cuando llegue `res`, se le parsee el atributo `createdAt` de cada Review como instancia de Date
-    return this.http
-      .get<ApiResponse<Review[]>>(endpoint)
-      .pipe(
-        map(res => {
-          res.data.forEach(review => review.createdAt = new Date(review.createdAt));
-          return res;
-        })
-      )
-
+    // Necesito que cuando llegue `res`, se le parsee el atributo `createdAt` de cada Review como instancia de Date
+    return this.http.get<ApiResponse<Review[]>>(endpoint).pipe(
+      map((res) => {
+        res.data.forEach(
+          (review) => (review.createdAt = new Date(review.createdAt)),
+        );
+        return res;
+      }),
+    );
   }
 
   postReview(userToken: string, gameId: number, postBody: ReviewPostBody) {

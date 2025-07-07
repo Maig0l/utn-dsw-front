@@ -1,4 +1,4 @@
-import { Component, input } from '@angular/core';
+import { Component, Input, input } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { Review } from '../../model/review.model';
 import { environment } from '../../../enviroment/enviroment';
@@ -14,4 +14,7 @@ import { MatIconModule } from '@angular/material/icon';
 export class ReviewCardComponent {
   review = input.required<Review>();
   apiUrl = environment.apiUrl;
+
+  // Apagar para usar este componente en la página de perfil de usuario
+  @Input() showProfilePicture: boolean = true;
 }

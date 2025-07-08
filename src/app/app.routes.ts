@@ -19,11 +19,11 @@ import { SearchFiltersComponent } from './pages/search-filters/search-filters.co
 import { UserComponent } from './components/user/user.component';
 import { UserEditComponent } from './components/user-edit/user-edit.component';
 import { PlaylistEditComponent } from './components/playlist-edit/playlist-edit.component';
+import { AdminGuard } from './admin.guard';
+import { CrudsComponent } from './components/cruds/cruds.component';
 
 export const routes: Routes = [
-  { path: 'studio', component: StudioComponent },
-  { path: 'shop', component: ShopComponent },
-  { path: 'tag', component: TagComponent },
+ 
   { path: 'tag/view_tag', component: ViewTagComponent },
   { path: 'platform', component: PlatformComponent },
   { path: 'franchise', component: FranchiseComponent },
@@ -44,6 +44,13 @@ export const routes: Routes = [
   { path: 'register', component: RegisterComponent },
   { path: 'user/:id', component: UserComponent },
   { path: 'user/:id/edit', component: UserEditComponent },
+
+
+{path:'administradores',component:CrudsComponent,canActivate:[ AdminGuard],
+  children:[ { path: 'studio', component: StudioComponent },
+  { path: 'shop', component: ShopComponent },
+  { path: 'tag', component: TagComponent },
+]}
 ];
 
 @NgModule({

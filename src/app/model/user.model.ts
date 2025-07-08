@@ -8,6 +8,7 @@ export interface User {
   nick: string;
   email: string;
   profile_img?: string;
+  is_admin: boolean;
   bio_text?: string;
   linked_accounts?: string[];
   playlists: Playlist[];

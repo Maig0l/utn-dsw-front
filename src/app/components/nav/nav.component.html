@@ -29,7 +29,10 @@
     <a [routerLink]="'/user/' + userNick" routerLinkActive="active">Profile</a>
   </li>
 
-  <li><a>Settings</a></li>
+  <li>
+    <!-- Temporal -->
+    <a routerLink="/user/edit-profile/">Settings</a>
+  </li>
   <li><a>Security</a></li>
   <li><a (click)="logout()">Logout</a></li>
 </ng-template>

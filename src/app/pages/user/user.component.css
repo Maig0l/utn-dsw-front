@@ -33,6 +33,11 @@ h2 {
   margin-top: 0;
 }
 
+.info-line > mat-chip-set {
+  display: inline-flex;
+  overflow-x: scroll;
+}
+
 hr {
   margin-top: 0;
 }

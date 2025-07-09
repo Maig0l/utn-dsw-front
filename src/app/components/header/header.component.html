@@ -1,64 +1,49 @@
 <header class="custom-header">
-  <div class="container">
-    <div class="header-content">
-      <div class="logo">
-        <!--TODO review this router link. Doesnt work -->
-        <a
-          class="pico"
-          routerLink="/homepage"
-          routerLinkActive="active"
-          (click)="redirect('/homepage')"
-        >
-          <img src="../../../assets/logo-ggwp150.png" alt="Placeholder Logo" />
-        </a>
-      </div>
-      <nav class="navigation">
-        <ul class="menu">
-          <!--li>
-            <span
-              routerLink="/administradores/game"
-              routerLinkActive="active"
-              (click)="redirect('/administradores/game')"
-              >Cruds</span>
-          </li -->
-        
-          <li class="search">
-            <form class="example-form">
-              <mat-form-field class="example-full-width">
-                <input
-                  class="custom-input"
-                  type="text"
-                  placeholder="Search games..."
-                  aria-label="Game"
-                  matInput
-                  [formControl]="myControl"
-                  [matAutocomplete]="auto"
-                />
-                <mat-autocomplete autoActiveFirstOption #auto="matAutocomplete">
-                  @for (option of filteredOptions | async; track option) {
-                    <a href="/game/{{ option.id }}">
-                      <mat-option [value]="option">
-                        <img
-                          class="option-portrait"
-                          [src]="option.portrait"
-                          alt="{{ option.title }}"
-                        />
-                        <span class="option-title">{{ option.title }}</span>
-                      </mat-option>
-                    </a>
-                  }
-                </mat-autocomplete>
-              </mat-form-field>
-            </form>
-          </li>
-          <li>
-            <span class="advanced-search" (click)="redirect('/search-filters')"
-              >Advanced game search</span
-            >
-          </li>
-          <li><app-nav class="pico"></app-nav></li>
-        </ul>
-      </nav>
-    </div>
-  </div>
+  <a
+    id="logo"
+    class="pico"
+    routerLink="/homepage"
+    routerLinkActive="active"
+    (click)="redirect('/homepage')"
+  >
+    <img src="../../../assets/logo-ggwp150.png" alt="Placeholder Logo" />
+  </a>
+
+  <span id="right-side">
+    <span class="search">
+      <form class="example-form">
+        <mat-form-field class="example-full-width">
+          <input
+            class="custom-input"
+            type="text"
+            placeholder="Search games..."
+            aria-label="Game"
+            matInput
+            [formControl]="myControl"
+            [matAutocomplete]="auto"
+          />
+          <mat-autocomplete autoActiveFirstOption #auto="matAutocomplete">
+            @for (option of filteredOptions | async; track option) {
+              <a href="/game/{{ option.id }}">
+                <mat-option [value]="option">
+                  <img
+                    class="option-portrait"
+                    [src]="option.portrait"
+                    alt="{{ option.title }}"
+                  />
+                  <span class="option-title">{{ option.title }}</span>
+                </mat-option>
+              </a>
+            }
+          </mat-autocomplete>
+        </mat-form-field>
+      </form>
+    </span>
+
+    <span class="advanced-search" (click)="redirect('/search-filters')">
+      <mat-icon>filter_list_alt</mat-icon>
+    </span>
+
+    <app-nav></app-nav>
+  </span>
 </header>

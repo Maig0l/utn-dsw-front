@@ -9,6 +9,7 @@ import { FormControl, FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { debounceTime, map, Observable, switchMap } from 'rxjs';
 import { GameService } from '../../services/game.service';
 import { Game } from '../../model/game.model';
+import {MatIcon} from "@angular/material/icon";
 
 @Component({
   selector: 'app-header',
@@ -22,6 +23,7 @@ import { Game } from '../../model/game.model';
     MatAutocompleteModule,
     ReactiveFormsModule,
     AsyncPipe,
+    MatIcon,
   ],
   providers: [GameService],
   templateUrl: './header.component.html',

@@ -1,22 +1,18 @@
-<nav>
-  <ul>
-    <li>
-      <details class="dropdown">
-        <summary>Account</summary>
-        <ul dir="rtl">
-          @if (userLoggedIn && userisAdmin) {
-            <ng-container *ngTemplateOutlet="optionsSessionAdmin"></ng-container>
-            }
-            @if (userLoggedIn && !userisAdmin) {
-             <ng-container *ngTemplateOutlet="optionsSessionUser"></ng-container> 
-            }
-           @if (!userLoggedIn) {
-            <ng-container *ngTemplateOutlet="optionsSessionOff"></ng-container>
-          }
-        </ul>
-      </details>
-    </li>
-  </ul>
+<nav class="pico">
+  <details class="dropdown">
+    <summary>Account</summary>
+    <ul dir="rtl">
+      @if (!userLoggedIn) {
+        <ng-container *ngTemplateOutlet="optionsSessionOff"></ng-container>
+      } @else {
+        @if (userisAdmin) {
+          <ng-container *ngTemplateOutlet="optionsSessionAdmin"></ng-container>
+        } @else {
+          <ng-container *ngTemplateOutlet="optionsSessionUser"></ng-container>
+        }
+      }
+    </ul>
+  </details>
 </nav>
 
 <ng-template #optionsSessionOff>
@@ -32,7 +28,7 @@
   <li>
     <a routerLink="/user/me" routerLinkActive="active">Profile</a>
   </li>
-   <li>
+  <li>
     <a routerLink="/playlist" routerLinkActive="active">Playlist</a>
   </li>
   <li><a>Settings</a></li>
@@ -47,7 +43,7 @@
   <li>
     <a routerLink="/administradores/game" routerLinkActive="active">Cruds</a>
   </li>
-   <li>
+  <li>
     <a routerLink="/playlist" routerLinkActive="active">Playlist</a>
   </li>
   <li><a>Settings</a></li>

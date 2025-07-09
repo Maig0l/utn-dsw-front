@@ -1,0 +1,62 @@
+<main>
+  <section id="section-info">
+    @if (!user) {
+      <h1>Loading profile...</h1>
+    } @else {
+      <ng-container *ngTemplateOutlet="userinfo"></ng-container>
+    }
+  </section>
+
+  <section id="section-review-list">
+    <ng-container *ngTemplateOutlet="sectionReviews"></ng-container>
+  </section>
+
+  <section id="playlist-list">to do...</section>
+</main>
+
+<ng-template #userinfo>
+  <div id="info-head">
+    <img
+      id="profile-pic"
+      [src]="linkToStaticResource(user?.profile_img)"
+      [alt]="user?.nick + '\'s Profile Picture'"
+    />
+    <div id="info-head-text">
+      <h1>{{ user?.nick }}</h1>
+      <p>{{ user?.bio_text }}</p>
+    </div>
+  </div>
+
+  @if (!user?.likedTags) {
+    <div class="info-line">
+      Likes games about:
+      <mat-chip-set role="list">
+        @for (tag of likedTags; track tag.id) {
+          <mat-chip role="listitem">{{ tag.name }}</mat-chip>
+        }
+      </mat-chip-set>
+    </div>
+  }
+
+  @if (!user?.linked_accounts) {
+    <div class="info-line">
+      Call them a gamer (derogatory) at:
+      @for (social of user?.linked_accounts; track $index) {
+        <!-- TODO: crear un componente que tome de entrada una URL y asocie el ícono de la red social -->
+      }
+    </div>
+  }
+</ng-template>
+
+<ng-template #sectionReviews>
+  <h2>Recent reviews</h2>
+  <hr />
+  <div id="review-list">
+    @for (review of reviews; track review.id) {
+      <app-review-card
+        [review]="review"
+        [showProfilePicture]="false"
+      ></app-review-card>
+    }
+  </div>
+</ng-template>

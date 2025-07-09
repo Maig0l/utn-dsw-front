@@ -22,11 +22,13 @@ export class NavComponent implements OnInit {
   ) {}
 
   userLoggedIn = false;
+  userNick: string = '';
   userisAdmin = false;
 
   ngOnInit() {
     this.loginService.sessionState.subscribe((val) => {
       this.userLoggedIn = val;
+      this.userNick = this.loginService.currentUserData.nick;
     });
 
     if (this.userLoggedIn) {

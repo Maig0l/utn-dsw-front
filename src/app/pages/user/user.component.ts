@@ -21,8 +21,13 @@ import { MatButtonModule } from '@angular/material/button';
 import { MatIconModule } from '@angular/material/icon';
 import { MatRippleModule } from '@angular/material/core';
 import { MatChipsModule } from '@angular/material/chips';
-import { environment } from '../../../enviroment/enviroment';
+import {
+  environment,
+  linkToStaticResource,
+} from '../../../enviroment/enviroment';
 import { LoginService } from '../../services/auth/login.service';
+import { ReviewService } from '../../services/review.service';
+import { ReviewCardComponent } from '../../components/review-card/review-card.component';
 
 @Component({
   selector: 'app-user',
@@ -39,12 +44,14 @@ import { LoginService } from '../../services/auth/login.service';
     MatSelectModule,
     MatRippleModule,
     MatChipsModule,
+    ReviewCardComponent,
   ],
   providers: [UserService, TagService, PlaylistService],
   templateUrl: './user.component.html',
   styleUrl: './user.component.css',
 })
 export class UserComponent implements OnInit {
+  // TODO: Delete
   userForm = new FormGroup({
     nick: new FormGroup(''),
     email: new FormGroup(''),
@@ -56,7 +63,6 @@ export class UserComponent implements OnInit {
   playlists!: Playlist[];
   likedTags!: Tag[];
   reviews!: Review[];
-  games: Game[] = [];
 
   user: User | undefined;
 
@@ -65,6 +71,7 @@ export class UserComponent implements OnInit {
   constructor(
     private userService: UserService,
     private gameService: GameService,
+    private reviewService: ReviewService,
     private router: Router,
     private tagService: TagService,
     private playlistService: PlaylistService,
@@ -74,26 +81,19 @@ export class UserComponent implements OnInit {
 
   ngOnInit() {
     let userDisplayedId: number;
+    let userDisplayedNick: string;
 
     this.activatedRoute.params.subscribe({
       next: (params: Params) => {
-        if (params['id'] === 'me') {
-          if (!this.loginService.isLoggedIn) {
-            this.router.navigate(['/homepage']);
-            return;
-          }
-          userDisplayedId = this.loginService.currentUserData.id;
-        } else {
-          if (!(params['id'] as number)) {
-            this.router.navigate(['/homepage']);
-            return;
-          }
-
-          userDisplayedId = params['id'];
+        if (!params['nick']) {
+          this.router.navigate(['/homepage']);
+          return;
         }
 
+        userDisplayedNick = params['nick'];
+
         this.userService
-          .getUserById(userDisplayedId)
+          .getUserByNick(userDisplayedNick)
           .subscribe((responseUser) => {
             this.user = responseUser;
             if (!this.user) {
@@ -101,7 +101,7 @@ export class UserComponent implements OnInit {
               return;
             }
 
-            this.getGameDetails();
+            this.getReviews();
             this.getTagsByUser();
           });
       },
@@ -110,9 +110,11 @@ export class UserComponent implements OnInit {
 
   showProfile(id: number) {}
 
-  getGameDetails() {
-    this.gameService.getAllGames().subscribe((response) => {
-      this.games = response;
+  getReviews(): void {
+    if (!this.user) throw Error("User didn't load in time");
+
+    this.reviewService.getReviewsByAuthor(this.user).subscribe((value) => {
+      this.reviews = value;
     });
   }
 
@@ -133,4 +135,6 @@ export class UserComponent implements OnInit {
       this.router.navigate([`user/${this.user.id}/edit`]);
     }
   }
+
+  protected readonly linkToStaticResource = linkToStaticResource;
 }

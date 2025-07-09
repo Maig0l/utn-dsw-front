@@ -2,7 +2,6 @@ import { Playlist } from './playlist.model';
 import { Review } from './review.model.js';
 import { Tag } from './tag.model.js';
 
-
 export interface User {
   id: number;
   nick: string;
@@ -10,7 +9,7 @@ export interface User {
   profile_img?: string;
   is_admin: boolean;
   bio_text?: string;
-  linked_accounts?: string[];
+  linked_accounts: string[];
   playlists: Playlist[];
   likedTags: Tag[];
   reviews: Review[];

@@ -1,3 +1,54 @@
+main {
+  display: flex;
+  padding: 1.5em;
+  flex-direction: column;
+  gap: 1.5em;
+}
+
+h1,
+h2 {
+  font-size: 1.5rem;
+  margin-top: 0;
+  margin-bottom: 0;
+}
+
+h2 {
+  font-size: 1.25rem;
+}
+
+#info-head {
+  display: flex;
+  flex-direction: row;
+  margin-bottom: 1em;
+  gap: 1em;
+}
+
+#profile-pic {
+  aspect-ratio: 1 / 1;
+  height: calc(1.5em * 4);
+  border-radius: 1.2em;
+}
+
+#info-head-text > p {
+  margin-top: 0;
+}
+
+.info-line > mat-chip-set {
+  display: inline-flex;
+  overflow-x: scroll;
+}
+
+hr {
+  margin-top: 0;
+}
+
+#review-list {
+  display: flex;
+  flex-direction: row;
+  gap: 1em;
+}
+
+/*
 .profile-container {
   display: flex;
   flex-direction: column;
@@ -85,7 +136,7 @@
   align-items: center;
   justify-content: center;
   padding-top: 25%; /*Temporalmete queda asi*/
-
+/*
 }
 
 .custom-button {
@@ -148,3 +199,5 @@ textarea {
   font-variation-settings: 'FILL' 1;
   color: #ffc107;
 }
+
+*/

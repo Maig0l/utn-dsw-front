@@ -4,9 +4,13 @@
       <details class="dropdown">
         <summary>Account</summary>
         <ul dir="rtl">
-          @if (userLoggedIn) {
-            <ng-container *ngTemplateOutlet="optionsSessionUser"></ng-container>
-          } @else {
+          @if (userLoggedIn && userisAdmin) {
+            <ng-container *ngTemplateOutlet="optionsSessionAdmin"></ng-container>
+            }
+            @if (userLoggedIn && !userisAdmin) {
+             <ng-container *ngTemplateOutlet="optionsSessionUser"></ng-container> 
+            }
+           @if (!userLoggedIn) {
             <ng-container *ngTemplateOutlet="optionsSessionOff"></ng-container>
           }
         </ul>
@@ -28,10 +32,25 @@
   <li>
     <a routerLink="/user/me" routerLinkActive="active">Profile</a>
   </li>
-
+   <li>
+    <a routerLink="/playlist" routerLinkActive="active">Playlist</a>
+  </li>
   <li><a>Settings</a></li>
   <li><a>Security</a></li>
   <li><a (click)="logout()">Logout</a></li>
 </ng-template>
 
-<ng-template #optionsSessionAdmin> </ng-template>
+<ng-template #optionsSessionAdmin>
+  <li>
+    <a routerLink="/user/me" routerLinkActive="active">Profile</a>
+  </li>
+  <li>
+    <a routerLink="/administradores/game" routerLinkActive="active">Cruds</a>
+  </li>
+   <li>
+    <a routerLink="/playlist" routerLinkActive="active">Playlist</a>
+  </li>
+  <li><a>Settings</a></li>
+  <li><a>Security</a></li>
+  <li><a (click)="logout()">Logout</a></li>
+</ng-template>

@@ -23,7 +23,7 @@ export class LoginService {
   constructor(
     private http: HttpClient,
     private jwt: JwtHelperService,
-  ) { }
+  ) {}
 
   loginEndpoint = `${API_URL}/users/login`;
 
@@ -51,14 +51,12 @@ export class LoginService {
   private handleError(error: HttpErrorResponse) {
     console.error(error);
     if (error.status === 0) {
-      console.error('An error occurred:', error.error);
+      //console.error('An error occurred:', error.error);
     } else {
-      console.error(
-        `Backend returned code ${error.status}, ` + `body was: ${error.error}`,
-      );
+      //console.error(`Backend returned code ${error.status}, ` + `body was: ${error.error}`,);
     }
     return throwError(
-      () => new Error('Something bad happened; please try again later.'),
+      () => new Error(error.error?.message || 'An error occurred'),
     );
   }
 
@@ -91,6 +89,6 @@ export class LoginService {
       throw Error('User is not logged in. Check with isLoggedIn first');
 
     // isLoggedIn() ya serciora que el token no es null/undefined
-    return localStorage.getItem('token')!
+    return localStorage.getItem('token')!;
   }
 }

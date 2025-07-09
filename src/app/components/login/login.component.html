@@ -1,52 +1,67 @@
-<form [formGroup]="loginForm">
-  <p class="text-danger">{{ loginError }}</p>
-  <fieldset>
-    <legend>Log in</legend>
-    <label>
-      Username
-      <input
-        formControlName="username"
-        name="Usename"
-        placeholder="username"
-        autocomplete="username"
-      />
-      <div
-        *ngIf="username.invalid && (username.dirty || username.touched)"
-        class="alert alert-danger"
-      >
-        <div *ngIf="username.hasError('required')" class="text-danger">
-          Username is required.
-        </div>
-        <div *ngIf="username.hasError('minlength')">
-          Username must be at least 4 characters long.
-        </div>
-        <div *ngIf="username.hasError('forbiddenusername')">
-          Username cannot be Bob.
-        </div>
-      </div>
-    </label>
-    <label>
-      Password
-      <input
-        formControlName="password"
-        type="password"
-        name="password"
-        placeholder="password"
-        autocomplete="password"
-      />
-      <div
-        *ngIf="password.invalid && (password.dirty || password.touched)"
-        class="alert alert-danger"
-      >
-        <div *ngIf="password.hasError('required')" class="text-danger">
-          Password is required.
-        </div>
-        <div *ngIf="password.hasError('minlength')">
-          Password must be at least 4 characters long.
-        </div>
-      </div>
-    </label>
-  </fieldset>
+<form [formGroup]="loginForm" (ngSubmit)="login()">
+  <h2>Log in</h2>
 
-  <input type="submit" (click)="login()" value="Log in" />
+  <mat-form-field appearance="fill" class="full-width">
+    <mat-label>Username</mat-label>
+    <input
+      matInput
+      type="text"
+      autocomplete="username"
+      formControlName="username"
+      required
+    />
+    <mat-error
+      *ngIf="
+        username.hasError('required') && (username.touched || username.dirty)
+      "
+    >
+      Username is required.
+    </mat-error>
+    <mat-error
+      *ngIf="
+        username.hasError('minlength') && (username.touched || username.dirty)
+      "
+    >
+      Username must be at least 4 characters long.
+    </mat-error>
+    <mat-error
+      *ngIf="
+        username.hasError('forbiddenusername') &&
+        (username.touched || username.dirty)
+      "
+    >
+      Username cannot be Bob.
+    </mat-error>
+  </mat-form-field>
+
+  <mat-form-field appearance="fill" class="full-width">
+    <mat-label>Password</mat-label>
+    <input
+      matInput
+      type="password"
+      autocomplete="current-password"
+      formControlName="password"
+      required
+    />
+    <mat-error
+      *ngIf="
+        password.hasError('required') && (password.touched || password.dirty)
+      "
+    >
+      Password is required.
+    </mat-error>
+    <mat-error
+      *ngIf="
+        password.hasError('minlength') && (password.touched || password.dirty)
+      "
+    >
+      Password must be at least 4 characters long.
+    </mat-error>
+  </mat-form-field>
+
+  <p class="login-error" *ngIf="loginError">{{ loginError }}</p>
+
+  <button mat-raised-button color="primary" type="submit">
+    <mat-icon>login</mat-icon>&nbsp;Log in
+  </button>
 </form>

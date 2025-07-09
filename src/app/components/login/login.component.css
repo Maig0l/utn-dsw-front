@@ -1,24 +1,28 @@
 form {
   width: 100%;
   max-width: 400px;
-  margin: 0 auto;
-  padding: 0px 20px;
-  border: 1px solid #ccc;
-  border-radius: 5px;
+  margin: 60px auto;
+  padding: 2rem;
+  border-radius: 10px;
   background-color: #003566;
   display: flex;
   flex-direction: column;
-  gap: 1rem;
-  margin-top: 50px;
-  margin-bottom: 250px;
+  gap: 1.5rem;
+  box-shadow: 0 0 12px rgba(0, 0, 0, 0.3);
 }
 
-label {
-  color: #e5e5e5;
+h2 {
+  color: #ffffff;
+  text-align: center;
+  margin-bottom: 1rem;
 }
 
-legend {
-  color: #e5e5e5;
-  font-size: 1.5rem;
-  margin-bottom: 20px;
+mat-form-field.full-width {
+  width: 100%;
+}
+
+.login-error {
+  color: #ffaaaa;
+  text-align: center;
+  font-weight: 500;
 }

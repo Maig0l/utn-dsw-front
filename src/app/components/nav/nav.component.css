@@ -3,3 +3,7 @@ summary {
   height: 100% !important;
   padding: 0.5em calc(0.75em / 2) !important;
 }
+
+hr {
+  margin: 5px auto;
+}

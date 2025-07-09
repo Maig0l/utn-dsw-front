@@ -5,11 +5,7 @@
       @if (!userLoggedIn) {
         <ng-container *ngTemplateOutlet="optionsSessionOff"></ng-container>
       } @else {
-        @if (userisAdmin) {
-          <ng-container *ngTemplateOutlet="optionsSessionAdmin"></ng-container>
-        } @else {
-          <ng-container *ngTemplateOutlet="optionsSessionUser"></ng-container>
-        }
+        <ng-container *ngTemplateOutlet="optionsSessionUser"></ng-container>
       }
     </ul>
   </details>
@@ -36,21 +32,18 @@
     <!-- Temporal -->
     <a routerLink="/user/edit-profile/">Settings</a>
   </li>
-  <li><a>Security</a></li>
+
+  @if (userisAdmin) {
+    <hr />
+    <ng-container *ngTemplateOutlet="optionsSessionAdmin"></ng-container>
+    <hr />
+  }
+
   <li><a (click)="logout()">Logout</a></li>
 </ng-template>
 
 <ng-template #optionsSessionAdmin>
   <li>
-    <a routerLink="/user/me" routerLinkActive="active">Profile</a>
-  </li>
-  <li>
     <a routerLink="/administradores/game" routerLinkActive="active">Cruds</a>
   </li>
-  <li>
-    <a routerLink="/playlist" routerLinkActive="active">Playlist</a>
-  </li>
-  <li><a>Settings</a></li>
-  <li><a>Security</a></li>
-  <li><a (click)="logout()">Logout</a></li>
 </ng-template>

@@ -1,133 +1,151 @@
-<!-- GET ALL -->
 <section>
-  <h1>Listing franchises</h1>
+  <h1>Franchise Management</h1>
 
-  <button (click)="showFranchises()">Get Franchises</button>
-
-  @for (franchise of franchises; track franchise.id) {
-    <div class="franchise-item">
-      <small>[{{ franchise.id }}]</small>&nbsp;
-      <b>{{ franchise.name }}</b> &nbsp;
-    </div>
-  }
-</section>
-
-<!-- CREATE -->
-<section>
-  <h1>Create new franchise</h1>
-  <form [formGroup]="franchiseForm" (submit)="addFranchise()">
-    <label for="name">Name</label>
-    <input type="text" id="name" formControlName="name" />
-
-    <label for="img">Games</label>
-    <mat-chip-grid #chipGrid aria-label="Enter games">
-      @for (game of gameSelected; track game) {
-        <mat-chip (removed)="remove(game)">
-          <!--img
-            class="chip-portrait"
-            [src]="game.portrait"
-            alt="{{ game.title }}"
-          /-->
-          {{ game.title }}
-          <button matChipRemove [attr.aria-label]="'remove ' + game.title">
-            <mat-icon>cancel</mat-icon>
-          </button>
-        </mat-chip>
-      }
-    </mat-chip-grid>
-    <mat-form-field class="example-full-width">
+  <!-- Search Bar -->
+  <div class="toolbar">
+    <mat-form-field appearance="outline" class="search-bar">
+      <mat-label>Search Franchises</mat-label>
       <input
-        class="custom-input"
-        type="text"
-        placeholder="Search games..."
-        aria-label="Game"
         matInput
-        [formControl]="myControl"
-        [matAutocomplete]="auto"
+        type="text"
+        [(ngModel)]="searchTerm"
+        (input)="filterFranchises()"
       />
-      <mat-autocomplete #auto="matAutocomplete">
-        @for (option of filteredOptions | async; track option) {
-          <mat-option [value]="" (click)="addGame(option)">
-            <!--img
-              class="option-portrait"
-              [src]="option.portrait"
-              alt="{{ option.title }}"
-            /-->
-            <span class="option-title">{{ option.title }}</span>
-          </mat-option>
-        }
-      </mat-autocomplete>
+      <mat-icon matSuffix>search</mat-icon>
     </mat-form-field>
+    <!-- Add Button -->
+    <button
+      mat-raised-button
+      color="primary"
+      class="add-button"
+      (click)="openAddDialog()"
+    >
+      <mat-icon>add</mat-icon>
+      New Franchise
+    </button>
+  </div>
 
-    <button type="submit" class="primary">Create</button>
-  </form>
+  <!-- Franchise Table -->
+  <table mat-table [dataSource]="paginatedFranchises" class="mat-elevation-z8">
+    <!-- ID Column -->
+    <ng-container matColumnDef="id">
+      <th mat-header-cell *matHeaderCellDef>ID</th>
+      <td mat-cell *matCellDef="let franchise">{{ franchise.id }}</td>
+    </ng-container>
+
+    <!-- Name Column -->
+    <ng-container matColumnDef="name">
+      <th mat-header-cell *matHeaderCellDef>Name</th>
+      <td mat-cell *matCellDef="let franchise">{{ franchise.name }}</td>
+    </ng-container>
+
+    <!-- Games Column -->
+    <ng-container matColumnDef="games">
+      <th mat-header-cell *matHeaderCellDef>Games</th>
+      <td mat-cell *matCellDef="let franchise">
+        <ng-container *ngIf="franchise.games?.length; else noGames">
+          <mat-chip-grid>
+            <mat-chip-row *ngFor="let game of franchise.games">
+              {{ game.title }}
+            </mat-chip-row>
+          </mat-chip-grid>
+        </ng-container>
+        <ng-template #noGames>
+          <span>No games</span>
+        </ng-template>
+      </td>
+    </ng-container>
+
+    <!-- Actions Column -->
+    <ng-container matColumnDef="actions">
+      <th mat-header-cell *matHeaderCellDef>Actions</th>
+      <td mat-cell *matCellDef="let franchise">
+        <button
+          mat-icon-button
+          color="primary"
+          (click)="openEditDialog(franchise)"
+        >
+          <mat-icon>edit</mat-icon>
+        </button>
+        <button
+          mat-icon-button
+          color="warn"
+          (click)="deleteFranchise(franchise.id)"
+        >
+          <mat-icon>delete</mat-icon>
+        </button>
+      </td>
+    </ng-container>
+
+    <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+    <tr mat-row *matRowDef="let row; columns: displayedColumns"></tr>
+  </table>
+
+  <!-- Paginator -->
+  <mat-paginator
+    [length]="filteredFranchises.length"
+    [pageSize]="5"
+    [pageSizeOptions]="[5, 10, 20]"
+    (page)="onPageChange($event)"
+  >
+  </mat-paginator>
 </section>
 
-<!-- UPDATE -->
-<section class="column">
-  <h1>Enter Franchise ID to Edit</h1>
-  <form [formGroup]="franchiseIdForm">
-    <div>
-      <label for="franchiseId">Franchise ID:</label>
-      <input id="franchiseId" formControlName="id" />
-    </div>
-    <button type="button" (click)="populateForm()">Fetch Franchise</button>
-  </form>
+<!-- Popup Dialog -->
+<ng-template #dialogTemplate>
+  <h1 mat-dialog-title>
+    {{ dialogMode === "add" ? "Add Franchise" : "Edit Franchise" }}
+  </h1>
+  <div mat-dialog-content>
+    <form [formGroup]="dialogForm">
+      <!-- Name Field -->
+      <mat-form-field appearance="outline" class="full-width">
+        <mat-label>Name</mat-label>
+        <input matInput formControlName="name" />
+        <mat-error *ngIf="dialogForm.get('name')?.hasError('backend')">
+          {{ dialogForm.get("name")?.getError("backend") }}
+        </mat-error>
+      </mat-form-field>
 
-  <div *ngIf="editReady">
-    <h1>Edit Franchise</h1>
-    <form [formGroup]="updateForm" (submit)="updateFranchise()">
-      <div>
-        <label for="name">Name:</label>
-        <input id="name" formControlName="name" />
-      </div>
-      <mat-chip-grid #chipGrid aria-label="Enter games">
-        @for (game of gameSelected; track game) {
-          <mat-chip (removed)="remove(game)">
-            <!--img
-              class="chip-portrait"
-              [src]="game.portrait"
-              alt="{{ game.title }}"
-            /-->
+      <!-- Games Field (Chips + Autocomplete) -->
+      <mat-form-field class="full-width">
+        <mat-label>Games</mat-label>
+        <mat-chip-grid #chipList>
+          <mat-chip-row
+            *ngFor="let game of gameSelected"
+            [removable]="true"
+            (removed)="remove(game)"
+          >
             {{ game.title }}
-            <button matChipRemove [attr.aria-label]="'remove ' + game.title">
+            <button matChipRemove>
               <mat-icon>cancel</mat-icon>
             </button>
-          </mat-chip>
-        }
-      </mat-chip-grid>
-      <mat-form-field class="example-full-width">
-        <input
-          class="custom-input"
-          type="text"
-          placeholder="Search games..."
-          aria-label="Game"
-          matInput
-          [formControl]="myControl"
-          [matAutocomplete]="auto"
-        />
-        <mat-autocomplete #auto="matAutocomplete">
-          @for (option of filteredOptions | async; track option) {
-            <mat-option [value]="" (click)="addGame(option)">
-              <!--img
-                class="option-portrait"
-                [src]="option.portrait"
-                alt="{{ option.title }}"
-              /-->
-              <span class="option-title">{{ option.title }}</span>
-            </mat-option>
-          }
+          </mat-chip-row>
+          <input
+            placeholder="Search games..."
+            [formControl]="gameControl"
+            [matAutocomplete]="auto"
+            [matChipInputFor]="chipList"
+          />
+        </mat-chip-grid>
+        <mat-autocomplete
+          #auto="matAutocomplete"
+          (optionSelected)="addGame($event.option.value)"
+        >
+          <mat-option
+            *ngFor="let option of filteredOptions | async"
+            [value]="option"
+          >
+            {{ option.title }}
+          </mat-option>
         </mat-autocomplete>
       </mat-form-field>
-      <button type="submit" class="primary">Update</button>
     </form>
   </div>
-</section>
-
-<section>
-  <h1>Delete a franchise</h1>
-  <form [formGroup]="deleteForm" (submit)="deleteFranchise()">
-    <input type="number" formControlName="id" />
-    <input type="submit" />
-  </form>
-</section>
+  <div mat-dialog-actions align="end">
+    <button mat-button (click)="closeDialog()">Cancel</button>
+    <button mat-raised-button color="primary" (click)="saveDialog()">
+      Save
+    </button>
+  </div>
+</ng-template>

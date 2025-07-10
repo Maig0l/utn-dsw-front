@@ -1,62 +1,122 @@
-<!-- GET ALL -->
 <section>
-  <h1>Listing platforms</h1>
+  <h1>Platform Management</h1>
 
-  <button (click)="showPlatforms()">Get Platforms</button>
+  <!-- Search Bar -->
+  <div class="toolbar">
+    <mat-form-field appearance="outline" class="search-bar">
+      <mat-label>Search Platforms</mat-label>
+      <input
+        matInput
+        type="text"
+        [(ngModel)]="searchTerm"
+        (input)="filterPlatforms()"
+      />
+      <mat-icon matSuffix>search</mat-icon>
+    </mat-form-field>
+    <!-- Add Button -->
+    <button
+      mat-raised-button
+      color="primary"
+      class="add-button"
+      (click)="openAddDialog()"
+    >
+      <mat-icon>add</mat-icon>
+      New Platform
+    </button>
+  </div>
 
-  @for (platform of platforms; track platform.id) {
-    <div class="platform-item">
-      <small>[{{ platform.id }}]</small>&nbsp; <b>{{ platform.name }}</b> &nbsp;
-    </div>
-  }
+  <!-- Platform Table -->
+  <table mat-table [dataSource]="paginatedPlatforms" class="mat-elevation-z8">
+    <!-- ID Column -->
+    <ng-container matColumnDef="id">
+      <th mat-header-cell *matHeaderCellDef>ID</th>
+      <td mat-cell *matCellDef="let platform">{{ platform.id }}</td>
+    </ng-container>
+
+    <!-- Name Column -->
+    <ng-container matColumnDef="name">
+      <th mat-header-cell *matHeaderCellDef>Name</th>
+      <td mat-cell *matCellDef="let platform">{{ platform.name }}</td>
+    </ng-container>
+
+    <!-- Image Column -->
+    <ng-container matColumnDef="img">
+      <th mat-header-cell *matHeaderCellDef>Image</th>
+      <td mat-cell *matCellDef="let platform">
+        <img
+          [src]="platform.img"
+          alt="Platform Image"
+          style="max-width: 80px; max-height: 40px"
+          *ngIf="platform.img"
+        />
+      </td>
+    </ng-container>
+
+    <!-- Actions Column -->
+    <ng-container matColumnDef="actions">
+      <th mat-header-cell *matHeaderCellDef>Actions</th>
+      <td mat-cell *matCellDef="let platform">
+        <button
+          mat-icon-button
+          color="primary"
+          (click)="openEditDialog(platform)"
+        >
+          <mat-icon>edit</mat-icon>
+        </button>
+        <button
+          mat-icon-button
+          color="warn"
+          (click)="deletePlatform(platform.id)"
+        >
+          <mat-icon>delete</mat-icon>
+        </button>
+      </td>
+    </ng-container>
+
+    <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+    <tr mat-row *matRowDef="let row; columns: displayedColumns"></tr>
+  </table>
+
+  <!-- Paginator -->
+  <mat-paginator
+    [length]="filteredPlatforms.length"
+    [pageSize]="5"
+    [pageSizeOptions]="[5, 10, 20]"
+    (page)="onPageChange($event)"
+  >
+  </mat-paginator>
 </section>
 
-<!-- CREATE -->
-<section>
-  <h1>Create new platform</h1>
-  <form [formGroup]="platformForm" (submit)="addPlatform()">
-    <label for="name">Name</label>
-    <input type="text" id="name" formControlName="name" />
+<!-- Popup Dialog -->
+<ng-template #dialogTemplate>
+  <h1 mat-dialog-title>
+    {{ dialogMode === "add" ? "Add Platform" : "Edit Platform" }}
+  </h1>
+  <div mat-dialog-content>
+    <form [formGroup]="dialogForm">
+      <!-- Name Field -->
+      <mat-form-field appearance="outline" class="full-width">
+        <mat-label>Name</mat-label>
+        <input matInput formControlName="name" />
+        <mat-error *ngIf="dialogForm.get('name')?.hasError('backend')">
+          {{ dialogForm.get("name")?.getError("backend") }}
+        </mat-error>
+      </mat-form-field>
 
-    <label for="img">Image</label>
-    <input type="text" id="img" formControlName="img" />
-
-    <button type="submit" class="primary">Create</button>
-  </form>
-</section>
-
-<!-- UPDATE -->
-<section class="column">
-  <h1>Enter Platform ID to Edit</h1>
-  <form [formGroup]="platformIdForm">
-    <div>
-      <label for="platformId">Platform ID:</label>
-      <input id="platformId" formControlName="id" />
-    </div>
-    <button type="button" (click)="populateForm()">Fetch Platform</button>
-  </form>
-
-  <div *ngIf="editReady">
-    <h1>Edit Platform</h1>
-    <form [formGroup]="updateForm" (submit)="updatePlatform()">
-      <div>
-        <label for="name">Name:</label>
-        <input id="name" formControlName="name" />
-      </div>
-      <div>
-        <label for="img">Image URL:</label>
-        <input id="img" formControlName="img" />
-      </div>
-      <button type="submit" class="primary">Update</button>
+      <!-- Image URL Field -->
+      <mat-form-field appearance="outline" class="full-width">
+        <mat-label>Image URL</mat-label>
+        <input matInput formControlName="img" />
+        <mat-error *ngIf="dialogForm.get('img')?.hasError('backend')">
+          {{ dialogForm.get("img")?.getError("backend") }}
+        </mat-error>
+      </mat-form-field>
     </form>
   </div>
-</section>
-
-<!-- DELETE -->
-<section>
-  <h1>Delete a platform</h1>
-  <form [formGroup]="deleteForm" (submit)="deletePlatform()">
-    <input type="number" formControlName="id" />
-    <input type="submit" />
-  </form>
-</section>
+  <div mat-dialog-actions align="end">
+    <button mat-button (click)="closeDialog()">Cancel</button>
+    <button mat-raised-button color="primary" (click)="saveDialog()">
+      Save
+    </button>
+  </div>
+</ng-template>

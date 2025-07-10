@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { map, Observable } from 'rxjs';
-import { Game } from '../model/game.model';
+//import { Game } from '../model/game.model';
 import { Franchise } from '../model/franchise.model';
 import { ApiResponse } from '../model/apiResponse.model';
 
@@ -43,10 +43,11 @@ export class FranchiseService {
 
   updateFranchise(
     id: number,
-    name: string /*games:Game[]*/,
+    name: string,
+    games: number[],
   ): Observable<Franchise> {
     const url = this.franchisesEndpoint + `/${id}`;
-    return this.http.put<Franchise>(url, { id, name /*games*/ });
+    return this.http.put<Franchise>(url, { id, name, games });
   }
 
   deleteFranchise(id: number): Observable<Franchise> {

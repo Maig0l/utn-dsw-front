@@ -1,32 +1,247 @@
+h1 {
+  color: #e5e5e5; /* Standardized text color */
+  text-align: center;
+}
+
+::ng-deep span.mat-mdc-select-min-line.ng-star-inserted {
+  color: #e5e5e5;
+}
+
+::ng-deep
+  input.mat-mdc-input-element.mat-mdc-form-field-input-control.mdc-text-field__input {
+  color: #e5e5e5;
+}
+
+::ng-deep mat-label {
+  color: #e5e5e5;
+}
+
+::ng-deep .ng-star-inserted {
+  color: #e5e5e5;
+}
+::ng-deep
+  div.mat-mdc-form-field-subscript-wrapper.mat-mdc-form-field-bottom-align {
+  height: 0px;
+}
+/* General Section Styles */
 section {
   margin: 4px auto;
   padding-top: 32px;
   max-width: 1000px;
   font-size: 24px;
-  border: 2px solid #012b59;
   padding: 16px;
-  color: #e5e5e5;
+  color: #e5e5e5; /* Standardized text color */
+  background-color: #014a8d; /* Blue background */
 }
 
-section h1 {
-  font-size: 2.5rem;
-  margin-bottom: 20px;
-  color: #e5e5e5;
-}
-
-section p {
-  font-size: 1.2rem;
-  margin-bottom: 30px;
-  color: #e5e5e5;
-}
-
-section h2 {
-  margin-top: 40px;
-  color: #e5e5e5;
-}
-
+/* Standardized Text Colors */
+section h1,
+section p,
+section h2,
 label {
-  display: block;
-  margin-bottom: 10px;
+  color: #e5e5e5; /* Standardized text color */
+}
+
+/* Toolbar Styles */
+.toolbar {
+  display: flex;
+  justify-content: space-between; /* Push items to opposite ends */
+  align-items: center; /* Vertically align items */
+  padding: 8px 16px;
+  background-color: #012b59; /* Dark blue background */
+  border-radius: 8px;
+}
+
+.search-bar {
+  flex: 1; /* Allow the search bar to take up available space */
+  max-width: 600px; /* Optional: Limit the maximum width of the search bar */
+  margin-right: 16px; /* Add spacing between the search bar and the button */
+}
+
+.add-button {
+  white-space: nowrap; /* Prevent the button text from wrapping */
+  background-color: #014a8d; /* Blue background */
+  color: #e5e5e5; /* Standardized text color */
+}
+
+/* Table Styles */
+table {
+  width: 100%;
+  margin-top: 16px;
+  background-color: #012b59; /* Dark blue background */
+  color: #e5e5e5; /* Standardized text color */
+  border-radius: 8px;
+}
+
+.mat-header-cell,
+.mat-cell {
+  text-align: left;
+  color: #e5e5e5; /* Standardized text color */
+}
+
+/* Paginator Styles */
+mat-paginator {
+  background-color: #012b59; /* Dark blue background */
+  color: #e5e5e5; /* Standardized text color */
+  border-radius: 8px;
+  padding: 8px 16px;
+  margin-top: 16px;
+  display: flex;
+  justify-content: center;
+}
+
+mat-paginator .mat-mdc-paginator-navigation-button {
+  color: #e5e5e5; /* Standardized text color for buttons */
+}
+
+mat-paginator .mat-mdc-paginator-navigation-button:hover {
+  background-color: #014a8d; /* Slightly darker blue on hover */
+}
+
+mat-paginator .mat-mdc-form-field-wrapper {
+  background-color: transparent; /* Transparent background for dropdown/input */
+  border-radius: 8px;
+}
+
+mat-paginator .mat-mdc-select-value-text,
+mat-paginator .mat-mdc-paginator-range-label {
+  color: #e5e5e5; /* Standardized text color */
+}
+
+mat-paginator .mat-mdc-select-arrow {
+  color: #e5e5e5; /* Standardized arrow color */
+}
+
+mat-paginator .mat-mdc-paginator-range-label {
+  font-weight: bold;
+  color: #e5e5e5; /* Standardized text color */
+}
+
+/* Optional: Add hover effect to the paginator container */
+mat-paginator:hover {
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2); /* Add a shadow on hover */
+}
+
+/* Dialog Styles */
+
+::ng-deep div.mat-mdc-dialog-surface.mdc-dialog__surface {
+  background-color: #014a8d; /* Blue background */
+  color: #e5e5e5; /* Standardized text color */
+  border-radius: 8px; /* Rounded corners for consistency */
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3); /* Subtle shadow for depth */
+  overflow-y: auto;
+  padding: 16px;
+}
+button + button {
+  margin-left: 8px; /* Add spacing between buttons */
+}
+
+::ng-deep .mat-dialog-container {
+  padding: 16px;
+  background-color: #014a8d; /* Blue background */
+  color: #e5e5e5; /* Standardized text color */
+  border-radius: 8px; /* Rounded corners for consistency */
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3); /* Subtle shadow for depth */
+}
+
+/* Dialog Title */
+::ng-deep .mat-dialog-title {
+  font-size: 24px;
+  font-weight: bold;
+  color: #e5e5e5; /* Standardized text color */
+  margin-bottom: 16px;
+  text-align: center; /* Center-align the title */
+}
+
+/* Dialog Content */
+::ng-deep .mat-dialog-content {
+  font-size: 16px;
+  color: #e5e5e5; /* Standardized text color */
+}
+mat-error.mat-mdc-form-field-error.mat-mdc-form-field-bottom-align.ng-star-inserted {
+  color: var(--mat-form-field-error-text-color);
+  margin: -12px 0px 0px 12px;
+}
+
+/* Dialog Form Fields */
+::ng-deep .mat-mdc-text-field-wrapper.mdc-text-field {
+  width: 90%; /* Full width for form fields */
+  margin: 8px; /* Add spacing between fields */
+}
+
+::ng-deep mat-form-field.mat-mdc-form-field {
+  align-items: center;
+  margin-top: 8px;
+}
+
+::ng-deep .mat-form-field-appearance-outline .mat-form-field-outline {
+  color: #e5e5e5; /* Standardized text color for form field outline */
+}
+
+::ng-deep .mat-form-field-label {
+  color: #e5e5e5; /* Standardized text color for labels */
+}
+
+/* Dialog Actions */
+::ng-deep .mat-dialog-actions {
+  display: flex;
+  justify-content: flex-end; /* Align buttons to the right */
+  gap: 8px; /* Add spacing between buttons */
+}
+
+::ng-deep .mat-dialog-actions button {
+  color: #e5e5e5; /* Standardized text color for buttons */
+}
+
+::ng-deep .mat-dialog-actions button.mat-raised-button {
+  background-color: #014a8d; /* Blue background for raised buttons */
+}
+
+::ng-deep .mat-dialog-actions button.mat-raised-button:hover {
+  background-color: #012b59; /* Darker blue on hover */
+}
+
+/* Shop Item Hover Effect */
+.franchise-item {
+  margin-bottom: 8px;
+  transition:
+    transform 0.3s ease,
+    opacity 0.3s ease;
+  background-color: #012b59; /* Dark blue background */
+  color: #e5e5e5; /* Standardized text color */
+}
+
+.franchise-item:hover {
+  transform: scale(1.02);
+  opacity: 0.9;
+  background-color: #014a8d; /* Slightly lighter blue on hover */
+}
+
+/* Full Width Utility Class */
+.full-width {
+  width: 100%;
+}
+
+::ng-deep .mat-mdc-autocomplete-panel {
+  background-color: #012b59 !important;
+  color: #e5e5e5 !important;
+  border-radius: 8px;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
+}
+
+/* Opciones del autocompletado */
+::ng-deep .mat-mdc-option {
+  color: #e5e5e5 !important;
+}
+
+/* Al pasar el mouse por una opción */
+::ng-deep .mat-mdc-option:hover,
+::ng-deep .mat-mdc-option.mat-mdc-option-active {
+  background-color: #014a8d !important;
+  color: white !important;
+}
+
+/* Input dentro del chip-grid */
+mat-chip-grid input {
   color: #e5e5e5;
 }

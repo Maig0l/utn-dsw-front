@@ -1,163 +1,219 @@
-import { Component } from '@angular/core';
-import { RouterOutlet } from '@angular/router';
+import { Component, TemplateRef, ViewChild, OnInit } from '@angular/core';
 import { FranchiseService } from '../../services/franchise.service';
-import {
-  FormBuilder,
-  FormControl,
-  FormGroup,
-  ReactiveFormsModule,
-} from '@angular/forms';
-import { CommonModule } from '@angular/common';
+import { GameService } from '../../services/game.service';
+import { FormControl, FormGroup, ReactiveFormsModule } from '@angular/forms';
 import { Franchise } from '../../model/franchise.model';
 import { Game } from '../../model/game.model';
-import { debounceTime, map, Observable, switchMap } from 'rxjs';
-import { GameService } from '../../services/game.service';
-import { MatIconModule } from '@angular/material/icon';
-import { MatDividerModule } from '@angular/material/divider';
+import { MatPaginatorModule, PageEvent } from '@angular/material/paginator';
+import { CommonModule } from '@angular/common';
 import { MatFormFieldModule } from '@angular/material/form-field';
-import { MatButtonModule } from '@angular/material/button';
 import { MatInputModule } from '@angular/material/input';
-import { MatSelectModule } from '@angular/material/select';
-import { MatCheckboxModule } from '@angular/material/checkbox';
+import { MatButtonModule } from '@angular/material/button';
+import { MatIconModule } from '@angular/material/icon';
+import { MatDialog } from '@angular/material/dialog';
+import { FormsModule } from '@angular/forms';
+import { MatTableModule } from '@angular/material/table';
 import { MatAutocompleteModule } from '@angular/material/autocomplete';
 import { MatChipsModule } from '@angular/material/chips';
+import { Observable, debounceTime, map, switchMap } from 'rxjs';
 
 @Component({
   selector: 'app-franchise',
   standalone: true,
-  imports: [ReactiveFormsModule, CommonModule,  MatIconModule,
-      MatDividerModule,
-      MatFormFieldModule,
-      MatButtonModule,
-      MatInputModule,
-      MatSelectModule,
-      MatCheckboxModule,
-      MatAutocompleteModule,
-      MatChipsModule,],
-  providers: [RouterOutlet, FranchiseService, GameService],
+  imports: [
+    CommonModule,
+    MatPaginatorModule,
+    ReactiveFormsModule,
+    MatFormFieldModule,
+    MatInputModule,
+    MatButtonModule,
+    MatIconModule,
+    FormsModule,
+    MatTableModule,
+    MatAutocompleteModule,
+    MatChipsModule,
+  ],
+  providers: [MatDialog, FranchiseService, GameService],
   templateUrl: './franchise.component.html',
-  styleUrl: './franchise.component.css',
+  styleUrls: ['./franchise.component.css'],
 })
-export class FranchiseComponent {
-  franchiseForm = new FormGroup({
-    name: new FormControl(''),
-    games: new FormControl(), //TODO  must recieve an array of games
-  });
+export class FranchiseComponent implements OnInit {
+  franchises: Franchise[] = [];
+  filteredFranchises: Franchise[] = [];
+  paginatedFranchises: Franchise[] = [];
+  displayedColumns: string[] = ['id', 'name', 'games', 'actions'];
+  searchTerm = '';
+  pageSize = 5;
+  currentPage = 0;
 
-  deleteForm = new FormGroup({
-    id: new FormControl(0),
-  });
+  dialogForm: FormGroup;
+  dialogMode: 'add' | 'edit' = 'add';
+  currentFranchiseId: number | null = null;
 
-  updateForm = new FormGroup({
-    id: new FormControl(0),
-    name: new FormControl(''),
-    //games: new FormControl() //TODO  must recieve an array of games
-  });
-
-  franchiseIdForm = new FormGroup({
-    id: new FormControl(0),
-  });
-
-  franchise: Franchise | undefined;
-  franchises: Franchise[] | undefined;
-
-  myControl = new FormControl('');
-  options: Game[] = []; //stores all games from the search
+  // For games chips/autocomplete
+  gameControl = new FormControl('');
+  gameSelected: Game[] = [];
   filteredOptions!: Observable<Game[]>;
+
+  @ViewChild('dialogTemplate') dialogTemplate!: TemplateRef<unknown>;
 
   constructor(
     private franchiseService: FranchiseService,
-    private fb: FormBuilder,
-    private gameService: GameService
-  ) {}
-
+    private gameService: GameService,
+    private dialog: MatDialog,
+  ) {
+    this.dialogForm = new FormGroup({
+      name: new FormControl(''),
+      games: new FormControl([]),
+    });
+  }
 
   ngOnInit(): void {
-      this.filteredOptions = this.myControl.valueChanges.pipe(
-        debounceTime(1500),
-        switchMap((value) => this._filter(value || '')),
-      );
-    }
+    this.loadFranchises();
 
-  showFranchises() {
-    this.franchiseService
-      .getAllFranchises()
-      .subscribe(
-        (responseFranchises) => (this.franchises = responseFranchises),
-      );
+    this.filteredOptions = this.gameControl.valueChanges.pipe(
+      debounceTime(300),
+      switchMap((value) => this._filterGames(value || '')),
+    );
   }
 
-  addFranchise() {
-    this.franchiseService
-      .addFranchise(
-        this.franchiseForm.value.name ?? '',
-        this.gameSelected.map((game) => game.id), //TODO must recieve an array of games
-      )
-      .subscribe((responseFranchise) => (this.franchise = responseFranchise));
+  loadFranchises(): void {
+    this.franchiseService.getAllFranchises().subscribe((franchises) => {
+      this.franchises = franchises;
+      this.filteredFranchises = franchises;
+      this.updatePaginatedFranchises();
+    });
   }
 
-  updateFranchise() {
-    this.franchiseService
-      .updateFranchise(
-        this.updateForm.value.id ?? 0,
-        this.updateForm.value.name ?? '',
-        //this.updateForm.value.games ?? []
-      )
-      .subscribe((responseFranchise) => (this.franchise = responseFranchise));
+  filterFranchises(): void {
+    const term = this.searchTerm.toLowerCase();
+    this.filteredFranchises = this.franchises.filter(
+      (franchise) =>
+        franchise.name.toLowerCase().includes(term) ||
+        franchise.games?.some((game) =>
+          game.title.toLowerCase().includes(term),
+        ),
+    );
+    this.updatePaginatedFranchises();
   }
 
-  deleteFranchise() {
-    this.franchiseService
-      .deleteFranchise(this.deleteForm.value.id ?? 0)
-      .subscribe((res) => console.log(res));
+  onPageChange(event: PageEvent): void {
+    this.pageSize = event.pageSize;
+    this.currentPage = event.pageIndex;
+    this.updatePaginatedFranchises();
   }
 
-  editReady = false;
+  updatePaginatedFranchises(): void {
+    const startIndex = this.currentPage * this.pageSize;
+    const endIndex = startIndex + this.pageSize;
+    this.paginatedFranchises = this.filteredFranchises.slice(
+      startIndex,
+      endIndex,
+    );
+  }
 
-  populateForm() {
-    const id = this.franchiseIdForm.get('id')?.value;
-    if (id) {
-      this.franchiseService.getOneFranchise(id).subscribe((data: Franchise) => {
-        this.updateForm.setValue({
-          id: data.id,
-          name: data.name,
+  openAddDialog(): void {
+    this.dialogMode = 'add';
+    this.dialogForm.reset();
+    this.gameSelected = [];
+    this.dialog.open(this.dialogTemplate);
+  }
+
+  openEditDialog(franchise: Franchise): void {
+    this.dialogMode = 'edit';
+    this.currentFranchiseId = franchise.id;
+    this.dialogForm.setValue({
+      name: franchise.name,
+      games: franchise.games || [],
+    });
+    this.gameSelected = franchise.games ? [...franchise.games] : [];
+    this.dialog.open(this.dialogTemplate);
+  }
+
+  closeDialog(): void {
+    this.dialog.closeAll();
+  }
+
+  saveDialog(): void {
+    const franchiseData = this.dialogForm.value;
+    const gameIds = this.gameSelected.map((game) => game.id);
+
+    if (this.dialogMode === 'add') {
+      this.franchiseService
+        .addFranchise(franchiseData.name, gameIds)
+        .subscribe({
+          next: () => {
+            this.loadFranchises();
+            this.closeDialog();
+          },
+          error: (errorResponse) => {
+            this.handleBackendError(errorResponse);
+          },
         });
-        this.editReady = true;
-      }); //TODO handle error?
-    } else {
-      this.editReady = false;
+    } else if (this.dialogMode === 'edit' && this.currentFranchiseId !== null) {
+      this.franchiseService
+        .updateFranchise(this.currentFranchiseId, franchiseData.name, gameIds)
+        .subscribe({
+          next: () => {
+            this.loadFranchises();
+            this.closeDialog();
+          },
+          error: (errorResponse) => {
+            this.handleBackendError(errorResponse);
+          },
+        });
     }
   }
 
+  handleBackendError(errorResponse: { error: { message: string } }): void {
+    if (errorResponse.error && errorResponse.error.message) {
+      const errorMessage = errorResponse.error.message;
+      console.error('Backend error:', errorMessage);
 
-  private _filter(value: string): Observable<Game[]> {
-      const filterValue = value.toLowerCase();
-      if (filterValue === '') {
-        return new Observable<Game[]>();
+      // Map specific error messages to form fields
+      if (errorMessage.toLowerCase().includes('name')) {
+        this.dialogForm.get('name')?.setErrors({ backend: errorMessage });
+      } else if (errorMessage.toLowerCase().includes('game')) {
+        this.dialogForm.get('games')?.setErrors({ backend: errorMessage });
+      } else {
+        alert('An unexpected error occurred: ' + errorMessage);
       }
-      return this.gameService.findGamesByTitle(filterValue).pipe(
-        map((data: Game[]) => {
-          this.options = data;
-          return this.options.filter((option) =>
-            option.title.toLowerCase().includes(filterValue),
-          );
-        }),
-      );
     }
-  
-    gameSelected: Game[] = [];
-    addGame(game: Game) {
-      if (this.gameSelected.includes(game)) {
-        return;
-      }
+  }
+
+  deleteFranchise(id: number): void {
+    if (confirm('Are you sure you want to delete this franchise?')) {
+      this.franchiseService.deleteFranchise(id).subscribe(() => {
+        this.loadFranchises();
+      });
+    }
+  }
+
+  // --- Game chips/autocomplete logic ---
+  private _filterGames(value: string): Observable<Game[]> {
+    const filterValue = value.toLowerCase();
+    if (!filterValue) {
+      return new Observable<Game[]>((observer) => observer.next([]));
+    }
+    return this.gameService
+      .findGamesByTitle(filterValue)
+      .pipe(
+        map((games: Game[]) =>
+          games.filter((option) =>
+            option.title.toLowerCase().includes(filterValue),
+          ),
+        ),
+      );
+  }
+
+  addGame(game: Game) {
+    if (!this.gameSelected.some((g) => g.id === game.id)) {
       this.gameSelected.push(game);
     }
-    remove(game: Game): void {
-      this.gameSelected.splice(this.gameSelected.indexOf(game), 1);
-    }
+    this.gameControl.setValue('');
+  }
 
-
-
-
-
+  remove(game: Game): void {
+    this.gameSelected = this.gameSelected.filter((g) => g.id !== game.id);
+  }
 }

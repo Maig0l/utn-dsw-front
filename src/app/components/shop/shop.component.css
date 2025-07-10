@@ -25,9 +25,7 @@ h1 {
 }
 /* General Section Styles */
 section {
-  margin: 4px auto;
   padding-top: 32px;
-  max-width: 1000px;
   font-size: 24px;
   padding: 16px;
   color: #e5e5e5; /* Standardized text color */

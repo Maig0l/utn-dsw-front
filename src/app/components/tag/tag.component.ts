@@ -1,89 +1,165 @@
-import { Component } from '@angular/core';
-import { FormControl, FormGroup, ReactiveFormsModule } from '@angular/forms';
-import { CommonModule } from '@angular/common';
-import { RouterOutlet } from '@angular/router';
+import { Component, TemplateRef, ViewChild, OnInit } from '@angular/core';
 import { TagService } from '../../services/tag.service';
+import { FormControl, FormGroup, ReactiveFormsModule } from '@angular/forms';
 import { Tag } from '../../model/tag.model';
+import { MatPaginatorModule, PageEvent } from '@angular/material/paginator';
+import { CommonModule } from '@angular/common';
+import { MatFormFieldModule } from '@angular/material/form-field';
+import { MatInputModule } from '@angular/material/input';
+import { MatButtonModule } from '@angular/material/button';
+import { MatIconModule } from '@angular/material/icon';
+import { MatDialog } from '@angular/material/dialog';
+import { FormsModule } from '@angular/forms';
+import { MatTableModule } from '@angular/material/table';
 
 @Component({
   selector: 'app-tag',
   standalone: true,
-  imports: [ReactiveFormsModule, CommonModule],
-  providers: [RouterOutlet, TagService],
+  imports: [
+    CommonModule,
+    MatPaginatorModule,
+    ReactiveFormsModule,
+    MatFormFieldModule,
+    MatInputModule,
+    MatButtonModule,
+    MatIconModule,
+    FormsModule,
+    MatTableModule,
+  ],
+  providers: [MatDialog, TagService],
   templateUrl: './tag.component.html',
-  styleUrl: './tag.component.css',
+  styleUrls: ['./tag.component.css'],
 })
-export class TagComponent {
-  tagForm = new FormGroup({
-    name: new FormControl(''),
-    description: new FormControl(''),
-  });
+export class TagComponent implements OnInit {
+  tags: Tag[] = [];
+  filteredTags: Tag[] = [];
+  paginatedTags: Tag[] = [];
+  displayedColumns: string[] = ['id', 'name', 'description', 'actions'];
+  searchTerm = '';
+  pageSize = 5;
+  currentPage = 0;
 
-  deleteForm = new FormGroup({
-    id: new FormControl(0),
-  });
+  dialogForm: FormGroup;
+  dialogMode: 'add' | 'edit' = 'add';
+  currentTagId: number | null = null;
 
-  updateForm = new FormGroup({
-    id: new FormControl(0),
-    name: new FormControl(''),
-    description: new FormControl(''),
-  });
+  @ViewChild('dialogTemplate') dialogTemplate!: TemplateRef<unknown>;
 
-  tagIdForm = new FormGroup({
-    id: new FormControl(0),
-  });
-
-  tag: Tag | undefined;
-  tags: Tag[] | undefined;
-
-  constructor(private tagService: TagService) {}
-
-  showTags() {
-    this.tagService
-      .getAllTags()
-      .subscribe((responseTags) => (this.tags = responseTags));
+  constructor(
+    private tagService: TagService,
+    private dialog: MatDialog,
+  ) {
+    this.dialogForm = new FormGroup({
+      name: new FormControl(''),
+      description: new FormControl(''),
+    });
   }
 
-  addTag() {
-    this.tagService
-      .addTag(
-        this.tagForm.value.name ?? '',
-        this.tagForm.value.description ?? '',
-      )
-      .subscribe((responseTag) => (this.tag = responseTag));
+  ngOnInit(): void {
+    this.loadTags();
   }
 
-  updateTag() {
-    this.tagService
-      .updateTag(
-        this.updateForm.value.id ?? 0,
-        this.updateForm.value.name ?? '',
-        this.updateForm.value.description ?? '',
-      )
-      .subscribe((responseTag) => (this.tag = responseTag));
+  loadTags(): void {
+    this.tagService.getAllTags().subscribe((tags) => {
+      this.tags = tags;
+      this.filteredTags = tags;
+      this.updatePaginatedTags();
+    });
   }
 
-  deleteTag() {
-    this.tagService
-      .deleteTag(this.deleteForm.value.id ?? 0)
-      .subscribe((res) => console.log(res));
+  filterTags(): void {
+    const term = this.searchTerm.toLowerCase();
+    this.filteredTags = this.tags.filter(
+      (tag) =>
+        tag.name.toLowerCase().includes(term) ||
+        (tag.description?.toLowerCase().includes(term) ?? false),
+    );
+    this.updatePaginatedTags();
   }
 
-  editReady = false;
+  onPageChange(event: PageEvent): void {
+    this.pageSize = event.pageSize;
+    this.currentPage = event.pageIndex;
+    this.updatePaginatedTags();
+  }
 
-  populateForm() {
-    const id = this.tagIdForm.get('id')?.value;
-    if (id) {
-      this.tagService.getOneTag(id).subscribe((data: Tag) => {
-        this.updateForm.setValue({
-          id: data.id,
-          name: data.name,
-          description: data.description,
+  updatePaginatedTags(): void {
+    const startIndex = this.currentPage * this.pageSize;
+    const endIndex = startIndex + this.pageSize;
+    this.paginatedTags = this.filteredTags.slice(startIndex, endIndex);
+  }
+
+  openAddDialog(): void {
+    this.dialogMode = 'add';
+    this.dialogForm.reset();
+    this.dialog.open(this.dialogTemplate);
+  }
+
+  openEditDialog(tag: Tag): void {
+    this.dialogMode = 'edit';
+    this.currentTagId = tag.id;
+    this.dialogForm.setValue({
+      name: tag.name,
+      description: tag.description,
+    });
+    this.dialog.open(this.dialogTemplate);
+  }
+
+  closeDialog(): void {
+    this.dialog.closeAll();
+  }
+
+  saveDialog(): void {
+    const tagData = this.dialogForm.value;
+
+    if (this.dialogMode === 'add') {
+      this.tagService.addTag(tagData.name, tagData.description).subscribe({
+        next: () => {
+          this.loadTags();
+          this.closeDialog();
+        },
+        error: (errorResponse) => {
+          this.handleBackendError(errorResponse);
+        },
+      });
+    } else if (this.dialogMode === 'edit' && this.currentTagId !== null) {
+      this.tagService
+        .updateTag(this.currentTagId, tagData.name, tagData.description)
+        .subscribe({
+          next: () => {
+            this.loadTags();
+            this.closeDialog();
+          },
+          error: (errorResponse) => {
+            this.handleBackendError(errorResponse);
+          },
         });
-        this.editReady = true;
-      }); //TODO handle error?
-    } else {
-      this.editReady = false;
+    }
+  }
+
+  handleBackendError(errorResponse: { error: { message: string } }): void {
+    if (errorResponse.error && errorResponse.error.message) {
+      const errorMessage = errorResponse.error.message;
+      console.error('Backend error:', errorMessage);
+
+      // Map specific error messages to form fields
+      if (errorMessage.toLowerCase().includes('name')) {
+        this.dialogForm.get('name')?.setErrors({ backend: errorMessage });
+      } else if (errorMessage.toLowerCase().includes('description')) {
+        this.dialogForm
+          .get('description')
+          ?.setErrors({ backend: errorMessage });
+      } else {
+        alert('An unexpected error occurred: ' + errorMessage);
+      }
+    }
+  }
+
+  deleteTag(id: number): void {
+    if (confirm('Are you sure you want to delete this tag?')) {
+      this.tagService.deleteTag(id).subscribe(() => {
+        this.loadTags();
+      });
     }
   }
 }

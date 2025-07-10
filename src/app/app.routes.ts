@@ -16,7 +16,7 @@ import { GameDetailsComponent } from './pages/game-details/game-details.componen
 import { EditGameComponent } from './components/edit-game/edit-game.component';
 import { ViewTagComponent } from './components/view-tag/view-tag.component';
 import { SearchFiltersComponent } from './pages/search-filters/search-filters.component';
-import { UserComponent } from './components/user/user.component';
+import { UserComponent } from './pages/user/user.component';
 import { UserEditComponent } from './components/user-edit/user-edit.component';
 import { PlaylistEditComponent } from './components/playlist-edit/playlist-edit.component';
 import { AdminGuard } from './admin.guard';
@@ -24,14 +24,10 @@ import { CrudsComponent } from './pages/cruds/cruds.component';
 
 export const routes: Routes = [
   { path: 'tag/view_tag', component: ViewTagComponent },
-  { path: 'platform', component: PlatformComponent },
-  { path: 'franchise', component: FranchiseComponent },
-  { path: 'game', component: GameComponent },
   { path: 'game/view_game', component: ViewGameComponent },
   { path: 'review', component: ReviewComponent },
   { path: 'review/:id', component: ReviewComponent },
   { path: 'game/:id', component: GameDetailsComponent },
-  { path: 'edit-game/:id', component: EditGameComponent },
   { path: 'search-filters', component: SearchFiltersComponent },
   { path: 'playlist/:id', component: PlaylistEditComponent },
   { path: 'playlist', component: PlaylistComponent },
@@ -41,17 +37,22 @@ export const routes: Routes = [
   //{path: '**', redirectTo: '/studio'}, // Redirección en caso de ruta no encontrada
   { path: 'log-in', component: LoginComponent },
   { path: 'register', component: RegisterComponent },
-  { path: 'user/:id', component: UserComponent },
-  { path: 'user/:id/edit', component: UserEditComponent },
+
+  { path: 'user/edit-profile', component: UserEditComponent },
+  { path: 'user/:nick', component: UserComponent },
+  { path: 'edit-game/:id', component: EditGameComponent, canActivate: [AdminGuard] },
 
   {
     path: 'administradores',
     component: CrudsComponent,
     canActivate: [AdminGuard],
     children: [
-      { path: 'studio', component: StudioComponent },
-      { path: 'shop', component: ShopComponent },
-      { path: 'tag', component: TagComponent },
+      { path: 'platform', component: PlatformComponent, canActivate: [AdminGuard] },
+      { path: 'studio', component: StudioComponent, canActivate: [AdminGuard] },
+      { path: 'shop', component: ShopComponent, canActivate: [AdminGuard] },
+      { path: 'tag', component: TagComponent, canActivate: [AdminGuard] },
+      { path: 'franchise', component: FranchiseComponent, canActivate: [AdminGuard] },
+      { path: 'game', component: GameComponent, canActivate: [AdminGuard] },
     ],
   },
 ];

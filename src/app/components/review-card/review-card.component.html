@@ -1,14 +1,15 @@
 <div class="review-card">
   <div class="head">
-    <img
-      [src]="apiUrl + review().author.profile_img"
-      [alt]="review().author.nick + '\'s profile picture'"
-    />
-    <!--user profile pic-->
+    @if (showProfilePicture) {
+      <img
+        [src]="linkToStaticResource(review().author.profile_img)"
+        [alt]="review().author.nick + '\'s profile picture'"
+      />
+    }
     <span class="top-text">
       <span id="author">{{ review().author.nick }}</span> rated
       <br />
-<!---      <span id="game">{{ review().game.title }}</span> -->
+      <span id="game">{{ review().game.title }} </span>
     </span>
   </div>
 
@@ -23,15 +24,10 @@
     }
   </div>
 
-
-
-
   @if (review().title !== "") {
     <p class="title">{{ review().title }}</p>
   }
   @if (review().body !== "") {
     <p class="body">{{ review().body }}</p>
   }
-    </div>
-
-
+</div>

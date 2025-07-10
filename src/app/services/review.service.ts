@@ -4,6 +4,7 @@ import { map, Observable } from 'rxjs';
 import { API_URL } from '../../main';
 import { Review } from '../model/review.model';
 import { ApiResponse } from '../model/apiResponse.model';
+import { User } from '../model/user.model';
 
 export interface ReviewPostBody {
   score: number;
@@ -24,19 +25,26 @@ export class ReviewService {
       .pipe(map((res) => res.data as Review[]));
   }
 
+  getReviewsByAuthor(user: User) {
+    const resourcePath = `${API_URL}/users/${user.nick}/reviews`;
+
+    return this.http
+      .get<ApiResponse<Review[]>>(resourcePath)
+      .pipe(map((res) => res.data as Review[]));
+  }
+
   getReviewsByGame(gameId: number) {
     const endpoint = `${API_URL}/games/${gameId}/reviews`;
 
-    // Necesito que el cuando llegue `res`, se le parsee el atributo `createdAt` de cada Review como instancia de Date
-    return this.http
-      .get<ApiResponse<Review[]>>(endpoint)
-      .pipe(
-        map(res => {
-          res.data.forEach(review => review.createdAt = new Date(review.createdAt));
-          return res;
-        })
-      )
-
+    // Necesito que cuando llegue `res`, se le parsee el atributo `createdAt` de cada Review como instancia de Date
+    return this.http.get<ApiResponse<Review[]>>(endpoint).pipe(
+      map((res) => {
+        res.data.forEach(
+          (review) => (review.createdAt = new Date(review.createdAt)),
+        );
+        return res;
+      }),
+    );
   }
 
   postReview(userToken: string, gameId: number, postBody: ReviewPostBody) {

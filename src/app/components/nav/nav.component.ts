@@ -19,22 +19,20 @@ export class NavComponent implements OnInit {
   constructor(
     private router: Router,
     private loginService: LoginService,
-  ) {}
+  ) { }
 
   userLoggedIn = false;
   userNick: string = '';
   userisAdmin = false;
 
   ngOnInit() {
-    this.loginService.sessionState.subscribe((val) => {
-      this.userLoggedIn = val;
+    this.loginService.sessionState.subscribe((loggedIn) => {
+      this.userLoggedIn = loggedIn;
       this.userNick = this.loginService.currentUserData.nick;
-    });
 
-    if (this.userLoggedIn) {
-      const user = this.loginService.currentUserData;
-      this.userisAdmin = user.is_admin;
-    }
+      if (loggedIn)
+        this.userisAdmin = this.loginService.currentUserData.is_admin;
+    });
   }
 
   logout() {

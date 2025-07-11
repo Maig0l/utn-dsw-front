@@ -108,7 +108,7 @@
       </mat-form-field>
 
       <!-- Games Field (Chips + Autocomplete) -->
-      <mat-form-field class="full-width">
+      <mat-form-field class="full-width" id="azul">
         <mat-label>Games</mat-label>
         <mat-chip-grid #chipList>
           <mat-chip-row
@@ -122,6 +122,7 @@
             </button>
           </mat-chip-row>
           <input
+            id="azul"
             placeholder="Search games..."
             [formControl]="gameControl"
             [matAutocomplete]="auto"

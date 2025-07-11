@@ -192,7 +192,7 @@ export class EditGameComponent implements OnInit {
       }),
     );
   }
-  isFrSelected: boolean = false;
+  isFrSelected = false;
   addFranchise(franchise: Franchise) {
     if (this.franchiseSelected === franchise) {
       return;

@@ -2,3 +2,11 @@ mat-toolbar {
   background-color: #012b59;
   color: white;
 }
+
+::ng-deep .custom-toolbar-btn {
+  background-color: #014a8d !important;
+  color: #e5e5e5 !important;
+}
+::ng-deep .custom-toolbar-btn .mat-icon {
+  color: #e5e5e5 !important;
+}

@@ -6,7 +6,6 @@ import { PlatformComponent } from './components/platform/platform.component';
 import { LoginComponent } from './components/login/login.component';
 import { HomepageComponent } from './pages/homepage/homepage.component';
 import { FranchiseComponent } from './components/franchise/franchise.component';
-import { GameComponent } from './components/game/game.component';
 import { PlaylistComponent } from './components/playlist/playlist.component';
 import { ViewGameComponent } from './components/view-game/view-game.component';
 import { TagComponent } from './components/tag/tag.component';
@@ -21,6 +20,8 @@ import { UserEditComponent } from './components/user-edit/user-edit.component';
 import { PlaylistEditComponent } from './components/playlist-edit/playlist-edit.component';
 import { AdminGuard } from './admin.guard';
 import { CrudsComponent } from './pages/cruds/cruds.component';
+import { GameCrudComponent } from './components/game-crud/game-crud.component.js';
+import { GameComponent } from './components/game/game.component.js';
 
 export const routes: Routes = [
   { path: 'tag/view_tag', component: ViewTagComponent },
@@ -40,19 +41,36 @@ export const routes: Routes = [
 
   { path: 'user/edit-profile', component: UserEditComponent },
   { path: 'user/:nick', component: UserComponent },
-  { path: 'edit-game/:id', component: EditGameComponent, canActivate: [AdminGuard] },
 
   {
     path: 'administradores',
     component: CrudsComponent,
     canActivate: [AdminGuard],
     children: [
-      { path: 'platform', component: PlatformComponent, canActivate: [AdminGuard] },
+      {
+        path: 'platform',
+        component: PlatformComponent,
+        canActivate: [AdminGuard],
+      },
       { path: 'studio', component: StudioComponent, canActivate: [AdminGuard] },
       { path: 'shop', component: ShopComponent, canActivate: [AdminGuard] },
       { path: 'tag', component: TagComponent, canActivate: [AdminGuard] },
-      { path: 'franchise', component: FranchiseComponent, canActivate: [AdminGuard] },
-      { path: 'game', component: GameComponent, canActivate: [AdminGuard] },
+      {
+        path: 'franchise',
+        component: FranchiseComponent,
+        canActivate: [AdminGuard],
+      },
+      { path: 'game', component: GameCrudComponent, canActivate: [AdminGuard] },
+      {
+        path: 'game/create',
+        component: GameComponent,
+        canActivate: [AdminGuard],
+      },
+      {
+        path: 'game/edit/:id',
+        component: EditGameComponent,
+        canActivate: [AdminGuard],
+      },
     ],
   },
 ];

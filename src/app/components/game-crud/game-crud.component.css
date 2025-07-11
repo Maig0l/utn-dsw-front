@@ -200,7 +200,7 @@ mat-error.mat-mdc-form-field-error.mat-mdc-form-field-bottom-align.ng-star-inser
 }
 
 /* Shop Item Hover Effect */
-.franchise-item {
+.shop-item {
   margin-bottom: 8px;
   transition:
     transform 0.3s ease,
@@ -209,7 +209,7 @@ mat-error.mat-mdc-form-field-error.mat-mdc-form-field-bottom-align.ng-star-inser
   color: #e5e5e5; /* Standardized text color */
 }
 
-.franchise-item:hover {
+.shop-item:hover {
   transform: scale(1.02);
   opacity: 0.9;
   background-color: #014a8d; /* Slightly lighter blue on hover */
@@ -218,39 +218,4 @@ mat-error.mat-mdc-form-field-error.mat-mdc-form-field-bottom-align.ng-star-inser
 /* Full Width Utility Class */
 .full-width {
   width: 100%;
-}
-
-::ng-deep .mat-mdc-autocomplete-panel {
-  background-color: #012b59 !important;
-  color: #e5e5e5 !important;
-  border-radius: 8px;
-  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
-}
-
-/* Opciones del autocompletado */
-::ng-deep .mat-mdc-option {
-  color: #e5e5e5 !important;
-}
-
-/* Al pasar el mouse por una opción */
-::ng-deep .mat-mdc-option:hover,
-::ng-deep .mat-mdc-option.mat-mdc-option-active {
-  background-color: #014a8d !important;
-  color: white !important;
-}
-
-/* Input dentro del chip-grid */
-mat-chip-grid input {
-  color: #e5e5e5;
-}
-
-::ng-deep
-  div.a.mat-mdc-text-field-wrapper.mdc-text-field.mdc-text-field--filled {
-  color: #e5e5e5;
-  background-color: #014a8d;
-}
-
-::ng-deep #azul {
-  color: #e5e5e5;
-  background-color: #014a8d;
 }

@@ -1,22 +1,19 @@
-<section>
+<section class="crud-section">
   <h1>Update game id:{{ id }}</h1>
-  <form [formGroup]="updateForm" (submit)="updateGame()">
-    <mat-form-field>
+  <form [formGroup]="updateForm" (submit)="updateGame()" class="crud-form">
+    <mat-form-field appearance="outline" class="full-width">
       <mat-label>Title</mat-label>
       <input required matInput type="text" id="title" formControlName="title" />
-      <mat-error>Title is required</mat-error>
+      <mat-error *ngIf="updateForm.get('title')?.invalid"
+        >Title is required</mat-error
+      >
     </mat-form-field>
-    <mat-form-field>
-      <mat-label for="synopsis">Synopsis</mat-label>
-      <textarea
-        matInput
-        type="text"
-        id="synopsis"
-        formControlName="synopsis"
-      ></textarea>
+    <mat-form-field appearance="outline" class="full-width">
+      <mat-label>Synopsis</mat-label>
+      <textarea matInput id="synopsis" formControlName="synopsis"></textarea>
     </mat-form-field>
-    <mat-form-field>
-      <mat-label for="releaseDate">Release date</mat-label>
+    <mat-form-field appearance="outline" class="full-width">
+      <mat-label>Release date</mat-label>
       <input
         matInput
         type="date"
@@ -24,26 +21,27 @@
         formControlName="releaseDate"
       />
     </mat-form-field>
-    <!--mat-form-field>
-      <mat-label for="portrait">Portrait</mat-label>
-      <input matInput type="text" id="portrait" formControlName="portrait" />
-    </mat-form-field>
-    <mat-form-field>
-      <mat-label for="banner">Banner</mat-label>
-      <input matInput type="text" id="banner" formControlName="banner" />
-    </mat-form-field-->
+
     <h3>Pictures</h3>
     <div class="picture-container">
       <div class="image-upload">
         <label>Portrait Preview:</label>
         <img
           *ngIf="portraitPreview || updateForm.value.portrait"
-          [src]="portraitPreview ? portraitPreview : apiUrl + updateForm.value.portrait"
+          [src]="
+            portraitPreview
+              ? portraitPreview
+              : apiUrl + updateForm.value.portrait
+          "
           alt=""
           class="preview-image"
         />
-
-        <button mat-button color="primary" type="button" (click)="portraitInput.click()">
+        <button
+          mat-button
+          color="primary"
+          type="button"
+          (click)="portraitInput.click()"
+        >
           <mat-icon>upload</mat-icon> Upload Portrait
         </button>
         <input
@@ -53,17 +51,22 @@
           (change)="onPortraitFileSelected($event)"
         />
       </div>
-
       <div class="image-upload">
         <label>Banner Preview:</label>
         <img
-        *ngIf="bannerPreview || updateForm.value.banner"
-        [src]="bannerPreview ? bannerPreview : apiUrl + updateForm.value.banner"
-        alt=""
-        class="preview-image"
-      />
-
-        <button mat-button color="primary" type="button" (click)="bannerInput.click()">
+          *ngIf="bannerPreview || updateForm.value.banner"
+          [src]="
+            bannerPreview ? bannerPreview : apiUrl + updateForm.value.banner
+          "
+          alt=""
+          class="preview-image"
+        />
+        <button
+          mat-button
+          color="primary"
+          type="button"
+          (click)="bannerInput.click()"
+        >
           <mat-icon>upload</mat-icon> Upload Banner
         </button>
         <input
@@ -75,12 +78,11 @@
       </div>
     </div>
 
-
-    <!-- PICTURES: TODO
+    <!-- PICTURES: TODO 
     <div class="pictures">
       <div class="pictureInputCont" formArrayName="pictures">
         <div *ngFor="let picture of pictures.controls; let i = index">
-          <mat-form-field class="pictureInput">
+          <mat-form-field appearance="outline" class="pictureInput full-width">
             <mat-label>Picture {{ i + 1 }}</mat-label>
             <input
               matInput
@@ -109,9 +111,10 @@
       >
         <mat-icon>add</mat-icon>Add picture
       </button>
-    </div-->
+    </div>-->
 
-    @if (isFrSelected == true) {
+    <!-- Franchise -->
+    @if (isFrSelected === true) {
       <mat-chip-grid #chipGrid aria-label="Enter franchise">
         <mat-chip-row (removed)="removeFranchise(franchiseSelected)">
           {{ franchiseSelected.name }}
@@ -124,7 +127,7 @@
         </mat-chip-row>
       </mat-chip-grid>
     }
-    <mat-form-field class="example-full-width">
+    <mat-form-field appearance="outline" class="full-width">
       <input
         class="custom-input"
         type="text"
@@ -142,7 +145,8 @@
         }
       </mat-autocomplete>
     </mat-form-field>
-    <!---------------------------------------------------------------------TAGS-->
+
+    <!-- Tags -->
     <mat-chip-grid #chipGrid aria-label="Enter tags">
       @for (tag of tagSelected; track tag) {
         <mat-chip-row (removed)="removeTag(tag)">
@@ -153,7 +157,7 @@
         </mat-chip-row>
       }
     </mat-chip-grid>
-    <mat-form-field class="example-full-width">
+    <mat-form-field appearance="outline" class="full-width">
       <input
         class="custom-input"
         type="text"
@@ -171,7 +175,8 @@
         }
       </mat-autocomplete>
     </mat-form-field>
-    <!---------------------------------------------------------------------STUDIOS-->
+
+    <!-- Studios -->
     <mat-chip-grid #chipGrid aria-label="Enter studios">
       @for (studio of studioSelected; track studio) {
         <mat-chip-row (removed)="removeStudio(studio)">
@@ -182,7 +187,7 @@
         </mat-chip-row>
       }
     </mat-chip-grid>
-    <mat-form-field class="example-full-width">
+    <mat-form-field appearance="outline" class="full-width">
       <input
         class="custom-input"
         type="text"
@@ -200,7 +205,8 @@
         }
       </mat-autocomplete>
     </mat-form-field>
-    <!---------------------------------------------------------------------SHOPS-->
+
+    <!-- Shops -->
     <mat-chip-grid #chipGrid aria-label="Enter shops">
       @for (shop of shopSelected; track shop) {
         <mat-chip-row (removed)="removeShop(shop)">
@@ -211,7 +217,7 @@
         </mat-chip-row>
       }
     </mat-chip-grid>
-    <mat-form-field class="example-full-width">
+    <mat-form-field appearance="outline" class="full-width">
       <input
         class="custom-input"
         type="text"
@@ -229,7 +235,8 @@
         }
       </mat-autocomplete>
     </mat-form-field>
-    <!---------------------------------------------------------------------PLATFORMS-->
+
+    <!-- Platforms -->
     <mat-chip-grid #chipGrid aria-label="Enter platforms">
       @for (platform of platformSelected; track platform) {
         <mat-chip-row (removed)="removePlatform(platform)">
@@ -240,7 +247,7 @@
         </mat-chip-row>
       }
     </mat-chip-grid>
-    <mat-form-field class="example-full-width">
+    <mat-form-field appearance="outline" class="full-width">
       <input
         class="custom-input"
         type="text"
@@ -260,17 +267,18 @@
     </mat-form-field>
 
     <button
-      mat-fab
-      extended
+      mat-raised-button
+      color="primary"
       aria-label="save game"
       type="submit"
-      class="primary"
+      class="primary full-width"
+      style="margin-top: 24px"
     >
       <mat-icon>save</mat-icon>Save game
     </button>
   </form>
   <div *ngIf="gameUpdated" class="game-updated">
-    <h1>Game updated succesfully</h1>
+    <h1>Game updated successfully</h1>
     <span class="success-buttons">
       <button mat-raised-button color="primary" (click)="goToGame()">
         <mat-icon>gamepad</mat-icon>

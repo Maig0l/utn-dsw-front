@@ -219,3 +219,9 @@ mat-error.mat-mdc-form-field-error.mat-mdc-form-field-bottom-align.ng-star-inser
 .full-width {
   width: 100%;
 }
+
+.mat-mdc-cell,
+.mat-mdc-header-cell {
+  background: inherit;
+  text-align: center;
+}

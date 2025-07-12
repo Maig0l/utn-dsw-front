@@ -95,3 +95,8 @@ span.advanced-search {
   border-radius: 4px;
   aspect-ratio: 1;
 }
+
+::ng-deep .custom-input {
+  background-color: initial !important;
+  color: initial !important;
+}

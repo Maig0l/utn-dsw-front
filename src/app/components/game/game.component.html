@@ -1,22 +1,20 @@
-<section>
-  <h1>Create new game</h1>
-  <form [formGroup]="gameForm" (submit)="addGame()">
-    <mat-form-field>
+<section class="crud-section">
+  <h1>Game Creation</h1>
+  <form [formGroup]="gameForm" (submit)="addGame()" class="crud-form">
+    <div class="toolbar">
+      <!-- Puedes agregar aquí un botón de volver si lo deseas -->
+    </div>
+    <mat-form-field appearance="outline" class="full-width">
       <mat-label>Title</mat-label>
       <input required matInput type="text" id="title" formControlName="title" />
       <mat-error>Title is required</mat-error>
     </mat-form-field>
-    <mat-form-field>
-      <mat-label for="synopsis">Synopsis</mat-label>
-      <textarea
-        matInput
-        type="text"
-        id="synopsis"
-        formControlName="synopsis"
-      ></textarea>
+    <mat-form-field appearance="outline" class="full-width">
+      <mat-label>Synopsis</mat-label>
+      <textarea matInput id="synopsis" formControlName="synopsis"></textarea>
     </mat-form-field>
-    <mat-form-field>
-      <mat-label for="releaseDate">Release date</mat-label>
+    <mat-form-field appearance="outline" class="full-width">
+      <mat-label>Release date</mat-label>
       <input
         matInput
         type="date"
@@ -242,17 +240,18 @@
     </mat-form-field>
 
     <button
-      mat-fab
-      extended
+      mat-raised-button
+      color="primary"
       aria-label="save game"
       type="submit"
-      class="primary"
+      class="primary full-width"
+      style="margin-top: 24px"
     >
       <mat-icon>save</mat-icon>Save game
     </button>
   </form>
   <div *ngIf="gameCreated" class="game-created">
-    <h1>Game created succesfully</h1>
+    <h1>Game created successfully</h1>
     <span class="success-buttons">
       <button mat-raised-button color="primary" (click)="goToGame()">
         <mat-icon>gamepad</mat-icon>

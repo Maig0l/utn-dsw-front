@@ -254,3 +254,9 @@ mat-chip-grid input {
   color: #e5e5e5;
   background-color: #014a8d;
 }
+
+.mat-mdc-cell,
+.mat-mdc-header-cell {
+  background: inherit;
+  text-align: center;
+}

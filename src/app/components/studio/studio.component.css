@@ -219,3 +219,15 @@ mat-error.mat-mdc-form-field-error.mat-mdc-form-field-bottom-align.ng-star-inser
   background-color: #014a8d;
   color: #e5e5e5;
 }
+
+.mat-mdc-cell,
+.mat-mdc-header-cell {
+  background: inherit;
+  text-align: center;
+}
+
+::ng-deep
+  .mat-mdc-text-field:not(.mat-mdc-text-field-disabled)
+  .mat-mdc-text-field-label {
+  background-color: #014a8d !important;
+}

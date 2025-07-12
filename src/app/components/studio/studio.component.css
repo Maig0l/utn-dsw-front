@@ -1,42 +1,35 @@
-h1 {
-  color: #e5e5e5;
-  text-align: center;
-}
-
-::ng-deep span.mat-mdc-select-min-line.ng-star-inserted {
-  color: #e5e5e5;
-}
-
-::ng-deep
-  input.mat-mdc-input-element.mat-mdc-form-field-input-control.mdc-text-field__input {
-  color: #e5e5e5;
-}
-
-::ng-deep mat-label {
-  color: #e5e5e5;
-}
-
-::ng-deep .ng-star-inserted {
-  color: #e5e5e5;
-}
-::ng-deep
-  div.mat-mdc-form-field-subscript-wrapper.mat-mdc-form-field-bottom-align {
-  height: 0px;
-}
-
+/* General Section Styles */
 section {
+  /*these don't work properly with angular material components*/
+  --main-bg-color: #ffebc2;
+  --secondary-bg-color: #feedcd;
+  --main-text-color: #012b59;
+
   padding-top: 32px;
   font-size: 24px;
-  padding: 16px;
-  color: #e5e5e5;
-  background-color: #014a8d;
+  padding: 16px 10vw;
+  color: var(--main-text-color);
+  background-color: var(--main-bg-color);
 }
 
-section h1,
-section p,
-section h2,
-label {
-  color: #e5e5e5;
+h1 {
+  color: var(--main-text-color);
+  text-align: center;
+  margin: 8px;
+}
+
+p,
+h2,
+label,
+th,
+td {
+  color: var(--main-text-color);
+}
+
+a {
+  color: #3f51b5;
+  text-decoration: underline;
+  cursor: pointer;
 }
 
 .toolbar {
@@ -44,190 +37,115 @@ label {
   justify-content: space-between;
   align-items: center;
   padding: 8px 16px;
-  background-color: #012b59;
+  background-color: var(--secondary-bg-color);
   border-radius: 8px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
 }
 
 .search-bar {
-  flex: 1;
+  flex: 1; /* Allow the search bar to take up available space */
   max-width: 600px;
   margin-right: 16px;
 }
 
-.add-button {
+.add-button.mat-mdc-raised-button {
   white-space: nowrap;
-  background-color: #014a8d;
-  color: #e5e5e5;
+  background-color: var(--main-text-color);
+  color: var(--main-bg-color);
 }
 
 table {
   width: 100%;
   margin-top: 16px;
-  background-color: #012b59;
-  color: #e5e5e5;
+  padding: 8px 16px;
+  background-color: var(--secondary-bg-color);
+  color: var(--main-text-color);
   border-radius: 8px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
 }
 
 .mat-header-cell,
 .mat-cell {
-  text-align: left;
-  color: #e5e5e5;
+  text-align: center;
+  color: var(--main-text-color);
 }
 
 mat-paginator {
-  background-color: #012b59;
-  color: #e5e5e5;
-  border-radius: 8px;
-  padding: 8px 16px;
   margin-top: 16px;
   display: flex;
   justify-content: center;
-}
-
-mat-paginator .mat-mdc-paginator-navigation-button {
-  color: #e5e5e5;
-}
-
-mat-paginator .mat-mdc-paginator-navigation-button:hover {
-  background-color: #014a8d;
-}
-
-mat-paginator .mat-mdc-form-field-wrapper {
-  background-color: transparent;
+  padding: 8px 16px;
+  background-color: var(--secondary-bg-color);
+  color: var(--main-text-color);
   border-radius: 8px;
-}
-
-mat-paginator .mat-mdc-select-value-text,
-mat-paginator .mat-mdc-paginator-range-label {
-  color: #e5e5e5;
-}
-
-mat-paginator .mat-mdc-select-arrow {
-  color: #e5e5e5;
-}
-
-mat-paginator .mat-mdc-paginator-range-label {
-  font-weight: bold;
-  color: #e5e5e5;
-}
-
-mat-paginator:hover {
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
+  font-size: 14px;
 }
 
 ::ng-deep div.mat-mdc-dialog-surface.mdc-dialog__surface {
-  background-color: #014a8d;
-  color: #e5e5e5;
-  border-radius: 8px;
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
   overflow-y: auto;
-  padding: 16px;
-}
-button + button {
-  margin-left: 8px;
-}
-
-::ng-deep .mat-dialog-container {
-  padding: 16px;
-  background-color: #014a8d;
-  color: #e5e5e5;
+  padding: 8px 16px;
   border-radius: 8px;
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
+  background-color: #ffebc2;
+  color: #012b59;
 }
 
-::ng-deep .mat-dialog-title {
+button + button {
+  margin-left: 8px; /* Add spacing between buttons */
+}
+
+h1.ng-star-inserted {
   font-size: 24px;
   font-weight: bold;
-  color: #e5e5e5;
   margin-bottom: 16px;
   text-align: center;
 }
 
-::ng-deep .mat-dialog-content {
+.mat-dialog-content {
   font-size: 16px;
-  color: #e5e5e5;
-}
-mat-error.mat-mdc-form-field-error.mat-mdc-form-field-bottom-align.ng-star-inserted {
-  color: var(--mat-form-field-error-text-color);
-  margin: -12px 0px 0px 12px;
+  color: #012b59;
 }
 
-/* Dialog Form Fields */
-::ng-deep .mat-mdc-text-field-wrapper.mdc-text-field {
+mat-form-field.mat-mdc-form-field {
   width: 90%;
-  margin: 8px;
-}
-
-::ng-deep mat-form-field.mat-mdc-form-field {
   align-items: center;
-  margin-top: 8px;
+  margin: 16px 8px;
 }
 
-::ng-deep .mat-form-field-appearance-outline .mat-form-field-outline {
-  color: #e5e5e5;
-}
-
-::ng-deep .mat-form-field-label {
-  color: #e5e5e5;
-}
-
-/* Dialog Actions */
-::ng-deep .mat-dialog-actions {
+.mat-dialog-actions {
   display: flex;
   justify-content: flex-end;
-  gap: 8px;
-}
-
-::ng-deep .mat-dialog-actions button {
-  color: #e5e5e5;
-}
-
-::ng-deep .mat-dialog-actions button.mat-raised-button {
-  background-color: #014a8d;
-}
-
-::ng-deep .mat-dialog-actions button.mat-raised-button:hover {
-  background-color: #012b59;
 }
 
 .full-width {
   width: 100%;
 }
 
-::ng-deep .mat-select {
-  color: #e5e5e5;
-}
-
-::ng-deep .mat-select-arrow {
-  color: #e5e5e5;
-}
-
-::ng-deep .mat-select-panel {
-  background-color: #012b59;
-  color: #e5e5e5;
-}
-
-::ng-deep .mat-option {
-  color: #e5e5e5;
-}
-
-::ng-deep .mat-option:hover {
-  background-color: #014a8d;
-}
-
-::ng-deep .mat-option.mat-selected {
-  background-color: #014a8d;
-  color: #e5e5e5;
-}
-
 .mat-mdc-cell,
 .mat-mdc-header-cell {
-  background: inherit;
   text-align: center;
 }
 
+::ng-deep mat-label {
+  color: #012b59;
+}
+
 ::ng-deep
-  .mat-mdc-text-field:not(.mat-mdc-text-field-disabled)
-  .mat-mdc-text-field-label {
-  background-color: #014a8d !important;
+  div.mat-mdc-form-field-subscript-wrapper.mat-mdc-form-field-bottom-align {
+  height: 0px;
+}
+
+::ng-deep div.mat-mdc-select-panel .mat-mdc-option {
+  color: #012b59;
+}
+
+::ng-deep
+  .cdk-overlay-pane:not(.mat-mdc-select-panel-above)
+  div.mat-mdc-select-panel {
+  background-color: #fdf0d5;
+}
+
+::ng-deep .mat-mdc-select-panel-above div.mat-mdc-select-panel {
+  background-color: #fdf0d5;
 }

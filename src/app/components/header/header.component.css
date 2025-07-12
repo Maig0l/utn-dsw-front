@@ -97,6 +97,5 @@ span.advanced-search {
 }
 
 ::ng-deep .custom-input {
-  background-color: initial !important;
-  color: initial !important;
+  color: #012b59 !important;
 }

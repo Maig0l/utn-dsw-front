@@ -46,6 +46,11 @@ export class StudioComponent implements OnInit {
   currentStudioId: number | null = null;
 
   @ViewChild('dialogTemplate') dialogTemplate!: TemplateRef<unknown>;
+  @ViewChild('deleteDialogTemplate')
+  deleteDialogTemplate!: TemplateRef<unknown>;
+
+  studioIdToDelete: number | null = null;
+  studioToDelete = '';
 
   constructor(
     private studioService: StudioService,
@@ -166,6 +171,26 @@ export class StudioComponent implements OnInit {
     if (confirm('Are you sure you want to delete this studio?')) {
       this.studioService.deleteStudio(id).subscribe(() => {
         this.loadStudios();
+      });
+    }
+  }
+
+  openDeleteDialog(id: number): void {
+    this.studioIdToDelete = id;
+    this.studioToDelete = this.studios.find((f) => f.id === id)?.name || '';
+    this.dialog.open(this.deleteDialogTemplate);
+  }
+
+  closeDeleteDialog(): void {
+    this.dialog.closeAll();
+    this.studioIdToDelete = null;
+  }
+
+  confirmDeleteStudio(): void {
+    if (this.studioIdToDelete !== null) {
+      this.studioService.deleteStudio(this.studioIdToDelete).subscribe(() => {
+        this.loadStudios();
+        this.closeDeleteDialog();
       });
     }
   }

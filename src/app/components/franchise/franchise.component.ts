@@ -56,6 +56,11 @@ export class FranchiseComponent implements OnInit {
   filteredOptions!: Observable<Game[]>;
 
   @ViewChild('dialogTemplate') dialogTemplate!: TemplateRef<unknown>;
+  @ViewChild('deleteDialogTemplate')
+  deleteDialogTemplate!: TemplateRef<unknown>;
+
+  franchiseIdToDelete: number | null = null;
+  franchiseToDelete = '';
 
   constructor(
     private franchiseService: FranchiseService,
@@ -181,11 +186,25 @@ export class FranchiseComponent implements OnInit {
     }
   }
 
-  deleteFranchise(id: number): void {
-    if (confirm('Are you sure you want to delete this franchise?')) {
-      this.franchiseService.deleteFranchise(id).subscribe(() => {
-        this.loadFranchises();
-      });
+  openDeleteDialog(id: number): void {
+    this.franchiseToDelete =
+      this.franchises.find((f) => f.id === id)?.name || '';
+    this.dialog.open(this.deleteDialogTemplate);
+  }
+
+  closeDeleteDialog(): void {
+    this.dialog.closeAll();
+    this.franchiseIdToDelete = null;
+  }
+
+  confirmDeleteFranchise(): void {
+    if (this.franchiseIdToDelete !== null) {
+      this.franchiseService
+        .deleteFranchise(this.franchiseIdToDelete)
+        .subscribe(() => {
+          this.loadFranchises();
+          this.closeDeleteDialog();
+        });
     }
   }
 

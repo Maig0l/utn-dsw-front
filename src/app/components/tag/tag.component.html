@@ -52,7 +52,7 @@
         <button mat-icon-button color="primary" (click)="openEditDialog(tag)">
           <mat-icon>edit</mat-icon>
         </button>
-        <button mat-icon-button color="warn" (click)="deleteTag(tag.id)">
+        <button mat-icon-button color="warn" (click)="openDeleteDialog(tag.id)">
           <mat-icon>delete</mat-icon>
         </button>
       </td>
@@ -107,6 +107,21 @@
       [disabled]="dialogForm.invalid"
     >
       Save
+    </button>
+  </div>
+</ng-template>
+
+<!-- Popup Delete Dialog for Tags -->
+<ng-template #deleteDialogTemplate>
+  <h1 mat-dialog-title>Delete Tag "{{ tagToDelete }}"</h1>
+  <div mat-dialog-content>
+    <p>Are you sure you want to delete this tag?</p>
+  </div>
+  <div mat-dialog-actions align="end">
+    <button mat-button (click)="closeDeleteDialog()">Cancel</button>
+    <button mat-raised-button color="warn" (click)="confirmDeleteTag()">
+      <mat-icon>delete</mat-icon>
+      Delete
     </button>
   </div>
 </ng-template>

@@ -44,6 +44,11 @@ export class PlatformComponent implements OnInit {
   currentPlatformId: number | null = null;
 
   @ViewChild('dialogTemplate') dialogTemplate!: TemplateRef<unknown>;
+  @ViewChild('deleteDialogTemplate')
+  deleteDialogTemplate!: TemplateRef<unknown>;
+
+  platformIdToDelete: number | null = null;
+  platformToDelete = '';
 
   constructor(
     private platformService: PlatformService,
@@ -106,6 +111,31 @@ export class PlatformComponent implements OnInit {
       img: platform.img,
     });
     this.dialog.open(this.dialogTemplate);
+  }
+
+  // Abre el diálogo de borrado
+  openDeleteDialog(id: number): void {
+    this.platformIdToDelete = id;
+    this.platformToDelete = this.platforms.find((f) => f.id === id)?.name || '';
+    this.dialog.open(this.deleteDialogTemplate);
+  }
+
+  // Cierra el diálogo de borrado
+  closeDeleteDialog(): void {
+    this.dialog.closeAll();
+    this.platformIdToDelete = null;
+  }
+
+  // Confirma el borrado
+  confirmDeletePlatform(): void {
+    if (this.platformIdToDelete !== null) {
+      this.platformService
+        .deletePlatform(this.platformIdToDelete)
+        .subscribe(() => {
+          this.loadPlatforms();
+          this.closeDeleteDialog();
+        });
+    }
   }
 
   closeDialog(): void {

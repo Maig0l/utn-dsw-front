@@ -42,7 +42,11 @@
         <button mat-icon-button color="primary" (click)="openEditDialog(game)">
           <mat-icon>edit</mat-icon>
         </button>
-        <button mat-icon-button color="warn" (click)="deleteGame(game.id)">
+        <button
+          mat-icon-button
+          color="warn"
+          (click)="openDeleteDialog(game.id)"
+        >
           <mat-icon>delete</mat-icon>
         </button>
       </td>
@@ -58,4 +62,19 @@
     (page)="onPageChange($event)"
   >
   </mat-paginator>
+
+  <!-- Popup Delete Dialog for Games -->
+  <ng-template #deleteDialogTemplate>
+    <h1 mat-dialog-title>Delete Game "{{ gameToDelete }}"</h1>
+    <div mat-dialog-content>
+      <p>Are you sure you want to delete this game?</p>
+    </div>
+    <div mat-dialog-actions align="end">
+      <button mat-button (click)="closeDeleteDialog()">Cancel</button>
+      <button mat-raised-button color="warn" (click)="confirmDeleteGame()">
+        <mat-icon>delete</mat-icon>
+        Delete
+      </button>
+    </div>
+  </ng-template>
 </section>

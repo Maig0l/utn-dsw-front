@@ -45,6 +45,11 @@ export class GameCrudComponent implements OnInit {
   currentGameId: number | null = null;
 
   @ViewChild('dialogTemplate') dialogTemplate!: TemplateRef<unknown>;
+  @ViewChild('deleteDialogTemplate')
+  deleteDialogTemplate!: TemplateRef<unknown>;
+
+  gameIdToDelete: number | null = null;
+  gameToDelete = '';
 
   constructor(
     private gameService: GameService,
@@ -196,5 +201,25 @@ export class GameCrudComponent implements OnInit {
 
   goToAddGame(): void {
     this.router.navigate(['/administradores/game/create']);
+  }
+
+  openDeleteDialog(id: number): void {
+    this.gameIdToDelete = id;
+    this.gameToDelete = this.games.find((f) => f.id === id)?.title || '';
+    this.dialog.open(this.deleteDialogTemplate);
+  }
+
+  closeDeleteDialog(): void {
+    this.dialog.closeAll();
+    this.gameIdToDelete = null;
+  }
+
+  confirmDeleteGame(): void {
+    if (this.gameIdToDelete !== null) {
+      this.gameService.deleteGame(this.gameIdToDelete).subscribe(() => {
+        this.loadGames();
+        this.closeDeleteDialog();
+      });
+    }
   }
 }

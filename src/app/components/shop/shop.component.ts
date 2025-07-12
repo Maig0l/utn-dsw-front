@@ -45,6 +45,11 @@ export class ShopComponent implements OnInit {
   currentShopId: number | null = null;
 
   @ViewChild('dialogTemplate') dialogTemplate!: TemplateRef<unknown>;
+  @ViewChild('deleteDialogTemplate')
+  deleteDialogTemplate!: TemplateRef<unknown>;
+
+  shopIdToDelete: number | null = null;
+  shopToDelete = '';
 
   constructor(
     private shopService: ShopService,
@@ -163,6 +168,26 @@ export class ShopComponent implements OnInit {
     if (confirm('Are you sure you want to delete this shop?')) {
       this.shopService.deleteShop(id).subscribe(() => {
         this.loadShops();
+      });
+    }
+  }
+
+  openDeleteDialog(id: number): void {
+    this.shopIdToDelete = id;
+    this.shopToDelete = this.shops.find((f) => f.id === id)?.name || '';
+    this.dialog.open(this.deleteDialogTemplate);
+  }
+
+  closeDeleteDialog(): void {
+    this.dialog.closeAll();
+    this.shopIdToDelete = null;
+  }
+
+  confirmDeleteShop(): void {
+    if (this.shopIdToDelete !== null) {
+      this.shopService.deleteShop(this.shopIdToDelete).subscribe(() => {
+        this.loadShops();
+        this.closeDeleteDialog();
       });
     }
   }

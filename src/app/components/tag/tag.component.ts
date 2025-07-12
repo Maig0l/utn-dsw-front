@@ -44,6 +44,11 @@ export class TagComponent implements OnInit {
   currentTagId: number | null = null;
 
   @ViewChild('dialogTemplate') dialogTemplate!: TemplateRef<unknown>;
+  @ViewChild('deleteDialogTemplate')
+  deleteDialogTemplate!: TemplateRef<unknown>;
+
+  tagIdToDelete: number | null = null;
+  tagToDelete = '';
 
   constructor(
     private tagService: TagService,
@@ -155,10 +160,22 @@ export class TagComponent implements OnInit {
     }
   }
 
-  deleteTag(id: number): void {
-    if (confirm('Are you sure you want to delete this tag?')) {
-      this.tagService.deleteTag(id).subscribe(() => {
+  openDeleteDialog(id: number): void {
+    this.tagIdToDelete = id;
+    this.tagToDelete = this.tags.find((f) => f.id === id)?.name || '';
+    this.dialog.open(this.deleteDialogTemplate);
+  }
+
+  closeDeleteDialog(): void {
+    this.dialog.closeAll();
+    this.tagIdToDelete = null;
+  }
+
+  confirmDeleteTag(): void {
+    if (this.tagIdToDelete !== null) {
+      this.tagService.deleteTag(this.tagIdToDelete).subscribe(() => {
         this.loadTags();
+        this.closeDeleteDialog();
       });
     }
   }

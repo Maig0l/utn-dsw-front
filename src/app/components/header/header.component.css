@@ -6,15 +6,17 @@ header {
   align-items: center;
 
   /* Padding para un área de contenido de 1300px (--content-width) de ancho */
-  padding: 0.5em calc((100vw - var(--content-width)) / 2);
+  /*padding: 0.5em calc((100vw - var(--content-width)) / 2);*/
+  padding: 2vh 10vw;
   background-color: #12161a;
   color: white;
-  height: 3.5em;
+  height: 10vh;
 }
 
 #logo,
 #logo img {
   height: 100%;
+  margin-left: 4px;
 }
 
 #right-side {
@@ -79,21 +81,23 @@ a {
 li span {
   cursor: pointer;
 }
+
 li span:hover {
   color: #e5e5e5;
 }
 
 .search {
-  width: 20em;
+  width: 30vw;
 }
 
 span.advanced-search {
-  /* TODO: Centrar verticalmente el ícono de adentro */
   text-align: center;
   border: 1px solid #e5e5e5;
   padding: 4px;
   border-radius: 4px;
   aspect-ratio: 1;
+  align-content: center;
+  cursor: pointer;
 }
 
 ::ng-deep .custom-input {

@@ -17,8 +17,8 @@
       ></textarea>
     </mat-form-field>
 
-    <mat-checkbox id="isPrivate" formControlName="isPrivate"
-      >Make this playlist private</mat-checkbox
+    <mat-checkbox id="isPrivate" formControlName="isPrivate">
+      Make this playlist private</mat-checkbox
     >
 
     <mat-chip-grid #chipGrid aria-label="Enter games">
@@ -59,9 +59,11 @@
         }
       </mat-autocomplete>
     </mat-form-field>
-    <button mat-mini-fab type="submit" class="primary">
-      <mat-icon>save</mat-icon>
-    </button>
+    <div mat-dialog-actions align="end">
+      <button mat-raised-button color="primary" type="submit">
+        <mat-icon>save</mat-icon>
+      </button>
+    </div>
   </form>
   <div *ngIf="playlistCreated" class="playlist-created">
     <h1>Playlist created succesfully</h1>

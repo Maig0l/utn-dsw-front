@@ -1,11 +1,6 @@
 import { CommonModule } from '@angular/common';
-import { Component, OnDestroy, OnInit } from '@angular/core';
-import {
-  RouterOutlet,
-  Router,
-  RouterLink,
-  RouterLinkActive,
-} from '@angular/router';
+import { Component, OnInit } from '@angular/core';
+import { Router, RouterLink, RouterLinkActive } from '@angular/router';
 import { LoginService } from '../../services/auth/login.service';
 
 @Component({
@@ -19,10 +14,10 @@ export class NavComponent implements OnInit {
   constructor(
     private router: Router,
     private loginService: LoginService,
-  ) { }
+  ) {}
 
   userLoggedIn = false;
-  userNick: string = '';
+  userNick = '';
   userisAdmin = false;
 
   ngOnInit() {

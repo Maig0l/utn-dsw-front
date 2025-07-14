@@ -66,14 +66,17 @@ label {
 
 .picture-container {
   display: flex;
+  flex-direction: column;
   gap: 20px;
   flex-wrap: wrap;
 }
 
 .image-upload {
+  display: flex;
   flex: 1 1 45%;
   min-width: 250px;
   padding-bottom: 10px;
+  gap: 0.5em;
 }
 
 .preview-image {

@@ -25,93 +25,23 @@
     <h3>Pictures</h3>
     <div class="picture-container">
       <div class="image-upload">
-        <label>Portrait Preview:</label>
-        <img
-          *ngIf="portraitPreview || updateForm.value.portrait"
-          [src]="
-            portraitPreview
-              ? portraitPreview
-              : apiUrl + updateForm.value.portrait
-          "
-          alt=""
-          class="preview-image"
-        />
-        <button
-          mat-button
-          color="primary"
-          type="button"
-          (click)="portraitInput.click()"
+        <span>Portrait:</span>
+        <app-form-image-field
+          parentFormFileControlName="portraitFile"
+          parentFormUrlControlName="portraitHref"
         >
-          <mat-icon>upload</mat-icon> Upload Portrait
-        </button>
-        <input
-          type="file"
-          #portraitInput
-          style="display: none"
-          (change)="onPortraitFileSelected($event)"
-        />
+        </app-form-image-field>
       </div>
+
       <div class="image-upload">
-        <label>Banner Preview:</label>
-        <img
-          *ngIf="bannerPreview || updateForm.value.banner"
-          [src]="
-            bannerPreview ? bannerPreview : apiUrl + updateForm.value.banner
-          "
-          alt=""
-          class="preview-image"
-        />
-        <button
-          mat-button
-          color="primary"
-          type="button"
-          (click)="bannerInput.click()"
+        <span>Banner:</span>
+        <app-form-image-field
+          parentFormFileControlName="bannerFile"
+          parentFormUrlControlName="bannerHref"
         >
-          <mat-icon>upload</mat-icon> Upload Banner
-        </button>
-        <input
-          type="file"
-          #bannerInput
-          style="display: none"
-          (change)="onBannerFileSelected($event)"
-        />
+        </app-form-image-field>
       </div>
     </div>
-
-    <!-- PICTURES: TODO 
-    <div class="pictures">
-      <div class="pictureInputCont" formArrayName="pictures">
-        <div *ngFor="let picture of pictures.controls; let i = index">
-          <mat-form-field appearance="outline" class="pictureInput full-width">
-            <mat-label>Picture {{ i + 1 }}</mat-label>
-            <input
-              matInput
-              type="text"
-              id="pictures-{{ i }}"
-              [formControlName]="i"
-            />
-          </mat-form-field>
-          <button
-            class="deletePictureButton"
-            *ngIf="i !== 0"
-            mat-mini-fab
-            type="button"
-            (click)="removePictureInput(i)"
-          >
-            <mat-icon>delete</mat-icon>
-          </button>
-        </div>
-      </div>
-      <button
-        mat-fab
-        extended
-        type="button"
-        class="addPictureButton"
-        (click)="addPictureInput()"
-      >
-        <mat-icon>add</mat-icon>Add picture
-      </button>
-    </div>-->
 
     <!-- Franchise -->
     @if (isFrSelected === true) {

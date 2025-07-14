@@ -24,6 +24,7 @@ import { StudioService } from '../../services/studio.service';
 import { MatAutocompleteModule } from '@angular/material/autocomplete';
 import { debounceTime, map, Observable, switchMap } from 'rxjs';
 import { environment } from '../../../enviroment/enviroment';
+import {FormImageFieldComponent} from "../form-image-field/form-image-field.component";
 
 @Component({
   selector: 'app-edit-game',
@@ -39,6 +40,7 @@ import { environment } from '../../../enviroment/enviroment';
     MatInputModule,
     MatSelectModule,
     MatAutocompleteModule,
+    FormImageFieldComponent,
   ],
   providers: [GameService, TagService, RouterOutlet],
   templateUrl: './edit-game.component.html',

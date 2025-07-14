@@ -1,0 +1,30 @@
+<!-- TODO: Add show preview on hover -->
+
+@if (isInUploadMode) {
+  <input
+    type="file"
+    id="fileSelect"
+    [formControlName]="parentFormFileControlName"
+    #inputFile
+    (change)="emitFile()"
+  />
+} @else {
+  <mat-form-field>
+    <mat-label> Image URL </mat-label>
+
+    <input
+      matNativeControl
+      type="url"
+      id="imgUrl"
+      [formControlName]="parentFormUrlControlName"
+      #inputUrl
+      (change)="emitHref()"
+    />
+  </mat-form-field>
+}
+
+<button mat-icon-button (click)="toggleMode()">
+  <mat-icon>
+    {{ modeIcon }}
+  </mat-icon>
+</button>

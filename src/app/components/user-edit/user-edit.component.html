@@ -1,0 +1,126 @@
+<form [formGroup]="updateForm" (submit)="updateUser()">
+  <div class="grid">
+    <div class="username">
+      <h2>User edit</h2>
+      <mat-form-field class="full-width">
+        <mat-label>Username</mat-label>
+        <input matInput formControlName="nick">
+      </mat-form-field>
+      <h3>Profile Picture</h3>
+      <section class="profilePic">
+        <section class="circle">
+          <img
+            [src]="profileImgPreview ? profileImgPreview : apiUrl + user.profile_img"
+            alt="Profile Picture"
+            class="profile-img"
+          />
+        </section>
+      </section>
+
+      <div>
+        <button mat-button color="primary" type="button" (click)="fileInput.click()">
+          <mat-icon>upload</mat-icon> Upload Picture
+        </button>
+        <input
+          #fileInput
+          type="file"
+          hidden
+          (change)="onProfileImgFileSelected($event)"
+        />
+      </div>
+
+    </div>
+
+    <mat-card>
+      <mat-card-content>
+        <div>
+          <section>
+            <h2>Bio</h2>
+          </section>
+          <mat-form-field class="full-width">
+            <mat-label>Biography</mat-label>
+            <textarea matInput formControlName="bio_text"></textarea>
+          </mat-form-field>
+
+          <h3>Linked Accounts</h3>
+
+          <div *ngIf="showAccountInput">
+            <mat-form-field class="account-input-container">
+              <input matInput placeholder="Enter account link" [formControl]="newAccountControl">
+            </mat-form-field>
+
+            <div class="account-buttons">
+              <button mat-icon-button color="primary" (click)="confirmNewAccount()">
+                <mat-icon>check</mat-icon>
+              </button>
+              <button mat-icon-button color="warn" (click)="cancelNewAccount()">
+                <mat-icon>close</mat-icon>
+              </button>
+            </div>
+          </div>
+
+          <mat-chip-set>
+            <mat-chip *ngFor="let account of linkedAccounts.controls; let i = index" (removed)="removeLinkedAccount(i)">
+              {{account.value}}
+              <button matChipRemove>
+                <mat-icon>cancel</mat-icon>
+              </button>
+            </mat-chip>
+          </mat-chip-set>
+
+          <button mat-button color="primary" (click)="showAddAccountInput()" *ngIf="!showAccountInput">
+            <mat-icon>add</mat-icon> Add Account
+          </button>
+
+          </div>
+      </mat-card-content>
+    </mat-card>
+
+    <div class="tags-column">
+      <h3>Liked Tags</h3>
+      <mat-chip-grid #chipGrid aria-label="Enter tags">
+        @for (tag of tagSelected; track tag) {
+          <mat-chip-row (removed)="removeTag(tag)">
+            {{ tag.name }}
+            <button matChipRemove [attr.aria-label]="'remove ' + tag.name">
+              <mat-icon>cancel</mat-icon>
+            </button>
+          </mat-chip-row>
+        }
+      </mat-chip-grid>
+      <mat-form-field class="example-full-width">
+        <input
+          class="custom-input"
+          type="text"
+          placeholder="Search tags..."
+          aria-label="Tag"
+          matInput
+          [formControl]="tagControl"
+          [matAutocomplete]="autoTag"
+        />
+        <mat-autocomplete #autoTag="matAutocomplete">
+          @for (option of filteredTagOptions | async; track option) {
+            <mat-option [value]="" (click)="addTag(option)">
+              <span class="option-name">{{ option.name }}</span>
+            </mat-option>
+          }
+        </mat-autocomplete>
+      </mat-form-field>
+      <div>
+        <button
+        mat-fab
+        extended
+        aria-label="save game"
+        type="button"
+        class="primary"
+        (click)="updateUser()"
+      >
+        <mat-icon>save</mat-icon>Save changes
+      </button>
+      </div>
+      </div>
+
+
+
+  </div>
+</form>

@@ -1,0 +1,270 @@
+<section class="crud-section">
+  <h1>Game Creation</h1>
+  <form [formGroup]="gameForm" (submit)="addGame()" class="crud-form">
+    <div class="toolbar">
+      <!-- Puedes agregar aquí un botón de volver si lo deseas -->
+    </div>
+    <mat-form-field appearance="outline" class="full-width">
+      <mat-label>Title</mat-label>
+      <input required matInput type="text" id="title" formControlName="title" />
+      <mat-error>Title is required</mat-error>
+    </mat-form-field>
+    <mat-form-field appearance="outline" class="full-width">
+      <mat-label>Synopsis</mat-label>
+      <textarea matInput id="synopsis" formControlName="synopsis"></textarea>
+    </mat-form-field>
+    <mat-form-field appearance="outline" class="full-width">
+      <mat-label>Release date</mat-label>
+      <input
+        matInput
+        type="date"
+        id="releaseDate"
+        formControlName="releaseDate"
+      />
+    </mat-form-field>
+    <!--No vamos a subir fotos en el post por una decision de diseno-->
+    <!--mat-form-field>
+    <mat-label for="portrait">Portrait</mat-label>
+      <input matInput type="text" id="portrait" formControlName="portrait" />
+    </mat-form-field>
+    <mat-form-field>
+      <mat-label for="banner">Banner</mat-label>
+      <input matInput type="text" id="banner" formControlName="banner" />
+    </mat-form-field>
+    <mat-label>pictures rework pending</mat-label>
+    <h3>Pictures</h3>
+    <div class="picture-container">
+
+      <div class="image-upload">
+        <label>Portrait:</label>
+        <input type="file" (change)="onPortraitSelected($event)" />
+        <img
+          *ngIf="gameForm?.value?.portrait"
+          [src]="apiUrl + gameForm.value.portrait"
+          alt="Portrait Preview"
+          class="preview-image"
+        />
+      </div>
+
+      <div class="image-upload">
+        <label>Banner:</label>
+        <input type="file" (change)="onBannerSelected($event)" />
+        <img
+          *ngIf="gameForm?.value?.banner"
+          [src]="apiUrl + gameForm.value.banner"
+          alt="Banner Preview"
+          class="preview-image"
+        />
+      </div>
+    </div-->
+    <!--div class="pictures">
+      <div class="pictureInputCont" formArrayName="pictures">
+        <div *ngFor="let picture of pictures.controls; let i = index">
+          <mat-form-field class="pictureInput">
+            <mat-label>Picture {{ i + 1 }}</mat-label>
+            <input
+              matInput
+              type="text"
+              id="pictures-{{ i }}"
+              [formControlName]="i"
+            />
+          </mat-form-field>
+          <button
+            class="deletePictureButton"
+            *ngIf="i !== 0"
+            mat-mini-fab
+            type="button"
+            (click)="removePictureInput(i)"
+          >
+            <mat-icon>delete</mat-icon>
+          </button>
+        </div>
+      </div>
+      <button
+        mat-fab
+        extended
+        type="button"
+        class="addPictureButton"
+        (click)="addPictureInput()"
+      >
+        <mat-icon>add</mat-icon>Add picture
+      </button>
+    </div-->
+    <!---------------------------------------------------------------------FRANCHISE-->
+    @if (isFrSelected === true) {
+      <mat-chip-grid #chipGrid aria-label="Enter franchise">
+        <mat-chip-row (removed)="removeFranchise()">
+          {{ franchiseSelected.name }}
+          <button
+            matChipRemove
+            [attr.aria-label]="'remove ' + franchiseSelected.name"
+          >
+            <mat-icon>cancel</mat-icon>
+          </button>
+        </mat-chip-row>
+      </mat-chip-grid>
+    }
+    <mat-form-field class="example-full-width">
+      <input
+        class="custom-input"
+        type="text"
+        placeholder="Search franchises..."
+        aria-label="Franchise"
+        matInput
+        [formControl]="franchiseControl"
+        [matAutocomplete]="autoFranchise"
+      />
+      <mat-autocomplete #autoFranchise="matAutocomplete">
+        @for (option of filteredFranchiseOptions | async; track option) {
+          <mat-option [value]="" (click)="addFranchise(option)">
+            <span class="option-name">{{ option.name }}</span>
+          </mat-option>
+        }
+      </mat-autocomplete>
+    </mat-form-field>
+    <!---------------------------------------------------------------------TAGS-->
+    <mat-chip-grid #chipGrid aria-label="Enter tags">
+      @for (tag of tagSelected; track tag) {
+        <mat-chip-row (removed)="removeTag(tag)">
+          {{ tag.name }}
+          <button matChipRemove [attr.aria-label]="'remove ' + tag.name">
+            <mat-icon>cancel</mat-icon>
+          </button>
+        </mat-chip-row>
+      }
+    </mat-chip-grid>
+    <mat-form-field class="example-full-width">
+      <input
+        class="custom-input"
+        type="text"
+        placeholder="Search tags..."
+        aria-label="Tag"
+        matInput
+        [formControl]="tagControl"
+        [matAutocomplete]="autoTag"
+      />
+      <mat-autocomplete #autoTag="matAutocomplete">
+        @for (option of filteredTagOptions | async; track option) {
+          <mat-option [value]="" (click)="addTag(option)">
+            <span class="option-name">{{ option.name }}</span>
+          </mat-option>
+        }
+      </mat-autocomplete>
+    </mat-form-field>
+    <!---------------------------------------------------------------------STUDIOS-->
+    <mat-chip-grid #chipGrid aria-label="Enter studios">
+      @for (studio of studioSelected; track studio) {
+        <mat-chip-row (removed)="removeStudio(studio)">
+          {{ studio.name }}
+          <button matChipRemove [attr.aria-label]="'remove ' + studio.name">
+            <mat-icon>cancel</mat-icon>
+          </button>
+        </mat-chip-row>
+      }
+    </mat-chip-grid>
+    <mat-form-field class="example-full-width">
+      <input
+        class="custom-input"
+        type="text"
+        placeholder="Search studios..."
+        aria-label="Studio"
+        matInput
+        [formControl]="studioControl"
+        [matAutocomplete]="autoStudio"
+      />
+      <mat-autocomplete #autoStudio="matAutocomplete">
+        @for (option of filteredStudioOptions | async; track option) {
+          <mat-option [value]="" (click)="addStudio(option)">
+            <span class="option-name">{{ option.name }}</span>
+          </mat-option>
+        }
+      </mat-autocomplete>
+    </mat-form-field>
+    <!---------------------------------------------------------------------SHOPS-->
+    <mat-chip-grid #chipGrid aria-label="Enter shops">
+      @for (shop of shopSelected; track shop) {
+        <mat-chip-row (removed)="removeShop(shop)">
+          {{ shop.name }}
+          <button matChipRemove [attr.aria-label]="'remove ' + shop.name">
+            <mat-icon>cancel</mat-icon>
+          </button>
+        </mat-chip-row>
+      }
+    </mat-chip-grid>
+    <mat-form-field class="example-full-width">
+      <input
+        class="custom-input"
+        type="text"
+        placeholder="Search shops..."
+        aria-label="Shop"
+        matInput
+        [formControl]="shopControl"
+        [matAutocomplete]="autoShop"
+      />
+      <mat-autocomplete #autoShop="matAutocomplete">
+        @for (option of filteredShopOptions | async; track option) {
+          <mat-option [value]="" (click)="addShop(option)">
+            <span class="option-name">{{ option.name }}</span>
+          </mat-option>
+        }
+      </mat-autocomplete>
+    </mat-form-field>
+    <!---------------------------------------------------------------------PLATFORMS-->
+    <mat-chip-grid #chipGrid aria-label="Enter platforms">
+      @for (platform of platformSelected; track platform) {
+        <mat-chip-row (removed)="removePlatform(platform)">
+          {{ platform.name }}
+          <button matChipRemove [attr.aria-label]="'remove ' + platform.name">
+            <mat-icon>cancel</mat-icon>
+          </button>
+        </mat-chip-row>
+      }
+    </mat-chip-grid>
+    <mat-form-field class="example-full-width">
+      <input
+        class="custom-input"
+        type="text"
+        placeholder="Search platforms..."
+        aria-label="Platform"
+        matInput
+        [formControl]="platformControl"
+        [matAutocomplete]="autoPlatform"
+      />
+      <mat-autocomplete #autoPlatform="matAutocomplete">
+        @for (option of filteredPlatformOptions | async; track option) {
+          <mat-option [value]="" (click)="addPlatform(option)">
+            <span class="option-name">{{ option.name }}</span>
+          </mat-option>
+        }
+      </mat-autocomplete>
+    </mat-form-field>
+
+    <button
+      mat-raised-button
+      color="primary"
+      aria-label="save game"
+      type="submit"
+      class="primary full-width"
+      style="margin-top: 24px"
+    >
+      <mat-icon>save</mat-icon>Save game
+    </button>
+  </form>
+  <div *ngIf="gameCreated" class="game-created">
+    <h1>Game created successfully</h1>
+    <span class="success-buttons">
+      <button mat-raised-button color="primary" (click)="goToGame()">
+        <mat-icon>gamepad</mat-icon>
+        Go to game
+      </button>
+      <button mat-raised-button color="primary" (click)="goToHomepage()">
+        <mat-icon>home</mat-icon>
+        Go to homepage
+      </button>
+      <button mat-raised-button color="primary" (click)="addNewGame()">
+        <mat-icon>add</mat-icon>
+        Add new game
+      </button>
+    </span>
+  </div>
+</section>

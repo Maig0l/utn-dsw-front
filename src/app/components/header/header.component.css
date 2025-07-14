@@ -1,0 +1,105 @@
+header {
+  --content-width: 1300px;
+
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+
+  /* Padding para un área de contenido de 1300px (--content-width) de ancho */
+  /*padding: 0.5em calc((100vw - var(--content-width)) / 2);*/
+  padding: 2vh 10vw;
+  background-color: #12161a;
+  color: white;
+  height: 10vh;
+}
+
+#logo,
+#logo img {
+  height: 100%;
+  margin-left: 4px;
+}
+
+#right-side {
+  display: flex;
+  flex-direction: row;
+  width: min-content;
+  height: 100%;
+
+  justify-content: right;
+  gap: 2em;
+}
+
+#left-side > * {
+  height: 100%;
+}
+
+.mat-input-element {
+  height: 100%;
+}
+
+.example-form {
+  min-width: 150px;
+  max-width: 500px;
+  width: 100%;
+}
+
+.example-full-width {
+  width: 100%;
+}
+
+.navigation ul {
+  list-style-type: none;
+  padding: 0;
+  margin: 0;
+  display: flex;
+  align-items: center;
+}
+
+.navigation li {
+  margin-left: 1.5rem;
+}
+
+.navigation a {
+  color: white;
+}
+
+.option-title {
+  flex-grow: 1;
+}
+
+.option-portrait {
+  width: 40px;
+  height: 40px;
+  object-fit: cover;
+  border-radius: 4px;
+}
+
+a {
+  text-decoration: none;
+}
+
+li span {
+  cursor: pointer;
+}
+
+li span:hover {
+  color: #e5e5e5;
+}
+
+.search {
+  width: 30vw;
+}
+
+span.advanced-search {
+  text-align: center;
+  border: 1px solid #e5e5e5;
+  padding: 4px;
+  border-radius: 4px;
+  aspect-ratio: 1;
+  align-content: center;
+  cursor: pointer;
+}
+
+::ng-deep .custom-input {
+  color: #012b59 !important;
+}

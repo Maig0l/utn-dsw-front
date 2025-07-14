@@ -1,0 +1,27 @@
+form {
+  width: 100%;
+  max-width: 400px;
+  margin: 60px auto;
+  padding: 2rem;
+  border-radius: 10px;
+  background-color: #003566;
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+  box-shadow: 0 0 12px rgba(0, 0, 0, 0.3);
+}
+
+h2 {
+  color: #ffffff;
+  text-align: center;
+}
+
+mat-form-field.full-width {
+  width: 100%;
+}
+
+.register-error {
+  color: #ffaaaa;
+  text-align: center;
+  font-weight: 500;
+}

@@ -1,0 +1,112 @@
+section {
+  padding-top: 32px;
+  font-size: 24px;
+  padding: 16px;
+  color: #e5e5e5;
+  background-color: #014a8d;
+}
+
+h1 {
+  color: #e5e5e5;
+  text-align: center;
+  font-size: 2.5rem;
+  margin-bottom: 20px;
+  margin-top: 0;
+}
+
+.crud-form {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  margin-top: 20px;
+}
+
+.full-width {
+  width: 100%;
+}
+
+.mat-form-field {
+  background: transparent;
+}
+
+/* Fondo azul y texto blanco para inputs, chips, autocomplete */
+::ng-deep .mat-mdc-form-field-flex,
+::ng-deep .mdc-text-field,
+::ng-deep .mat-chip-row,
+::ng-deep .mat-chip-grid,
+::ng-deep .mat-autocomplete-panel {
+  background-color: #012b59 !important;
+  color: #e5e5e5 !important;
+  border-radius: 8px;
+}
+
+/* Texto blanco en labels, inputs, opciones y chips */
+::ng-deep mat-label,
+::ng-deep .mat-mdc-form-field-label,
+::ng-deep .mat-mdc-input-element,
+::ng-deep .mat-option,
+::ng-deep .mat-chip-row,
+::ng-deep .mat-chip-grid,
+::ng-deep .ng-star-inserted {
+  color: #e5e5e5 !important;
+}
+
+/* Placeholder color */
+::ng-deep input::placeholder,
+::ng-deep textarea::placeholder {
+  color: #b0c4de !important;
+  opacity: 1;
+}
+
+/* Outline color */
+::ng-deep .mat-mdc-form-field-outline {
+  color: #e5e5e5 !important;
+}
+
+/* Subscript wrapper height */
+::ng-deep
+  .mat-mdc-form-field-subscript-wrapper.mat-mdc-form-field-bottom-align {
+  height: 0px;
+}
+
+/* Opciones de autocomplete: hover y seleccionadas */
+::ng-deep .mat-option:hover,
+::ng-deep .mat-option.mat-selected,
+::ng-deep .mat-chip-row:hover,
+::ng-deep .mat-chip:hover {
+  background-color: #014a8d !important;
+  color: #e5e5e5 !important;
+}
+
+/* Botón principal */
+button.primary {
+  background-color: #012b59;
+  color: #e5e5e5;
+  font-weight: bold;
+}
+
+button.primary:hover {
+  background-color: #012b59;
+}
+
+/* Mensaje de juego creado */
+.game-created {
+  color: green;
+  margin-top: 10px;
+  border: 2px solid green;
+  box-shadow: green 0 0 10px;
+  padding: 8px;
+  border-radius: 4px;
+}
+
+.game-created h1 {
+  margin-top: 0;
+  text-align: center;
+}
+
+.success-buttons {
+  color: green;
+  display: flex;
+  justify-content: space-around;
+  gap: 16px;
+}

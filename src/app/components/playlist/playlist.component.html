@@ -1,83 +1,85 @@
-<!-- GET ALL -->
-<section>
-  <h1>Listing playlists</h1>
-
-  <button (click)="showPlaylists()">Get Playlists</button>
-
-  @for (playlist of playlists; track playlist.id) {
-  <div class="playlist-item">
-    <small>[{{ playlist.id }}]</small>&nbsp;
-    <b>{{ playlist.name }}</b> &nbsp;
-  </div>
-  }
-</section>
-
-<!-- CREATE -->
 <section>
   <h1>Create new playlist</h1>
+
   <form [formGroup]="playlistForm" (submit)="addPlaylist()">
-    <label for="name">Name</label>
-    <input type="text" id="name" formControlName="name">
+    <mat-form-field>
+      <mat-label for="name">Playlist's name</mat-label>
+      <input matInput type="text" id="name" formControlName="name" />
+    </mat-form-field>
 
-    <label for="description">Description</label>
-    <input type="text" id="description" formControlName="description">
+    <mat-form-field>
+      <mat-label for="description">Description</mat-label>
+      <textarea
+        matInput
+        type="text"
+        id="description"
+        formControlName="description"
+      ></textarea>
+    </mat-form-field>
 
-    <label for="is_private">Private</label>
-    <input type="checkbox" id="is_private" formControlName="is_private">
+    <mat-checkbox id="isPrivate" formControlName="isPrivate">
+      Make this playlist private</mat-checkbox
+    >
 
-    <div formArrayName="games">
-      <h2>Games</h2>
-      
-      <div *ngFor="let game of games.controls; let i=index">
-        <!-- The repeated game template -->
-        <label for="game-{{ i }}">Game {{i+1}}:</label>
-        <input id="game-{{ i }}" type="text" [formControlName]="i">
-      </div>
-      <button type="button" (click)="addGames()">+ Add another game</button>
+    <mat-chip-grid #chipGrid aria-label="Enter games">
+      @for (game of gameSelected; track game) {
+        <mat-chip (removed)="remove(game)">
+          <img
+            class="chip-portrait"
+            [src]="game.portrait"
+            alt="{{ game.title }}"
+          />
+          {{ game.title }}
+          <button matChipRemove [attr.aria-label]="'remove ' + game.title">
+            <mat-icon>cancel</mat-icon>
+          </button>
+        </mat-chip>
+      }
+    </mat-chip-grid>
+    <mat-form-field class="example-full-width">
+      <input
+        class="custom-input"
+        type="text"
+        placeholder="Search games..."
+        aria-label="Game"
+        matInput
+        [formControl]="myControl"
+        [matAutocomplete]="auto"
+      />
+      <mat-autocomplete #auto="matAutocomplete">
+        @for (option of filteredOptions | async; track option) {
+          <mat-option [value]="" (click)="addGame(option)">
+            <img
+              class="option-portrait"
+              [src]="option.portrait"
+              alt="{{ option.title }}"
+            />
+            <span class="option-title">{{ option.title }}</span>
+          </mat-option>
+        }
+      </mat-autocomplete>
+    </mat-form-field>
+    <div mat-dialog-actions align="end">
+      <button mat-raised-button color="primary" type="submit">
+        <mat-icon>save</mat-icon>
+      </button>
     </div>
-
-
-    <button type="submit" class="primary">Create</button>
   </form>
-</section>
-
-<!-- UPDATE -->
-<section class="column">
-  <h1>Enter Playlist ID to Edit</h1>
-  <form [formGroup]="playlistIdForm">
-    <div>
-      <label for="playlistId">Playlist ID:</label>
-      <input id="playlistId" formControlName="id" />
-    </div>
-    <button type="button" (click)="populateForm()">Fetch Playlist</button>
-  </form>
-
-  <div *ngIf="editReady">
-    <h1>Edit Playlist</h1>
-    <form [formGroup]="updateForm" (submit)="updatePlaylist()">
-      <div>
-        <label for="name">Name:</label>
-        <input id="name" formControlName="name" />
-      </div>
-      <div>
-        <label for="description">Description:</label>
-        <input id="description" formControlName="description" />
-      </div>
-      <div>
-        <label for="is_private">Private:</label>
-        <input type="checkbox" id="is_private" formControlName="is_private" />
-      </div>
-      <div>EDIT GAMES</div>
-      <button type="submit" class="primary">Update</button>
-    </form>
+  <div *ngIf="playlistCreated" class="playlist-created">
+    <h1>Playlist created succesfully</h1>
+    <span class="success-buttons">
+      <button mat-raised-button color="primary" (click)="goToPlaylist()">
+        <mat-icon>list</mat-icon>
+        Go to playlist
+      </button>
+      <button mat-raised-button color="primary" (click)="goToHomepage()">
+        <mat-icon>home</mat-icon>
+        Go to homepage
+      </button>
+      <button mat-raised-button color="primary" (click)="addNewPlaylist()">
+        <mat-icon>add</mat-icon>
+        Add new playlist
+      </button>
+    </span>
   </div>
-</section>
-
-<!-- DELETE -->
-<section>
-  <h1>Delete a playlist</h1>
-  <form [formGroup]="deleteForm" (submit)="deletePlaylist()">
-    <input type="number" formControlName="id">
-    <input type="submit">
-  </form>
 </section>

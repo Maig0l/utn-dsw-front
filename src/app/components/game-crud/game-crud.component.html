@@ -1,0 +1,80 @@
+<section>
+  <h1>Game Management</h1>
+
+  <div class="toolbar">
+    <mat-form-field appearance="outline" class="search-bar">
+      <mat-label>Search Games</mat-label>
+      <input
+        matInput
+        type="text"
+        [(ngModel)]="searchTerm"
+        (input)="filterGames()"
+      />
+      <mat-icon matSuffix>search</mat-icon>
+    </mat-form-field>
+    <button
+      mat-raised-button
+      color="primary"
+      class="add-button"
+      (click)="goToAddGame()"
+    >
+      <mat-icon>add</mat-icon>
+      New Game
+    </button>
+  </div>
+
+  <table mat-table [dataSource]="paginatedGames" class="mat-elevation-z8">
+    <ng-container matColumnDef="id">
+      <th mat-header-cell *matHeaderCellDef>ID</th>
+      <td mat-cell *matCellDef="let game">{{ game.id }}</td>
+    </ng-container>
+    <ng-container matColumnDef="title">
+      <th mat-header-cell *matHeaderCellDef>Title</th>
+      <td mat-cell *matCellDef="let game">{{ game.title }}</td>
+    </ng-container>
+    <ng-container matColumnDef="releaseDate">
+      <th mat-header-cell *matHeaderCellDef>Release Date</th>
+      <td mat-cell *matCellDef="let game">{{ game.releaseDate }}</td>
+    </ng-container>
+    <ng-container matColumnDef="actions">
+      <th mat-header-cell *matHeaderCellDef>Actions</th>
+      <td mat-cell *matCellDef="let game">
+        <button mat-icon-button color="primary" (click)="openEditDialog(game)">
+          <mat-icon>edit</mat-icon>
+        </button>
+        <button
+          mat-icon-button
+          color="warn"
+          (click)="openDeleteDialog(game.id)"
+        >
+          <mat-icon>delete</mat-icon>
+        </button>
+      </td>
+    </ng-container>
+    <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+    <tr mat-row *matRowDef="let row; columns: displayedColumns"></tr>
+  </table>
+
+  <mat-paginator
+    [length]="filteredGames.length"
+    [pageSize]="5"
+    [pageSizeOptions]="[5, 10, 20]"
+    (page)="onPageChange($event)"
+  >
+  </mat-paginator>
+
+  <!-- Popup Delete Dialog for Games -->
+  <ng-template #deleteDialogTemplate>
+    <h1 mat-dialog-title>Delete Game "{{ gameToDelete }}"</h1>
+    <div mat-dialog-content>
+      <p>Are you sure you want to delete this game?</p>
+    </div>
+    <div mat-dialog-actions align="end">
+      <button mat-button (click)="closeDeleteDialog()">Cancel</button>
+      <button mat-raised-button color="warn" (click)="confirmDeleteGame()">
+        <mat-icon>delete</mat-icon>
+        Delete
+      </button>
+    </div>
+  </ng-template>
+</section>

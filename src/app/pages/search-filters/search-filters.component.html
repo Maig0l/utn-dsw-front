@@ -1,0 +1,186 @@
+<section>
+  <h2>Search games by:</h2>
+  <div class="filters-container">
+    <!-- TAGS ---------------------------------------------------------------------TAGS-->
+    <div class="filter tags">
+      <mat-chip-grid #chipGrid aria-label="Enter tags">
+        @for (tag of tagSelected; track tag) {
+          <mat-chip-row (removed)="removeTag(tag)">
+            {{ tag.name }}
+            <button matChipRemove [attr.aria-label]="'remove ' + tag.name">
+              <mat-icon>cancel</mat-icon>
+            </button>
+          </mat-chip-row>
+        }
+      </mat-chip-grid>
+      <mat-form-field class="example-full-width">
+        <input
+          class="custom-input"
+          type="text"
+          placeholder="Select tags"
+          aria-label="Tag"
+          matInput
+          [formControl]="tagControl"
+          [matAutocomplete]="autoTag"
+        />
+        <mat-autocomplete #autoTag="matAutocomplete">
+          @for (option of filteredTagOptions | async; track option) {
+            <mat-option [value]="" (click)="addTag(option)">
+              <span class="option-name">{{ option.name }}</span>
+            </mat-option>
+          }
+        </mat-autocomplete>
+      </mat-form-field>
+    </div>
+    <!-- PLATFORMS ---------------------------------------------------------------FRANCHISES-->
+    <div class="filter platform">
+      <mat-chip-grid #chipGrid aria-label="Enter platforms">
+        @for (platform of platformSelected; track platform) {
+          <mat-chip-row (removed)="removePlatform(platform)">
+            {{ platform.name }}
+            <button matChipRemove [attr.aria-label]="'remove ' + platform.name">
+              <mat-icon>cancel</mat-icon>
+            </button>
+          </mat-chip-row>
+        }
+      </mat-chip-grid>
+      <mat-form-field class="example-full-width">
+        <input
+          class="custom-input"
+          type="text"
+          placeholder="Search platforms..."
+          aria-label="Platform"
+          matInput
+          [formControl]="platformControl"
+          [matAutocomplete]="autoPlatform"
+        />
+        <mat-autocomplete #autoPlatform="matAutocomplete">
+          @for (option of filteredPlatformOptions | async; track option) {
+            <mat-option [value]="" (click)="addPlatform(option)">
+              <span class="option-name">{{ option.name }}</span>
+            </mat-option>
+          }
+        </mat-autocomplete>
+      </mat-form-field>
+    </div>
+    <!-- STUDIO ---------------------------------------------->
+    <div class="filter studio">
+      <mat-chip-grid #chipGrid aria-label="Enter studios">
+        @for (studio of studioSelected; track studio) {
+          <mat-chip-row (removed)="removeStudio(studio)">
+            {{ studio.name }}
+            <button matChipRemove [attr.aria-label]="'remove ' + studio.name">
+              <mat-icon>cancel</mat-icon>
+            </button>
+          </mat-chip-row>
+        }
+      </mat-chip-grid>
+      <mat-form-field class="example-full-width">
+        <input
+          class="custom-input"
+          type="text"
+          placeholder="Search studios..."
+          aria-label="Studio"
+          matInput
+          [formControl]="studioControl"
+          [matAutocomplete]="autoStudio"
+        />
+        <mat-autocomplete #autoStudio="matAutocomplete">
+          @for (option of filteredStudioOptions | async; track option) {
+            <mat-option [value]="" (click)="addStudio(option)">
+              <span class="option-name">{{ option.name }}</span>
+            </mat-option>
+          }
+        </mat-autocomplete>
+      </mat-form-field>
+    </div>
+    <!-- FRANCHISE --------------------------------------------------------------------STUDIOS-->
+    <div class="filter franchise">
+      <mat-chip-grid #chipGrid aria-label="Enter franchises">
+        @for (franchise of franchiseSelected; track franchise) {
+          <mat-chip-row (removed)="removeFranchise(franchise)">
+            {{ franchise.name }}
+            <button
+              matChipRemove
+              [attr.aria-label]="'remove ' + franchise.name"
+            >
+              <mat-icon>cancel</mat-icon>
+            </button>
+          </mat-chip-row>
+        }
+      </mat-chip-grid>
+      <mat-form-field class="example-full-width">
+        <input
+          class="custom-input"
+          type="text"
+          placeholder="Search franchises..."
+          aria-label="Franchise"
+          matInput
+          [formControl]="franchiseControl"
+          [matAutocomplete]="autoFranchise"
+        />
+        <mat-autocomplete #autoFranchise="matAutocomplete">
+          @for (option of filteredFranchiseOptions | async; track option) {
+            <mat-option [value]="" (click)="addFranchise(option)">
+              <span class="option-name">{{ option.name }}</span>
+            </mat-option>
+          }
+        </mat-autocomplete>
+      </mat-form-field>
+    </div>
+    <!-- SCORE RANGE --------------------------------------------------------------------STUDIOS-->
+    <div class="filter score-range">
+      <p>Star range (0-5 stars)</p>
+      <mat-slider min="0" max="5" step="0.5" discrete showTickMarks>
+        <input [(value)]="minStarValue" matSliderStartThumb />
+        <input [(value)]="maxStarValue" matSliderEndThumb />
+      </mat-slider>
+    </div>
+    <!-- DATE RANGE --------------------------------------------------------------------STUDIOS-->
+    <div class="filter date-range">
+      <mat-form-field>
+        <mat-label>Enter a date range</mat-label>
+        <mat-date-range-input [formGroup]="range" [rangePicker]="picker">
+          <input
+            matStartDate
+            formControlName="start"
+            placeholder="Start date"
+          />
+          <input matEndDate formControlName="end" placeholder="End date" />
+        </mat-date-range-input>
+        <mat-hint>MM/DD/YYYY</mat-hint>
+        <mat-datepicker-toggle
+          matIconSuffix
+          [for]="picker"
+        ></mat-datepicker-toggle>
+        <mat-date-range-picker
+          #picker
+          startView="multi-year"
+          [startAt]="startDate"
+        ></mat-date-range-picker>
+      </mat-form-field>
+    </div>
+  </div>
+  <div class="search-button">
+    <button mat-raised-button color="primary" (click)="master_filter()">
+      <mat-icon>search</mat-icon>Search
+    </button>
+  </div>
+</section>
+
+@if (filterActivated) {
+  <section>
+    <h2>Results:</h2>
+    @if (filteredGames.length === 0) {
+      <p>No games found</p>
+    } @else {
+      <div class="games-container">
+        @for (game of filteredGames; track game.id) {
+          <div class="card">
+            <app-view-game [game]="game"></app-view-game>
+          </div>
+        }
+      </div>
+    }
+  </section>
+}

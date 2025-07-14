@@ -1,0 +1,21 @@
+<div class="review-rating">
+  @for (star of [1, 2, 3, 4, 5]; track $index) {
+    <mat-icon class="moon" [ngClass]="{ filled: $index < data.score }">
+      dark_mode
+    </mat-icon>
+  }
+</div>
+
+@if (data.title || data.body) {
+  <div>
+    <p class="title">{{ data.title }}</p>
+    <p class="body">{{ data.body }}</p>
+  </div>
+}
+
+<div class="author">
+  <a [routerLink]="'/user/' + data.author.nick">
+    <img [src]="linkToStaticResource(data.author.profile_img)" alt="" />
+    {{ data.author.nick }}
+  </a>
+</div>

@@ -1,0 +1,30 @@
+<mat-toolbar>
+  <mat-toolbar-row>
+    <button
+      matMiniFab
+      class="custom-toolbar-btn"
+      (click)="sideUserNav.toggle()"
+    >
+      <mat-icon>menu</mat-icon>
+    </button>
+    <p style="margin-left: 8px">Welcome, admin</p>
+  </mat-toolbar-row>
+</mat-toolbar>
+
+<mat-sidenav-container>
+  <mat-sidenav #sideUserNav mode="over" style="width: 20%">
+    <mat-nav-list>
+      <a mat-list-item routerLink="/administradores/game">Games</a>
+      <a mat-list-item routerLink="/administradores/platform">Platforms</a>
+      <a mat-list-item routerLink="/administradores/studio">Studios</a>
+      <a mat-list-item routerLink="/administradores/shop">Shops</a>
+      <a mat-list-item routerLink="/administradores/tag">Tags</a>
+      <a mat-list-item routerLink="/administradores/franchise">Franchises</a>
+    </mat-nav-list>
+  </mat-sidenav>
+  <mat-sidenav-content>
+    <div>
+      <router-outlet></router-outlet>
+    </div>
+  </mat-sidenav-content>
+</mat-sidenav-container>

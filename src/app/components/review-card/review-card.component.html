@@ -1,0 +1,33 @@
+<div class="review-card">
+  <div class="head">
+    @if (showProfilePicture) {
+      <img
+        [src]="linkToStaticResource(review().author.profile_img)"
+        [alt]="review().author.nick + '\'s profile picture'"
+      />
+    }
+    <span class="top-text">
+      <span id="author">{{ review().author.nick }}</span> rated
+      <br />
+      <span id="game">{{ review().game.title }} </span>
+    </span>
+  </div>
+
+  <div id="rating">
+    @for (star of [1, 2, 3, 4, 5]; track $index) {
+      <span
+        class="material-symbols-rounded moon"
+        [ngClass]="{ filled: star <= review().score }"
+      >
+        dark_mode
+      </span>
+    }
+  </div>
+
+  @if (review().title !== "") {
+    <p class="title">{{ review().title }}</p>
+  }
+  @if (review().body !== "") {
+    <p class="body">{{ review().body }}</p>
+  }
+</div>

@@ -1,0 +1,353 @@
+:host {
+  display: grid;
+  grid-template-columns: 2fr 1fr;
+  grid-template-rows: 1fr;
+  grid-column-gap: 0px;
+  grid-row-gap: 0px;
+  height: 100vh;
+  overflow: hidden;
+}
+
+#deleteModal {
+  z-index: 1;
+  padding: 16px;
+  background-color: #fff;
+  border-radius: 8px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  animation: fadeIn 0.5s ease;
+  transform: translate(-50%, -50%);
+}
+.star-rating {
+  display: inline-flex;
+}
+.game-score {
+  margin-right: 8px;
+}
+
+.filled {
+  color: #ffb400;
+}
+
+@keyframes fadeIn {
+  0% {
+    opacity: 0;
+    scale: 0;
+    box-shadow: 0 0px red;
+  }
+  25% {
+    opacity: 0.75;
+    scale: 1;
+    box-shadow: 0 4px 500px red;
+  }
+  100% {
+    opacity: 1;
+    scale: 1;
+    box-shadow: 0 0px red;
+  }
+}
+.modalButtons {
+  display: flex;
+  justify-content: space-between;
+  margin-top: 16px;
+}
+#menuButton {
+  position: absolute;
+  top: 0;
+  right: 0;
+  color: white;
+  border: 2px solid white;
+  background: blue;
+  z-index: 3;
+  margin: 8px;
+  min-width: 0;
+  opacity: 0.8;
+}
+.mat-mdc-button > .mat-icon {
+  margin-right: 0;
+}
+#menu-item-link {
+  text-decoration: none;
+}
+.first-column {
+  margin-right: 15px;
+}
+.game-actions {
+  align-items: right;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+}
+.game-actions button {
+  margin-bottom: 5px;
+  padding: 10px;
+}
+.platforms img {
+  width: 50px;
+  height: 50px;
+  margin-right: 10px;
+}
+.slide {
+  width: 100%;
+  height: 500px;
+  border-radius: 10px;
+  background-size: cover;
+  background-position: center;
+}
+
+.rightArrow,
+.leftArrow {
+  text-shadow: 2px 2px 4px black;
+}
+
+.rightArrow {
+  position: absolute;
+  top: 50%;
+  transform: translate(0, -50%);
+  right: 32px;
+  font-size: 45px;
+  color: #fff;
+  z-index: 1;
+  cursor: pointer;
+}
+
+.leftArrow {
+  position: absolute;
+  top: 50%;
+  transform: translate(0, -50%);
+  left: 32px;
+  font-size: 45px;
+  color: #fff;
+  z-index: 1;
+  cursor: pointer;
+}
+
+.game-images {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  height: 100%;
+  width: 100%;
+}
+
+.slider {
+  position: relative;
+  height: 100%;
+  max-width: 50%;
+  justify-content: center;
+}
+
+.dotsContainer {
+  display: flex;
+  justify-content: center;
+}
+
+.dot {
+  margin: 0 3px;
+  cursor: pointer;
+  font-size: 20px;
+}
+
+.noFormMessage {
+  color: gray;
+  margin: 0;
+}
+
+.edit-button {
+  display: inline-flex;
+  align-items: center;
+  padding: 8px 16px;
+  background-color: #3498db;
+  color: white;
+  text-decoration: none;
+  border-radius: 4px;
+  font-family: Arial, sans-serif;
+  font-size: 14px;
+  transition: background-color 0.3s ease;
+}
+.edit-button:hover {
+  background-color: #2980b9;
+}
+
+.edit-button::before {
+  content: "✎";
+  margin-right: 8px;
+  font-size: 16px;
+}
+
+/* Información del juego seleccionado */
+.selected-game {
+  grid-area: 1 / 1 / 2 / 2;
+  position: relative;
+  background-color: #003566;
+  overflow: hidden;
+  padding: 0.25em
+}
+
+.selected-game > * {
+  position: relative;
+}
+
+.game-info {
+  display: flex;
+  align-items: center;
+  height: min-content;
+  z-index: 2;
+}
+
+.game-banner > img {
+  width: 100%;
+  height: auto;
+  object-fit: cover;
+}
+
+.game-banner {
+  position: absolute !important;
+  top: 0;
+  left: 0;
+  background-color: #003566;
+  width: 100%;
+  height: 14em;
+  overflow: hidden;
+  object-fit: cover;
+}
+
+.game-banner::after {
+  content: "";
+  width: 100%;
+  height: 100%;
+  background-image: linear-gradient(to bottom, #00356644, #003566);
+  display: block;
+  position: absolute;
+  top: 0;
+}
+
+.game-portrait {
+  width: 150px;
+  height: auto;
+  object-fit: cover;
+  border-radius: 5px;
+}
+
+.game-details {
+  color: #3498db;
+  text-shadow: 0 0 6px black;
+}
+
+.game-title {
+  font-size: 1.5rem;
+  margin-bottom: 5px;
+  color: #ffffff;
+}
+
+.game-synopsis {
+  font-size: 0.9rem;
+  margin-bottom: 10px;
+  color: #acacac;
+}
+
+.studio {
+  font-size: 0.7rem;
+  color: #ffffff;
+}
+
+.studio > a {
+  color: gold;
+}
+
+.studio > a:after {
+  content: " ⎋";
+}
+
+
+.studio-container {
+  display: flex;
+  flex-direction: column;
+  /* Arrange columns side-by-side */
+  gap: 1rem;
+  /* Add some spacing between columns */
+  margin-bottom: 1em;
+}
+
+.studio-column {
+  flex: 1;
+  /* Make columns take up equal space */
+}
+
+.platform-logo {
+  height: 30px;
+  width: auto;
+  object-fit: contain;
+  margin-right: 15px;
+}
+
+/* Sección reviews */
+
+.reviews {
+  grid-area: 1 / 2 / 2 / 3;
+  overflow-y: scroll;
+  padding: 0.5em;
+  box-shadow: -.25em 0 10px -2px #0008;
+  z-index: 1;
+}
+
+.reviews, .review-list {
+  display: flex;
+  flex-direction: column;
+  gap: .5em;
+}
+
+.reviews > hr {
+  color: #acacac;
+  width: 100%;
+}
+
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+  header h1 {
+    font-size: 2rem;
+  }
+
+  .selected-game,
+  .write-review,
+  .review-card {
+    margin: 10px;
+  }
+
+  .game-info {
+    flex-direction: column;
+    text-align: center;
+  }
+
+  .game-image {
+    width: 80px;
+    height: 80px;
+    margin: 0 auto 10px;
+  }
+
+  .game-title {
+    font-size: 1.3rem;
+  }
+
+  .review-text {
+    font-size: 1rem;
+  }
+}
+
+@media (max-width: 480px) {
+  header h1 {
+    font-size: 1.8rem;
+  }
+
+  .game-title {
+    font-size: 1.2rem;
+  }
+
+  .review-rating {
+    font-size: 1.1rem;
+  }
+}

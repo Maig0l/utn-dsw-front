@@ -1,38 +1,140 @@
 <section>
-    <h1>Listing: Shops</h1>
+  <h1>Shop Management</h1>
 
-  <button (click)="showShops()">Get Shops</button>
+  <!-- Search Bar -->
 
-  @for (shop of shops; track shop.id) {
-  <div class="shop-item">
-    <small>[{{ shop.id }}]</small>&nbsp;
-    <b>{{ shop.name }}</b> &nbsp;
-  <i><a href="{{ shop.site }}" target="_blank" rel="noopener noreferrer">{{ shop.site }}</a></i>
+  <div class="toolbar">
+    <mat-form-field appearance="outline" class="search-bar">
+      <mat-label>Search Shops</mat-label>
+      <input
+        matInput
+        type="text"
+        [(ngModel)]="searchTerm"
+        (input)="filterShops()"
+      />
+      <mat-icon matSuffix>search</mat-icon>
+    </mat-form-field>
+    <!-- Add Button -->
+    <button
+      mat-raised-button
+      color="primary"
+      class="add-button"
+      (click)="openAddDialog()"
+    >
+      <mat-icon>add</mat-icon>
+      New Shop
+    </button>
   </div>
-}
+
+  <!-- Shop Table -->
+  <table mat-table [dataSource]="paginatedShops" class="mat-elevation-z8">
+    <!-- ID Column -->
+    <ng-container matColumnDef="id">
+      <th mat-header-cell *matHeaderCellDef>ID</th>
+      <td mat-cell *matCellDef="let shop">{{ shop.id }}</td>
+    </ng-container>
+
+    <!-- Name Column -->
+    <ng-container matColumnDef="name">
+      <th mat-header-cell *matHeaderCellDef>Name</th>
+      <td mat-cell *matCellDef="let shop">{{ shop.name }}</td>
+    </ng-container>
+
+    <!-- Site Column -->
+    <ng-container matColumnDef="site">
+      <th mat-header-cell *matHeaderCellDef>Site</th>
+      <td mat-cell *matCellDef="let shop">
+        <a href="{{ shop.site }}" target="_blank" rel="noopener noreferrer">
+          {{ shop.site }}
+        </a>
+      </td>
+    </ng-container>
+
+    <!-- Actions Column -->
+    <ng-container matColumnDef="actions">
+      <th mat-header-cell *matHeaderCellDef>Actions</th>
+      <td mat-cell *matCellDef="let shop">
+        <button mat-icon-button color="primary" (click)="openEditDialog(shop)">
+          <mat-icon>edit</mat-icon>
+        </button>
+        <button
+          mat-icon-button
+          color="warn"
+          (click)="openDeleteDialog(shop.id)"
+        >
+          <mat-icon>delete</mat-icon>
+        </button>
+      </td>
+    </ng-container>
+
+    <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+    <tr mat-row *matRowDef="let row; columns: displayedColumns"></tr>
+  </table>
+
+  <!-- Paginator -->
+  <mat-paginator
+    [length]="filteredShops.length"
+    [pageSize]="5"
+    [pageSizeOptions]="[5, 10, 20]"
+    (page)="onPageChange($event)"
+  >
+  </mat-paginator>
 </section>
 
-<section>
-    <h1>Create new shop</h1>
-    <form [formGroup]="shopForm" (submit)="addShop()">
-       <label for="name">Name</label>
-       <input type="text" id="name" formControlName="name">
+<!-- Popup Dialog -->
+<ng-template #dialogTemplate>
+  <h1 mat-dialog-title>
+    {{ dialogMode === "add" ? "Add Shop" : "Edit Shop" }}
+  </h1>
+  <div mat-dialog-content>
+    <form [formGroup]="dialogForm">
+      <!-- Name Field -->
+      <mat-form-field appearance="outline" class="full-width">
+        <mat-label>Name</mat-label>
+        <input matInput formControlName="name" />
+        <mat-error *ngIf="dialogForm.get('name')?.hasError('backend')">
+          {{ dialogForm.get("name")?.getError("backend") }}
+        </mat-error>
+      </mat-form-field>
 
-       <label for="img">Img</label>
-        <input type="text" id="img" formControlName="img">
+      <!-- Image URL Field -->
+      <mat-form-field appearance="outline" class="full-width">
+        <mat-label>Image URL</mat-label>
+        <input matInput formControlName="img" />
+        <mat-error *ngIf="dialogForm.get('img')?.hasError('backend')">
+          {{ dialogForm.get("img")?.getError("backend") }}
+        </mat-error>
+      </mat-form-field>
 
-       <label for="site">Site</label>
-        <input type="text" id="site" formControlName="site">
-
-        <button type="submit" class="primary" >Create</button>
-        </form>
-      </section>
-
-<section>
-    <h1>Delete a shop</h1>
-    <form [formGroup]="deleteForm" (submit)="deleteShop()">
-        <input type="number"formControlName="id">
-        <input type="submit">
+      <!-- Site URL Field -->
+      <mat-form-field appearance="outline" class="full-width">
+        <mat-label>Site URL</mat-label>
+        <input matInput formControlName="site" />
+        <mat-error *ngIf="dialogForm.get('site')?.hasError('backend')">
+          {{ dialogForm.get("site")?.getError("backend") }}
+        </mat-error>
+      </mat-form-field>
     </form>
-</section>
+  </div>
+  <div mat-dialog-actions align="end">
+    <button mat-button (click)="closeDialog()">Cancel</button>
+    <button mat-raised-button color="primary" (click)="saveDialog()">
+      Save
+    </button>
+  </div>
+</ng-template>
 
+<!-- Popup Delete Dialog for Shops -->
+<ng-template #deleteDialogTemplate>
+  <h1 mat-dialog-title>Delete Shop "{{ shopToDelete }}"</h1>
+  <div mat-dialog-content>
+    <p>Are you sure you want to delete this shop?</p>
+  </div>
+  <div mat-dialog-actions align="end">
+    <button mat-button (click)="closeDeleteDialog()">Cancel</button>
+    <button mat-raised-button color="warn" (click)="confirmDeleteShop()">
+      <mat-icon>delete</mat-icon>
+      Delete
+    </button>
+  </div>
+</ng-template>

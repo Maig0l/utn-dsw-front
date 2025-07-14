@@ -1,0 +1,89 @@
+section {
+  margin: 4px auto;
+  padding-top: 32px;
+  max-width: 1000px;
+  font-size: 24px;
+  border: 2px solid #012b59;
+  padding: 16px;
+  color: #e5e5e5;
+}
+mat-checkbox {
+  background-color: #ffffff;
+  width: 250px;
+  border-radius: 5%;
+  margin-bottom: 22px;
+}
+.chip-portrait {
+  width: 20px;
+  height: 20px;
+  object-fit: cover;
+  border-radius: 4px;
+}
+.playlist-created {
+  color: green;
+  margin-top: 10px;
+  border: 2px solid green;
+  box-shadow: green 0 0 10px;
+  padding: 8px;
+  border-radius: 4px;
+}
+.playlist-created h1 {
+  margin-top: 0;
+  text-align: center;
+}
+.success-buttons {
+  color: green;
+  display: flex;
+  justify-content: space-around;
+}
+
+form {
+  display: flex;
+  flex-direction: column;
+  margin-top: 20px;
+}
+section h1 {
+  font-size: 2.5rem;
+  margin-bottom: 20px;
+  color: #e5e5e5;
+}
+
+section p {
+  font-size: 1.2rem;
+  margin-bottom: 30px;
+  color: #e5e5e5;
+}
+
+section h2 {
+  margin-top: 40px;
+  color: #e5e5e5;
+}
+
+label {
+  display: block;
+  margin-bottom: 10px;
+  color: #e5e5e5;
+}
+.example-form {
+  min-width: 150px;
+  max-width: 500px;
+  width: 100%;
+}
+.example-full-width {
+  width: 100%;
+}
+.custom-input {
+  background-image: none !important;
+  padding-inline-start: 0 !important;
+  padding: 0 !important;
+  --pico-outline-width: 0px !important;
+}
+.option-title {
+  flex-grow: 1;
+}
+.option-portrait {
+  width: 40px;
+  height: 40px;
+  object-fit: cover;
+  border-radius: 4px;
+}

@@ -2,35 +2,12 @@ body {
   background-color: antiquewhite;
 }
 
-.pill-pfp {
-  height: 25px;
-  border-radius: 100%;
-}
-
-.menu {
-  list-style: none;
+.app-container {
   display: flex;
-  justify-content: space-between;
-  background-color: #ffffff;
-  padding: 10px;
-  margin: 0;
+  flex-direction: column;
+  min-height: 100vh;
 }
 
-.menu li {
-  display: inline;
+main {
+  flex: 1;
 }
-
-.menu a {
-  color: rgb(0, 0, 0);
-  text-decoration: none;
-  padding: 10px 20px;
-}
-
-.menu a:hover {
-  background-color: #575757;
-}
-
-.active {
-  border-bottom: 2px solid #fff;
-}
-

@@ -1,41 +1,159 @@
 <section>
-    <h1>Listing studio</h1>
+  <h1>Studio Management</h1>
 
-    <button (click)="showStudios()">Get Studio</button>
+  <!-- Search Bar -->
 
-    @for (studio of studios; track studio.id) {
-    <div class="studio-item">
-        <small>[{{ studio.id }}]</small>&nbsp;
-        <b>{{ studio.name }}</b> &nbsp;
-    </div>
-    }
+  <div class="toolbar">
+    <mat-form-field appearance="outline" class="search-bar">
+      <mat-label>Search Studios</mat-label>
+      <input
+        matInput
+        type="text"
+        [(ngModel)]="searchTerm"
+        (input)="filterStudios()"
+      />
+      <mat-icon matSuffix>search</mat-icon>
+    </mat-form-field>
+    <!-- Add Button -->
+    <button
+      mat-raised-button
+      color="primary"
+      class="add-button"
+      (click)="openAddDialog()"
+    >
+      <mat-icon>add</mat-icon>
+      New Studio
+    </button>
+  </div>
+
+  <!-- Studio Table -->
+  <table mat-table [dataSource]="paginatedStudios" class="mat-elevation-z8">
+    <!-- ID Column -->
+    <ng-container matColumnDef="id">
+      <th mat-header-cell *matHeaderCellDef>ID</th>
+      <td mat-cell *matCellDef="let studio">{{ studio.id }}</td>
+    </ng-container>
+
+    <!-- Name Column -->
+    <ng-container matColumnDef="name">
+      <th mat-header-cell *matHeaderCellDef>Name</th>
+      <td mat-cell *matCellDef="let studio">{{ studio.name }}</td>
+    </ng-container>
+
+    <!-- Type Column -->
+    <ng-container matColumnDef="type">
+      <th mat-header-cell *matHeaderCellDef>Type</th>
+      <td mat-cell *matCellDef="let studio">{{ studio.type }}</td>
+    </ng-container>
+
+    <!-- Site Column -->
+    <ng-container matColumnDef="site">
+      <th mat-header-cell *matHeaderCellDef>Site</th>
+      <td mat-cell *matCellDef="let studio">
+        <a href="{{ studio.site }}" target="_blank" rel="noopener noreferrer">
+          {{ studio.site }}
+        </a>
+      </td>
+    </ng-container>
+
+    <!-- Actions Column -->
+    <ng-container matColumnDef="actions">
+      <th mat-header-cell *matHeaderCellDef>Actions</th>
+      <td mat-cell *matCellDef="let studio">
+        <button
+          mat-icon-button
+          color="primary"
+          (click)="openEditDialog(studio)"
+        >
+          <mat-icon>edit</mat-icon>
+        </button>
+        <button
+          mat-icon-button
+          color="warn"
+          (click)="openDeleteDialog(studio.id)"
+        >
+          <mat-icon>delete</mat-icon>
+        </button>
+      </td>
+    </ng-container>
+
+    <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+    <tr mat-row *matRowDef="let row; columns: displayedColumns"></tr>
+  </table>
+
+  <!-- Paginator -->
+  <mat-paginator
+    [length]="filteredStudios.length"
+    [pageSize]="5"
+    [pageSizeOptions]="[5, 10, 20]"
+    (page)="onPageChange($event)"
+  >
+  </mat-paginator>
 </section>
-<section>
-    <h1>Create new studio</h1>
-    <form [formGroup]="studioForm" (submit)="addStudio()">
-       <label for="name">Name</label>
-       <input type="text" id="name" formControlName="name">
 
+<!-- Popup Dialog -->
+<ng-template #dialogTemplate>
+  <h1 mat-dialog-title>
+    {{ dialogMode === "add" ? "Add Studio" : "Edit Studio" }}
+  </h1>
+  <div mat-dialog-content>
+    <form [formGroup]="dialogForm">
+      <!-- Name Field -->
+      <mat-form-field appearance="outline" class="full-width">
+        <mat-label>Name</mat-label>
+        <input matInput formControlName="name" />
+        <mat-error *ngIf="dialogForm.get('name')?.hasError('backend')">
+          {{ dialogForm.get("name")?.getError("backend") }}
+        </mat-error>
+      </mat-form-field>
 
-       <label for="type">Type</label>
-       <select id="type" formControlName="type" required>
-           <option value="Developer">Developer</option>
-           <option value="Publisher">Publisher</option>
-           <option value="Both">Both</option>
-       </select>
+      <!-- Type Field -->
+      <mat-form-field appearance="outline" class="full-width">
+        <mat-label>Type</mat-label>
+        <mat-select formControlName="type" required>
+          <mat-option value="Developer"> Developer </mat-option>
+          <mat-option value="Publisher"> Publisher </mat-option>
+          <mat-option value="Both"> Both </mat-option>
+        </mat-select>
+        <mat-error *ngIf="dialogForm.get('type')?.hasError('backend')">
+          {{ dialogForm.get("type")?.getError("backend") }}
+        </mat-error>
+      </mat-form-field>
 
-       <label for="site">Site</label>
-       <input type="text" id="site" formControlName="site">
-
-       <button type="submit" class="primary" >Create</button>
-       </form>
-    </section>
-
-<section>
-    <h1>Delete a studio</h1>
-    <form [formGroup]="deleteForm" (submit)="deleteStudio()">
-        <input type="number"formControlName="id">
-        <input type="submit">
+      <!-- Site URL Field -->
+      <mat-form-field appearance="outline" class="full-width">
+        <mat-label>Site URL</mat-label>
+        <input matInput formControlName="site" />
+        <mat-error *ngIf="dialogForm.get('site')?.hasError('backend')">
+          {{ dialogForm.get("site")?.getError("backend") }}
+        </mat-error>
+      </mat-form-field>
     </form>
-</section>
-   
+  </div>
+  <div mat-dialog-actions align="end">
+    <button mat-button (click)="closeDialog()">Cancel</button>
+    <button
+      mat-raised-button
+      color="primary"
+      (click)="saveDialog()"
+      [disabled]="dialogForm.invalid"
+    >
+      Save
+    </button>
+  </div>
+</ng-template>
+
+<!-- Popup Delete Dialog for Studios -->
+<ng-template #deleteDialogTemplate>
+  <h1 mat-dialog-title>Delete Studio "{{ studioToDelete }}"</h1>
+  <div mat-dialog-content>
+    <p>Are you sure you want to delete this studio?</p>
+  </div>
+  <div mat-dialog-actions align="end">
+    <button mat-button (click)="closeDeleteDialog()">Cancel</button>
+    <button mat-raised-button color="warn" (click)="confirmDeleteStudio()">
+      <mat-icon>delete</mat-icon>
+      Delete
+    </button>
+  </div>
+</ng-template>

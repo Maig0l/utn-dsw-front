@@ -1,0 +1,58 @@
+<form [formGroup]="registerForm" (ngSubmit)="register()">
+  <h2>Register</h2>
+
+  <mat-form-field appearance="fill" class="full-width">
+    <mat-label>Username</mat-label>
+    <input matInput formControlName="nick" autocomplete="username" />
+    <mat-error *ngIf="nick.hasError('required')"
+      >Username is required.</mat-error
+    >
+    <mat-error *ngIf="nick.hasError('minlength')">
+      Username must be at least 4 characters.
+    </mat-error>
+    <mat-error *ngIf="nick.hasError('forbiddennick')">
+      Username cannot be Bob.
+    </mat-error>
+  </mat-form-field>
+
+  <mat-form-field appearance="fill" class="full-width">
+    <mat-label>Email</mat-label>
+    <input matInput formControlName="email" type="email" autocomplete="email" />
+    <mat-error *ngIf="email.hasError('required')">Email is required.</mat-error>
+    <mat-error *ngIf="email.hasError('email')">Invalid email format.</mat-error>
+  </mat-form-field>
+
+  <mat-form-field appearance="fill" class="full-width">
+    <mat-label>Password</mat-label>
+    <input
+      matInput
+      formControlName="password"
+      type="password"
+      autocomplete="new-password"
+    />
+    <mat-error *ngIf="password.hasError('required')"
+      >Password is required.</mat-error
+    >
+    <mat-error *ngIf="password.hasError('minlength')">
+      Must be at least 8 characters.
+    </mat-error>
+  </mat-form-field>
+
+  <mat-form-field appearance="fill" class="full-width">
+    <mat-label>Confirm Password</mat-label>
+    <input matInput formControlName="confirmPassword" type="password" />
+    <mat-error *ngIf="confirmPassword.hasError('required')">
+      Confirm your password.
+    </mat-error>
+    <mat-error *ngIf="registerForm.hasError('passwordsDontMatch')">
+      Passwords must match.
+    </mat-error>
+  </mat-form-field>
+
+  <p class="register-error" *ngIf="registerError">{{ registerError }}</p>
+
+  <button mat-raised-button color="primary">
+    <mat-icon>person_add</mat-icon>
+    Register
+  </button>
+</form>

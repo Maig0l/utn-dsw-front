@@ -1,0 +1,152 @@
+<section class="selected-game">
+  @if (game) {
+    <ng-container *ngTemplateOutlet="loadedGame"> </ng-container>
+  } @else {
+    <ng-container *ngTemplateOutlet="loading"></ng-container>
+  }
+</section>
+
+<section class="reviews">
+  @if (this.sessionType === true) {
+      <app-review-form [game]="this.game" (onSubmit)="this.fetchReviews()" ></app-review-form>
+  }
+  @else {
+    <p class="noFormMessage">Log in to share your thoughts on {{this.game.title}}</p>
+  }
+
+  <hr>
+
+  <div class="review-list">
+    @if (reviewCount === 0) {
+      <p class="noFormMessage">No reviews at the moment. Be the first!</p>
+    }
+    @else {
+      @for (review of reviews; track review.id) {
+        <app-review-card-game [data]="review"></app-review-card-game>
+      }
+    }
+  </div>
+</section>
+
+<!-- TODO: El template de login debería ser todo un esqueleto cargando -->
+<ng-template #loading>
+  <h1>Loading</h1>
+</ng-template>
+
+<ng-template #loadedGame>
+  <div class="game-banner">
+    <img [src]="game.banner" alt="Game's banner" />
+  </div>
+
+  <dialog id="deleteModal">
+    <h1>Delete game: {{ game.title }}</h1>
+    <p>Are you sure?</p>
+    <div class="modalButtons">
+      <button mat-fab extended (click)="closeModal()" id="closeModal">
+        <mat-icon>close</mat-icon>Cancel
+      </button>
+      <button
+        mat-fab
+        extended
+        (click)="deleteGame(); closeModal()"
+        id="closeModal"
+        class="deleteButton"
+      >
+        <mat-icon>delete</mat-icon>
+        Delete
+      </button>
+    </div>
+  </dialog>
+
+  <button mat-button [matMenuTriggerFor]="menu" id="menuButton">
+    <mat-icon>menu</mat-icon>
+  </button>
+  <mat-menu #menu="matMenu" xPosition="before">
+    <a id="menu-item-link" href="edit-game/{{ game.id }}">
+      <button mat-menu-item>
+        <mat-icon>edit</mat-icon>
+        Edit
+      </button>
+    </a>
+    <a id="menu-item-link" href="review/{{ game.id }}">
+      <button mat-menu-item>
+        <mat-icon>star</mat-icon>
+        Review (temporary)
+      </button>
+    </a>
+
+    <button mat-menu-item (click)="openModal()" id="openModal">
+      <mat-icon>delete</mat-icon>
+      Delete
+    </button>
+  </mat-menu>
+
+  <div class="game-info">
+    <div class="first-column">
+      <img
+        [src]="game.portrait"
+        alt="Game's portrait"
+        class="game-portrait"
+      />
+
+      <!-- TODO: If user.isAdmin . <button> inside <a>?? -->
+      <div class="game-actions"></div>
+    </div>
+    <div class="game-details">
+      <h1 class="game-title">{{ game.title }}</h1>
+      <p class="game-synopsis">{{ game.synopsis }}</p>
+      <span class="star-rating">
+        <p class="game-score">Score: {{ score }}</p>
+        <ng-container *ngFor="let i of [1, 2, 3, 4, 5]">
+          <mat-icon *ngIf="i <= score" class="material-symbols-outlined filled">
+            dark_mode
+          </mat-icon>
+          <mat-icon *ngIf="i > score" class="material-symbols-outlined">
+            dark_mode
+          </mat-icon>
+        </ng-container>
+      </span>
+      <div class="studio-container">
+        <p class="studio">
+          Developer/s:
+          @for (studio of devs; track studio.id) {
+            <a [href]="studio.site" target="_blank" rel="noopener noreferrer">{{ studio.name }}</a>
+          }
+        </p>
+        <p class="studio">
+          Publisher/s:
+          @for (studio of pubs; track studio.id) {
+            <a [href]="studio.site">{{ studio.name }}</a>
+          }
+        </p>
+      </div>
+      <div class="platforms">
+        <span>Available on:</span>
+        @for (platform of game.platforms; track platform.id) {
+          <img [src]="platform.img" [alt]="platform.name" />
+        }
+      </div>
+    </div>
+  </div>
+
+  <!-- TODO: Crear componente picture-carousel y extraer allí -->
+  @if (game.pictures.length > 0) {
+    <section class="game-images">
+      <div class="slider">
+        <div>
+          <span (click)="goToPrevious()" class="leftArrow">❰</span>
+          <span (click)="goToNext()" class="rightArrow">❱</span>
+        </div>
+        <img class="slide" alt="carrusel image" [src]="getCurrentSlideUrl()" />
+        <div class="dotsContainer">
+          @for (slide of game.pictures; track $index) {
+            <!-- TODO: Poner el punto de la imagen actual en blanco y el resto más oscuro -->
+            <span class="dot" (click)="goToSlide($index)">●</span>
+          }
+        </div>
+      </div>
+    </section>
+  }
+</ng-template>
+
+<ng-template #reviewsSection> </ng-template>

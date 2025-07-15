@@ -187,8 +187,8 @@ export class FranchiseComponent implements OnInit {
   }
 
   openDeleteDialog(id: number): void {
-    this.franchiseToDelete =
-      this.franchises.find((f) => f.id === id)?.name || '';
+    this.franchiseIdToDelete = id;
+    this.franchiseToDelete = this.franchises.find((f) => f.id === id)?.name || '';
     this.dialog.open(this.deleteDialogTemplate);
   }
 

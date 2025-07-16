@@ -4,7 +4,7 @@
   color: #333;
 }
 .header {
-  background-color: #001d3d;
+  background-color: #0e0c1a;
   color: #e5e5e5;
   text-align: center;
   padding: 10px 0;
@@ -27,10 +27,11 @@
 }
 .features {
   padding-bottom: 40px;
-  background-color: #003566;
+  background-color: #0e0c1a;
 }
 .features h2 {
   position: relative;
+
   color: #e5e5e5;
   padding-top: 20px;
 }
@@ -89,7 +90,7 @@
 }
 
 .review-list {
-  background-color: #121212;
+  background-color: #0e0c1a;
   /* Dark background */
   padding: 20px;
   color: white;

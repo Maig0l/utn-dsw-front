@@ -8,7 +8,7 @@ header {
   /* Padding para un área de contenido de 1300px (--content-width) de ancho */
   /*padding: 0.5em calc((100vw - var(--content-width)) / 2);*/
   padding: 2vh 10vw;
-  background-color: #12161a;
+  background-color: #453f78;
   color: white;
   height: 10vh;
 }

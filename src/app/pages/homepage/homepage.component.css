@@ -14,19 +14,23 @@
   margin: 0 auto;
   padding: 0 20px;
 }
-.header h1 {
-  font-size: 3rem;
-  margin: 20px;
+
+
+.header h3 {
+  font-size: 1rem;
+  margin: 10px;
   color: #e5e5e5;
 }
-
+.mat-divider {
+    border-top-color: white;
+    padding: 10px;
+}
 .features {
   padding-bottom: 40px;
   background-color: #003566;
 }
 .features h2 {
   position: relative;
-  text-align: center;
   color: #e5e5e5;
   padding-top: 20px;
 }

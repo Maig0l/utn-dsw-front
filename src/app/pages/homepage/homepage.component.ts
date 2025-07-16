@@ -10,11 +10,14 @@ import { Review } from '../../model/review.model';
 import { catchError } from 'rxjs';
 import { Game } from '../../model/game.model';
 import { GameService } from '../../services/game.service';
+import {MatDividerModule} from '@angular/material/divider';
+
+
 
 @Component({
   selector: 'app-homepage',
   standalone: true,
-  imports: [CommonModule, ViewGameComponent, ReviewCardComponent],
+  imports: [CommonModule, ViewGameComponent, ReviewCardComponent, MatDividerModule],
   providers: [ReviewService, LoginService, GameService],
   templateUrl: './homepage.component.html',
   styleUrl: './homepage.component.css',

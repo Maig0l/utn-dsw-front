@@ -105,7 +105,12 @@
                   @if (playlist.games && playlist.games.length > 0) {
                     <ul class="games-list">
                       @for (game of playlist.games; track game.id) {
-                        <li>{{ game.title }}</li>
+                        <li
+                          class="game-item"
+                          (click)="goToGame(game.id); $event.stopPropagation()"
+                        >
+                          {{ game.title }}
+                        </li>
                       }
                     </ul>
                   } @else {

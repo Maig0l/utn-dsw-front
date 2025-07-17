@@ -1,7 +1,39 @@
 summary {
-  width: 7em;
+  min-width: 7em;
+  width: auto;
+  max-width: 15em;
   height: 100% !important;
   padding: 0.5em calc(0.75em / 2) !important;
+  display: flex !important;
+  align-items: center !important;
+  justify-content: space-between !important;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+summary::after {
+  content: none !important;
+}
+
+.nav-item {
+  display: flex;
+  align-items: center;
+  gap: 0.5em;
+  min-width: 0;
+}
+
+.nav-item span {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.nav-item mat-icon {
+  font-size: 18px;
+  width: 18px;
+  height: 18px;
+  line-height: 18px;
 }
 
 hr {

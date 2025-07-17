@@ -1,9 +1,30 @@
 /* Playlists as cards */
 .playlist-card-list {
   display: flex;
-  flex-wrap: wrap;
+  flex-wrap: nowrap;
   gap: 1em;
   margin-top: 1em;
+  overflow-x: auto;
+  padding-bottom: 0.5em;
+  max-width: calc(5 * (260px + 1em));
+}
+
+.playlist-card-list::-webkit-scrollbar {
+  height: 8px;
+}
+
+.playlist-card-list::-webkit-scrollbar-track {
+  background: rgba(255, 255, 255, 0.1);
+  border-radius: 4px;
+}
+
+.playlist-card-list::-webkit-scrollbar-thumb {
+  background: #014a8d;
+  border-radius: 4px;
+}
+
+.playlist-card-list::-webkit-scrollbar-thumb:hover {
+  background: #012b59;
 }
 
 .playlist-card {
@@ -24,12 +45,12 @@
   display: flex;
   align-items: center;
   justify-content: center;
+  flex-shrink: 0;
 }
 .playlist-card:hover,
 .playlist-card:focus {
   background: #012b59;
   box-shadow: 0 4px 16px rgba(0, 0, 0, 0.18);
-  transform: translateY(-2px) scale(1.03);
 }
 .playlist-card-title {
   font-weight: 500;
@@ -88,6 +109,27 @@ hr {
   display: flex;
   flex-direction: row;
   gap: 1em;
+  overflow-x: auto;
+  padding-bottom: 0.5em;
+  max-width: calc(5 * (25em + 1em));
+}
+
+#review-list::-webkit-scrollbar {
+  height: 8px;
+}
+
+#review-list::-webkit-scrollbar-track {
+  background: rgba(255, 255, 255, 0.1);
+  border-radius: 4px;
+}
+
+#review-list::-webkit-scrollbar-thumb {
+  background: #014a8d;
+  border-radius: 4px;
+}
+
+#review-list::-webkit-scrollbar-thumb:hover {
+  background: #012b59;
 }
 
 /* Playlist modal */
@@ -150,6 +192,16 @@ hr {
   margin-bottom: 0.5em;
   border-radius: 8px;
   border-left: 3px solid #fff;
+  cursor: pointer;
+  transition:
+    background 0.2s,
+    transform 0.1s;
+}
+
+.games-list li:hover {
+  background: #01396d;
+  transform: translateX(5px);
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.18);
 }
 
 .no-games {

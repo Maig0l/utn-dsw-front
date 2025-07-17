@@ -54,6 +54,11 @@ export class UserComponent implements OnInit {
   goToPlaylist(id: number) {
     this.router.navigate(['/playlist', id]);
   }
+
+  goToGame(gameId: number) {
+    this.router.navigate(['/game', gameId]);
+  }
+
   // TODO: Delete
   userForm = new FormGroup({
     nick: new FormGroup(''),

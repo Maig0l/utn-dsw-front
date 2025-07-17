@@ -1,6 +1,18 @@
 <nav class="pico">
   <details class="dropdown">
-    <summary>Account</summary>
+    <summary>
+      @if (!userLoggedIn) {
+        <span class="nav-item">
+          <mat-icon>account_circle</mat-icon>
+          <span>Account</span>
+        </span>
+      } @else {
+        <span class="nav-item">
+          <mat-icon>account_circle</mat-icon>
+          <span>{{ userNick }}</span>
+        </span>
+      }
+    </summary>
     <ul dir="rtl">
       @if (!userLoggedIn) {
         <ng-container *ngTemplateOutlet="optionsSessionOff"></ng-container>
@@ -13,26 +25,52 @@
 
 <ng-template #optionsSessionOff>
   <li>
-    <a routerLink="/log-in" routerLinkActive="active">Login</a>
+    <a routerLink="/log-in" routerLinkActive="active">
+      <span class="nav-item">
+        <mat-icon>login</mat-icon>
+        <span>Login</span>
+      </span>
+    </a>
   </li>
   <li>
-    <a routerLink="/register" routerLinkActive="active">Register</a>
+    <a routerLink="/register" routerLinkActive="active">
+      <span class="nav-item">
+        <mat-icon>person_add</mat-icon>
+        <span>Register</span>
+      </span>
+    </a>
   </li>
 </ng-template>
 
 <ng-template #optionsSessionUser>
   <li>
-    <a [routerLink]="'/user/' + userNick" routerLinkActive="active">Profile</a>
+    <a [routerLink]="'/user/' + userNick" routerLinkActive="active">
+      <span class="nav-item">
+        <mat-icon>person</mat-icon>
+        <span>Profile</span>
+      </span>
+    </a>
   </li>
 
   <li>
-    <a routerLink="/playlist" routerLinkActive="active">Playlist</a>
+    <a routerLink="/playlist" routerLinkActive="active">
+      <span class="nav-item">
+        <mat-icon>playlist_play</mat-icon>
+        <span>Playlist</span>
+      </span>
+    </a>
   </li>
   <li>
     <!-- Temporal -->
-    <a [routerLink]="'/user/edit-profile/' + userNick" routerLinkActive="active"
-      >Settings</a
+    <a
+      [routerLink]="'/user/edit-profile/' + userNick"
+      routerLinkActive="active"
     >
+      <span class="nav-item">
+        <mat-icon>settings</mat-icon>
+        <span>Settings</span>
+      </span>
+    </a>
   </li>
 
   @if (userisAdmin) {
@@ -41,11 +79,23 @@
     <hr />
   }
 
-  <li><a (click)="logout()">Logout</a></li>
+  <li>
+    <a (click)="logout()">
+      <span class="nav-item">
+        <mat-icon>logout</mat-icon>
+        <span>Logout</span>
+      </span>
+    </a>
+  </li>
 </ng-template>
 
 <ng-template #optionsSessionAdmin>
   <li>
-    <a routerLink="/administradores/game" routerLinkActive="active">Cruds</a>
+    <a routerLink="/administradores/game" routerLinkActive="active">
+      <span class="nav-item">
+        <mat-icon>admin_panel_settings</mat-icon>
+        <span>Admin Panel</span>
+      </span>
+    </a>
   </li>
 </ng-template>

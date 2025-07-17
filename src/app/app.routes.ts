@@ -35,11 +35,10 @@ export const routes: Routes = [
 
   { path: 'homepage', component: HomepageComponent },
   { path: '', redirectTo: '/homepage', pathMatch: 'full' }, // Redirección en caso de ruta vacía
-  //{path: '**', redirectTo: '/studio'}, // Redirección en caso de ruta no encontrada
   { path: 'log-in', component: LoginComponent },
   { path: 'register', component: RegisterComponent },
 
-  { path: 'user/edit-profile', component: UserEditComponent },
+  { path: 'user/edit-profile/:nick', component: UserEditComponent },
   { path: 'user/:nick', component: UserComponent },
 
   {
@@ -73,6 +72,7 @@ export const routes: Routes = [
       },
     ],
   },
+  { path: '**', redirectTo: '/homepage' }, // Redirección en caso de ruta no encontrada
 ];
 
 @NgModule({

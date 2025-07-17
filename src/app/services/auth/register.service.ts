@@ -14,7 +14,6 @@ export class RegisterService {
   private registerEndpoint = `${API_URL}/users`; // URL del backend para el registro
 
   register(credentials: RegisterRequest): Observable<User> {
-    console.log(credentials);
     return this.http.post<User>(this.registerEndpoint, credentials).pipe(
       catchError(this.handleError), // Manejo de errores
     );

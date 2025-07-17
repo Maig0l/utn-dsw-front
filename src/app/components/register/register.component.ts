@@ -89,7 +89,7 @@ export class RegisterComponent {
             this.router.navigateByUrl('/homepage');
           },
           error: (err) => {
-            this.registerError = 'Registration failed';
+            this.registerError = err;
             console.error(err);
           },
           complete: () => {

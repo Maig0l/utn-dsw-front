@@ -61,7 +61,12 @@
 
   <p class="login-error" *ngIf="loginError">{{ loginError }}</p>
 
-  <button mat-raised-button color="primary" type="submit">
+  <button
+    mat-raised-button
+    color="primary"
+    [disabled]="loginForm.invalid"
+    type="submit"
+  >
     <mat-icon>login</mat-icon>&nbsp;Log in
   </button>
 </form>

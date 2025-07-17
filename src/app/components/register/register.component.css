@@ -25,3 +25,23 @@ mat-form-field.full-width {
   text-align: center;
   font-weight: 500;
 }
+
+.password-hint {
+  display: block;
+  font-size: 0.75rem;
+  color: #666;
+  font-style: italic;
+  line-height: 1.2;
+}
+
+/* Si quieres que se vea más integrado con el form field */
+mat-form-field .password-hint {
+  margin-left: 12px;
+  margin-right: 12px;
+}
+
+/* Variante más sutil */
+.password-hint {
+  opacity: 0.7;
+  font-weight: 300;
+}

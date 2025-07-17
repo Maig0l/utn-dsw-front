@@ -76,15 +76,47 @@
         @for (playlist of playlists; track playlist.id) {
           <div
             class="playlist-card"
-            (click)="goToPlaylist(playlist.id)"
-            tabindex="0"
-            role="button"
+            (click)="togglePlaylistExpand(playlist.id)"
+            style="cursor: pointer"
           >
             <div class="playlist-card-title">{{ playlist.name }}</div>
-            <div class="playlist-card-desc">{{ playlist.description }}</div>
           </div>
         }
       </div>
+
+      @if (expandedPlaylistId !== null) {
+        <div class="playlist-modal" (click)="expandedPlaylistId = null">
+          <div
+            class="playlist-modal-content"
+            (click)="$event.stopPropagation()"
+          >
+            <button
+              class="close-modal-btn"
+              (click)="expandedPlaylistId = null; $event.stopPropagation()"
+            >
+              &times;
+            </button>
+            @for (playlist of playlists; track playlist.id) {
+              @if (playlist.id === expandedPlaylistId) {
+                <h2>{{ playlist.name }}</h2>
+                <p class="playlist-description">{{ playlist.description }}</p>
+                <div class="playlist-games">
+                  <h3>Games in this playlist:</h3>
+                  @if (playlist.games && playlist.games.length > 0) {
+                    <ul class="games-list">
+                      @for (game of playlist.games; track game.id) {
+                        <li>{{ game.title }}</li>
+                      }
+                    </ul>
+                  } @else {
+                    <p class="no-games">No games in this playlist yet.</p>
+                  }
+                </div>
+              }
+            }
+          </div>
+        </div>
+      }
     } @else {
       <span class="no-playlists">No playlists found.</span>
     }

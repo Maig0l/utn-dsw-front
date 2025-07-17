@@ -161,5 +161,15 @@ export class UserComponent implements OnInit {
     }
   }
 
+  expandedPlaylistId: number | null = null;
+
+  togglePlaylistExpand(playlistId: number): void {
+    if (this.expandedPlaylistId === playlistId) {
+      this.expandedPlaylistId = null;
+    } else {
+      this.expandedPlaylistId = playlistId;
+    }
+  }
+
   protected readonly linkToStaticResource = linkToStaticResource;
 }

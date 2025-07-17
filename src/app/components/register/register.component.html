@@ -37,6 +37,9 @@
       Must be at least 8 characters.
     </mat-error>
   </mat-form-field>
+  <span class="password-hint">
+    (at least 8 characters, include letters, numbers and special characters)
+  </span>
 
   <mat-form-field appearance="fill" class="full-width">
     <mat-label>Confirm Password</mat-label>
@@ -51,7 +54,12 @@
 
   <p class="register-error" *ngIf="registerError">{{ registerError }}</p>
 
-  <button mat-raised-button color="primary">
+  <button
+    mat-raised-button
+    color="primary"
+    [disabled]="registerForm.invalid"
+    type="submit"
+  >
     <mat-icon>person_add</mat-icon>
     Register
   </button>

@@ -39,6 +39,14 @@ export class UserService {
     linked_accounts: string[],
     likedTags: number[],
   ): Observable<User> {
+    console.log('User data to update:', {
+      id,
+      nick,
+      profile_img,
+      bio_text,
+      linked_accounts,
+      likedTags,
+    });
     const url = `${this.usersEndpoint}/${id}`;
     return this.http.patch<User>(url, {
       id,
@@ -50,10 +58,10 @@ export class UserService {
     });
   }
 
-  uploadProfileImg(userId: number = 1, file: File): Observable<any> {
+  uploadProfileImg(userId: number, file: File): Observable<User> {
     const formData = new FormData();
     formData.append('profile_img', file);
-    return this.http.patch(
+    return this.http.patch<User>(
       `${this.usersEndpoint}/${userId}/uploads/profile_img`,
       formData,
     );

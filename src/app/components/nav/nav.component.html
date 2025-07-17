@@ -30,7 +30,9 @@
   </li>
   <li>
     <!-- Temporal -->
-    <a routerLink="/user/edit-profile/">Settings</a>
+    <a [routerLink]="'/user/edit-profile/' + userNick" routerLinkActive="active"
+      >Settings</a
+    >
   </li>
 
   @if (userisAdmin) {

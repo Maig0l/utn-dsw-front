@@ -9,7 +9,7 @@ import { Playlist } from '../../model/playlist.model';
 import { Tag } from '../../model/tag.model';
 import { User } from '../../model/user.model';
 import { Review } from '../../model/review.model';
-import { Game } from '../../model/game.model';
+//import { Game } from '../../model/game.model';
 import { HttpClientModule } from '@angular/common/http';
 import { GameService } from '../../services/game.service';
 
@@ -80,7 +80,7 @@ export class UserComponent implements OnInit {
   ) {}
 
   ngOnInit() {
-    let userDisplayedId: number;
+    //let userDisplayedId: number;
     let userDisplayedNick: string;
 
     this.activatedRoute.params.subscribe({
@@ -108,7 +108,7 @@ export class UserComponent implements OnInit {
     });
   }
 
-  showProfile(id: number) {}
+  //showProfile(id: number) {}
 
   getReviews(): void {
     if (!this.user) throw Error("User didn't load in time");
@@ -130,7 +130,7 @@ export class UserComponent implements OnInit {
     });
   }
 
-  goToEditProfile(id: number) {
+  goToEditProfile() {
     if (this.user) {
       this.router.navigate([`user/${this.user.id}/edit`]);
     }

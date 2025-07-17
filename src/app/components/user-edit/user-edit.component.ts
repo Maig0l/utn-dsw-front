@@ -23,7 +23,7 @@ import { MatDialog, MatDialogModule } from '@angular/material/dialog';
 import { TagService } from '../../services/tag.service';
 import { Tag } from '../../model/tag.model';
 import { debounceTime, map, Observable, switchMap } from 'rxjs';
-import { ActivatedRoute, Router } from '@angular/router';
+import { ActivatedRoute, Router, Params } from '@angular/router';
 import { User } from '../../model/user.model.js';
 import { environment } from '../../../enviroment/enviroment';
 
@@ -111,7 +111,7 @@ export class UserEditComponent implements OnInit {
   uploadImages() {
     if (this.profileImgFile) {
       this.userService
-        .uploadProfileImg(this.id, this.profileImgFile)
+        .uploadProfileImg(this.user.id, this.profileImgFile)
         .subscribe({
           next: () => {
             console.log('Profile picture uploaded successfully');
@@ -169,34 +169,79 @@ export class UserEditComponent implements OnInit {
       switchMap((value) => this._tagFilter(value || '')),
     );
 
-    //Get the current user id
-    this.id = +this.route.snapshot.paramMap.get('id')!;
-    this.userService.getUserById(this.id).subscribe((data: User) => {
-      this.user = data;
+    let userDisplayedNick: string;
 
-      this.tagSelected = data.likedTags;
+    this.route.params.subscribe({
+      next: (params: Params) => {
+        if (!params['nick']) {
+          console.error('No user nick provided in route parameters');
+          this.router.navigate(['/homepage']);
+          return;
+        }
 
-      this.updateForm.patchValue({
-        id: data.id,
-        nick: data.nick,
-        profile_img: data.profile_img ?? '',
-        bio_text: data.bio_text ?? '',
-      });
+        userDisplayedNick = params['nick'];
 
-      this.linkedAccounts.clear();
+        this.userService
+          .getUserByNick(userDisplayedNick)
+          .subscribe((responseUser) => {
+            console.log('User response:', responseUser); // ← Debug
+            this.user = responseUser;
+            if (!this.user) {
+              this.router.navigate(['/homepage']);
+              return;
+            }
 
-      (data.linked_accounts ?? []).forEach((account) => {
-        //los parentesis de data.linked_accounts mas ?? hicieron magia
-        this.linkedAccounts.push(
-          new FormControl<string>(account ?? '', { nonNullable: true }),
-        );
-      });
+            // Popular el formulario con los datos del usuario
+            this.populateForm();
+            //this.getTagsByUser();
+          });
+      },
     });
   }
+
+  // Método para popular el formulario
+  populateForm() {
+    // Llenar los campos básicos
+    this.updateForm.patchValue({
+      id: this.user.id,
+      nick: this.user.nick,
+      profile_img: this.user.profile_img ?? '',
+      bio_text: this.user.bio_text ?? '',
+    });
+
+    // Limpiar linked_accounts antes de agregar los nuevos
+    this.linkedAccounts.clear();
+
+    // Agregar las cuentas vinculadas
+    (this.user.linked_accounts ?? []).forEach((account: string) => {
+      this.linkedAccounts.push(
+        new FormControl<string>(account ?? '', { nonNullable: true }),
+      );
+    });
+
+    // Cargar los tags seleccionados
+    this.tagSelected = this.user.likedTags ?? [];
+
+    console.log('Tags from user:', this.user.likedTags);
+    console.log('Tags selected:', this.tagSelected);
+
+    // Guardar el ID para usar en updateUser
+    this.id = this.user.id;
+  }
+
+  likedTags!: Tag[];
+  /*
+  getTagsByUser() {
+    this.tagService.getAllTags().subscribe((response) => {
+      this.likedTags = response;
+    });
+  }
+  */
 
   userUpdated = false;
   updateUser() {
     console.log('Updating user...', this.updateForm.value); // 🔍 Verifica los valores
+    console.log('Selected tags:', this.tagSelected); // 🔍 Verifica los tags seleccionados
 
     // Iterar por todos los controles del formulario linkedAccounts y guardar esos valores en un array
 
@@ -220,13 +265,12 @@ export class UserEditComponent implements OnInit {
         this.user = responseUser;
         this.userUpdated = true;
         this.uploadImages();
-        // this.router.navigate(['/user/' + this.id]);
 
         const dialogRef = this.dialog.open(UserEditSuccessDialogComponent);
 
         setTimeout(() => {
           dialogRef.close();
-          this.router.navigate(['../'], { relativeTo: this.route });
+          this.router.navigate(['/user/' + this.updateForm.value.nick]);
         }, 2000);
       });
   }
@@ -236,6 +280,7 @@ export class UserEditComponent implements OnInit {
       FormControl<string>
     >;
   }
+
   addLinkedAccount(): void {
     const linked_accounts = this.updateForm.get('linked_accounts') as FormArray;
     linked_accounts.push(new FormControl(''));

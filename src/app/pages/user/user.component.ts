@@ -140,5 +140,26 @@ export class UserComponent implements OnInit {
     }
   }
 
+  expandedReviewId: number | null = null;
+
+  closeReviewModal() {
+    this.expandedReviewId = null;
+  }
+
+  handleExpandedChange(expanded: boolean) {
+    if (!expanded) {
+      this.expandedReviewId = null;
+    }
+  }
+  // Add this method to your UserComponent class
+
+  toggleReviewExpand(reviewId: number): void {
+    if (this.expandedReviewId === reviewId) {
+      this.expandedReviewId = null;
+    } else {
+      this.expandedReviewId = reviewId;
+    }
+  }
+
   protected readonly linkToStaticResource = linkToStaticResource;
 }

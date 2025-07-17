@@ -58,6 +58,10 @@
       <app-review-card
         [review]="review"
         [showProfilePicture]="false"
+        [expanded]="expandedReviewId === review.id"
+        (expandedChange)="handleExpandedChange($event)"
+        (click)="toggleReviewExpand(review.id)"
+        style="cursor: pointer"
       ></app-review-card>
     }
   </div>

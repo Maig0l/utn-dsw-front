@@ -1,4 +1,4 @@
-import { Component, Input, input } from '@angular/core';
+import { Component, Input, input, Output, EventEmitter } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { Review } from '../../model/review.model';
 import {
@@ -20,5 +20,11 @@ export class ReviewCardComponent {
 
   // Apagar para usar este componente en la página de perfil de usuario
   @Input() showProfilePicture = true;
+  @Input() expanded = false;
+  @Output() expandedChange = new EventEmitter<boolean>();
   protected readonly linkToStaticResource = linkToStaticResource;
+
+  closeModal() {
+    this.expandedChange.emit(false);
+  }
 }

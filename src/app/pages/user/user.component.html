@@ -11,7 +11,9 @@
     <ng-container *ngTemplateOutlet="sectionReviews"></ng-container>
   </section>
 
-  <section id="playlist-list">to do...</section>
+  <section id="playlist-list">
+    <ng-container *ngTemplateOutlet="sectionPlaylists"></ng-container>
+  </section>
 </main>
 
 <ng-template #userinfo>
@@ -57,6 +59,30 @@
         [review]="review"
         [showProfilePicture]="false"
       ></app-review-card>
+    }
+  </div>
+</ng-template>
+
+<ng-template #sectionPlaylists>
+  <h2>Playlists</h2>
+  <hr />
+  <div id="playlist-list-content">
+    @if (playlists) {
+      <div class="playlist-card-list">
+        @for (playlist of playlists; track playlist.id) {
+          <div
+            class="playlist-card"
+            (click)="goToPlaylist(playlist.id)"
+            tabindex="0"
+            role="button"
+          >
+            <div class="playlist-card-title">{{ playlist.name }}</div>
+            <div class="playlist-card-desc">{{ playlist.description }}</div>
+          </div>
+        }
+      </div>
+    } @else {
+      <span class="no-playlists">No playlists found.</span>
     }
   </div>
 </ng-template>

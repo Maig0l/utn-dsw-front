@@ -51,6 +51,9 @@ import { ReviewCardComponent } from '../../components/review-card/review-card.co
   styleUrl: './user.component.css',
 })
 export class UserComponent implements OnInit {
+  goToPlaylist(id: number) {
+    this.router.navigate(['/playlist', id]);
+  }
   // TODO: Delete
   userForm = new FormGroup({
     nick: new FormGroup(''),
@@ -103,6 +106,7 @@ export class UserComponent implements OnInit {
 
             this.getReviews();
             this.getTagsByUser();
+            this.getUserPlaylists(this.user.id);
           });
       },
     });

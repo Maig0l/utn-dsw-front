@@ -20,7 +20,7 @@
         <img
           *ngIf="profileImgPreview || user?.profile_img"
           [src]="
-            profileImgPreview ? profileImgPreview : apiUrl + user?.profile_img
+            profileImgPreview ? profileImgPreview : apiUrl + user.profile_img
           "
           alt="Profile Picture"
           class="preview-image"

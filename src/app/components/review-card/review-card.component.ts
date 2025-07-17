@@ -19,6 +19,6 @@ export class ReviewCardComponent {
   apiUrl = environment.apiUrl;
 
   // Apagar para usar este componente en la página de perfil de usuario
-  @Input() showProfilePicture: boolean = true;
+  @Input() showProfilePicture = true;
   protected readonly linkToStaticResource = linkToStaticResource;
 }

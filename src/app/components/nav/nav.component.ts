@@ -29,13 +29,7 @@ export class NavComponent implements OnInit {
         const userData = this.loginService.currentUserData;
         this.userNick = userData.nick;
 
-        console.log('Full user data:', userData);
-        console.log('User nick:', userData.nick);
-        console.log('User is_admin property:', userData.is_admin);
-        console.log('User is_admin type:', typeof userData.is_admin);
-
         this.userisAdmin = Boolean(userData.is_admin);
-        console.log('Final userisAdmin value:', this.userisAdmin);
       } else {
         this.userNick = '';
         this.userisAdmin = false;

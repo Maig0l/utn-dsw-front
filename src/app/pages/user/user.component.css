@@ -97,8 +97,25 @@ h2 {
 }
 
 .info-line > mat-chip-set {
-  display: inline-flex;
-  overflow-x: scroll;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5em;
+}
+
+.linked-accounts {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5em;
+  margin-top: 0.5em;
+}
+
+.linked-account {
+  background: #014a8d;
+  color: #e5e5e5;
+  border-radius: 6px;
+  padding: 0.3em 0.8em;
+  font-size: 0.9em;
+  box-shadow: 0 1px 4px rgba(0, 0, 0, 0.1);
 }
 
 hr {

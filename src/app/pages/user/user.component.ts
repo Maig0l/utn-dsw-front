@@ -109,8 +109,8 @@ export class UserComponent implements OnInit {
               return;
             }
 
+            this.likedTags = this.user.likedTags;
             this.getReviews();
-            this.getTagsByUser();
             this.getUserPlaylists(this.user.id);
           });
       },
@@ -130,12 +130,6 @@ export class UserComponent implements OnInit {
   getUserPlaylists(id: number) {
     this.playlistService.getPlaylistsByOwner(id).subscribe((response) => {
       this.playlists = response;
-    });
-  }
-
-  getTagsByUser() {
-    this.tagService.getAllTags().subscribe((response) => {
-      this.likedTags = response;
     });
   }
 

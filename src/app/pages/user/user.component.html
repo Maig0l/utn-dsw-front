@@ -29,7 +29,7 @@
     </div>
   </div>
 
-  @if (!user?.likedTags) {
+  @if (likedTags && likedTags.length > 0) {
     <div class="info-line">
       Likes games about:
       <mat-chip-set role="list">
@@ -40,12 +40,14 @@
     </div>
   }
 
-  @if (!user?.linked_accounts) {
+  @if (user?.linked_accounts?.length) {
     <div class="info-line">
-      Call them a gamer (derogatory) at:
-      @for (social of user?.linked_accounts; track $index) {
-        <!-- TODO: crear un componente que tome de entrada una URL y asocie el ícono de la red social -->
-      }
+      Find them at:
+      <div class="linked-accounts">
+        @for (account of user?.linked_accounts; track $index) {
+          <span class="linked-account">{{ account }}</span>
+        }
+      </div>
     </div>
   }
 </ng-template>

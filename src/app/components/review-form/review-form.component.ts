@@ -1,5 +1,6 @@
-import { Component, EventEmitter, Input, Output } from '@angular/core';
+import { Component, EventEmitter, Input, Output, OnInit } from '@angular/core';
 import { Game } from '../../model/game.model';
+import { Review } from '../../model/review.model';
 import { FormControl, FormGroup, ReactiveFormsModule } from '@angular/forms';
 import { MatIconModule } from '@angular/material/icon';
 import { CommonModule } from '@angular/common';
@@ -14,7 +15,7 @@ import { LoginService } from '../../services/auth/login.service.js';
   templateUrl: './review-form.component.html',
   styleUrl: './review-form.component.css',
 })
-export class ReviewFormComponent {
+export class ReviewFormComponent implements OnInit {
   constructor(
     private reviewService: ReviewService,
     private router: Router,
@@ -22,6 +23,7 @@ export class ReviewFormComponent {
   ) {}
 
   @Input({ required: true }) game!: Game;
+  @Input() existingReview?: Review; // Para edición
   @Output('onSubmit') submitSuccessful = new EventEmitter<boolean>();
 
   reviewForm = new FormGroup({
@@ -31,6 +33,17 @@ export class ReviewFormComponent {
   });
 
   hoverRating = 0;
+
+  ngOnInit() {
+    // Si hay una review existente, populamos el formulario con sus datos
+    if (this.existingReview) {
+      this.reviewForm.patchValue({
+        score: this.existingReview.score,
+        title: this.existingReview.title,
+        body: this.existingReview.body,
+      });
+    }
+  }
 
   setRating(rating: number): void {
     this.reviewForm.get('score')?.setValue(rating);
@@ -67,20 +80,41 @@ export class ReviewFormComponent {
       this.reviewForm.value.score?.toString() ?? '0',
     );
 
-    const newReview: ReviewPostBody = {
+    const reviewData: ReviewPostBody = {
       score: score,
       title: this.reviewForm.value.title ?? '',
       body: this.reviewForm.value.body ?? '',
     };
 
-    this.reviewService
-      .postReview(this.loginService.currentUserToken, this.game.id, newReview)
-      .subscribe({
-        next: (res) => this.submitSuccessful.emit(res.data ? true : false),
-        error: (err) => {
-          console.error('Error creating review:', err);
-          this.submitSuccessful.emit(false);
-        },
-      });
+    // Si hay una review existente, actualizar; si no, crear nueva
+    if (this.existingReview) {
+      this.reviewService
+        .updateReview(
+          this.loginService.currentUserToken,
+          this.existingReview.id,
+          reviewData,
+        )
+        .subscribe({
+          next: (res) => this.submitSuccessful.emit(res.data ? true : false),
+          error: (err) => {
+            console.error('Error updating review:', err);
+            this.submitSuccessful.emit(false);
+          },
+        });
+    } else {
+      this.reviewService
+        .postReview(
+          this.loginService.currentUserToken,
+          this.game.id,
+          reviewData,
+        )
+        .subscribe({
+          next: (res) => this.submitSuccessful.emit(res.data ? true : false),
+          error: (err) => {
+            console.error('Error creating review:', err);
+            this.submitSuccessful.emit(false);
+          },
+        });
+    }
   }
 }

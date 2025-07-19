@@ -1,5 +1,5 @@
 <section class="write-review">
-  <h3>Write your review</h3>
+  <h3>{{ existingReview ? "Edit your review" : "Write your review" }}</h3>
   <form [formGroup]="reviewForm" (submit)="addReview()">
     <label for="review-title">Title:</label>
     <input
@@ -46,6 +46,8 @@
       </span>
     </div>
 
-    <button type="submit" class="primary">Share Review</button>
+    <button type="submit" class="primary">
+      {{ existingReview ? "Update Review" : "Share Review" }}
+    </button>
   </form>
 </section>

@@ -76,6 +76,9 @@ export class GameDetailsComponent implements OnInit, OnDestroy {
   currentUserReview: Review | null = null;
   otherUsersReviews: Review[] = [];
 
+  // Para controlar el estado de edición de la review del usuario
+  isEditingUserReview = false;
+
   ngOnInit() {
     this.gameId = +this.route.snapshot.paramMap.get('id')!;
 
@@ -269,6 +272,27 @@ export class GameDetailsComponent implements OnInit, OnDestroy {
             alert('Failed to delete review. Please try again.');
           },
         });
+    }
+  }
+
+  // Iniciar edición de la review del usuario
+  startEditingUserReview() {
+    this.isEditingUserReview = true;
+  }
+
+  // Cancelar edición de la review del usuario
+  cancelEditingUserReview() {
+    this.isEditingUserReview = false;
+  }
+
+  // Manejar cuando se actualiza la review del usuario
+  onUserReviewUpdated(success: boolean) {
+    if (success) {
+      this.isEditingUserReview = false;
+      this.fetchReviews(); // Recargar para mostrar los cambios
+      alert('Review updated successfully!');
+    } else {
+      alert('Failed to update review. Please try again.');
     }
   }
 }

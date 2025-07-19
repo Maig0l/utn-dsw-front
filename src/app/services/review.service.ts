@@ -63,6 +63,14 @@ export class ReviewService {
     });
   }
 
+  updateReview(userToken: string, reviewId: number, postBody: ReviewPostBody) {
+    const authHeader = `Bearer ${userToken}`;
+    const endpoint = `${this.reviewsEndpoint}/${reviewId}`;
+    return this.http.patch<ApiResponse<Review>>(endpoint, postBody, {
+      headers: { authorization: authHeader },
+    });
+  }
+
   /** @deprecated Use postReview instead */
   addReview(
     author: number,

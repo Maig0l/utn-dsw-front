@@ -27,24 +27,64 @@
       <p class="noFormMessage">No reviews at the moment. Be the first!</p>
     } @else {
       <!-- Review del usuario actual (si existe) -->
-      @if (currentUserReview) {
+      @if (currentUserReview && !isEditingUserReview) {
         <div class="current-user-review-container">
           <div class="user-review-header">
             <h4 class="user-review-label">Your Review</h4>
-            <button
-              mat-raised-button
-              color="warn"
-              (click)="deleteUserReview()"
-              class="delete-review-btn"
-            >
-              <mat-icon>delete</mat-icon>
-              Delete
-            </button>
+            <div class="review-actions">
+              <button
+                mat-raised-button
+                color="primary"
+                (click)="startEditingUserReview()"
+                class="edit-review-btn"
+              >
+                <mat-icon>edit</mat-icon>
+                Edit
+              </button>
+              <button
+                mat-raised-button
+                color="warn"
+                (click)="deleteUserReview()"
+                class="delete-review-btn"
+              >
+                <mat-icon>delete</mat-icon>
+                Delete
+              </button>
+            </div>
           </div>
           <app-review-card-game
             [data]="currentUserReview"
             class="current-user-review"
           ></app-review-card-game>
+        </div>
+
+        <!-- Separador si hay otras reviews -->
+        @if (otherUsersReviews.length > 0) {
+          <div class="reviews-separator">
+            <h4 class="other-reviews-label">Other Reviews</h4>
+          </div>
+        }
+      }
+
+      <!-- Formulario de edición de review del usuario -->
+      @if (currentUserReview && isEditingUserReview) {
+        <div class="edit-user-review-container">
+          <div class="edit-review-header">
+            <h4 class="edit-review-title">Edit Your Review</h4>
+            <button
+              mat-stroked-button
+              (click)="cancelEditingUserReview()"
+              class="cancel-edit-btn"
+            >
+              <mat-icon>close</mat-icon>
+              Cancel
+            </button>
+          </div>
+          <app-review-form
+            [game]="this.game"
+            [existingReview]="currentUserReview"
+            (onSubmit)="onUserReviewUpdated($event)"
+          ></app-review-form>
         </div>
 
         <!-- Separador si hay otras reviews -->

@@ -7,7 +7,10 @@ import { MatCardModule } from '@angular/material/card';
 import { MatChipsModule } from '@angular/material/chips';
 import { MatGridListModule, MatGridTile } from '@angular/material/grid-list';
 import { Game } from '../../model/game.model';
-import { environment } from '../../../enviroment/enviroment';
+import {
+  environment,
+  linkToStaticResource,
+} from '../../../enviroment/enviroment';
 
 @Component({
   selector: 'app-view-game',
@@ -29,4 +32,6 @@ export class ViewGameComponent {
   @Input({ required: true }) game!: Game;
 
   apiUrl = environment.apiUrl;
+
+  protected readonly linkToStaticResource = linkToStaticResource;
 }

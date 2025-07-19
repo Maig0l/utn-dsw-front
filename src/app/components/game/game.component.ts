@@ -275,6 +275,53 @@ export class GameComponent implements OnInit {
   portraitUrl!: string;
   bannerUrl!: string;
 
+  // Objeto para almacenar errores de campo
+  fieldErrors: { [key: string]: string } = {};
+
+  // Limpiar error específico de un campo
+  clearFieldError(fieldName: string) {
+    if (this.fieldErrors[fieldName]) {
+      delete this.fieldErrors[fieldName];
+    }
+  }
+
+  // Limpiar errores
+  clearFieldErrors() {
+    this.fieldErrors = {};
+  }
+
+  // Procesar errores del backend
+  processBackendErrors(error: any) {
+    this.clearFieldErrors();
+
+    if (error.error && error.error.message) {
+      const errorMessage = error.error.message;
+
+      // Parseamos el mensaje para extraer el campo
+      if (errorMessage.includes('synopsis')) {
+        this.fieldErrors['synopsis'] = errorMessage.replace(/^.*: /, '');
+      } else if (errorMessage.includes('title')) {
+        this.fieldErrors['title'] = errorMessage.replace(/^.*: /, '');
+      } else if (
+        errorMessage.includes('releaseDate') ||
+        errorMessage.includes('release date')
+      ) {
+        this.fieldErrors['releaseDate'] = errorMessage.replace(/^.*: /, '');
+      } else if (errorMessage.includes('portrait')) {
+        this.fieldErrors['portrait'] = errorMessage.replace(/^.*: /, '');
+      } else if (errorMessage.includes('banner')) {
+        this.fieldErrors['banner'] = errorMessage.replace(/^.*: /, '');
+      } else {
+        // Error genérico
+        this.fieldErrors['general'] = errorMessage.replace(/^.*: /, '');
+      }
+    } else {
+      // Si no hay mensaje específico, mostrar error genérico
+      this.fieldErrors['general'] =
+        'An error occurred while creating the game. Please try again.';
+    }
+  }
+
   apiUrl = environment.apiUrl;
 
   constructor(
@@ -314,12 +361,19 @@ export class GameComponent implements OnInit {
   lastGameId = 0;
   addGame() {
     this.gameCreated = false;
+    this.clearFieldErrors(); // Limpiar errores anteriores
     const x = this.gameForm.value as Game;
 
-    this.gameService.addGameObj(x).subscribe((res) => {
-      this.game = res;
-      this.lastGameId = res.id;
-      this.gameCreated = true;
+    this.gameService.addGameObj(x).subscribe({
+      next: (res) => {
+        this.game = res;
+        this.lastGameId = res.id;
+        this.gameCreated = true;
+      },
+      error: (error) => {
+        console.error('ERROR', error);
+        this.processBackendErrors(error);
+      },
     });
 
     /*

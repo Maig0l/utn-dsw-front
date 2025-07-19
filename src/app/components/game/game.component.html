@@ -11,9 +11,13 @@
           type="text"
           id="title"
           formControlName="title"
+          (input)="clearFieldError('title')"
         />
         <mat-error>Title is required</mat-error>
       </mat-form-field>
+      @if (fieldErrors["title"]) {
+        <div class="field-error">{{ fieldErrors["title"] }}</div>
+      }
 
       <mat-form-field appearance="outline">
         <mat-label>Release date</mat-label>
@@ -22,8 +26,12 @@
           type="date"
           id="releaseDate"
           formControlName="releaseDate"
+          (input)="clearFieldError('releaseDate')"
         />
       </mat-form-field>
+      @if (fieldErrors["releaseDate"]) {
+        <div class="field-error">{{ fieldErrors["releaseDate"] }}</div>
+      }
     </div>
 
     <!-- Synopsis en fila completa -->
@@ -35,8 +43,12 @@
           id="synopsis"
           formControlName="synopsis"
           rows="4"
+          (input)="clearFieldError('synopsis')"
         ></textarea>
       </mat-form-field>
+      @if (fieldErrors["synopsis"]) {
+        <div class="field-error">{{ fieldErrors["synopsis"] }}</div>
+      }
     </div>
 
     <!-- Sección de Franchise -->
@@ -204,6 +216,9 @@
 
     <!-- Botón de envío -->
     <div class="submit-section">
+      @if (fieldErrors["general"]) {
+        <div class="general-error">{{ fieldErrors["general"] }}</div>
+      }
       <button
         mat-raised-button
         color="primary"

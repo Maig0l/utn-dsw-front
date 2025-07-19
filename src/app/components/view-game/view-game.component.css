@@ -1,5 +1,7 @@
 .example-card {
   max-width: 400px;
+  min-width: 300px;
+  height: 420px; /* Altura fija para consistencia */
   border: 1px solid #ddd;
   border-radius: 8px;
   overflow: hidden;
@@ -8,16 +10,13 @@
     box-shadow 0.3s;
   background-color: #001d3d;
   color: white;
+  display: flex;
+  flex-direction: column;
 }
 
 .example-card:hover {
   transform: translateY(-10px);
   box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2);
-}
-
-.example-card-footer {
-  padding: 16px;
-  background-color: #f5f5f5;
 }
 
 .card-link {
@@ -27,7 +26,8 @@
 
 .images {
   width: 100%;
-  height: auto;
+  height: 250px; /* Altura fija para las imágenes */
+  object-fit: cover; /* Mantiene proporción y rellena el contenedor */
   border-bottom: 1px solid #000;
 }
 
@@ -38,20 +38,34 @@
 
 .mat-card-header {
   padding-bottom: 16px;
+  flex-shrink: 0; /* No se encoge */
 }
 
 .example-card-footer {
+  padding: 12px;
   background-color: #011831;
+  flex-shrink: 0; /* No se encoge */
+  min-height: 60px; /* Altura mínima para el footer */
+}
+
+.mat-card-content {
+  flex: 1; /* Ocupa el espacio disponible */
+  display: flex;
+  flex-direction: column;
+  padding: 0 !important; /* Eliminamos padding para la imagen */
 }
 
 .mat-card-content p {
   margin: 0.5rem 0;
 }
 
-.example-card-footer {
-  padding: 0px;
-}
-
 mat-chip-set {
   padding: 4px;
+  max-height: 40px; /* Limitar altura del chip-set */
+  overflow: hidden; /* Ocultar chips que no caben */
+}
+
+mat-chip {
+  font-size: 0.75rem; /* Chips más pequeños */
+  margin: 2px;
 }

@@ -149,3 +149,78 @@ mat-form-field.mat-mdc-form-field {
   div.mat-mdc-select-panel {
   background-color: #fdf0d5;
 }
+
+/* Playlist Created Success Section */
+.playlist-created {
+  background: linear-gradient(135deg, #e8f5e8, #f0f8ff);
+  border: 2px solid #4caf50;
+  border-radius: 12px;
+  padding: 24px;
+  margin-top: 32px;
+  box-shadow: 0 8px 24px rgba(76, 175, 80, 0.2);
+  text-align: center;
+  animation: fadeInScale 0.5s ease-out;
+}
+
+.playlist-created h1 {
+  color: #2e7d32;
+  margin-bottom: 24px;
+  font-size: 28px;
+  font-weight: 600;
+}
+
+.success-buttons {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 16px;
+  flex-wrap: wrap;
+}
+
+.success-buttons button {
+  min-width: 160px;
+  padding: 12px 24px;
+  font-size: 16px;
+  font-weight: 500;
+  border-radius: 8px;
+  transition: all 0.3s ease;
+}
+
+.success-buttons button:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 6px 16px rgba(0, 0, 0, 0.2);
+}
+
+.success-buttons mat-divider {
+  height: 40px;
+  border-color: #4caf50;
+  border-width: 1px;
+}
+
+@keyframes fadeInScale {
+  0% {
+    opacity: 0;
+    transform: scale(0.9);
+  }
+  100% {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
+/* Responsive design for smaller screens */
+@media (max-width: 768px) {
+  .success-buttons {
+    flex-direction: column;
+    gap: 12px;
+  }
+
+  .success-buttons mat-divider {
+    display: none;
+  }
+
+  .success-buttons button {
+    width: 100%;
+    max-width: 280px;
+  }
+}

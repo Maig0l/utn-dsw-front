@@ -19,6 +19,7 @@ import { Playlist } from '../../model/playlist.model';
 import { Game } from '../../model/game.model';
 import { User } from '../../model/user.model';
 import { UserService } from '../../services/user.service';
+import { LoginService } from '../../services/auth/login.service';
 import { MatAutocompleteModule } from '@angular/material/autocomplete';
 import { debounceTime, map, Observable, switchMap } from 'rxjs';
 import { GameService } from '../../services/game.service';
@@ -40,7 +41,14 @@ import { MatChipsModule } from '@angular/material/chips';
     MatAutocompleteModule,
     MatChipsModule,
   ],
-  providers: [RouterOutlet, PlaylistService, FormBuilder, UserService, GameService],
+  providers: [
+    RouterOutlet,
+    PlaylistService,
+    FormBuilder,
+    UserService,
+    GameService,
+    LoginService,
+  ],
   templateUrl: './playlist.component.html',
   styleUrl: './playlist.component.css',
 })
@@ -50,6 +58,7 @@ export class PlaylistComponent implements OnInit {
     private gameService: GameService,
     private router: Router,
     private userService: UserService,
+    private loginService: LoginService,
   ) {}
 
   // Autocomplete
@@ -86,8 +95,6 @@ export class PlaylistComponent implements OnInit {
     this.gameSelected.splice(this.gameSelected.indexOf(game), 1);
   }
 
-
-
   userPlaylists: Playlist[] = [];
 
   ngOnInit(): void {
@@ -96,13 +103,20 @@ export class PlaylistComponent implements OnInit {
       switchMap((value) => this._filter(value || '')),
     );
     this.getUser();
+
+    // Inicializar el formulario con el ID del usuario logueado
+    if (this.loginService.isLoggedIn()) {
+      this.playlistForm.patchValue({
+        owner: this.loginService.currentUserData.id,
+      });
+    }
   }
   //este es el que uso para crear
   playlistForm = new FormGroup({
     name: new FormControl(''),
     description: new FormControl(''),
     isPrivate: new FormControl(false),
-    owner: new FormControl(1), //TODO: Cambiar por User
+    owner: new FormControl<number | null>(null), // Se establecerá dinámicamente en ngOnInit
   });
 
   playlistCreated = false;
@@ -121,8 +135,8 @@ export class PlaylistComponent implements OnInit {
         this.playlistCreated = true;
       });
   }
-  goToPlaylist() {
-    this.router.navigate(['/playlist', this.playlist.id]);
+  goToUserProfile() {
+    this.router.navigate(['/user', this.user.id]);
   }
   goToHomepage() {
     this.router.navigate(['/']);
@@ -134,8 +148,11 @@ export class PlaylistComponent implements OnInit {
   }
 
   getUser() {
-    this.userService.getUserById(1).subscribe((data : User) => { // recontra hardcodeado
-      this.user = data;
-  });
-}
+    if (this.loginService.isLoggedIn()) {
+      this.user = this.loginService.currentUserData;
+    } else {
+      // Redirigir al login si no está logueado
+      this.router.navigate(['/login']);
+    }
+  }
 }

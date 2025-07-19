@@ -55,6 +55,14 @@ export class ReviewService {
     });
   }
 
+  deleteReview(userToken: string, reviewId: number) {
+    const authHeader = `Bearer ${userToken}`;
+    const endpoint = `${this.reviewsEndpoint}/${reviewId}`;
+    return this.http.delete<ApiResponse<any>>(endpoint, {
+      headers: { authorization: authHeader },
+    });
+  }
+
   /** @deprecated Use postReview instead */
   addReview(
     author: number,

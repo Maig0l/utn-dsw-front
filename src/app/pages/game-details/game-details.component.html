@@ -29,7 +29,18 @@
       <!-- Review del usuario actual (si existe) -->
       @if (currentUserReview) {
         <div class="current-user-review-container">
-          <h4 class="user-review-label">Your Review</h4>
+          <div class="user-review-header">
+            <h4 class="user-review-label">Your Review</h4>
+            <button
+              mat-raised-button
+              color="warn"
+              (click)="deleteUserReview()"
+              class="delete-review-btn"
+            >
+              <mat-icon>delete</mat-icon>
+              Delete
+            </button>
+          </div>
           <app-review-card-game
             [data]="currentUserReview"
             class="current-user-review"

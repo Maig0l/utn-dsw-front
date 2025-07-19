@@ -244,4 +244,31 @@ export class GameDetailsComponent implements OnInit, OnDestroy {
       this.fetchReviews();
     }
   }
+
+  // Eliminar la review del usuario actual
+  deleteUserReview() {
+    if (!this.currentUserReview) return;
+
+    const confirmDelete = confirm(
+      'Are you sure you want to delete your review? This action cannot be undone.',
+    );
+
+    if (confirmDelete) {
+      this.reviewService
+        .deleteReview(
+          this.loginService.currentUserToken,
+          this.currentUserReview.id,
+        )
+        .subscribe({
+          next: (response) => {
+            alert('Review deleted successfully!');
+            this.fetchReviews(); // Recargar para actualizar la vista
+          },
+          error: (error) => {
+            console.error('Error deleting review:', error);
+            alert('Failed to delete review. Please try again.');
+          },
+        });
+    }
+  }
 }

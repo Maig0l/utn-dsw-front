@@ -18,5 +18,11 @@ export function linkToStaticResource(value: string | undefined) {
   const isExternal = isExternalRegex.test(value);
   if (isExternal) return value;
 
+  // Si el valor ya comienza con '/uploads/', solo agregar el apiUrl
+  if (value.startsWith('/uploads/')) {
+    return `${environment.apiUrl}${value}`;
+  }
+
+  // Si no, agregar la ruta completa
   return `${localStorageLocation}/${value}`;
 }

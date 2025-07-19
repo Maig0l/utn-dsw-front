@@ -8,19 +8,22 @@
 
 <section class="reviews">
   @if (this.sessionType === true) {
-      <app-review-form [game]="this.game" (onSubmit)="this.fetchReviews()" ></app-review-form>
-  }
-  @else {
-    <p class="noFormMessage">Log in to share your thoughts on {{this.game.title}}</p>
+    <app-review-form
+      [game]="this.game"
+      (onSubmit)="this.fetchReviews()"
+    ></app-review-form>
+  } @else {
+    <p class="noFormMessage">
+      Log in to share your thoughts on {{ this.game.title }}
+    </p>
   }
 
-  <hr>
+  <hr />
 
   <div class="review-list">
     @if (reviewCount === 0) {
       <p class="noFormMessage">No reviews at the moment. Be the first!</p>
-    }
-    @else {
+    } @else {
       @for (review of reviews; track review.id) {
         <app-review-card-game [data]="review"></app-review-card-game>
       }
@@ -35,7 +38,7 @@
 
 <ng-template #loadedGame>
   <div class="game-banner">
-    <img [src]="game.banner" alt="Game's banner" />
+    <img [src]="getGameBanner()" alt="Game's banner" />
   </div>
 
   <dialog id="deleteModal">
@@ -58,22 +61,26 @@
     </div>
   </dialog>
 
-  <button mat-button [matMenuTriggerFor]="menu" id="menuButton">
+  <button
+    *ngIf="isUserAdmin()"
+    mat-button
+    [matMenuTriggerFor]="menu"
+    id="menuButton"
+  >
     <mat-icon>menu</mat-icon>
   </button>
   <mat-menu #menu="matMenu" xPosition="before">
-    <a id="menu-item-link" href="edit-game/{{ game.id }}">
-      <button mat-menu-item>
-        <mat-icon>edit</mat-icon>
-        Edit
-      </button>
-    </a>
-    <a id="menu-item-link" href="review/{{ game.id }}">
-      <button mat-menu-item>
-        <mat-icon>star</mat-icon>
-        Review (temporary)
-      </button>
-    </a>
+    <button
+      mat-menu-item
+      [routerLink]="['/administradores/game/edit', game.id]"
+    >
+      <mat-icon>edit</mat-icon>
+      Edit
+    </button>
+    <button mat-menu-item [routerLink]="['/review', game.id]">
+      <mat-icon>star</mat-icon>
+      Review (temporary)
+    </button>
 
     <button mat-menu-item (click)="openModal()" id="openModal">
       <mat-icon>delete</mat-icon>
@@ -84,7 +91,7 @@
   <div class="game-info">
     <div class="first-column">
       <img
-        [src]="game.portrait"
+        [src]="getGamePortrait()"
         alt="Game's portrait"
         class="game-portrait"
       />
@@ -110,7 +117,9 @@
         <p class="studio">
           Developer/s:
           @for (studio of devs; track studio.id) {
-            <a [href]="studio.site" target="_blank" rel="noopener noreferrer">{{ studio.name }}</a>
+            <a [href]="studio.site" target="_blank" rel="noopener noreferrer">{{
+              studio.name
+            }}</a>
           }
         </p>
         <p class="studio">

@@ -109,9 +109,9 @@ export class UserEditComponent implements OnInit {
   }
 
   uploadImages() {
-    if (this.profileImgFile) {
+    if (this.profileImgFile && this.id) {
       this.userService
-        .uploadProfileImg(this.user.id, this.profileImgFile)
+        .uploadProfileImg(this.id, this.profileImgFile)
         .subscribe({
           next: () => {
             console.log('Profile picture uploaded successfully');
@@ -240,9 +240,6 @@ export class UserEditComponent implements OnInit {
 
   userUpdated = false;
   updateUser() {
-    console.log('Updating user...', this.updateForm.value); // 🔍 Verifica los valores
-    console.log('Selected tags:', this.tagSelected); // 🔍 Verifica los tags seleccionados
-
     // Iterar por todos los controles del formulario linkedAccounts y guardar esos valores en un array
 
     const linked_accounts = this.updateForm.get('linked_accounts') as FormArray;

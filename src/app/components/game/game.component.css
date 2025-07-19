@@ -1,112 +1,349 @@
-section {
-  padding-top: 32px;
-  font-size: 24px;
-  padding: 16px;
-  color: #e5e5e5;
-  background-color: #014a8d;
+/* Variables de color - Paleta Violeta */
+:root {
+  --primary-purple: #6a1b9a;
+  --secondary-purple: #8e24aa;
+  --light-purple: #ab47bc;
+  --dark-purple: #4a148c;
+  --accent-purple: #9c27b0;
+  --background-dark: #1a0e2e;
+  --surface-purple: #2d1b3d;
+  --text-primary: #ffffff;
+  --text-secondary: #e1bee7;
+  --text-muted: #ce93d8;
+  --success-green: #4caf50;
+  --error-red: #f44336;
 }
 
+/* Sección principal */
+section.crud-section {
+  background: linear-gradient(
+    135deg,
+    var(--background-dark) 0%,
+    var(--surface-purple) 100%
+  );
+  color: var(--text-primary);
+  padding: 32px;
+  min-height: 100vh;
+  font-family: "Roboto", sans-serif;
+}
+
+/* Títulos */
 h1 {
-  color: #e5e5e5;
+  color: var(--text-primary);
   text-align: center;
-  font-size: 2.5rem;
-  margin-bottom: 20px;
-  margin-top: 0;
+  font-size: 2.8rem;
+  font-weight: 300;
+  margin: 0 0 32px 0;
+  text-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
+  background: linear-gradient(
+    135deg,
+    var(--light-purple),
+    var(--accent-purple)
+  );
+  -webkit-background-clip: text;
+  background-clip: text;
 }
 
-.crud-form {
+/* Headers de sección */
+.section-header {
+  margin: 32px 0 16px 0;
+}
+
+.section-header h2 {
+  color: var(--light-purple);
+  font-size: 1.3rem;
+  font-weight: 500;
+  margin: 0;
+  padding-left: 12px;
+  border-left: 4px solid var(--accent-purple);
   display: flex;
-  flex-direction: column;
-  gap: 16px;
-  margin-top: 20px;
+  align-items: center;
 }
 
-.full-width {
+/* Formulario */
+.crud-form {
+  max-width: 900px;
+  margin: 0 auto;
+  display: grid;
+  gap: 0px;
+}
+
+/* Grid responsivo para inputs */
+.form-row {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 20px;
+}
+
+.form-row.single {
+  grid-template-columns: 1fr;
+}
+
+/* Form fields mejorados */
+mat-form-field {
   width: 100%;
 }
 
-.mat-form-field {
-  background: transparent;
+::ng-deep .mat-mdc-form-field {
+  background: rgba(255, 255, 255, 0.05);
+  border-radius: 12px;
+  padding: 4px;
+  transition: all 0.3s ease;
+  border: 1px solid transparent;
 }
-
-/* Fondo azul y texto blanco para inputs, chips, autocomplete */
+/*
+::ng-deep .mat-mdc-form-field:hover {
+  background: rgba(255, 255, 255, 0.08);
+  border-color: var(--light-purple);
+  transform: translateY(-1px);
+}
+*/
 ::ng-deep .mat-mdc-form-field-flex,
-::ng-deep .mdc-text-field,
-::ng-deep .mat-chip-row,
-::ng-deep .mat-chip-grid,
-::ng-deep .mat-autocomplete-panel {
-  background-color: #012b59 !important;
-  color: #e5e5e5 !important;
+::ng-deep .mdc-text-field {
+  background-color: transparent !important;
+  color: var(--text-primary) !important;
   border-radius: 8px;
 }
 
-/* Texto blanco en labels, inputs, opciones y chips */
 ::ng-deep mat-label,
 ::ng-deep .mat-mdc-form-field-label,
-::ng-deep .mat-mdc-input-element,
-::ng-deep .mat-option,
-::ng-deep .mat-chip-row,
-::ng-deep .mat-chip-grid,
-::ng-deep .ng-star-inserted {
-  color: #e5e5e5 !important;
+::ng-deep .mat-mdc-input-element {
+  color: var(--text-primary) !important;
 }
 
-/* Placeholder color */
 ::ng-deep input::placeholder,
 ::ng-deep textarea::placeholder {
-  color: #b0c4de !important;
-  opacity: 1;
+  color: var(--text-muted) !important;
+  opacity: 0.8;
 }
 
-/* Outline color */
 ::ng-deep .mat-mdc-form-field-outline {
-  color: #e5e5e5 !important;
+  color: var(--light-purple) !important;
 }
 
-/* Subscript wrapper height */
-::ng-deep
-  .mat-mdc-form-field-subscript-wrapper.mat-mdc-form-field-bottom-align {
-  height: 0px;
+::ng-deep .mat-mdc-form-field-outline-thick {
+  color: var(--accent-purple) !important;
 }
 
-/* Opciones de autocomplete: hover y seleccionadas */
+/* Chips mejorados */
+::ng-deep .mat-chip-grid {
+  background: rgba(255, 255, 255, 0.05) !important;
+  border-radius: 12px !important;
+  padding: 12px !important;
+  margin-bottom: 16px !important;
+  border: 2px dashed var(--light-purple) !important;
+  min-height: 60px !important;
+  display: flex !important;
+  align-items: center !important;
+}
+
+::ng-deep .mat-chip-row {
+  background: linear-gradient(
+    135deg,
+    var(--primary-purple),
+    var(--secondary-purple)
+  ) !important;
+  color: var(--text-primary) !important;
+  border-radius: 20px !important;
+  font-weight: 500 !important;
+  transition: all 0.3s ease !important;
+  border: none !important;
+}
+
+::ng-deep .mat-chip-row:hover {
+  background: linear-gradient(
+    135deg,
+    var(--secondary-purple),
+    var(--accent-purple)
+  ) !important;
+  transform: translateY(-1px) !important;
+  box-shadow: 0 4px 12px rgba(106, 27, 154, 0.3) !important;
+}
+
+::ng-deep .mat-chip-remove {
+  color: var(--text-primary) !important;
+  opacity: 0.8 !important;
+}
+
+::ng-deep .mat-chip-remove:hover {
+  opacity: 1 !important;
+}
+
+/* Autocomplete y opciones */
+::ng-deep .mat-autocomplete-panel {
+  background: var(--surface-purple) !important;
+  border-radius: 12px !important;
+  border: 1px solid var(--light-purple) !important;
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.3) !important;
+}
+
+::ng-deep .mat-option {
+  color: var(--text-primary) !important;
+  transition: all 0.2s ease !important;
+  border-radius: 8px !important;
+  margin: 4px 8px !important;
+}
+
 ::ng-deep .mat-option:hover,
-::ng-deep .mat-option.mat-selected,
-::ng-deep .mat-chip-row:hover,
-::ng-deep .mat-chip:hover {
-  background-color: #014a8d !important;
-  color: #e5e5e5 !important;
+::ng-deep .mat-option.mat-selected {
+  background: linear-gradient(
+    135deg,
+    var(--primary-purple),
+    var(--secondary-purple)
+  ) !important;
+  color: var(--text-primary) !important;
 }
 
-/* Botón principal */
-button.primary {
-  background-color: #012b59;
-  color: #e5e5e5;
-  font-weight: bold;
+::ng-deep .mat-option .option-name {
+  font-weight: 500;
 }
 
-button.primary:hover {
-  background-color: #012b59;
-}
-
-/* Mensaje de juego creado */
-.game-created {
-  color: green;
-  margin-top: 10px;
-  border: 2px solid green;
-  box-shadow: green 0 0 10px;
-  padding: 8px;
-  border-radius: 4px;
-}
-
-.game-created h1 {
-  margin-top: 0;
+/* Sección de envío */
+.submit-section {
+  margin-top: 32px;
   text-align: center;
 }
 
+.submit-button {
+  background: linear-gradient(
+    135deg,
+    var(--primary-purple),
+    var(--secondary-purple)
+  ) !important;
+  color: var(--text-primary) !important;
+  border: none !important;
+  border-radius: 12px !important;
+  padding: 16px 32px !important;
+  font-weight: 600 !important;
+  font-size: 16px !important;
+  min-width: 200px !important;
+  transition: all 0.3s ease !important;
+  box-shadow: 0 4px 16px rgba(106, 27, 154, 0.3) !important;
+}
+
+.submit-button:hover {
+  background: linear-gradient(
+    135deg,
+    var(--secondary-purple),
+    var(--accent-purple)
+  ) !important;
+  transform: translateY(-2px) !important;
+  box-shadow: 0 8px 24px rgba(106, 27, 154, 0.4) !important;
+}
+
+/* Mensaje de éxito */
+.game-created {
+  background: linear-gradient(
+    135deg,
+    rgba(76, 175, 80, 0.1),
+    rgba(129, 199, 132, 0.1)
+  );
+  border: 2px solid var(--success-green);
+  border-radius: 16px;
+  padding: 32px;
+  margin-top: 32px;
+  text-align: center;
+  box-shadow: 0 8px 32px rgba(76, 175, 80, 0.2);
+  animation: slideInScale 0.6s ease-out;
+}
+
+.game-created h1 {
+  color: var(--success-green);
+  margin: 0 0 24px 0;
+  font-size: 2rem;
+  font-weight: 500;
+  background: none;
+  -webkit-text-fill-color: var(--success-green);
+}
+
 .success-buttons {
-  color: green;
   display: flex;
-  justify-content: space-around;
+  justify-content: center;
+  align-items: center;
   gap: 16px;
+  flex-wrap: wrap;
+}
+
+.success-buttons button {
+  background: linear-gradient(135deg, var(--success-green), #66bb6a) !important;
+  color: green !important;
+  border: none !important;
+  border-radius: 10px !important;
+  padding: 14px 24px !important;
+  font-weight: 500 !important;
+  transition: all 0.3s ease !important;
+  min-width: 160px !important;
+}
+
+.success-buttons button:hover {
+  background: linear-gradient(135deg, #66bb6a, #81c784) !important;
+  transform: translateY(-2px) !important;
+  box-shadow: 0 6px 16px rgba(76, 175, 80, 0.3) !important;
+}
+
+.success-buttons mat-divider {
+  height: 40px;
+  border-color: var(--success-green);
+  border-width: 1px;
+}
+
+/* Animaciones */
+@keyframes slideInScale {
+  0% {
+    opacity: 0;
+    transform: translateY(30px) scale(0.95);
+  }
+  100% {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+}
+
+/* Responsive design */
+@media (max-width: 768px) {
+  .form-row {
+    grid-template-columns: 1fr;
+  }
+
+  section.crud-section {
+    padding: 20px;
+  }
+
+  h1 {
+    font-size: 2.2rem;
+  }
+
+  .success-buttons {
+    flex-direction: column;
+  }
+
+  .success-buttons mat-divider {
+    display: none;
+  }
+
+  .success-buttons button {
+    width: 100%;
+    max-width: 280px;
+  }
+
+  .submit-button {
+    width: 100% !important;
+    max-width: 300px !important;
+  }
+}
+
+@media (max-width: 480px) {
+  .section-header h2 {
+    font-size: 1.1rem;
+  }
+
+  ::ng-deep .mat-chip-grid {
+    min-height: 50px !important;
+  }
+}
+
+/* Eliminar altura del subscript wrapper */
+::ng-deep
+  .mat-mdc-form-field-subscript-wrapper.mat-mdc-form-field-bottom-align {
+  height: 0px;
 }

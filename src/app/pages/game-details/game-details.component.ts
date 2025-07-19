@@ -1,8 +1,14 @@
 import { Component } from '@angular/core';
 import { GameService } from '../../services/game.service';
 import { ReviewService } from '../../services/review.service';
-import { ActivatedRoute, Router, RouterOutlet } from '@angular/router';
+import {
+  ActivatedRoute,
+  Router,
+  RouterModule,
+  RouterOutlet,
+} from '@angular/router';
 import { CommonModule, NgOptimizedImage } from '@angular/common';
+import { linkToStaticResource } from '../../../enviroment/enviroment';
 import { ReviewFormComponent } from '../../components/review-form/review-form.component';
 
 import { Input, OnDestroy, OnInit } from '@angular/core';
@@ -15,7 +21,7 @@ import { MatButtonModule } from '@angular/material/button';
 import { MatMenuModule } from '@angular/material/menu';
 
 import { LoginService } from '../../services/auth/login.service.js';
-import { ReviewCardGameComponent } from "../../components/review-card-game/review-card-game.component";
+import { ReviewCardGameComponent } from '../../components/review-card-game/review-card-game.component';
 
 export interface SlideInterface {
   id: number;
@@ -31,8 +37,9 @@ export interface SlideInterface {
     MatIconModule,
     MatButtonModule,
     MatMenuModule,
+    RouterModule,
     ReviewFormComponent,
-    ReviewCardGameComponent
+    ReviewCardGameComponent,
   ],
   providers: [RouterOutlet, GameService, ReviewService],
   templateUrl: './game-details.component.html',
@@ -45,7 +52,7 @@ export class GameDetailsComponent implements OnInit, OnDestroy {
     private reviewService: ReviewService,
     private router: Router,
     private loginService: LoginService,
-  ) { }
+  ) {}
 
   sessionType: boolean = false; //logged in or not
 
@@ -67,7 +74,7 @@ export class GameDetailsComponent implements OnInit, OnDestroy {
   ngOnInit() {
     this.gameId = +this.route.snapshot.paramMap.get('id')!;
 
-    this.loginService.sessionState.subscribe(val => this.sessionType = val);
+    this.loginService.sessionState.subscribe((val) => (this.sessionType = val));
 
     this.fetchGameData();
 
@@ -98,8 +105,10 @@ export class GameDetailsComponent implements OnInit, OnDestroy {
   }
 
   fetchReviews() {
-    this.reviewService.getReviewsByGame(this.game.id).subscribe(res => {
-      this.reviews = res.data.sort((a: Review, b: Review) => b.createdAt.getTime() - a.createdAt.getTime());
+    this.reviewService.getReviewsByGame(this.game.id).subscribe((res) => {
+      this.reviews = res.data.sort(
+        (a: Review, b: Review) => b.createdAt.getTime() - a.createdAt.getTime(),
+      );
       this.reviewCount = res.data.length;
     });
   }
@@ -151,7 +160,15 @@ export class GameDetailsComponent implements OnInit, OnDestroy {
     const pic = JSON.parse(
       JSON.stringify(this.game.pictures[this.currentIndex]),
     );
-    return pic.url;
+    return linkToStaticResource(pic.url);
+  }
+
+  getGameBanner() {
+    return linkToStaticResource(this.game?.banner);
+  }
+
+  getGamePortrait() {
+    return linkToStaticResource(this.game?.portrait);
   }
 
   // DELETE GAME ( TODO: maybe inside edit game??)
@@ -163,10 +180,19 @@ export class GameDetailsComponent implements OnInit, OnDestroy {
     });
   }
 
+  // Check if current user is admin
+  isUserAdmin(): boolean {
+    if (!this.loginService.isLoggedIn()) {
+      return false;
+    }
+    const userData = this.loginService.currentUserData;
+    return userData.is_admin;
+  }
+
   reloadReviews(success: boolean) {
-    const msg = success ?
-      "Review sent successfully" :
-      "Something failed. Have you selected a score?";
+    const msg = success
+      ? 'Review sent successfully'
+      : 'Something failed. Have you selected a score?';
 
     alert(msg);
   }

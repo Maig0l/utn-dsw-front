@@ -1,26 +1,45 @@
 <section class="crud-section">
-  <h1>Update game id:{{ id }}</h1>
+  <h1>Update Game #{{ id }}</h1>
   <form [formGroup]="updateForm" (submit)="updateGame()" class="crud-form">
-    <mat-form-field appearance="outline" class="full-width">
-      <mat-label>Title</mat-label>
-      <input required matInput type="text" id="title" formControlName="title" />
-      <mat-error *ngIf="updateForm.get('title')?.invalid"
-        >Title is required</mat-error
-      >
-    </mat-form-field>
-    <mat-form-field appearance="outline" class="full-width">
-      <mat-label>Synopsis</mat-label>
-      <textarea matInput id="synopsis" formControlName="synopsis"></textarea>
-    </mat-form-field>
-    <mat-form-field appearance="outline" class="full-width">
-      <mat-label>Release date</mat-label>
-      <input
-        matInput
-        type="date"
-        id="releaseDate"
-        formControlName="releaseDate"
-      />
-    </mat-form-field>
+    <!-- Información básica en grid -->
+    <div class="form-row">
+      <mat-form-field appearance="outline">
+        <mat-label>Title</mat-label>
+        <input
+          required
+          matInput
+          type="text"
+          id="title"
+          formControlName="title"
+        />
+        <mat-error *ngIf="updateForm.get('title')?.invalid">
+          Title is required
+        </mat-error>
+      </mat-form-field>
+
+      <mat-form-field appearance="outline">
+        <mat-label>Release date</mat-label>
+        <input
+          matInput
+          type="date"
+          id="releaseDate"
+          formControlName="releaseDate"
+        />
+      </mat-form-field>
+    </div>
+
+    <!-- Synopsis en fila completa -->
+    <div class="form-row single">
+      <mat-form-field appearance="outline">
+        <mat-label>Synopsis</mat-label>
+        <textarea
+          matInput
+          id="synopsis"
+          formControlName="synopsis"
+          rows="4"
+        ></textarea>
+      </mat-form-field>
+    </div>
 
     <h3>Pictures</h3>
     <div class="picture-container">

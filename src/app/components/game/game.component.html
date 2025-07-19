@@ -1,98 +1,50 @@
 <section class="crud-section">
-  <h1>Game Creation</h1>
+  <h1>Create New Game</h1>
   <form [formGroup]="gameForm" (submit)="addGame()" class="crud-form">
-    <div class="toolbar">
-      <!-- Puedes agregar aquí un botón de volver si lo deseas -->
+    <!-- Información básica en grid -->
+    <div class="form-row">
+      <mat-form-field appearance="outline">
+        <mat-label>Title</mat-label>
+        <input
+          required
+          matInput
+          type="text"
+          id="title"
+          formControlName="title"
+        />
+        <mat-error>Title is required</mat-error>
+      </mat-form-field>
+
+      <mat-form-field appearance="outline">
+        <mat-label>Release date</mat-label>
+        <input
+          matInput
+          type="date"
+          id="releaseDate"
+          formControlName="releaseDate"
+        />
+      </mat-form-field>
     </div>
-    <mat-form-field appearance="outline" class="full-width">
-      <mat-label>Title</mat-label>
-      <input required matInput type="text" id="title" formControlName="title" />
-      <mat-error>Title is required</mat-error>
-    </mat-form-field>
-    <mat-form-field appearance="outline" class="full-width">
-      <mat-label>Synopsis</mat-label>
-      <textarea matInput id="synopsis" formControlName="synopsis"></textarea>
-    </mat-form-field>
-    <mat-form-field appearance="outline" class="full-width">
-      <mat-label>Release date</mat-label>
-      <input
-        matInput
-        type="date"
-        id="releaseDate"
-        formControlName="releaseDate"
-      />
-    </mat-form-field>
-    <!--No vamos a subir fotos en el post por una decision de diseno-->
-    <!--mat-form-field>
-    <mat-label for="portrait">Portrait</mat-label>
-      <input matInput type="text" id="portrait" formControlName="portrait" />
-    </mat-form-field>
-    <mat-form-field>
-      <mat-label for="banner">Banner</mat-label>
-      <input matInput type="text" id="banner" formControlName="banner" />
-    </mat-form-field>
-    <mat-label>pictures rework pending</mat-label>
-    <h3>Pictures</h3>
-    <div class="picture-container">
 
-      <div class="image-upload">
-        <label>Portrait:</label>
-        <input type="file" (change)="onPortraitSelected($event)" />
-        <img
-          *ngIf="gameForm?.value?.portrait"
-          [src]="apiUrl + gameForm.value.portrait"
-          alt="Portrait Preview"
-          class="preview-image"
-        />
-      </div>
+    <!-- Synopsis en fila completa -->
+    <div class="form-row single">
+      <mat-form-field appearance="outline">
+        <mat-label>Synopsis</mat-label>
+        <textarea
+          matInput
+          id="synopsis"
+          formControlName="synopsis"
+          rows="4"
+        ></textarea>
+      </mat-form-field>
+    </div>
 
-      <div class="image-upload">
-        <label>Banner:</label>
-        <input type="file" (change)="onBannerSelected($event)" />
-        <img
-          *ngIf="gameForm?.value?.banner"
-          [src]="apiUrl + gameForm.value.banner"
-          alt="Banner Preview"
-          class="preview-image"
-        />
-      </div>
-    </div-->
-    <!--div class="pictures">
-      <div class="pictureInputCont" formArrayName="pictures">
-        <div *ngFor="let picture of pictures.controls; let i = index">
-          <mat-form-field class="pictureInput">
-            <mat-label>Picture {{ i + 1 }}</mat-label>
-            <input
-              matInput
-              type="text"
-              id="pictures-{{ i }}"
-              [formControlName]="i"
-            />
-          </mat-form-field>
-          <button
-            class="deletePictureButton"
-            *ngIf="i !== 0"
-            mat-mini-fab
-            type="button"
-            (click)="removePictureInput(i)"
-          >
-            <mat-icon>delete</mat-icon>
-          </button>
-        </div>
-      </div>
-      <button
-        mat-fab
-        extended
-        type="button"
-        class="addPictureButton"
-        (click)="addPictureInput()"
-      >
-        <mat-icon>add</mat-icon>Add picture
-      </button>
-    </div-->
-    <!---------------------------------------------------------------------FRANCHISE-->
+    <!-- Sección de Franchise -->
+    <div class="section-header">
+      <h2>Franchise</h2>
+    </div>
     @if (isFrSelected === true) {
-      <mat-chip-grid #chipGrid aria-label="Enter franchise">
+      <mat-chip-grid #chipGrid aria-label="Selected franchise">
         <mat-chip-row (removed)="removeFranchise()">
           {{ franchiseSelected.name }}
           <button
@@ -104,12 +56,11 @@
         </mat-chip-row>
       </mat-chip-grid>
     }
-    <mat-form-field class="example-full-width">
+    <mat-form-field appearance="outline">
+      <mat-label>Search franchises</mat-label>
       <input
-        class="custom-input"
         type="text"
-        placeholder="Search franchises..."
-        aria-label="Franchise"
+        placeholder="Type to search franchises..."
         matInput
         [formControl]="franchiseControl"
         [matAutocomplete]="autoFranchise"
@@ -122,8 +73,12 @@
         }
       </mat-autocomplete>
     </mat-form-field>
-    <!---------------------------------------------------------------------TAGS-->
-    <mat-chip-grid #chipGrid aria-label="Enter tags">
+
+    <!-- Sección de Tags -->
+    <div class="section-header">
+      <h2>Tags</h2>
+    </div>
+    <mat-chip-grid #chipGridTags aria-label="Selected tags">
       @for (tag of tagSelected; track tag) {
         <mat-chip-row (removed)="removeTag(tag)">
           {{ tag.name }}
@@ -133,12 +88,11 @@
         </mat-chip-row>
       }
     </mat-chip-grid>
-    <mat-form-field class="example-full-width">
+    <mat-form-field appearance="outline">
+      <mat-label>Search tags</mat-label>
       <input
-        class="custom-input"
         type="text"
-        placeholder="Search tags..."
-        aria-label="Tag"
+        placeholder="Type to search tags..."
         matInput
         [formControl]="tagControl"
         [matAutocomplete]="autoTag"
@@ -151,8 +105,12 @@
         }
       </mat-autocomplete>
     </mat-form-field>
-    <!---------------------------------------------------------------------STUDIOS-->
-    <mat-chip-grid #chipGrid aria-label="Enter studios">
+
+    <!-- Sección de Studios -->
+    <div class="section-header">
+      <h2>Studios</h2>
+    </div>
+    <mat-chip-grid #chipGridStudios aria-label="Selected studios">
       @for (studio of studioSelected; track studio) {
         <mat-chip-row (removed)="removeStudio(studio)">
           {{ studio.name }}
@@ -162,12 +120,11 @@
         </mat-chip-row>
       }
     </mat-chip-grid>
-    <mat-form-field class="example-full-width">
+    <mat-form-field appearance="outline">
+      <mat-label>Search studios</mat-label>
       <input
-        class="custom-input"
         type="text"
-        placeholder="Search studios..."
-        aria-label="Studio"
+        placeholder="Type to search studios..."
         matInput
         [formControl]="studioControl"
         [matAutocomplete]="autoStudio"
@@ -180,8 +137,12 @@
         }
       </mat-autocomplete>
     </mat-form-field>
-    <!---------------------------------------------------------------------SHOPS-->
-    <mat-chip-grid #chipGrid aria-label="Enter shops">
+
+    <!-- Sección de Shops -->
+    <div class="section-header">
+      <h2>Shops</h2>
+    </div>
+    <mat-chip-grid #chipGridShops aria-label="Selected shops">
       @for (shop of shopSelected; track shop) {
         <mat-chip-row (removed)="removeShop(shop)">
           {{ shop.name }}
@@ -191,12 +152,11 @@
         </mat-chip-row>
       }
     </mat-chip-grid>
-    <mat-form-field class="example-full-width">
+    <mat-form-field appearance="outline">
+      <mat-label>Search shops</mat-label>
       <input
-        class="custom-input"
         type="text"
-        placeholder="Search shops..."
-        aria-label="Shop"
+        placeholder="Type to search shops..."
         matInput
         [formControl]="shopControl"
         [matAutocomplete]="autoShop"
@@ -209,8 +169,12 @@
         }
       </mat-autocomplete>
     </mat-form-field>
-    <!---------------------------------------------------------------------PLATFORMS-->
-    <mat-chip-grid #chipGrid aria-label="Enter platforms">
+
+    <!-- Sección de Platforms -->
+    <div class="section-header">
+      <h2>Platforms</h2>
+    </div>
+    <mat-chip-grid #chipGridPlatforms aria-label="Selected platforms">
       @for (platform of platformSelected; track platform) {
         <mat-chip-row (removed)="removePlatform(platform)">
           {{ platform.name }}
@@ -220,12 +184,11 @@
         </mat-chip-row>
       }
     </mat-chip-grid>
-    <mat-form-field class="example-full-width">
+    <mat-form-field appearance="outline">
+      <mat-label>Search platforms</mat-label>
       <input
-        class="custom-input"
         type="text"
-        placeholder="Search platforms..."
-        aria-label="Platform"
+        placeholder="Type to search platforms..."
         matInput
         [formControl]="platformControl"
         [matAutocomplete]="autoPlatform"
@@ -239,32 +202,38 @@
       </mat-autocomplete>
     </mat-form-field>
 
-    <button
-      mat-raised-button
-      color="primary"
-      aria-label="save game"
-      type="submit"
-      class="primary full-width"
-      style="margin-top: 24px"
-    >
-      <mat-icon>save</mat-icon>Save game
-    </button>
+    <!-- Botón de envío -->
+    <div class="submit-section">
+      <button
+        mat-raised-button
+        color="primary"
+        type="submit"
+        class="primary submit-button"
+      >
+        <mat-icon>save</mat-icon>
+        Create Game
+      </button>
+    </div>
   </form>
+
+  <!-- Mensaje de éxito -->
   <div *ngIf="gameCreated" class="game-created">
-    <h1>Game created successfully</h1>
-    <span class="success-buttons">
+    <h1>Game created successfully!</h1>
+    <div class="success-buttons">
       <button mat-raised-button color="primary" (click)="goToGame()">
         <mat-icon>gamepad</mat-icon>
         Go to game
       </button>
+      <mat-divider vertical></mat-divider>
       <button mat-raised-button color="primary" (click)="goToHomepage()">
         <mat-icon>home</mat-icon>
         Go to homepage
       </button>
+      <mat-divider vertical></mat-divider>
       <button mat-raised-button color="primary" (click)="addNewGame()">
         <mat-icon>add</mat-icon>
         Add new game
       </button>
-    </span>
+    </div>
   </div>
 </section>

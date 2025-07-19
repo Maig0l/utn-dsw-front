@@ -25,6 +25,7 @@ import { Platform } from '../../model/platform.model';
 import { Shop } from '../../model/shop.model';
 import { Studio } from '../../model/studio.model';
 import { MatChipsModule } from '@angular/material/chips';
+import { MatDividerModule } from '@angular/material/divider';
 import { debounceTime, map, Observable, switchMap } from 'rxjs';
 import { environment } from '../../../enviroment/enviroment';
 
@@ -40,6 +41,7 @@ import { environment } from '../../../enviroment/enviroment';
     MatInputModule,
     MatAutocompleteModule,
     MatChipsModule,
+    MatDividerModule,
   ],
   providers: [RouterOutlet, GameService, TagService, FranchiseService],
   templateUrl: './game.component.html',

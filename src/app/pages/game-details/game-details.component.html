@@ -7,24 +7,45 @@
 </section>
 
 <section class="reviews">
-  @if (this.sessionType === true) {
+  @if (canWriteReview()) {
     <app-review-form
       [game]="this.game"
-      (onSubmit)="this.fetchReviews()"
+      (onSubmit)="this.reloadReviews($event)"
     ></app-review-form>
+  } @else if (this.sessionType === true && this.currentUserHasReview) {
+    <div hidden class="user-has-review-message">
+      <p>You have already reviewed this game. Check your review below!</p>
+    </div>
   } @else {
     <p class="noFormMessage">
       Log in to share your thoughts on {{ this.game.title }}
     </p>
   }
 
-  <hr />
-
   <div class="review-list">
     @if (reviewCount === 0) {
       <p class="noFormMessage">No reviews at the moment. Be the first!</p>
     } @else {
-      @for (review of reviews; track review.id) {
+      <!-- Review del usuario actual (si existe) -->
+      @if (currentUserReview) {
+        <div class="current-user-review-container">
+          <h4 class="user-review-label">Your Review</h4>
+          <app-review-card-game
+            [data]="currentUserReview"
+            class="current-user-review"
+          ></app-review-card-game>
+        </div>
+
+        <!-- Separador si hay otras reviews -->
+        @if (otherUsersReviews.length > 0) {
+          <div class="reviews-separator">
+            <h4 class="other-reviews-label">Other Reviews</h4>
+          </div>
+        }
+      }
+
+      <!-- Reviews de otros usuarios -->
+      @for (review of otherUsersReviews; track review.id) {
         <app-review-card-game [data]="review"></app-review-card-game>
       }
     }

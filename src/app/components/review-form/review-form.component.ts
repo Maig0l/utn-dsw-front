@@ -12,17 +12,17 @@ import { LoginService } from '../../services/auth/login.service.js';
   standalone: true,
   imports: [ReactiveFormsModule, CommonModule, MatIconModule],
   templateUrl: './review-form.component.html',
-  styleUrl: './review-form.component.css'
+  styleUrl: './review-form.component.css',
 })
 export class ReviewFormComponent {
   constructor(
     private reviewService: ReviewService,
     private router: Router,
     private loginService: LoginService,
-  ) { }
+  ) {}
 
   @Input({ required: true }) game!: Game;
-  @Output("onSubmit") submitSuccessful = new EventEmitter<boolean>();
+  @Output('onSubmit') submitSuccessful = new EventEmitter<boolean>();
 
   reviewForm = new FormGroup({
     score: new FormControl(0),
@@ -71,14 +71,16 @@ export class ReviewFormComponent {
       score: score,
       title: this.reviewForm.value.title ?? '',
       body: this.reviewForm.value.body ?? '',
-    }
+    };
 
-    this.reviewService.postReview(
-      this.loginService.currentUserToken,
-      this.game.id,
-      newReview)
+    this.reviewService
+      .postReview(this.loginService.currentUserToken, this.game.id, newReview)
       .subscribe({
-        next: res => new this.submitSuccessful(res.data ? true : false)
+        next: (res) => this.submitSuccessful.emit(res.data ? true : false),
+        error: (err) => {
+          console.error('Error creating review:', err);
+          this.submitSuccessful.emit(false);
+        },
       });
   }
 }

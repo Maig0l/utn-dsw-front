@@ -71,10 +71,21 @@ export class GameDetailsComponent implements OnInit, OnDestroy {
   reviewCount = 0;
   score = 0;
 
+  // Para controlar si el usuario actual ya tiene una review
+  currentUserHasReview = false;
+  currentUserReview: Review | null = null;
+  otherUsersReviews: Review[] = [];
+
   ngOnInit() {
     this.gameId = +this.route.snapshot.paramMap.get('id')!;
 
-    this.loginService.sessionState.subscribe((val) => (this.sessionType = val));
+    this.loginService.sessionState.subscribe((val) => {
+      this.sessionType = val;
+      // Verificar reviews cuando cambie el estado de sesión
+      if (this.reviews.length > 0) {
+        this.checkCurrentUserReview();
+      }
+    });
 
     this.fetchGameData();
 
@@ -110,7 +121,34 @@ export class GameDetailsComponent implements OnInit, OnDestroy {
         (a: Review, b: Review) => b.createdAt.getTime() - a.createdAt.getTime(),
       );
       this.reviewCount = res.data.length;
+
+      // Verificar si el usuario actual ya tiene una review
+      this.checkCurrentUserReview();
     });
+  }
+
+  // Método para verificar si el usuario actual ya tiene una review
+  checkCurrentUserReview() {
+    this.currentUserHasReview = false;
+    this.currentUserReview = null;
+    this.otherUsersReviews = [];
+
+    if (this.loginService.isLoggedIn() && this.reviews.length > 0) {
+      const currentUser = this.loginService.currentUserData;
+
+      // Separar la review del usuario actual de las demás
+      this.reviews.forEach((review) => {
+        if (review.author.id === currentUser.id) {
+          this.currentUserReview = review;
+          this.currentUserHasReview = true;
+        } else {
+          this.otherUsersReviews.push(review);
+        }
+      });
+    } else {
+      // Si no está logueado, todas las reviews van a otherUsersReviews
+      this.otherUsersReviews = [...this.reviews];
+    }
   }
 
   openModal() {
@@ -189,11 +227,21 @@ export class GameDetailsComponent implements OnInit, OnDestroy {
     return userData.is_admin;
   }
 
+  // Verificar si el usuario puede escribir una review (está logueado y no tiene una review ya)
+  canWriteReview(): boolean {
+    return this.loginService.isLoggedIn() && !this.currentUserHasReview;
+  }
+
   reloadReviews(success: boolean) {
     const msg = success
       ? 'Review sent successfully'
       : 'Something failed. Have you selected a score?';
 
     alert(msg);
+
+    // Recargar reviews si fue exitoso para actualizar el estado
+    if (success) {
+      this.fetchReviews();
+    }
   }
 }

@@ -130,6 +130,20 @@ export class GameDetailsComponent implements OnInit, OnDestroy {
     });
   }
 
+  // Método para refrescar tanto el juego como las reviews
+  refreshGameAndReviews() {
+    // Refrescar los datos del juego para obtener el rating actualizado
+    this.gameService.getOneGame(this.gameId).subscribe((response) => {
+      this.game = response;
+      this.score = parseFloat(
+        (this.game.cumulativeRating / this.game.reviewCount).toFixed(1),
+      );
+
+      // Después refrescar las reviews
+      this.fetchReviews();
+    });
+  }
+
   // Método para verificar si el usuario actual ya tiene una review
   checkCurrentUserReview() {
     this.currentUserHasReview = false;
@@ -242,9 +256,9 @@ export class GameDetailsComponent implements OnInit, OnDestroy {
 
     alert(msg);
 
-    // Recargar reviews si fue exitoso para actualizar el estado
+    // Recargar juego y reviews si fue exitoso para actualizar el estado
     if (success) {
-      this.fetchReviews();
+      this.refreshGameAndReviews();
     }
   }
 
@@ -265,7 +279,7 @@ export class GameDetailsComponent implements OnInit, OnDestroy {
         .subscribe({
           next: (response) => {
             alert('Review deleted successfully!');
-            this.fetchReviews(); // Recargar para actualizar la vista
+            this.refreshGameAndReviews(); // Actualizar tanto el juego como las reviews
           },
           error: (error) => {
             console.error('Error deleting review:', error);
@@ -289,7 +303,7 @@ export class GameDetailsComponent implements OnInit, OnDestroy {
   onUserReviewUpdated(success: boolean) {
     if (success) {
       this.isEditingUserReview = false;
-      this.fetchReviews(); // Recargar para mostrar los cambios
+      this.refreshGameAndReviews(); // Actualizar tanto el juego como las reviews
       alert('Review updated successfully!');
     } else {
       alert('Failed to update review. Please try again.');

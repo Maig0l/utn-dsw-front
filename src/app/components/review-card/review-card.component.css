@@ -24,11 +24,25 @@
   overflow: hidden;
   background-color: gray;
   border-radius: 100%;
+  object-fit: cover;
 }
 
 .top-text > #author,
 .top-text > #game {
   font-weight: 800;
+  text-decoration: none;
+  color: inherit;
+  transition: color 0.3s ease;
+}
+
+.top-text > #author:hover {
+  color: #4fc3f7;
+  text-decoration: underline;
+}
+
+.top-text > #game:hover {
+  color: #81c784;
+  text-decoration: underline;
 }
 
 .star-full:before {
@@ -138,6 +152,19 @@
 .review-modal-content .head {
   flex-shrink: 0;
   margin-bottom: 1em;
+  display: flex;
+  align-items: center;
+  gap: 0.5em;
+}
+
+.review-modal-content .head > img {
+  height: 3em;
+  width: 3em;
+  aspect-ratio: 1;
+  overflow: hidden;
+  background-color: gray;
+  border-radius: 100%;
+  object-fit: cover;
 }
 
 .review-modal-content #rating {

@@ -7,8 +7,13 @@
       />
     }
     <span class="top-text">
-      <span id="author">{{ review().author.nick }}</span> rated
-      <span id="game">{{ review().game.title }} </span>
+      <a [routerLink]="['/user', review().author.nick]" id="author">{{
+        review().author.nick
+      }}</a>
+      rated
+      <a [routerLink]="['/game', review().game.id]" id="game">{{
+        review().game.title
+      }}</a>
     </span>
   </div>
 
@@ -50,8 +55,13 @@
           />
         }
         <span class="top-text">
-          <span id="author">{{ review().author.nick }}</span> rated
-          <span id="game">{{ review().game.title }} </span>
+          <a [routerLink]="['/user', review().author.nick]" id="author">{{
+            review().author.nick
+          }}</a>
+          rated
+          <a [routerLink]="['/game', review().game.id]" id="game">{{
+            review().game.title
+          }}</a>
         </span>
       </div>
 

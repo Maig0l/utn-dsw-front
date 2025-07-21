@@ -10,14 +10,17 @@ import { Review } from '../../model/review.model';
 import { catchError } from 'rxjs';
 import { Game } from '../../model/game.model';
 import { GameService } from '../../services/game.service';
-import {MatDividerModule} from '@angular/material/divider';
-
-
+import { MatDividerModule } from '@angular/material/divider';
 
 @Component({
   selector: 'app-homepage',
   standalone: true,
-  imports: [CommonModule, ViewGameComponent, ReviewCardComponent, MatDividerModule],
+  imports: [
+    CommonModule,
+    ViewGameComponent,
+    ReviewCardComponent,
+    MatDividerModule,
+  ],
   providers: [ReviewService, LoginService, GameService],
   templateUrl: './homepage.component.html',
   styleUrl: './homepage.component.css',
@@ -27,6 +30,7 @@ export class HomepageComponent implements OnInit {
   userData?: User;
   reviews: Review[] = [];
   hotGames: Game[] = [];
+  expandedReviewId: number | null = null;
 
   constructor(
     private router: Router,
@@ -65,6 +69,17 @@ export class HomepageComponent implements OnInit {
     this.gameService
       .getHotGames()
       .subscribe((games) => (this.hotGames = games));
+  }
+
+  toggleReviewExpand(reviewId: number) {
+    this.expandedReviewId =
+      this.expandedReviewId === reviewId ? null : reviewId;
+  }
+
+  handleExpandedChange(expanded: boolean) {
+    if (!expanded) {
+      this.expandedReviewId = null;
+    }
   }
 }
 /* hay que forzar una actualización de la página para

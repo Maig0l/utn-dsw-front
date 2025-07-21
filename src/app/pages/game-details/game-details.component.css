@@ -22,13 +22,24 @@
 }
 .star-rating {
   display: inline-flex;
+  align-items: center;
 }
+
 .game-score {
   margin-right: 8px;
 }
 
+.game-score.no-reviews {
+  color: #888;
+  font-style: italic;
+}
+
 .filled {
   color: #ffb400;
+}
+
+.empty-star {
+  color: #ddd;
 }
 
 @keyframes fadeIn {
@@ -53,18 +64,38 @@
   justify-content: space-between;
   margin-top: 16px;
 }
-#menuButton {
-  position: absolute;
-  top: 0;
-  right: 0;
-  color: white;
-  border: 2px solid white;
-  background: blue;
-  z-index: 3;
-  margin: 8px;
-  min-width: 0;
-  opacity: 0.8;
+
+.admin-actions {
+  display: flex;
+  gap: 8px;
+  align-items: center;
 }
+
+.game-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 5px;
+}
+
+.edit-button,
+.delete-button {
+  color: white !important;
+  background-color: rgba(0, 0, 0, 0.3) !important;
+  border: 1px solid rgba(255, 255, 255, 0.5);
+  transition: all 0.3s ease;
+}
+
+.edit-button:hover {
+  background-color: rgba(33, 150, 243, 0.8) !important;
+  border-color: #2196f3;
+}
+
+.delete-button:hover {
+  background-color: rgba(244, 67, 54, 0.8) !important;
+  border-color: #f44336;
+}
+
 .mat-mdc-button > .mat-icon {
   margin-right: 0;
 }
@@ -73,6 +104,7 @@
 }
 .first-column {
   margin-right: 15px;
+  margin-left: 20px;
 }
 .game-actions {
   align-items: right;
@@ -249,10 +281,13 @@
   width: 150px;
   height: auto;
   object-fit: cover;
-  border-radius: 5px;
+  border-radius: 8px;
+  border: 3px solid #ffffff;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
 }
 
 .game-details {
+  width: 100%;
   color: #3498db;
   text-shadow: 0 0 6px black;
 }

@@ -133,33 +133,6 @@
     </div>
   </dialog>
 
-  <button
-    *ngIf="isUserAdmin()"
-    mat-button
-    [matMenuTriggerFor]="menu"
-    id="menuButton"
-  >
-    <mat-icon>menu</mat-icon>
-  </button>
-  <mat-menu #menu="matMenu" xPosition="before">
-    <button
-      mat-menu-item
-      [routerLink]="['/administradores/game/edit', game.id]"
-    >
-      <mat-icon>edit</mat-icon>
-      Edit
-    </button>
-    <button mat-menu-item [routerLink]="['/review', game.id]">
-      <mat-icon>star</mat-icon>
-      Review (temporary)
-    </button>
-
-    <button mat-menu-item (click)="openModal()" id="openModal">
-      <mat-icon>delete</mat-icon>
-      Delete
-    </button>
-  </mat-menu>
-
   <div class="game-info">
     <div class="first-column">
       <img
@@ -172,20 +145,54 @@
       <div class="game-actions"></div>
     </div>
     <div class="game-details">
-      <h1 class="game-title">{{ game.title }}</h1>
+      <div class="game-header">
+        <h1 class="game-title">{{ game.title }}</h1>
+        <div class="admin-actions" *ngIf="isUserAdmin()">
+          <button
+            mat-icon-button
+            [routerLink]="['/administradores/game/edit', game.id]"
+            class="edit-button"
+            matTooltip="Edit game"
+          >
+            <mat-icon>edit</mat-icon>
+          </button>
+          <button
+            mat-icon-button
+            (click)="openModal()"
+            class="delete-button"
+            matTooltip="Delete game"
+          >
+            <mat-icon>delete</mat-icon>
+          </button>
+        </div>
+      </div>
       <p class="game-synopsis">{{ game.synopsis }}</p>
       <span class="star-rating">
-        <p class="game-score">
-          Score: {{ score }} ({{ game.reviewCount }} reviews)
-        </p>
-        <ng-container *ngFor="let i of [1, 2, 3, 4, 5]">
-          <mat-icon *ngIf="i <= score" class="material-symbols-outlined filled">
-            dark_mode
-          </mat-icon>
-          <mat-icon *ngIf="i > score" class="material-symbols-outlined">
-            dark_mode
-          </mat-icon>
-        </ng-container>
+        @if (game.reviewCount > 0) {
+          <p class="game-score">
+            Score: {{ score }} ({{ game.reviewCount }} reviews)
+          </p>
+          <ng-container *ngFor="let i of [1, 2, 3, 4, 5]">
+            <mat-icon
+              *ngIf="i <= score"
+              class="material-symbols-outlined filled"
+            >
+              dark_mode
+            </mat-icon>
+            <mat-icon *ngIf="i > score" class="material-symbols-outlined">
+              dark_mode
+            </mat-icon>
+          </ng-container>
+        } @else {
+          <p class="game-score no-reviews">
+            No reviews yet - Be the first to rate this game!
+          </p>
+          <ng-container *ngFor="let i of [1, 2, 3, 4, 5]">
+            <mat-icon class="material-symbols-outlined empty-star">
+              dark_mode
+            </mat-icon>
+          </ng-container>
+        }
       </span>
       <div class="studio-container">
         <p class="studio">

@@ -26,6 +26,7 @@ import { debounceTime, map, Observable, switchMap } from 'rxjs';
 import { ActivatedRoute, Router, Params } from '@angular/router';
 import { User } from '../../model/user.model.js';
 import { environment } from '../../../enviroment/enviroment';
+import { LoginService } from '../../services/auth/login.service';
 
 @Component({
   selector: 'app-user-edit-succss-dialog',
@@ -110,8 +111,9 @@ export class UserEditComponent implements OnInit {
 
   uploadImages() {
     if (this.profileImgFile && this.id) {
+      const userToken = this.loginService.currentUserToken;
       this.userService
-        .uploadProfileImg(this.id, this.profileImgFile)
+        .uploadProfileImg(userToken, this.id, this.profileImgFile)
         .subscribe({
           next: () => {
             console.log('Profile picture uploaded successfully');
@@ -161,6 +163,7 @@ export class UserEditComponent implements OnInit {
     private userService: UserService,
     private tagService: TagService,
     private dialog: MatDialog,
+    private loginService: LoginService,
   ) {}
 
   ngOnInit() {

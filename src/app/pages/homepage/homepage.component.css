@@ -15,7 +15,6 @@
   padding: 0 20px;
 }
 
-
 .header h3 {
   font-size: 3rem;
   font-family: "Times New Roman", serif;
@@ -23,12 +22,18 @@
   color: #e5e5e5;
 }
 .mat-divider {
-    border-top-color: white;
-    padding: 10px;
+  border-top-color: white;
+  padding: 10px;
 }
 .features {
-  padding-bottom: 40px;
+  padding: 20px 0 40px 0;
   background-color: #0e0c1a;
+}
+
+.features .container {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 0 20px;
 }
 .features h2 {
   position: relative;
@@ -38,9 +43,17 @@
 }
 .grid-container {
   display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
-  gap: 20px;
+  grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+  gap: 30px;
   padding: 20px;
+  justify-items: center;
+  align-items: start;
+}
+
+.grid-container app-view-game {
+  width: 100%;
+  max-width: 400px;
+  display: block;
 }
 
 .cta {
@@ -83,6 +96,13 @@
   .header h3 {
     font-size: 2rem;
   }
+
+  .grid-container {
+    grid-template-columns: 1fr;
+    gap: 20px;
+    padding: 10px;
+  }
+
   .review-list-grid,
   .testimonial-grid {
     grid-template-columns: 1fr;
@@ -123,7 +143,6 @@
   margin: 0 auto;
   /* Center the card horizontally within its grid cell */
 }
-
 
 .review-card:hover {
   transform: translateY(-10px);

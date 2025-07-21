@@ -58,12 +58,20 @@ export class UserService {
     });
   }
 
-  uploadProfileImg(userId: number, file: File): Observable<User> {
+  uploadProfileImg(
+    userToken: string,
+    userId: number,
+    file: File,
+  ): Observable<User> {
+    const authHeader = `Bearer ${userToken}`;
     const formData = new FormData();
     formData.append('profile_img', file);
     return this.http.patch<User>(
-      `${this.usersEndpoint}/${userId}/uploads/profile_img`,
+      `${this.usersEndpoint}/me/profile_img`,
       formData,
+      {
+        headers: { authorization: authHeader },
+      },
     );
   }
 

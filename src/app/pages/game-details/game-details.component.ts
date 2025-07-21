@@ -102,9 +102,14 @@ export class GameDetailsComponent implements OnInit, OnDestroy {
   fetchGameData() {
     this.gameService.getOneGame(this.gameId).subscribe((response) => {
       this.game = response;
-      this.score = parseFloat(
-        (this.game.cumulativeRating / this.game.reviewCount).toFixed(1),
-      );
+      // Verificar si hay reviews antes de calcular el score
+      if (this.game.reviewCount > 0) {
+        this.score = parseFloat(
+          (this.game.cumulativeRating / this.game.reviewCount).toFixed(1),
+        );
+      } else {
+        this.score = 0; // Sin reviews, score es 0
+      }
       console.log('GAME: ', this.game);
 
       this.devs = this.game.studios.filter(
@@ -135,9 +140,14 @@ export class GameDetailsComponent implements OnInit, OnDestroy {
     // Refrescar los datos del juego para obtener el rating actualizado
     this.gameService.getOneGame(this.gameId).subscribe((response) => {
       this.game = response;
-      this.score = parseFloat(
-        (this.game.cumulativeRating / this.game.reviewCount).toFixed(1),
-      );
+      // Verificar si hay reviews antes de calcular el score
+      if (this.game.reviewCount > 0) {
+        this.score = parseFloat(
+          (this.game.cumulativeRating / this.game.reviewCount).toFixed(1),
+        );
+      } else {
+        this.score = 0; // Sin reviews, score es 0
+      }
 
       // Después refrescar las reviews
       this.fetchReviews();

@@ -26,7 +26,7 @@
       <mat-divider [inset]="true"></mat-divider>
 
       <div class="reviews-container">
-        @for (review of reviews; track review.id) {
+        @for (review of reviews.slice(0, 6); track review.id) {
           <app-review-card
             [review]="review"
             [expanded]="expandedReviewId === review.id"

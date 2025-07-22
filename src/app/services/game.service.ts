@@ -141,30 +141,55 @@ export class GameService {
     return this.http.post<string[]>(url, { game_id, urls });
   }
 
-  /** Retrieves most recently reviews games
+  /** Retrieves most recently reviews games, prioritizing games with user's liked tags
    * TODO: Implement 'hotness' (which games are retrieved) in backend
-   * For now, just get all games and return 3 or 4
+   * For now, get all games and filter/sort by user preferences
    */
-  getHotGames() {
+  getHotGames(userLikedTagIds?: number[]) {
     return this.http.get<ApiResponse<Game[]>>(this.gamesEndpoint).pipe(
       map((res) => {
-        return res.data.slice(0, 5);
+        let games = res.data;
+
+        if (userLikedTagIds && userLikedTagIds.length > 0) {
+          // Separar juegos que tienen tags que le gustan al usuario
+          const gamesWithLikedTags = games.filter((game) =>
+            game.tags?.some((tag) => userLikedTagIds.includes(tag.id)),
+          );
+
+          // Separar juegos que NO tienen tags que le gustan al usuario
+          const gamesWithoutLikedTags = games.filter(
+            (game) =>
+              !game.tags?.some((tag) => userLikedTagIds.includes(tag.id)),
+          );
+
+          // Combinar: primero los que tienen tags que le gustan, después los demás
+          games = [...gamesWithLikedTags, ...gamesWithoutLikedTags];
+        }
+
+        return games.slice(0, 5);
       }),
     );
   }
 
-  uploadPortrait(gameId: number, file: File): Observable<any> {
+  uploadPortrait(
+    gameId: number,
+    file: File,
+  ): Observable<{ message: string; portrait: string }> {
     const formData = new FormData();
     formData.append('portrait', file);
-    return this.http.patch(
+    return this.http.patch<{ message: string; portrait: string }>(
       `${this.gamesEndpoint}/${gameId}/uploads/portrait`,
       formData,
     );
   }
-  uploadBanner(gameId: number, file: File): Observable<any> {
+
+  uploadBanner(
+    gameId: number,
+    file: File,
+  ): Observable<{ message: string; banner: string }> {
     const formData = new FormData();
     formData.append('banner', file);
-    return this.http.patch(
+    return this.http.patch<{ message: string; banner: string }>(
       `${this.gamesEndpoint}/${gameId}/uploads/banner`,
       formData,
     );

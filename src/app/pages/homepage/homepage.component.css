@@ -135,18 +135,10 @@
   border-radius: 8px;
   padding: 200px;
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
-  transition:
-    transform 0.3s,
-    box-shadow 0.3s;
   max-width: 400px;
   /* Limit the maximum width of the cards */
   margin: 0 auto;
   /* Center the card horizontally within its grid cell */
-}
-
-.review-card:hover {
-  transform: translateY(-10px);
-  box-shadow: 0 10px 20px rgba(0, 0, 0, 0.4);
 }
 
 .review-title {

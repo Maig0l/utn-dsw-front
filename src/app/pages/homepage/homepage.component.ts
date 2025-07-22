@@ -1,5 +1,5 @@
 import { CommonModule } from '@angular/common';
-import { Component, OnDestroy, OnInit } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { LoginService } from '../../services/auth/login.service';
 import { User } from '../../model/user.model';
@@ -10,6 +10,7 @@ import { Review } from '../../model/review.model';
 import { catchError } from 'rxjs';
 import { Game } from '../../model/game.model';
 import { GameService } from '../../services/game.service';
+import { UserService } from '../../services/user.service';
 import { MatDividerModule } from '@angular/material/divider';
 
 @Component({
@@ -21,7 +22,7 @@ import { MatDividerModule } from '@angular/material/divider';
     ReviewCardComponent,
     MatDividerModule,
   ],
-  providers: [ReviewService, LoginService, GameService],
+  providers: [ReviewService, LoginService, GameService, UserService],
   templateUrl: './homepage.component.html',
   styleUrl: './homepage.component.css',
 })
@@ -37,6 +38,7 @@ export class HomepageComponent implements OnInit {
     private loginService: LoginService,
     private reviewService: ReviewService,
     private gameService: GameService,
+    private userService: UserService,
   ) {}
 
   // ngOnDestroy(): void {
@@ -52,7 +54,11 @@ export class HomepageComponent implements OnInit {
   }
 
   ngOnInit() {
-    this.loginService.sessionState.subscribe((val) => (this.userLoginOn = val));
+    this.loginService.sessionState.subscribe((val) => {
+      this.userLoginOn = val;
+      // Recargar juegos cuando cambie el estado de login
+      this.loadHotGames();
+    });
 
     this.reviewService
       .getAllReviews()
@@ -65,10 +71,48 @@ export class HomepageComponent implements OnInit {
       .subscribe((reviews) => {
         this.reviews = reviews;
       });
+  }
 
-    this.gameService
-      .getHotGames()
-      .subscribe((games) => (this.hotGames = games));
+  private loadHotGames() {
+    // Si el usuario está logueado, obtener sus tags favoritos
+    if (this.loginService.isLoggedIn()) {
+      try {
+        const userData = this.loginService.currentUserData;
+
+        // Obtener el usuario completo desde el backend para asegurar que tenemos los tags
+        this.userService.getUserByNick(userData.nick).subscribe({
+          next: (fullUserData) => {
+            const userLikedTagIds =
+              fullUserData.likedTags?.map((tag) => tag.id) || [];
+
+            this.gameService
+              .getHotGames(
+                userLikedTagIds.length > 0 ? userLikedTagIds : undefined,
+              )
+              .subscribe((games) => {
+                this.hotGames = games;
+              });
+          },
+          error: (error) => {
+            console.error('Error getting full user data:', error);
+            // Fallback: cargar juegos sin filtro
+            this.gameService.getHotGames().subscribe((games) => {
+              this.hotGames = games;
+            });
+          },
+        });
+      } catch {
+        console.log('Could not get user data, showing default games');
+        this.gameService.getHotGames().subscribe((games) => {
+          this.hotGames = games;
+        });
+      }
+    } else {
+      // Usuario no logueado: mostrar juegos normales
+      this.gameService.getHotGames().subscribe((games) => {
+        this.hotGames = games;
+      });
+    }
   }
 
   toggleReviewExpand(reviewId: number) {

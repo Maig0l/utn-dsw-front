@@ -21,6 +21,9 @@ import { MatButtonModule } from '@angular/material/button';
 import { MatIconModule } from '@angular/material/icon';
 import { MatRippleModule } from '@angular/material/core';
 import { MatChipsModule } from '@angular/material/chips';
+import { MatDialog, MatDialogModule } from '@angular/material/dialog';
+import { MatSnackBar } from '@angular/material/snack-bar';
+import { MatTooltipModule } from '@angular/material/tooltip';
 import {
   environment,
   linkToStaticResource,
@@ -28,6 +31,55 @@ import {
 import { LoginService } from '../../services/auth/login.service';
 import { ReviewService } from '../../services/review.service';
 import { ReviewCardComponent } from '../../components/review-card/review-card.component';
+
+@Component({
+  selector: 'app-delete-user-dialog',
+  standalone: true,
+  template: `
+    <h2 mat-dialog-title>⚠️ Eliminar Usuario</h2>
+    <mat-dialog-content>
+      <p>
+        <strong
+          >¿Estás absolutamente seguro de que quieres eliminar tu
+          cuenta?</strong
+        >
+      </p>
+      <p>Esta acción:</p>
+      <ul>
+        <li>Es <strong>permanente</strong> e irreversible</li>
+        <li>Eliminará todos tus datos</li>
+        <li>Eliminará todas tus reviews</li>
+        <li>Eliminará todas tus playlists</li>
+      </ul>
+      <p>No podrás recuperar tu cuenta después de esta acción.</p>
+    </mat-dialog-content>
+    <mat-dialog-actions align="end">
+      <button mat-button mat-dialog-close>Cancelar</button>
+      <button mat-raised-button color="warn" [mat-dialog-close]="true">
+        Sí, eliminar mi cuenta
+      </button>
+    </mat-dialog-actions>
+  `,
+  styles: [
+    `
+      h2 {
+        color: #f44336;
+      }
+      mat-dialog-content {
+        font-size: 16px;
+      }
+      ul {
+        margin: 16px 0;
+        padding-left: 20px;
+      }
+      li {
+        margin: 8px 0;
+      }
+    `,
+  ],
+  imports: [MatDialogModule, MatButtonModule],
+})
+export class DeleteUserDialogComponent {}
 
 @Component({
   selector: 'app-user',
@@ -44,8 +96,10 @@ import { ReviewCardComponent } from '../../components/review-card/review-card.co
     MatSelectModule,
     MatRippleModule,
     MatChipsModule,
+    MatTooltipModule,
     ReviewCardComponent,
     RouterModule,
+    MatDialogModule,
   ],
   providers: [UserService, TagService, PlaylistService],
   templateUrl: './user.component.html',
@@ -87,6 +141,8 @@ export class UserComponent implements OnInit {
     private playlistService: PlaylistService,
     private activatedRoute: ActivatedRoute,
     private loginService: LoginService,
+    private dialog: MatDialog,
+    private snackBar: MatSnackBar,
   ) {}
 
   ngOnInit() {
@@ -142,6 +198,77 @@ export class UserComponent implements OnInit {
     if (this.user) {
       this.router.navigate([`user/${this.user.id}/edit`]);
     }
+  }
+
+  deleteUser() {
+    if (!this.user) {
+      this.snackBar.open('Error: Usuario no encontrado', 'Cerrar', {
+        duration: 3000,
+        horizontalPosition: 'center',
+        verticalPosition: 'top',
+      });
+      return;
+    }
+
+    // Verificación adicional de seguridad: solo el propio usuario puede eliminar su cuenta
+    if (!this.loginService.isLoggedIn()) {
+      this.snackBar.open('Error: Debe estar logueado', 'Cerrar', {
+        duration: 3000,
+        horizontalPosition: 'center',
+        verticalPosition: 'top',
+      });
+      return;
+    }
+
+    const currentUser = this.loginService.currentUserData;
+    if (currentUser.id !== this.user.id) {
+      this.snackBar.open('Error: No puede eliminar esta cuenta', 'Cerrar', {
+        duration: 3000,
+        horizontalPosition: 'center',
+        verticalPosition: 'top',
+      });
+      return;
+    }
+
+    const dialogRef = this.dialog.open(DeleteUserDialogComponent, {
+      width: '500px',
+      disableClose: true,
+    });
+
+    dialogRef.afterClosed().subscribe((confirmed: boolean) => {
+      if (confirmed && this.user) {
+        this.userService.deleteUser(this.user.id).subscribe({
+          next: () => {
+            this.snackBar.open('Usuario eliminado exitosamente', 'Cerrar', {
+              duration: 3000,
+              horizontalPosition: 'center',
+              verticalPosition: 'top',
+            });
+            // Cerrar sesión y redirigir al home
+            this.loginService.logout();
+            this.router.navigate(['/']);
+          },
+          error: (error) => {
+            console.error('Error al eliminar usuario:', error);
+            let errorMessage = 'Error al eliminar el usuario';
+
+            // Mostrar mensajes más específicos según el tipo de error
+            if (error.status === 401) {
+              errorMessage =
+                'Error de autenticación. Inicie sesión nuevamente.';
+            } else if (error.status === 403) {
+              errorMessage = 'No tiene permisos para eliminar esta cuenta.';
+            }
+
+            this.snackBar.open(errorMessage, 'Cerrar', {
+              duration: 3000,
+              horizontalPosition: 'center',
+              verticalPosition: 'top',
+            });
+          },
+        });
+      }
+    });
   }
 
   expandedReviewId: number | null = null;

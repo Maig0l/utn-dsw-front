@@ -84,6 +84,32 @@ h2 {
   flex-direction: row;
   margin-bottom: 1em;
   gap: 1em;
+  align-items: flex-start;
+}
+
+#profile-actions {
+  display: flex;
+  gap: 0.5em;
+  margin-left: auto;
+}
+
+.edit-profile-btn,
+.delete-profile-btn {
+  transition: all 0.2s ease-in-out;
+}
+
+.edit-profile-btn:hover {
+  background-color: rgba(1, 74, 141, 0.1);
+  transform: scale(1.1);
+}
+
+.delete-profile-btn:hover {
+  background-color: rgba(244, 67, 54, 0.1);
+  transform: scale(1.1);
+}
+
+.delete-profile-btn {
+  color: #f44336;
 }
 
 #profile-pic {

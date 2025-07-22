@@ -75,9 +75,18 @@ export class UserService {
     );
   }
 
-  /*  deleteUser(userId: number) {
+  deleteUser(userId: number): Observable<User> {
     const endpoint = `${this.usersEndpoint}/${userId}`;
-    return this.http.delete<ApiResponse<User>>(endpoint).pipe(map((res) => res.data));
+    const token = localStorage.getItem('token');
+
+    if (!token) {
+      throw new Error('Authentication required');
+    }
+
+    const headers = { authorization: `Bearer ${token}` };
+
+    return this.http
+      .delete<ApiResponse<User>>(endpoint, { headers })
+      .pipe(map((res) => res.data));
   }
-*/
 }

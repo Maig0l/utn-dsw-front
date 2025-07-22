@@ -19,6 +19,7 @@ import { UserComponent } from './pages/user/user.component';
 import { UserEditComponent } from './components/user-edit/user-edit.component';
 import { PlaylistEditComponent } from './components/playlist-edit/playlist-edit.component';
 import { AdminGuard } from './admin.guard';
+import { UserProfileEditGuard } from './user-profile-edit.guard';
 import { CrudsComponent } from './pages/cruds/cruds.component';
 import { GameCrudComponent } from './components/game-crud/game-crud.component.js';
 import { GameComponent } from './components/game/game.component.js';
@@ -38,7 +39,11 @@ export const routes: Routes = [
   { path: 'log-in', component: LoginComponent },
   { path: 'register', component: RegisterComponent },
 
-  { path: 'user/edit-profile/:nick', component: UserEditComponent },
+  {
+    path: 'user/edit-profile/:nick',
+    component: UserEditComponent,
+    canActivate: [UserProfileEditGuard],
+  },
   { path: 'user/:nick', component: UserComponent },
 
   {

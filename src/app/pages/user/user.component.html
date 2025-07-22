@@ -27,6 +27,15 @@
       <h1>{{ user?.nick }}</h1>
       <p>{{ user?.bio_text }}</p>
     </div>
+    <button
+      *ngIf="canEditProfile"
+      mat-icon-button
+      class="edit-profile-btn"
+      aria-label="Edit profile"
+      [routerLink]="'/user/edit-profile/' + user?.nick"
+    >
+      <mat-icon>edit</mat-icon>
+    </button>
   </div>
 
   @if (likedTags && likedTags.length > 0) {

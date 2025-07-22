@@ -42,3 +42,19 @@ body {
   margin: 0;
   font-family: Roboto, "Helvetica Neue", sans-serif;
 }
+
+/* Snackbar Styles */
+.error-snackbar {
+  background: #f44336 !important;
+  color: white !important;
+}
+
+.success-snackbar {
+  background: #4caf50 !important;
+  color: white !important;
+}
+
+.warning-snackbar {
+  background: #ff9800 !important;
+  color: white !important;
+}

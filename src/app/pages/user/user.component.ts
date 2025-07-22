@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { ReactiveFormsModule, FormGroup } from '@angular/forms';
-import { ActivatedRoute, Params, Router } from '@angular/router';
+import { ActivatedRoute, Params, Router, RouterModule } from '@angular/router';
 import { CommonModule } from '@angular/common';
 import { UserService } from '../../services/user.service';
 import { TagService } from '../../services/tag.service';
@@ -45,6 +45,7 @@ import { ReviewCardComponent } from '../../components/review-card/review-card.co
     MatRippleModule,
     MatChipsModule,
     ReviewCardComponent,
+    RouterModule,
   ],
   providers: [UserService, TagService, PlaylistService],
   templateUrl: './user.component.html',
@@ -73,6 +74,7 @@ export class UserComponent implements OnInit {
   reviews!: Review[];
 
   user: User | undefined;
+  canEditProfile = false;
 
   apiUrl = environment.apiUrl;
 
@@ -108,6 +110,9 @@ export class UserComponent implements OnInit {
               this.router.navigate(['/homepage']);
               return;
             }
+
+            // Verificar si el usuario logueado puede editar este perfil
+            this.checkEditPermission(userDisplayedNick);
 
             this.likedTags = this.user.likedTags;
             this.getReviews();
@@ -168,6 +173,13 @@ export class UserComponent implements OnInit {
     } else {
       this.expandedPlaylistId = playlistId;
     }
+  }
+
+  private checkEditPermission(profileNick: string): void {
+    // Verificar si el usuario está logueado y si coincide con el perfil mostrado
+    this.canEditProfile =
+      this.loginService.isLoggedIn() &&
+      this.loginService.currentUserData.nick === profileNick;
   }
 
   protected readonly linkToStaticResource = linkToStaticResource;

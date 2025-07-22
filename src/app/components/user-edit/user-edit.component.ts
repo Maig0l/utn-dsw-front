@@ -184,6 +184,21 @@ export class UserEditComponent implements OnInit {
 
         userDisplayedNick = params['nick'];
 
+        // Verificar si el usuario está logueado
+        if (!this.loginService.isLoggedIn()) {
+          console.error('User is not logged in');
+          this.router.navigate(['/login']);
+          return;
+        }
+
+        // Obtener el usuario logueado y verificar que coincida con el perfil a editar
+        const currentUser = this.loginService.currentUserData;
+        if (currentUser.nick !== userDisplayedNick) {
+          console.error("User trying to edit another user's profile");
+          this.router.navigate(['/user', currentUser.nick]);
+          return;
+        }
+
         this.userService
           .getUserByNick(userDisplayedNick)
           .subscribe((responseUser) => {

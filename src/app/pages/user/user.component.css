@@ -248,3 +248,61 @@ hr {
 .close-modal-btn:hover {
   background: rgba(255, 255, 255, 0.1);
 }
+
+/* Profile header styles */
+#info-head {
+  display: flex;
+  align-items: center;
+  gap: 1.5em;
+  margin-bottom: 2em;
+  position: relative;
+}
+
+#profile-pic {
+  width: 100px;
+  height: 100px;
+  border-radius: 50%;
+  object-fit: cover;
+  border: 3px solid #014a8d;
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.1);
+}
+
+#info-head-text {
+  flex: 1;
+}
+
+#info-head-text h1 {
+  margin: 0 0 0.5em 0;
+  color: #014a8d;
+  font-size: 2em;
+  font-weight: 600;
+}
+
+#info-head-text p {
+  margin: 0;
+  color: #666;
+  font-size: 1.1em;
+  line-height: 1.4;
+}
+
+.edit-profile-btn {
+  color: #014a8d !important;
+  background: white !important;
+  border: 2px solid #014a8d !important;
+  border-radius: 50% !important;
+  width: 48px !important;
+  height: 48px !important;
+  box-shadow: 0 2px 8px rgba(1, 74, 141, 0.2) !important;
+  transition: all 0.2s ease !important;
+}
+
+.edit-profile-btn:hover {
+  background: #014a8d !important;
+  color: white !important;
+  transform: scale(1.05);
+  box-shadow: 0 4px 16px rgba(1, 74, 141, 0.3) !important;
+}
+
+.edit-profile-btn mat-icon {
+  font-size: 20px;
+}

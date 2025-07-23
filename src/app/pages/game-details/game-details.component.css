@@ -116,10 +116,54 @@
   margin-bottom: 5px;
   padding: 10px;
 }
-.platforms img {
+.platforms {
+  margin-top: 16px;
+}
+
+.platforms span {
+  display: block;
+  color: #ffffff;
+  font-weight: 600;
+  margin-bottom: 12px;
+  font-size: 0.9rem;
+}
+
+.platforms .platform-item {
+  display: inline-flex;
+  flex-direction: column;
+  align-items: center;
+  margin-right: 16px;
+  margin-bottom: 12px;
+  padding: 8px;
+  border-radius: 8px;
+  background: rgba(255, 255, 255, 0.05);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  transition: all 0.3s ease;
+  min-width: 80px;
+}
+
+.platforms .platform-item:hover {
+  background: rgba(255, 255, 255, 0.1);
+  border-color: rgba(255, 255, 255, 0.2);
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+}
+
+.platforms .platform-item img {
   width: 50px;
   height: 50px;
-  margin-right: 10px;
+  object-fit: contain;
+  margin-bottom: 6px;
+  border-radius: 4px;
+}
+
+.platforms .platform-item .platform-name {
+  color: #ffffff;
+  font-size: 0.75rem;
+  font-weight: 500;
+  text-align: center;
+  line-height: 1.2;
+  opacity: 0.9;
 }
 .slide {
   width: 100%;
@@ -305,25 +349,48 @@
 }
 
 .studio {
-  font-size: 0.7rem;
+  font-size: 0.9rem;
   color: #ffffff;
+  margin-bottom: 8px;
+  font-weight: 500;
 }
 
 .studio > a {
-  color: gold;
+  color: #3498db;
+  text-decoration: none;
+  font-weight: 600;
+  padding: 4px 8px;
+  border-radius: 4px;
+  transition: all 0.3s ease;
+  display: inline-block;
+  margin: 2px 4px;
+  background: rgba(52, 152, 219, 0.1);
+  border: 1px solid rgba(52, 152, 219, 0.3);
+}
+
+.studio > a:hover {
+  color: #ffffff;
+  background: rgba(52, 152, 219, 0.8);
+  border-color: #3498db;
+  transform: translateY(-1px);
+  box-shadow: 0 2px 8px rgba(52, 152, 219, 0.3);
 }
 
 .studio > a:after {
-  content: " ⎋";
+  content: " ↗";
+  font-size: 0.8rem;
+  opacity: 0.7;
 }
 
 .studio-container {
   display: flex;
   flex-direction: column;
-  /* Arrange columns side-by-side */
-  gap: 1rem;
-  /* Add some spacing between columns */
-  margin-bottom: 1em;
+  gap: 8px;
+  margin-bottom: 16px;
+  padding: 12px;
+  border-radius: 8px;
+  background: rgba(255, 255, 255, 0.03);
+  border: 1px solid rgba(255, 255, 255, 0.1);
 }
 
 .studio-column {

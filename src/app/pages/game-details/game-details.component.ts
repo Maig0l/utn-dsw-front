@@ -7,7 +7,7 @@ import {
   RouterModule,
   RouterOutlet,
 } from '@angular/router';
-import { CommonModule, NgOptimizedImage } from '@angular/common';
+import { CommonModule } from '@angular/common';
 import { linkToStaticResource } from '../../../enviroment/enviroment';
 import { ReviewFormComponent } from '../../components/review-form/review-form.component';
 
@@ -54,7 +54,7 @@ export class GameDetailsComponent implements OnInit, OnDestroy {
     private loginService: LoginService,
   ) {}
 
-  sessionType: boolean = false; //logged in or not
+  sessionType = false; //logged in or not
 
   @Input() slides: SlideInterface[] = [];
   currentIndex = 0;
@@ -78,6 +78,9 @@ export class GameDetailsComponent implements OnInit, OnDestroy {
 
   // Para controlar el estado de edición de la review del usuario
   isEditingUserReview = false;
+
+  // Función para manejar recursos estáticos
+  protected readonly linkToStaticResource = linkToStaticResource;
 
   ngOnInit() {
     this.gameId = +this.route.snapshot.paramMap.get('id')!;
@@ -115,9 +118,13 @@ export class GameDetailsComponent implements OnInit, OnDestroy {
       this.devs = this.game.studios.filter(
         (studio) => studio.type === 'Developer',
       );
+      console.log('DEVS: ', this.devs);
+
       this.pubs = this.game.studios.filter(
         (studio) => studio.type === 'Publisher',
       );
+      console.log('PUBS: ', this.pubs);
+      console.log('PLATFORMS: ', this.game.platforms);
 
       this.fetchReviews();
     });
@@ -287,7 +294,7 @@ export class GameDetailsComponent implements OnInit, OnDestroy {
           this.currentUserReview.id,
         )
         .subscribe({
-          next: (response) => {
+          next: () => {
             alert('Review deleted successfully!');
             this.refreshGameAndReviews(); // Actualizar tanto el juego como las reviews
           },

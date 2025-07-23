@@ -213,7 +213,13 @@
       <div class="platforms">
         <span>Available on:</span>
         @for (platform of game.platforms; track platform.id) {
-          <img [src]="platform.img" [alt]="platform.name" />
+          <div class="platform-item">
+            <img
+              [src]="linkToStaticResource(platform.img)"
+              [alt]="platform.name"
+            />
+            <span class="platform-name">{{ platform.name }}</span>
+          </div>
         }
       </div>
     </div>

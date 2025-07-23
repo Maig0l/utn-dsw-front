@@ -166,7 +166,7 @@ export class GameService {
           games = [...gamesWithLikedTags, ...gamesWithoutLikedTags];
         }
 
-        return games.slice(0, 5);
+        return games.slice(0, 6);
       }),
     );
   }

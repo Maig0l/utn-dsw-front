@@ -3,6 +3,7 @@ import { HttpClient } from '@angular/common/http';
 import { map, Observable } from 'rxjs';
 import { Platform } from '../model/platform.model';
 import { ApiResponse } from '../model/apiResponse.model';
+import { environment } from '../../enviroment/enviroment';
 
 @Injectable({
   providedIn: 'root',
@@ -10,8 +11,8 @@ import { ApiResponse } from '../model/apiResponse.model';
 export class PlatformService {
   constructor(private http: HttpClient) {}
 
-  // TODO: Guardar la URL base y rutas de endpoints en algún archivo de config global
-  platformsEndpoint = 'http://localhost:8080/api/platforms';
+  // Usar la URL del environment en lugar de hardcodear
+  platformsEndpoint = `${environment.apiUrl}/api/platforms`;
 
   getOnePlatform(id: number): Observable<Platform> {
     const url = this.platformsEndpoint + `/${id}`;
@@ -36,8 +37,15 @@ export class PlatformService {
     );
   }
 
-  addPlatform(name: string, img: string): Observable<Platform> {
-    return this.http.post<Platform>(this.platformsEndpoint, { name, img });
+  addPlatform(name: string, img?: string): Observable<Platform> {
+    const payload: { name: string; img?: string } = { name };
+    if (img && img.trim() !== '') {
+      payload.img = img;
+    }
+
+    return this.http
+      .post<ApiResponse<Platform>>(this.platformsEndpoint, payload)
+      .pipe(map((response) => response.data));
   }
 
   updatePlatform(id: number, name: string, img: string): Observable<Platform> {
@@ -50,5 +58,18 @@ export class PlatformService {
     return this.http
       .delete<ApiResponse<Platform>>(url)
       .pipe(map((res) => res.data));
+  }
+
+  uploadImage(
+    platformId: number,
+    file: File,
+  ): Observable<{ message: string; img: string }> {
+    const formData = new FormData();
+    formData.append('img', file);
+
+    return this.http.patch<{ message: string; img: string }>(
+      `${this.platformsEndpoint}/${platformId}/upload`,
+      formData,
+    );
   }
 }

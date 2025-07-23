@@ -11,6 +11,7 @@ import { MatIconModule } from '@angular/material/icon';
 import { MatDialog } from '@angular/material/dialog';
 import { FormsModule } from '@angular/forms';
 import { MatTableModule } from '@angular/material/table';
+import { linkToStaticResource } from '../../../enviroment/enviroment';
 
 @Component({
   selector: 'app-platform',
@@ -49,6 +50,13 @@ export class PlatformComponent implements OnInit {
 
   platformIdToDelete: number | null = null;
   platformToDelete = '';
+
+  // Propiedades para manejo de imágenes
+  selectedFile: File | null = null;
+  imagePreview: string | null = null;
+
+  // Función para manejar recursos estáticos
+  protected readonly linkToStaticResource = linkToStaticResource;
 
   constructor(
     private platformService: PlatformService,
@@ -100,6 +108,8 @@ export class PlatformComponent implements OnInit {
   openAddDialog(): void {
     this.dialogMode = 'add';
     this.dialogForm.reset();
+    this.selectedFile = null;
+    this.imagePreview = null;
     this.dialog.open(this.dialogTemplate);
   }
 
@@ -110,6 +120,10 @@ export class PlatformComponent implements OnInit {
       name: platform.name,
       img: platform.img,
     });
+    this.selectedFile = null;
+    this.imagePreview = platform.img
+      ? this.linkToStaticResource(platform.img)
+      : null; // Mostrar imagen actual con URL completa
     this.dialog.open(this.dialogTemplate);
   }
 
@@ -139,57 +153,156 @@ export class PlatformComponent implements OnInit {
   }
 
   closeDialog(): void {
+    this.selectedFile = null;
+    this.imagePreview = null;
     this.dialog.closeAll();
+  }
+
+  // Método para manejar selección de archivo de imagen
+  onImageFileSelected(event: Event): void {
+    const target = event.target as HTMLInputElement;
+    const file = target.files?.[0];
+    if (file) {
+      this.selectedFile = file;
+
+      // Crear preview
+      const reader = new FileReader();
+      reader.onload = (e: ProgressEvent<FileReader>) => {
+        this.imagePreview = e.target?.result as string;
+      };
+      reader.readAsDataURL(file);
+    }
   }
 
   saveDialog(): void {
     const platformData = this.dialogForm.value;
 
     if (this.dialogMode === 'add') {
-      this.platformService
-        .addPlatform(platformData.name, platformData.img)
-        .subscribe({
-          next: () => {
-            this.loadPlatforms();
-            this.closeDialog();
+      if (this.selectedFile) {
+        // Si hay archivo seleccionado, crear plataforma primero y luego subir imagen
+        this.platformService.addPlatform(platformData.name).subscribe({
+          next: (platform) => {
+            // Subir la imagen después de crear la plataforma
+            this.platformService
+              .uploadImage(platform.id, this.selectedFile!)
+              .subscribe({
+                next: () => {
+                  this.loadPlatforms();
+                  this.closeDialog();
+                },
+                error: (errorResponse) => {
+                  this.handleBackendError(errorResponse);
+                },
+              });
           },
           error: (errorResponse) => {
             this.handleBackendError(errorResponse);
           },
         });
+      } else {
+        // Si no hay archivo, crear plataforma sin imagen
+        this.platformService
+          .addPlatform(platformData.name, platformData.img)
+          .subscribe({
+            next: () => {
+              this.loadPlatforms();
+              this.closeDialog();
+            },
+            error: (errorResponse) => {
+              this.handleBackendError(errorResponse);
+            },
+          });
+      }
     } else if (this.dialogMode === 'edit' && this.currentPlatformId !== null) {
-      this.platformService
-        .updatePlatform(
-          this.currentPlatformId,
-          platformData.name,
-          platformData.img,
-        )
-        .subscribe({
-          next: () => {
-            this.loadPlatforms();
-            this.closeDialog();
-          },
-          error: (errorResponse) => {
-            this.handleBackendError(errorResponse);
-          },
-        });
+      if (this.selectedFile) {
+        // Si hay nuevo archivo, subir imagen primero
+        this.platformService
+          .uploadImage(this.currentPlatformId, this.selectedFile)
+          .subscribe({
+            next: (response) => {
+              // Actualizar la plataforma con la nueva URL de imagen
+              this.platformService
+                .updatePlatform(
+                  this.currentPlatformId!,
+                  platformData.name,
+                  response.img,
+                )
+                .subscribe({
+                  next: () => {
+                    this.loadPlatforms();
+                    this.closeDialog();
+                  },
+                  error: (errorResponse) => {
+                    this.handleBackendError(errorResponse);
+                  },
+                });
+            },
+            error: (errorResponse) => {
+              this.handleBackendError(errorResponse);
+            },
+          });
+      } else {
+        // Si no hay nuevo archivo, actualizar solo los datos
+        this.platformService
+          .updatePlatform(
+            this.currentPlatformId,
+            platformData.name,
+            platformData.img,
+          )
+          .subscribe({
+            next: () => {
+              this.loadPlatforms();
+              this.closeDialog();
+            },
+            error: (errorResponse) => {
+              this.handleBackendError(errorResponse);
+            },
+          });
+      }
     }
   }
 
-  handleBackendError(errorResponse: { error: { message: string } }): void {
+  handleBackendError(errorResponse: { error?: { message?: unknown } }): void {
     console.error('Backend error response entera:', errorResponse);
+
     if (errorResponse.error && errorResponse.error.message) {
-      const errorMessage = errorResponse.error.message[0];
+      let errorMessage = errorResponse.error.message;
+
+      // Si es un array, tomar el primer elemento
+      if (Array.isArray(errorMessage)) {
+        errorMessage = errorMessage[0];
+      }
+
       console.error('Backend error:', errorMessage);
 
-      // Map specific error messages to form fields
-      if (errorMessage.toLowerCase().includes('name')) {
-        this.dialogForm.get('name')?.setErrors({ backend: errorMessage });
-      } else if (errorMessage.toLowerCase().includes('img')) {
-        this.dialogForm.get('img')?.setErrors({ backend: errorMessage });
-      } else {
-        alert('An unexpected error occurred: ' + errorMessage);
+      // Si es un objeto de validación, extraer el mensaje
+      if (
+        typeof errorMessage === 'object' &&
+        errorMessage &&
+        'message' in errorMessage
+      ) {
+        errorMessage = (errorMessage as { message: string }).message;
       }
+
+      // Convertir a string si no lo es
+      const errorString =
+        typeof errorMessage === 'string'
+          ? errorMessage
+          : JSON.stringify(errorMessage);
+
+      // Map specific error messages to form fields
+      if (errorString.toLowerCase().includes('name')) {
+        this.dialogForm.get('name')?.setErrors({ backend: errorString });
+      } else if (
+        errorString.toLowerCase().includes('img') ||
+        errorString.toLowerCase().includes('url')
+      ) {
+        this.dialogForm.get('img')?.setErrors({ backend: errorString });
+      } else {
+        alert('An unexpected error occurred: ' + errorString);
+      }
+    } else {
+      alert('An unexpected error occurred');
     }
   }
 

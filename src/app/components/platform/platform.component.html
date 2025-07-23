@@ -44,7 +44,7 @@
       <th mat-header-cell *matHeaderCellDef>Image</th>
       <td mat-cell *matCellDef="let platform">
         <img
-          [src]="platform.img"
+          [src]="linkToStaticResource(platform.img)"
           alt="Platform Image"
           style="max-width: 80px; max-height: 40px"
           *ngIf="platform.img"
@@ -103,14 +103,43 @@
         </mat-error>
       </mat-form-field>
 
-      <!-- Image URL Field -->
-      <mat-form-field appearance="outline" class="full-width">
-        <mat-label>Image URL</mat-label>
-        <input matInput formControlName="img" />
-        <mat-error *ngIf="dialogForm.get('img')?.hasError('backend')">
-          {{ dialogForm.get("img")?.getError("backend") }}
-        </mat-error>
-      </mat-form-field>
+      <!-- Platform Image Section -->
+      <div class="form-section">
+        <h3>Platform Image</h3>
+        <div class="image-upload">
+          <img
+            *ngIf="imagePreview"
+            [src]="imagePreview"
+            alt="Platform Image"
+            class="preview-image"
+          />
+          <img
+            *ngIf="!imagePreview && dialogForm.get('img')?.value"
+            [src]="linkToStaticResource(dialogForm.get('img')?.value)"
+            alt="Platform Image"
+            class="preview-image"
+          />
+          <button
+            mat-button
+            color="primary"
+            type="button"
+            (click)="fileInput.click()"
+          >
+            <mat-icon>upload</mat-icon>
+            {{ imagePreview ? "Change Image" : "Upload Image" }}
+          </button>
+          <input
+            #fileInput
+            type="file"
+            accept="image/*"
+            style="display: none"
+            (change)="onImageFileSelected($event)"
+          />
+        </div>
+      </div>
+
+      <!-- Hidden Image URL Field (for compatibility) -->
+      <input type="hidden" formControlName="img" />
     </form>
   </div>
   <div mat-dialog-actions align="end">

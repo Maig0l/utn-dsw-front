@@ -36,27 +36,26 @@ import { ReviewCardComponent } from '../../components/review-card/review-card.co
   selector: 'app-delete-user-dialog',
   standalone: true,
   template: `
-    <h2 mat-dialog-title>⚠️ Eliminar Usuario</h2>
+    <h2 mat-dialog-title>⚠️ Delete User</h2>
     <mat-dialog-content>
       <p>
         <strong
-          >¿Estás absolutamente seguro de que quieres eliminar tu
-          cuenta?</strong
+          >Are you absolutely sure you want to delete your account?</strong
         >
       </p>
-      <p>Esta acción:</p>
+      <p>This action will:</p>
       <ul>
-        <li>Es <strong>permanente</strong> e irreversible</li>
-        <li>Eliminará todos tus datos</li>
-        <li>Eliminará todas tus reviews</li>
-        <li>Eliminará todas tus playlists</li>
+        <li>Be <strong>permanent</strong> and irreversible</li>
+        <li>Delete all your data</li>
+        <li>Delete all your reviews</li>
+        <li>Delete all your playlists</li>
       </ul>
-      <p>No podrás recuperar tu cuenta después de esta acción.</p>
+      <p>You will not be able to recover your account after this action.</p>
     </mat-dialog-content>
     <mat-dialog-actions align="end">
-      <button mat-button mat-dialog-close>Cancelar</button>
+      <button mat-button mat-dialog-close>Cancel</button>
       <button mat-raised-button color="warn" [mat-dialog-close]="true">
-        Sí, eliminar mi cuenta
+        Yes, delete my account
       </button>
     </mat-dialog-actions>
   `,
@@ -202,7 +201,7 @@ export class UserComponent implements OnInit {
 
   deleteUser() {
     if (!this.user) {
-      this.snackBar.open('Error: Usuario no encontrado', 'Cerrar', {
+      this.snackBar.open('Error: User not found', 'Close', {
         duration: 3000,
         horizontalPosition: 'center',
         verticalPosition: 'top',
@@ -212,21 +211,29 @@ export class UserComponent implements OnInit {
 
     // Verificación adicional de seguridad: solo el propio usuario puede eliminar su cuenta
     if (!this.loginService.isLoggedIn()) {
-      this.snackBar.open('Error: Debe estar logueado', 'Cerrar', {
-        duration: 3000,
-        horizontalPosition: 'center',
-        verticalPosition: 'top',
-      });
+      this.snackBar.open(
+        'Error: Must be logged in to delete account',
+        'Close',
+        {
+          duration: 3000,
+          horizontalPosition: 'center',
+          verticalPosition: 'top',
+        },
+      );
       return;
     }
 
     const currentUser = this.loginService.currentUserData;
     if (currentUser.id !== this.user.id) {
-      this.snackBar.open('Error: No puede eliminar esta cuenta', 'Cerrar', {
-        duration: 3000,
-        horizontalPosition: 'center',
-        verticalPosition: 'top',
-      });
+      this.snackBar.open(
+        'Error: You can only delete your own account',
+        'Close',
+        {
+          duration: 3000,
+          horizontalPosition: 'center',
+          verticalPosition: 'top',
+        },
+      );
       return;
     }
 
@@ -239,7 +246,7 @@ export class UserComponent implements OnInit {
       if (confirmed && this.user) {
         this.userService.deleteUser(this.user.id).subscribe({
           next: () => {
-            this.snackBar.open('Usuario eliminado exitosamente', 'Cerrar', {
+            this.snackBar.open('User deleted successfully', 'Close', {
               duration: 3000,
               horizontalPosition: 'center',
               verticalPosition: 'top',
@@ -249,18 +256,18 @@ export class UserComponent implements OnInit {
             this.router.navigate(['/']);
           },
           error: (error) => {
-            console.error('Error al eliminar usuario:', error);
-            let errorMessage = 'Error al eliminar el usuario';
+            console.error('Error deleting user:', error);
+            let errorMessage = 'Error deleting user';
 
             // Mostrar mensajes más específicos según el tipo de error
             if (error.status === 401) {
-              errorMessage =
-                'Error de autenticación. Inicie sesión nuevamente.';
+              errorMessage = 'Authentication error. Please log in again.';
             } else if (error.status === 403) {
-              errorMessage = 'No tiene permisos para eliminar esta cuenta.';
+              errorMessage =
+                'You do not have permission to delete this account.';
             }
 
-            this.snackBar.open(errorMessage, 'Cerrar', {
+            this.snackBar.open(errorMessage, 'Close', {
               duration: 3000,
               horizontalPosition: 'center',
               verticalPosition: 'top',

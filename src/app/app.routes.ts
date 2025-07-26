@@ -21,8 +21,8 @@ import { PlaylistEditComponent } from './components/playlist-edit/playlist-edit.
 import { AdminGuard } from './admin.guard';
 import { UserProfileEditGuard } from './user-profile-edit.guard';
 import { CrudsComponent } from './pages/cruds/cruds.component';
-import { GameCrudComponent } from './components/game-crud/game-crud.component.js';
-import { GameComponent } from './components/game/game.component.js';
+import { GameCrudComponent } from './components/game-crud/game-crud.component';
+import { GameComponent } from './components/game/game.component';
 
 export const routes: Routes = [
   { path: 'tag/view_tag', component: ViewTagComponent },

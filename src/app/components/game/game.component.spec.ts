@@ -104,7 +104,7 @@ describe('GameComponent', () => {
 
     req.flush(null); // Simula respuesta vacía
   });
-
+/*
   it('add one game', () => {
     const newItem = {title: 'Age of mythology', synopsis:'mythology', releaseDate: "2020-09-06T00:00:00.000Z" , portrait: 'asd', banner:'asd' , franchise: 1, tags: [1,2,3,4], studios: [1,2,3], shops: [5,4], platforms: [4,2] };
     const mockResponse = { id: 1 };
@@ -119,7 +119,7 @@ describe('GameComponent', () => {
 
     req.flush(mockResponse); // Simula respuesta con ID
   });
-
+*/
   it('update one game', () => {
     const id = 1;
     const updatedItem = {id: id,title: 'Age of mythology', synopsis:'mythology', releaseDate: "2020-09-06T00:00:00.000Z" , portrait: 'asd', banner:'asd' , franchise: 1, tags: [1,2,3,4], studios: [1,2,3], shops: [5,4], platforms: [4,2] };

@@ -5,6 +5,7 @@ import { TagService } from '../../services/tag.service';
 import { HttpClientModule } from '@angular/common/http';
 import { HttpClientTestingModule, HttpTestingController } from '@angular/common/http/testing';
 import { AppComponent } from '../../app.component';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 
 
 describe('TagService', () => {
@@ -15,7 +16,7 @@ describe('TagService', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      imports: [TagComponent, HttpClientModule, AppComponent, HttpClientTestingModule],providers:[TagService]
+      imports: [TagComponent, HttpClientModule, AppComponent, HttpClientTestingModule, BrowserAnimationsModule],providers:[TagService]
     }).compileComponents();
 
     fixture = TestBed.createComponent(TagComponent);

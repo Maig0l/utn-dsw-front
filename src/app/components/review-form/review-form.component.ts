@@ -6,7 +6,7 @@ import { MatIconModule } from '@angular/material/icon';
 import { CommonModule } from '@angular/common';
 import { ReviewPostBody, ReviewService } from '../../services/review.service';
 import { Router } from '@angular/router';
-import { LoginService } from '../../services/auth/login.service.js';
+import { LoginService } from '../../services/auth/login.service';
 
 @Component({
   selector: 'app-review-form',

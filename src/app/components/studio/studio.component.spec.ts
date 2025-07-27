@@ -3,6 +3,7 @@ import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { StudioComponent } from './studio.component';
 import { HttpClientModule } from '@angular/common/http';
 import { AppComponent } from '../../app.component';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 
 describe('StudioComponent', () => {
   let component: StudioComponent;
@@ -10,7 +11,7 @@ describe('StudioComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      imports: [StudioComponent, HttpClientModule, AppComponent],
+      imports: [StudioComponent, HttpClientModule, AppComponent, BrowserAnimationsModule],
     }).compileComponents();
 
     fixture = TestBed.createComponent(StudioComponent);

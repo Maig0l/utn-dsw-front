@@ -20,7 +20,7 @@ import { MatIconModule } from '@angular/material/icon';
 import { MatButtonModule } from '@angular/material/button';
 import { MatMenuModule } from '@angular/material/menu';
 
-import { LoginService } from '../../services/auth/login.service.js';
+import { LoginService } from '../../services/auth/login.service';
 import { ReviewCardGameComponent } from '../../components/review-card-game/review-card-game.component';
 
 export interface SlideInterface {

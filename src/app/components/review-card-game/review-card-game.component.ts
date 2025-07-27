@@ -3,7 +3,7 @@ import { Review } from '../../model/review.model.js';
 import { MatIconModule } from '@angular/material/icon';
 import { CommonModule } from '@angular/common';
 import { RouterLink } from '@angular/router';
-import { linkToStaticResource } from '../../../enviroment/enviroment.js';
+import { linkToStaticResource } from '../../../enviroment/enviroment';
 
 @Component({
   selector: 'app-review-card-game',

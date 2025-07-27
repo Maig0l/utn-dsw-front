@@ -8,17 +8,167 @@
   overflow: hidden;
 }
 
-#deleteModal {
-  z-index: 1;
-  padding: 16px;
-  background-color: #fff;
-  border-radius: 8px;
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+/* Modal de eliminación mejorado */
+.delete-modal {
+  padding: 0;
+  border: none;
+  border-radius: 0;
+  background: transparent;
+  width: 100vw;
+  height: 100vh;
+  max-width: 100vw;
+  max-height: 100vh;
+  top: 0;
+  left: 0;
+  transform: none;
   position: fixed;
+  z-index: 1000;
+}
+
+.delete-modal::backdrop {
+  background: rgba(0, 0, 0, 0.6);
+  backdrop-filter: blur(4px);
+}
+
+.modal-overlay {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0, 0, 0, 0.6);
+  backdrop-filter: blur(4px);
+}
+
+.modal-content {
+  position: absolute;
   top: 50%;
   left: 50%;
-  animation: fadeIn 0.5s ease;
   transform: translate(-50%, -50%);
+  background: #1e1e1e;
+  border-radius: 16px;
+  box-shadow: 0 24px 48px rgba(0, 0, 0, 0.4);
+  min-width: 400px;
+  max-width: 500px;
+  overflow: hidden;
+  animation: modalSlideIn 0.3s ease-out;
+}
+
+@keyframes modalSlideIn {
+  0% {
+    opacity: 0;
+    transform: translate(-50%, -60%) scale(0.8);
+  }
+  100% {
+    opacity: 1;
+    transform: translate(-50%, -50%) scale(1);
+  }
+}
+
+.modal-header {
+  display: flex;
+  align-items: center;
+  padding: 24px 24px 16px 24px;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+  position: relative;
+}
+
+.warning-icon {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 48px;
+  height: 48px;
+  background: rgba(255, 152, 0, 0.1);
+  border-radius: 50%;
+  margin-right: 16px;
+}
+
+.warning-icon-svg {
+  color: #ff9800;
+  font-size: 24px;
+  width: 24px;
+  height: 24px;
+}
+
+.modal-title {
+  color: #ffffff;
+  font-size: 1.5rem;
+  font-weight: 600;
+  margin: 0;
+  flex: 1;
+}
+
+.close-button {
+  color: rgba(255, 255, 255, 0.7);
+  position: absolute;
+  top: 16px;
+  right: 16px;
+}
+
+.close-button:hover {
+  color: #ffffff;
+  background: rgba(255, 255, 255, 0.1);
+}
+
+.modal-body {
+  padding: 24px;
+}
+
+.game-name {
+  color: #ffffff;
+  font-size: 1.2rem;
+  font-weight: 600;
+  margin: 0 0 16px 0;
+  padding: 12px 16px;
+  background: rgba(255, 255, 255, 0.05);
+  border-radius: 8px;
+  border-left: 4px solid #ff9800;
+}
+
+.warning-message {
+  color: rgba(255, 255, 255, 0.8);
+  font-size: 0.95rem;
+  line-height: 1.5;
+  margin: 0;
+}
+
+.modal-footer {
+  display: flex;
+  justify-content: flex-end;
+  gap: 12px;
+  padding: 16px 24px 24px 24px;
+  background: rgba(255, 255, 255, 0.02);
+}
+
+.cancel-button {
+  color: rgba(255, 255, 255, 0.8);
+  border-color: rgba(255, 255, 255, 0.3);
+  transition: all 0.3s ease;
+}
+
+.cancel-button:hover {
+  color: #ffffff;
+  border-color: rgba(255, 255, 255, 0.6);
+  background: rgba(255, 255, 255, 0.05);
+}
+
+.delete-button-modal {
+  background-color: #f44336;
+  color: #ffffff;
+  border: none;
+  transition: all 0.3s ease;
+  font-weight: 500;
+}
+
+.delete-button-modal:hover {
+  background-color: #d32f2f;
+  transform: translateY(-1px);
+  box-shadow: 0 4px 12px rgba(244, 67, 54, 0.3);
+}
+
+.delete-button-modal:active {
+  transform: translateY(0);
 }
 .star-rating {
   display: inline-flex;
@@ -40,29 +190,6 @@
 
 .empty-star {
   color: #ddd;
-}
-
-@keyframes fadeIn {
-  0% {
-    opacity: 0;
-    scale: 0;
-    box-shadow: 0 0px red;
-  }
-  25% {
-    opacity: 0.75;
-    scale: 1;
-    box-shadow: 0 4px 500px red;
-  }
-  100% {
-    opacity: 1;
-    scale: 1;
-    box-shadow: 0 0px red;
-  }
-}
-.modalButtons {
-  display: flex;
-  justify-content: space-between;
-  margin-top: 16px;
 }
 
 .admin-actions {

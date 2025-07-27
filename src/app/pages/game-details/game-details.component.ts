@@ -116,12 +116,12 @@ export class GameDetailsComponent implements OnInit, OnDestroy {
       console.log('GAME: ', this.game);
 
       this.devs = this.game.studios.filter(
-        (studio) => studio.type === 'Developer',
+        (studio) => studio.type === 'Developer' || studio.type === 'Both',
       );
       console.log('DEVS: ', this.devs);
 
       this.pubs = this.game.studios.filter(
-        (studio) => studio.type === 'Publisher',
+        (studio) => studio.type === 'Publisher' || studio.type === 'Both',
       );
       console.log('PUBS: ', this.pubs);
       console.log('PLATFORMS: ', this.game.platforms);

@@ -113,23 +113,47 @@
     <img [src]="getGameBanner()" alt="Game's banner" />
   </div>
 
-  <dialog id="deleteModal">
-    <h1>Delete game: {{ game.title }}</h1>
-    <p>Are you sure?</p>
-    <div class="modalButtons">
-      <button mat-fab extended (click)="closeModal()" id="closeModal">
-        <mat-icon>close</mat-icon>Cancel
-      </button>
-      <button
-        mat-fab
-        extended
-        (click)="deleteGame(); closeModal()"
-        id="closeModal"
-        class="deleteButton"
-      >
-        <mat-icon>delete</mat-icon>
-        Delete
-      </button>
+  <dialog id="deleteModal" class="delete-modal">
+    <div class="modal-overlay" (click)="closeModal()"></div>
+    <div class="modal-content">
+      <div class="modal-header">
+        <div class="warning-icon">
+          <mat-icon class="warning-icon-svg">warning</mat-icon>
+        </div>
+        <h2 class="modal-title">Delete Game</h2>
+        <button
+          mat-icon-button
+          (click)="closeModal()"
+          class="close-button"
+          aria-label="Close dialog"
+        >
+          <mat-icon>close</mat-icon>
+        </button>
+      </div>
+
+      <div class="modal-body">
+        <p class="game-name">{{ game.title }}</p>
+        <p class="warning-message">
+          Are you sure you want to delete this game? This action cannot be
+          undone.
+        </p>
+      </div>
+
+      <div class="modal-footer">
+        <button mat-stroked-button (click)="closeModal()" class="cancel-button">
+          <mat-icon>close</mat-icon>
+          Cancel
+        </button>
+        <button
+          mat-raised-button
+          color="warn"
+          (click)="deleteGame(); closeModal()"
+          class="delete-button-modal"
+        >
+          <mat-icon>delete</mat-icon>
+          Delete Game
+        </button>
+      </div>
     </div>
   </dialog>
 

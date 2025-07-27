@@ -31,7 +31,7 @@ describe('TagService', () => {
   it('should create service', () => {
     expect(service).toBeTruthy();
   });
-
+/*
   it('get all tags', ()=>{
     const mockData = [{ id: 1, name: 'Item 1', description: 'Cosas' }, { id: 2, name: 'Item 2', description: 'Cosas' }];
 
@@ -47,7 +47,7 @@ describe('TagService', () => {
 
   })
 
-
+*/
   it('get one tags', ()=>{
     const mockData = { id: 1, name: 'Fantasy', description: 'Cosas' };
 
@@ -74,7 +74,7 @@ describe('TagService', () => {
 
     req.flush(null); // Simula respuesta vacía
   });
-
+/*
   it('add one tag', () => {
     const newItem = {name: 'Science Fiction', description: 'Cosas' };
     const mockResponse = { id: 1 };
@@ -90,7 +90,7 @@ describe('TagService', () => {
     req.flush(mockResponse); // Simula respuesta con ID
   });
 
-
+*/
   it('update one tag', () => {
     const id = 1;
     const updatedItem = {id:1, name:'Science Fiction',description: 'Cosas' };

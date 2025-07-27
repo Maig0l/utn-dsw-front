@@ -1,15 +1,7 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { map, Observable } from 'rxjs';
-
-export interface Playlist {
-  id: number;
-  name: string;
-  description: string;
-  is_private: boolean;
-  owner: number; //TODO: Cambiar por User
-  games: number; //TODO: Cambiar por Game
-}
+import { Playlist } from '../../model/playlist.model';
 
 interface ApiResponse {
   message: string;
@@ -44,14 +36,14 @@ export class PlaylistService {
   addPlaylist(
     name: string,
     description: string,
-    is_private: boolean,
+    isPrivate: boolean,
     owner: number,
     games: number[],
   ): Observable<Playlist> {
     return this.http.post<Playlist>(this.playlistEndpoint, {
       name,
       description,
-      is_private,
+      isPrivate,
       owner,
       games,
     });
@@ -61,17 +53,15 @@ export class PlaylistService {
     id: number,
     name: string,
     description: string,
-    is_private: boolean,
+    isPrivate: boolean,
     owner: number,
     games: number[],
   ): Observable<Playlist> {
     const url = this.playlistEndpoint + `/${id}`;
     return this.http.put<Playlist>(url, {
-      id,
       name,
       description,
-      is_private,
-      owner,
+      isPrivate,
       games,
     });
   }

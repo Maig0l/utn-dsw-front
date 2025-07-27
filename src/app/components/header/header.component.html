@@ -23,15 +23,17 @@
             [matAutocomplete]="auto"
           />
           <mat-autocomplete autoActiveFirstOption #auto="matAutocomplete">
-            @for (option of filteredOptions | async; track option) {
+            @for (option of filteredOptions | async; track option.id) {
               <a href="/game/{{ option.id }}">
-                <mat-option [value]="option">
-                  <img
-                    class="option-portrait"
-                    [src]="option.portrait"
-                    alt="{{ option.title }}"
-                  />
-                  <span class="option-title">{{ option.title }}</span>
+                <mat-option [value]="option.title">
+                  <div class="option-content">
+                    <img
+                      class="option-portrait"
+                      [src]="linkToStaticResource(option.portrait)"
+                      alt="{{ option.title }}"
+                    />
+                    <span class="option-title">{{ option.title }}</span>
+                  </div>
                 </mat-option>
               </a>
             }

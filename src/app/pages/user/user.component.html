@@ -96,15 +96,22 @@
   <h2>Playlists</h2>
   <hr />
   <div id="playlist-list-content">
-    @if (playlists) {
+    @if (visiblePlaylists && visiblePlaylists.length > 0) {
       <div class="playlist-card-list">
-        @for (playlist of playlists; track playlist.id) {
+        @for (playlist of visiblePlaylists; track playlist.id) {
           <div
             class="playlist-card"
             (click)="togglePlaylistExpand(playlist.id)"
             style="cursor: pointer"
           >
-            <div class="playlist-card-title">{{ playlist.name }}</div>
+            <div class="playlist-card-title">
+              {{ playlist.name }}
+              @if (playlist.isPrivate && canEditProfile) {
+                <mat-icon class="private-icon" matTooltip="Private playlist"
+                  >lock</mat-icon
+                >
+              }
+            </div>
           </div>
         }
       </div>
@@ -121,9 +128,31 @@
             >
               &times;
             </button>
-            @for (playlist of playlists; track playlist.id) {
+            @for (playlist of visiblePlaylists; track playlist.id) {
               @if (playlist.id === expandedPlaylistId) {
-                <h2>{{ playlist.name }}</h2>
+                <h2>
+                  {{ playlist.name }}
+                  @if (playlist.isPrivate && canEditProfile) {
+                    <mat-icon
+                      class="private-icon-modal"
+                      matTooltip="Private playlist"
+                      >lock</mat-icon
+                    >
+                  }
+                  @if (canEditProfile) {
+                    <button
+                      mat-icon-button
+                      class="edit-playlist-btn"
+                      aria-label="Edit playlist"
+                      (click)="
+                        goToEditPlaylist(playlist.id); $event.stopPropagation()
+                      "
+                      matTooltip="Edit playlist"
+                    >
+                      <mat-icon>edit</mat-icon>
+                    </button>
+                  }
+                </h2>
                 <p class="playlist-description">{{ playlist.description }}</p>
                 <div class="playlist-games">
                   <h3>Games in this playlist:</h3>
@@ -148,7 +177,13 @@
         </div>
       }
     } @else {
-      <span class="no-playlists">No playlists found.</span>
+      <span class="no-playlists">
+        @if (canEditProfile) {
+          No playlists found.
+        } @else {
+          No public playlists found.
+        }
+      </span>
     }
   </div>
 </ng-template>

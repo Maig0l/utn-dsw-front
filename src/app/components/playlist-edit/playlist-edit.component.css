@@ -18,6 +18,25 @@ mat-checkbox {
   height: 20px;
   object-fit: cover;
   border-radius: 4px;
+  margin-right: 8px;
+}
+
+.games-section {
+  margin: 20px 0;
+}
+
+.games-section h3 {
+  color: #e5e5e5;
+  margin-bottom: 10px;
+  font-size: 1.2rem;
+}
+
+.games-section mat-chip-set {
+  margin-bottom: 20px;
+}
+
+.games-section mat-chip {
+  margin: 4px;
 }
 .playlist-created {
   color: green;
@@ -80,10 +99,35 @@ label {
 }
 .option-title {
   flex-grow: 1;
+  text-align: center;
 }
 .option-portrait {
   width: 40px;
   height: 40px;
   object-fit: cover;
   border-radius: 4px;
+  margin-right: 8px;
+}
+
+.option-content {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+}
+
+/* Centrar el contenido de las opciones del autocomplete */
+::ng-deep .mat-mdc-option {
+  display: flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  padding: 8px 16px !important;
+}
+
+/* Asegurar que el contenido interno también esté centrado */
+::ng-deep .mat-mdc-option .mdc-list-item__content {
+  display: flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  width: 100% !important;
 }

@@ -129,6 +129,19 @@ export class UserComponent implements OnInit {
   user: User | undefined;
   canEditProfile = false;
 
+  // Computed property para playlists visibles
+  get visiblePlaylists(): Playlist[] {
+    if (!this.playlists) return [];
+
+    // Si el usuario puede editar el perfil (es su propio perfil), mostrar todas las playlists
+    if (this.canEditProfile) {
+      return this.playlists;
+    }
+
+    // Si es otro usuario, solo mostrar playlists públicas
+    return this.playlists.filter((playlist) => !playlist.isPrivate);
+  }
+
   apiUrl = environment.apiUrl;
 
   constructor(
@@ -307,6 +320,25 @@ export class UserComponent implements OnInit {
     } else {
       this.expandedPlaylistId = playlistId;
     }
+  }
+
+  goToEditPlaylist(playlistId: number): void {
+    // Verificar que el usuario puede editar (es el propietario)
+    if (!this.canEditProfile) {
+      this.snackBar.open(
+        'You do not have permission to edit this playlist',
+        'Close',
+        {
+          duration: 3000,
+          horizontalPosition: 'center',
+          verticalPosition: 'top',
+        },
+      );
+      return;
+    }
+
+    // Navegar al componente de edición de playlist
+    this.router.navigate(['/playlist', playlistId]);
   }
 
   private checkEditPermission(profileNick: string): void {

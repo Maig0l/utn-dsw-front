@@ -21,21 +21,24 @@
       >Make this playlist private</mat-checkbox
     >
 
-    <mat-chip-grid #chipGrid aria-label="Enter games">
-      @for (game of gameSelected; track game) {
-        <mat-chip (removed)="remove(game)">
-          <img
-            class="chip-portrait"
-            [src]="game.portrait"
-            alt="{{ game.title }}"
-          />
-          {{ game.title }}
-          <button matChipRemove [attr.aria-label]="'remove ' + game.title">
-            <mat-icon>cancel</mat-icon>
-          </button>
-        </mat-chip>
-      }
-    </mat-chip-grid>
+    <div class="games-section">
+      <h3>Selected Games:</h3>
+      <mat-chip-set aria-label="Selected games">
+        @for (game of gameSelected; track game.id) {
+          <mat-chip (removed)="remove(game)">
+            <img
+              class="chip-portrait"
+              [src]="linkToStaticResource(game.portrait)"
+              alt="{{ game.title }}"
+            />
+            {{ game.title }}
+            <button matChipRemove [attr.aria-label]="'remove ' + game.title">
+              <mat-icon>cancel</mat-icon>
+            </button>
+          </mat-chip>
+        }
+      </mat-chip-set>
+    </div>
     <mat-form-field class="example-full-width">
       <input
         class="custom-input"
@@ -47,14 +50,16 @@
         [matAutocomplete]="auto"
       />
       <mat-autocomplete #auto="matAutocomplete">
-        @for (option of filteredOptions | async; track option) {
-          <mat-option [value]="" (click)="addGame(option)">
-            <img
-              class="option-portrait"
-              [src]="option.portrait"
-              alt="{{ option.title }}"
-            />
-            <span class="option-title">{{ option.title }}</span>
+        @for (option of filteredOptions | async; track option.id) {
+          <mat-option [value]="option.title" (click)="addGame(option)">
+            <div class="option-content">
+              <img
+                class="option-portrait"
+                [src]="linkToStaticResource(option.portrait)"
+                alt="{{ option.title }}"
+              />
+              <span class="option-title">{{ option.title }}</span>
+            </div>
           </mat-option>
         }
       </mat-autocomplete>

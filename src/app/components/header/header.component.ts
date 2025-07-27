@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { AsyncPipe } from '@angular/common';
-import { RouterOutlet, Router } from '@angular/router';
+import { Router } from '@angular/router';
 import { NavComponent } from '../nav/nav.component';
 import { MatAutocompleteModule } from '@angular/material/autocomplete';
 import { MatInputModule } from '@angular/material/input';
@@ -10,12 +10,12 @@ import { debounceTime, map, Observable, switchMap } from 'rxjs';
 import { GameService } from '../../services/game.service';
 import { Game } from '../../model/game.model';
 import { MatIcon } from '@angular/material/icon';
+import { linkToStaticResource } from '../../../enviroment/enviroment';
 
 @Component({
   selector: 'app-header',
   standalone: true,
   imports: [
-    RouterOutlet,
     NavComponent,
     FormsModule,
     MatFormFieldModule,
@@ -67,4 +67,7 @@ export class HeaderComponent implements OnInit {
   redirect(path: string) {
     this.router.navigate([path]); // Funcion para redirigir a una ruta
   }
+
+  // Exponer la función para usar en el template
+  protected readonly linkToStaticResource = linkToStaticResource;
 }

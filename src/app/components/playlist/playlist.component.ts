@@ -136,7 +136,7 @@ export class PlaylistComponent implements OnInit {
       });
   }
   goToUserProfile() {
-    this.router.navigate(['/user', this.user.id]);
+    this.router.navigate(['/user', this.user.nick]);
   }
   goToHomepage() {
     this.router.navigate(['/']);

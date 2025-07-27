@@ -49,20 +49,57 @@ export class GameService {
     maxStarValue: number,
   ): Observable<Game[]> {
     const url = this.gamesEndpoint + `/filter`;
+
+    // Si no hay filtros aplicados, usar getAllGames en su lugar
+    const hasFilters =
+      tags.length > 0 ||
+      platform.length > 0 ||
+      studio.length > 0 ||
+      franchise.length > 0 ||
+      startDate.getTime() !== new Date('1970-01-01T03:00:00.000Z').getTime() ||
+      (endDate.getTime() !== new Date('1970-01-01T03:00:00.000Z').getTime() &&
+        endDate.getTime() !== new Date(2030, 0, 1).getTime()) ||
+      minStarValue !== 0 ||
+      maxStarValue !== 5;
+
+    if (!hasFilters) {
+      return this.getAllGames();
+    }
+
     if (endDate.getTime() === new Date('1970-01-01T03:00:00.000Z').getTime()) {
       endDate = new Date(2030, 0, 1);
     }
 
-    // Construct query parameters
-    const params = new HttpParams()
-      .set('tags', tags.join(',')) // Convert array to comma-separated string
-      .set('platform', platform.join(','))
-      .set('studio', studio.join(','))
-      .set('franchise', franchise.join(','))
-      .set('startDate', startDate.toISOString()) // Convert Date to ISO string
-      .set('endDate', endDate.toISOString())
-      .set('minStarValue', minStarValue.toString())
-      .set('maxStarValue', maxStarValue.toString());
+    // Construct query parameters only for non-empty values
+    let params = new HttpParams();
+
+    if (tags.length > 0) {
+      params = params.set('tags', tags.join(','));
+    }
+    if (platform.length > 0) {
+      params = params.set('platform', platform.join(','));
+    }
+    if (studio.length > 0) {
+      params = params.set('studio', studio.join(','));
+    }
+    if (franchise.length > 0) {
+      params = params.set('franchise', franchise.join(','));
+    }
+    if (
+      startDate.getTime() !== new Date('1970-01-01T03:00:00.000Z').getTime()
+    ) {
+      params = params.set('startDate', startDate.toISOString());
+    }
+    if (endDate.getTime() !== new Date(2030, 0, 1).getTime()) {
+      params = params.set('endDate', endDate.toISOString());
+    }
+    if (minStarValue !== 0) {
+      params = params.set('minStarValue', minStarValue.toString());
+    }
+    if (maxStarValue !== 5) {
+      params = params.set('maxStarValue', maxStarValue.toString());
+    }
+
     return this.http
       .get<ApiResponse<Game[]>>(url, { params })
       .pipe(map((response) => response.data));

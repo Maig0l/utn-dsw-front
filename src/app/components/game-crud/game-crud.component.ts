@@ -108,7 +108,7 @@ export class GameCrudComponent implements OnInit {
   }
 
   openEditDialog(game: Game): void {
-    this.router.navigate(['/administradores/game/edit', game.id]);
+    this.router.navigate(['/admin/game/edit', game.id]);
   }
 
   closeDialog(): void {
@@ -200,7 +200,7 @@ export class GameCrudComponent implements OnInit {
   }
 
   goToAddGame(): void {
-    this.router.navigate(['/administradores/game/create']);
+    this.router.navigate(['/admin/game/create']);
   }
 
   openDeleteDialog(id: number): void {

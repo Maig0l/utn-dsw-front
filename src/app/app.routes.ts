@@ -47,7 +47,7 @@ export const routes: Routes = [
   { path: 'user/:nick', component: UserComponent },
 
   {
-    path: 'administradores',
+    path: 'admin',
     component: CrudsComponent,
     canActivate: [AdminGuard],
     children: [

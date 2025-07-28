@@ -263,7 +263,7 @@ export class PlatformComponent implements OnInit {
   }
 
   handleBackendError(errorResponse: { error?: { message?: unknown } }): void {
-    console.error('Backend error response entera:', errorResponse);
+    console.error('Backend error response:', errorResponse);
 
     if (errorResponse.error && errorResponse.error.message) {
       let errorMessage = errorResponse.error.message;

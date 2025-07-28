@@ -3,10 +3,12 @@ import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { TagComponent } from './tag.component';
 import { TagService } from '../../services/tag.service';
 import { HttpClientModule } from '@angular/common/http';
-import { HttpClientTestingModule, HttpTestingController } from '@angular/common/http/testing';
+import {
+  HttpClientTestingModule,
+  HttpTestingController,
+} from '@angular/common/http/testing';
 import { AppComponent } from '../../app.component';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
-
 
 describe('TagService', () => {
   let component: TagComponent;
@@ -16,7 +18,14 @@ describe('TagService', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      imports: [TagComponent, HttpClientModule, AppComponent, HttpClientTestingModule, BrowserAnimationsModule],providers:[TagService]
+      imports: [
+        TagComponent,
+        HttpClientModule,
+        AppComponent,
+        HttpClientTestingModule,
+        BrowserAnimationsModule,
+      ],
+      providers: [TagService],
     }).compileComponents();
 
     fixture = TestBed.createComponent(TagComponent);
@@ -26,12 +35,10 @@ describe('TagService', () => {
     httpMock = TestBed.inject(HttpTestingController);
   });
 
-
-
   it('should create service', () => {
     expect(service).toBeTruthy();
   });
-/*
+  /*
   it('get all tags', ()=>{
     const mockData = [{ id: 1, name: 'Item 1', description: 'Cosas' }, { id: 2, name: 'Item 2', description: 'Cosas' }];
 
@@ -48,8 +55,8 @@ describe('TagService', () => {
   })
 
 */
-  it('get one tags', ()=>{
-    const mockData = { id: 1, name: 'Fantasy', description: 'Cosas' };
+  it('get one tags', () => {
+    const mockData = { id: 1, name: 'Fantasy', description: 'Stuff' };
 
     service.getOneTag(1).subscribe((data) => {
       expect(data).toEqual(mockData);
@@ -58,10 +65,8 @@ describe('TagService', () => {
     const req = httpMock.expectOne('http://localhost:8080/api/tags/1'); // Verifica la URL
     expect(req.request.method).toBe('GET'); // Asegura que sea un GET
     req.flush(mockData); // Responde con datos mockeados
+  });
 
-  })
-    
-  
   it('delete one tag', () => {
     const id = 1;
 
@@ -74,7 +79,7 @@ describe('TagService', () => {
 
     req.flush(null); // Simula respuesta vacía
   });
-/*
+  /*
   it('add one tag', () => {
     const newItem = {name: 'Science Fiction', description: 'Cosas' };
     const mockResponse = { id: 1 };
@@ -93,10 +98,14 @@ describe('TagService', () => {
 */
   it('update one tag', () => {
     const id = 1;
-    const updatedItem = {id:1, name:'Science Fiction',description: 'Cosas' };
+    const updatedItem = {
+      id: 1,
+      name: 'Science Fiction',
+      description: 'Stuff',
+    };
     const mockResponse = { success: true };
 
-    service.updateTag(id, 'Science Fiction', 'Cosas').subscribe((response) => {
+    service.updateTag(id, 'Science Fiction', 'Stuff').subscribe((response) => {
       expect(response).toEqual(mockResponse);
     });
 
@@ -110,30 +119,35 @@ describe('TagService', () => {
   it('get tags by name', () => {
     const tagName = 'Fantasy';
     const mockResponse = {
-      data: [{ id: 1, name: 'Fantasy',description: 'Cosas'  }, { id: 2, name: 'Strategy', description: 'Cosas' }],
+      data: [
+        { id: 1, name: 'Fantasy', description: 'Stuff' },
+        { id: 2, name: 'Strategy', description: 'Stuff' },
+      ],
     };
 
     service.getTagsByName(tagName).subscribe((tags) => {
       expect(tags).toEqual(mockResponse.data);
     });
 
-    const req = httpMock.expectOne(`http://localhost:8080/api/tags/search?name=${tagName}`);
+    const req = httpMock.expectOne(
+      `http://localhost:8080/api/tags/search?name=${tagName}`,
+    );
     expect(req.request.method).toBe('GET');
 
     req.flush(mockResponse);
-
   });
 
-
-  it('debería devolver un array vacío si no hay tags', () => {
+  it('should return an empty array if there are no tags', () => {
     const tagName = 'unknown';
     const mockResponse = { data: [] };
-  
+
     service.getTagsByName(tagName).subscribe((tags) => {
       expect(tags).toEqual([]);
     });
-  
-    const req = httpMock.expectOne(`http://localhost:8080/api/tags/search?name=${tagName}`);
+
+    const req = httpMock.expectOne(
+      `http://localhost:8080/api/tags/search?name=${tagName}`,
+    );
     req.flush(mockResponse);
   });
 });

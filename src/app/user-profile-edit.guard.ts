@@ -19,14 +19,10 @@ export class UserProfileEditGuard implements CanActivate {
     // Verificar si el usuario está logueado
     if (!this.authService.isLoggedIn()) {
       console.warn('User not logged in, redirecting to login');
-      this.snackBar.open(
-        'Debes iniciar sesión para editar tu perfil',
-        'Cerrar',
-        {
-          duration: 5000,
-          panelClass: ['error-snackbar'],
-        },
-      );
+      this.snackBar.open('Log in to edit your profile', 'Close', {
+        duration: 5000,
+        panelClass: ['error-snackbar'],
+      });
       this.router.navigate(['/log-in']);
       return false;
     }

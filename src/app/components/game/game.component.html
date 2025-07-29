@@ -22,6 +22,7 @@
       <mat-form-field appearance="outline">
         <mat-label>Release date</mat-label>
         <input
+          required
           matInput
           type="date"
           id="releaseDate"
@@ -35,10 +36,11 @@
     </div>
 
     <!-- Synopsis en fila completa -->
-    <div class="form-row single">
+    <div class="form-row single" id="synopsis-row">
       <mat-form-field appearance="outline">
         <mat-label>Synopsis</mat-label>
         <textarea
+          required
           matInput
           id="synopsis"
           formControlName="synopsis"

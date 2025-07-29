@@ -233,11 +233,10 @@ button.primary:hover {
   animation: slideIn 0.5s ease-out;
 }
 
-.game-updated h1 {
-  color: var(--success-green);
-  margin: 0 0 16px 0;
-  font-size: 1.8rem;
-}
+/*.success-buttons .mdc-button__label,*/
+/*.game-updated .mat-icon {*/
+/*  color: black;*/
+/*}*/
 
 .success-buttons {
   display: flex;

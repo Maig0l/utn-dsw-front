@@ -84,6 +84,10 @@ mat-form-field {
   width: 100%;
 }
 
+#synopsis-row {
+  margin-top: 1em;
+}
+
 ::ng-deep .mat-mdc-form-field {
   background: rgba(255, 255, 255, 0.05);
   border-radius: 12px;

@@ -11,7 +11,8 @@ import { MatIconModule } from '@angular/material/icon';
 import { MatDialog } from '@angular/material/dialog';
 import { FormsModule } from '@angular/forms';
 import { MatTableModule } from '@angular/material/table';
-import { linkToStaticResource } from '../../../enviroment/enviroment';
+
+import { linkToStaticResource } from '../../../utils/linkToStaticResource';
 
 @Component({
   selector: 'app-platform',

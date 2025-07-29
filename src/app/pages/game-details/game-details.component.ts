@@ -8,7 +8,6 @@ import {
   RouterOutlet,
 } from '@angular/router';
 import { CommonModule } from '@angular/common';
-import { linkToStaticResource } from '../../../enviroment/enviroment';
 import { ReviewFormComponent } from '../../components/review-form/review-form.component';
 
 import { Input, OnDestroy, OnInit } from '@angular/core';
@@ -22,6 +21,7 @@ import { MatMenuModule } from '@angular/material/menu';
 
 import { LoginService } from '../../services/auth/login.service';
 import { ReviewCardGameComponent } from '../../components/review-card-game/review-card-game.component';
+import { linkToStaticResource } from '../../../utils/linkToStaticResource';
 
 export interface SlideInterface {
   id: number;

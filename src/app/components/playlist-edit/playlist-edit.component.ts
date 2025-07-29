@@ -18,7 +18,8 @@ import { Game } from '../../model/game.model';
 import { User } from '../../model/user.model';
 import { UserService } from '../../services/user.service';
 import { LoginService } from '../../services/auth/login.service';
-import { linkToStaticResource } from '../../../enviroment/enviroment';
+
+import { linkToStaticResource } from '../../../utils/linkToStaticResource';
 
 @Component({
   selector: 'app-playlist-edit',

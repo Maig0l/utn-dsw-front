@@ -2,11 +2,9 @@ import { Component, Input, input, Output, EventEmitter } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { RouterModule } from '@angular/router';
 import { Review } from '../../model/review.model';
-import {
-  environment,
-  linkToStaticResource,
-} from '../../../enviroment/enviroment';
+import { environment } from '../../../enviroment/enviroment';
 import { MatIconModule } from '@angular/material/icon';
+import { linkToStaticResource } from '../../../utils/linkToStaticResource';
 
 @Component({
   selector: 'app-review-card',

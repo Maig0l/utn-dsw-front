@@ -24,13 +24,11 @@ import { MatChipsModule } from '@angular/material/chips';
 import { MatDialog, MatDialogModule } from '@angular/material/dialog';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { MatTooltipModule } from '@angular/material/tooltip';
-import {
-  environment,
-  linkToStaticResource,
-} from '../../../enviroment/enviroment';
+import { environment } from '../../../enviroment/enviroment';
 import { LoginService } from '../../services/auth/login.service';
 import { ReviewService } from '../../services/review.service';
 import { ReviewCardComponent } from '../../components/review-card/review-card.component';
+import { linkToStaticResource } from '../../../utils/linkToStaticResource';
 
 @Component({
   selector: 'app-delete-user-dialog',

@@ -6,11 +6,10 @@ header {
   align-items: center;
 
   /* Padding para un área de contenido de 1300px (--content-width) de ancho */
-  /*padding: 0.5em calc((100vw - var(--content-width)) / 2);*/
-  padding: 2vh 10vw;
+  padding: 0.5em calc((100vw - var(--content-width)) / 2);
   background-color: #453f78;
   color: white;
-  height: 10vh;
+  height: 4rem;
 }
 
 #logo,

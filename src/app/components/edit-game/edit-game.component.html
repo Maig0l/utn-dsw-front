@@ -97,41 +97,6 @@
       </div>
     </div>
 
-    <!-- PICTURES: TODO 
-    <div class="pictures">
-      <div class="pictureInputCont" formArrayName="pictures">
-        <div *ngFor="let picture of pictures.controls; let i = index">
-          <mat-form-field appearance="outline" class="pictureInput full-width">
-            <mat-label>Picture {{ i + 1 }}</mat-label>
-            <input
-              matInput
-              type="text"
-              id="pictures-{{ i }}"
-              [formControlName]="i"
-            />
-          </mat-form-field>
-          <button
-            class="deletePictureButton"
-            *ngIf="i !== 0"
-            mat-mini-fab
-            type="button"
-            (click)="removePictureInput(i)"
-          >
-            <mat-icon>delete</mat-icon>
-          </button>
-        </div>
-      </div>
-      <button
-        mat-fab
-        extended
-        type="button"
-        class="addPictureButton"
-        (click)="addPictureInput()"
-      >
-        <mat-icon>add</mat-icon>Add picture
-      </button>
-    </div>-->
-
     <!-- Franchise -->
     @if (isFrSelected === true) {
       <mat-chip-grid #chipGrid aria-label="Enter franchise">

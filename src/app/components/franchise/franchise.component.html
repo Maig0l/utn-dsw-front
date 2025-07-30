@@ -110,7 +110,7 @@
       <!-- Games Field (Chips + Autocomplete) -->
       <mat-form-field class="full-width" id="azul">
         <mat-label>Games</mat-label>
-        <mat-chip-grid #chipList>
+        <mat-chip-grid style="color: red" #chipList>
           <mat-chip-row
             *ngFor="let game of gameSelected"
             [removable]="true"
@@ -143,7 +143,7 @@
       </mat-form-field>
     </form>
   </div>
-  <div mat-dialog-actions align="end">
+  <div mat-dialog-actions align="end" class="dialog-actions">
     <button mat-button (click)="closeDialog()">Cancel</button>
     <button mat-raised-button color="primary" (click)="saveDialog()">
       Save

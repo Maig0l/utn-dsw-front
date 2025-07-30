@@ -1,9 +1,9 @@
 /* General Section Styles */
 section {
   /*these don't work properly with angular material components*/
-  --main-bg-color: #ffebc2;
-  --secondary-bg-color: #feedcd;
-  --main-text-color: #012b59;
+  --main-bg-color: #0e0c1a;
+  --secondary-bg-color: #001d3d;
+  --main-text-color: #e5e5e5;
 
   padding-top: 32px;
   font-size: 24px;
@@ -27,7 +27,7 @@ td {
 }
 
 a {
-  color: #3f51b5;
+  color: var(--main-text-color);
   text-decoration: underline;
   cursor: pointer;
 }
@@ -46,6 +46,15 @@ a {
   flex: 1; /* Allow the search bar to take up available space */
   max-width: 600px;
   margin-right: 16px;
+}
+
+.toolbar input {
+  color: var(--main-text-color);
+}
+
+.toolbar button {
+  color: var(--main-text-color);
+  background-color: #302c54;
 }
 
 .add-button.mat-mdc-raised-button {
@@ -91,6 +100,14 @@ mat-paginator {
   color: #012b59;
 }
 
+.dialog-template {
+ background-color: var(--main-text-color);
+}
+
+.dialog-actions button{
+  color: var(--main-text-color); /* button text color */
+}
+
 button + button {
   margin-left: 8px; /* Add spacing between buttons */
 }
@@ -127,8 +144,21 @@ mat-form-field.mat-mdc-form-field {
   text-align: center;
 }
 
+.full-width input{
+  color: var(--main-text-color);
+}
+
+.full-width mat-option{
+  color: var(--main-text-color);
+}
+
 ::ng-deep mat-label {
-  color: #012b59;
+  color: var(--main-text-color);
+}
+
+::ng-deep .mat-mdc-dialog-surface {
+  background-color: #012B59 !important; /* Very important */
+  color: var(--main-text-color) !important; /* Very important */
 }
 
 ::ng-deep
@@ -148,4 +178,33 @@ mat-form-field.mat-mdc-form-field {
 
 ::ng-deep .mat-mdc-select-panel-above div.mat-mdc-select-panel {
   background-color: #fdf0d5;
+}
+
+::ng-deep mat-paginator {
+  color: var(--main-text-color);
+}
+
+::ng-deep mat-paginator .mat-mdc-icon-button {
+  color: var(--main-text-color);
+}
+
+::ng-deep mat-paginator .mat-mdc-select-value {
+  color: var(--main-text-color);
+}
+
+::ng-deep mat-paginator .mat-mdc-select-arrow {
+  color: var(--main-text-color);
+}
+
+::ng-deep mat-paginator .mat-mdc-form-field-infix {
+  color: var(--main-text-color);
+}
+
+::ng-deep .mat-mdc-select-panel {
+  background-color: #e5e5e5 !important;
+}
+
+::ng-deep .mat-mdc-paginator .mat-mdc-icon-button {
+  color: white;
+  fill: white;
 }

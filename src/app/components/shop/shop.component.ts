@@ -57,7 +57,6 @@ export class ShopComponent implements OnInit {
   ) {
     this.dialogForm = new FormGroup({
       name: new FormControl(''),
-      img: new FormControl(''),
       site: new FormControl(''),
     });
   }
@@ -107,7 +106,6 @@ export class ShopComponent implements OnInit {
     this.currentShopId = shop.id;
     this.dialogForm.setValue({
       name: shop.name,
-      img: shop.img,
       site: shop.site,
     });
     this.dialog.open(this.dialogTemplate);
@@ -121,17 +119,15 @@ export class ShopComponent implements OnInit {
     const shopData = this.dialogForm.value;
 
     if (this.dialogMode === 'add') {
-      this.shopService
-        .addShop(shopData.name, shopData.img, shopData.site)
-        .subscribe({
-          next: () => {
-            this.loadShops();
-            this.closeDialog();
-          },
-          error: (errorResponse) => {
-            this.handleBackendError(errorResponse);
-          },
-        });
+      this.shopService.addShop(shopData.name, shopData.site).subscribe({
+        next: () => {
+          this.loadShops();
+          this.closeDialog();
+        },
+        error: (errorResponse) => {
+          this.handleBackendError(errorResponse);
+        },
+      });
     } else if (this.dialogMode === 'edit' && this.currentShopId !== null) {
       this.shopService.updateShop(this.currentShopId, shopData).subscribe({
         next: () => {
@@ -155,8 +151,6 @@ export class ShopComponent implements OnInit {
         this.dialogForm.get('name')?.setErrors({ backend: errorMessage });
       } else if (errorMessage.includes('site')) {
         this.dialogForm.get('site')?.setErrors({ backend: errorMessage });
-      } else if (errorMessage.includes('img')) {
-        this.dialogForm.get('img')?.setErrors({ backend: errorMessage });
       } else {
         // Handle unexpected errors
         alert('An unexpected error occurred: ' + errorMessage);

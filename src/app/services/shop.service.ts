@@ -32,8 +32,8 @@ export class ShopService {
       .pipe(map((response) => response.data));
   }
 
-  addShop(name: string, img: string, site: string): Observable<Shop> {
-    return this.http.post<Shop>(this.shopsEndpoint, { name, img, site });
+  addShop(name: string, site: string): Observable<Shop> {
+    return this.http.post<Shop>(this.shopsEndpoint, { name, site });
   }
 
   updateShop(id: number, shopData: Partial<Shop>): Observable<Shop> {

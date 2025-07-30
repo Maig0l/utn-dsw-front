@@ -24,6 +24,7 @@ import { StudioService } from '../../services/studio.service';
 import { MatAutocompleteModule } from '@angular/material/autocomplete';
 import { debounceTime, map, Observable, switchMap } from 'rxjs';
 import { environment } from '../../../enviroment/enviroment';
+import { FranchiseComponent } from '../franchise/franchise.component.js';
 
 @Component({
   selector: 'app-edit-game',
@@ -192,7 +193,7 @@ export class EditGameComponent implements OnInit {
       }),
     );
   }
-  isFrSelected = false;
+  isFrSelected = true;
   addFranchise(franchise: Franchise) {
     if (this.franchiseSelected === franchise) {
       return;
@@ -299,7 +300,6 @@ export class EditGameComponent implements OnInit {
     // Get the game to update
     this.id = +this.route.snapshot.paramMap.get('id')!;
     this.gameService.getOneGame(this.id).subscribe((data: Game) => {
-      console.log('Game: ', data);
       this.game = data;
 
       // date formatting
@@ -316,7 +316,7 @@ export class EditGameComponent implements OnInit {
       const year = ('000' + date.getFullYear()).slice(-4);
       const formatedDate = `${year}-${month}-${day}`;
       console.log('Formated date: ', formatedDate);
-
+      this.franchiseSelected = data.franchise;
       this.tagSelected = data.tags;
       this.studioSelected = data.studios;
       this.shopSelected = data.shops;

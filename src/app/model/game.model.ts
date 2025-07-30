@@ -3,6 +3,7 @@ import { Platform } from './platform.model';
 import { Studio } from './studio.model';
 import { Tag } from './tag.model';
 import { Shop } from './shop.model.js';
+import { Franchise } from './franchise.model.js';
 
 export interface Pictures {
   url: string[];
@@ -16,7 +17,7 @@ export interface Game {
   portrait: string;
   banner: string;
   pictures: string[];
-  franchise: number;
+  franchise: Franchise;
   tags: Tag[];
   studios: Studio[];
   platforms: Platform[];

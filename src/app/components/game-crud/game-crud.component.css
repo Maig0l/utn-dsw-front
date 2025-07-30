@@ -1,9 +1,9 @@
 /* General Section Styles */
 section {
   /*these don't work properly with angular material components*/
-  --main-bg-color: #ffebc2;
-  --secondary-bg-color: #feedcd;
-  --main-text-color: #012b59;
+  --main-bg-color: #0E0C1A;
+  --secondary-bg-color: #001D3D;
+  --main-text-color: #e5e5e5;
 
   padding-top: 32px;
   font-size: 24px;
@@ -27,7 +27,7 @@ td {
 }
 
 a {
-  color: #3f51b5;
+  color: var(--main-text-color);
   text-decoration: underline;
   cursor: pointer;
 }
@@ -42,6 +42,15 @@ a {
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
 }
 
+.toolbar input {
+  color: var(--main-text-color);
+}
+
+.toolbar button {
+  color: var(--main-text-color);
+  background-color: #302c54;
+}
+
 .search-bar {
   flex: 1; /* Allow the search bar to take up available space */
   max-width: 600px;
@@ -50,8 +59,8 @@ a {
 
 .add-button.mat-mdc-raised-button {
   white-space: nowrap;
-  background-color: var(--main-text-color);
-  color: var(--main-bg-color);
+  background-color: #001d3d;
+  color: #ffffff;
 }
 
 table {
@@ -87,8 +96,8 @@ mat-paginator {
   padding: 8px 16px;
   border-radius: 8px;
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
-  background-color: #ffebc2;
-  color: #012b59;
+  background-color: #012B59;
+  color: #e5e5e5;
 }
 
 button + button {
@@ -104,7 +113,7 @@ h1.ng-star-inserted {
 
 .mat-dialog-content {
   font-size: 16px;
-  color: #012b59;
+  color: #e5e5e5;
 }
 
 mat-form-field.mat-mdc-form-field {
@@ -128,7 +137,7 @@ mat-form-field.mat-mdc-form-field {
 }
 
 ::ng-deep mat-label {
-  color: #012b59;
+  color: var(--main-text-color);
 }
 
 ::ng-deep
@@ -137,15 +146,40 @@ mat-form-field.mat-mdc-form-field {
 }
 
 ::ng-deep div.mat-mdc-select-panel .mat-mdc-option {
-  color: #012b59;
+  color: #e5e5e5;
 }
 
 ::ng-deep
   .cdk-overlay-pane:not(.mat-mdc-select-panel-above)
   div.mat-mdc-select-panel {
-  background-color: #fdf0d5;
+  background-color: #333333;
 }
 
 ::ng-deep .mat-mdc-select-panel-above div.mat-mdc-select-panel {
-  background-color: #fdf0d5;
+  background-color: #333333;
 }
+
+::ng-deep mat-paginator {
+  color: var(--main-text-color);
+}
+
+::ng-deep mat-paginator .mat-mdc-icon-button {
+  color: var(--main-text-color);
+}
+
+::ng-deep mat-paginator .mat-mdc-select-value {
+  color: var(--main-text-color);
+}
+
+::ng-deep mat-paginator .mat-mdc-select-arrow {
+  color: var(--main-text-color);
+}
+
+::ng-deep mat-paginator .mat-mdc-form-field-infix {
+  color: var(--main-text-color);
+}
+
+::ng-deep .mat-mdc-select-panel {
+  background-color: #e5e5e5 !important;
+}
+

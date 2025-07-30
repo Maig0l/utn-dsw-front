@@ -359,9 +359,11 @@ export class GameComponent implements OnInit {
 
   gameCreated = false;
   lastGameId = 0;
+  
   addGame() {
     this.gameCreated = false;
     this.clearFieldErrors(); // Limpiar errores anteriores
+    /*
     const x = this.gameForm.value as Game;
 
     this.gameService.addGameObj(x).subscribe({
@@ -375,9 +377,9 @@ export class GameComponent implements OnInit {
         this.processBackendErrors(error);
       },
     });
-
-    /*
-    this.gameService
+  */
+    
+  this.gameService
       .addGame(
         this.gameForm.value.title ?? '',
         this.gameForm.value.synopsis ?? '',
@@ -394,9 +396,9 @@ export class GameComponent implements OnInit {
         this.game = responseGame;
         this.lastGameId = responseGame.id;
         this.gameCreated = true;
-        //        this.uploadImages();
       });
-*/
+      
+
     //router.navigate(['/games']); TODO
   }
   goToGame() {

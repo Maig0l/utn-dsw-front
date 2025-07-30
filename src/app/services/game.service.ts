@@ -109,7 +109,7 @@ export class GameService {
     return this.http.post<Game>(this.gamesEndpoint, game);
   }
 
-  /*
+  
   addGame(
     title: string,
     synopsis: string,
@@ -123,19 +123,19 @@ export class GameService {
     platforms: number[],
   ): Observable<Game> {
     return this.http.post<Game>(this.gamesEndpoint, {
-      title,
+    title,
       synopsis,
       releaseDate,
       portrait,
       banner,
-      franchise != 0 ? franchise : null,
+      franchise,
       tags,
       studios,
       shops,
       platforms,
     });
   }
-*/
+
 
   updateGame(
     id: number,

@@ -248,25 +248,6 @@
       </div>
     </div>
   </div>
-
-  <!-- TODO: Crear componente picture-carousel y extraer allí -->
-  @if (game.pictures.length > 0) {
-    <section class="game-images">
-      <div class="slider">
-        <div>
-          <span (click)="goToPrevious()" class="leftArrow">❰</span>
-          <span (click)="goToNext()" class="rightArrow">❱</span>
-        </div>
-        <img class="slide" alt="carrusel image" [src]="getCurrentSlideUrl()" />
-        <div class="dotsContainer">
-          @for (slide of game.pictures; track $index) {
-            <!-- TODO: Poner el punto de la imagen actual en blanco y el resto más oscuro -->
-            <span class="dot" (click)="goToSlide($index)">●</span>
-          }
-        </div>
-      </div>
-    </section>
-  }
 </ng-template>
 
 <ng-template #reviewsSection> </ng-template>

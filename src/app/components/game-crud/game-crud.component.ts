@@ -128,7 +128,6 @@ export class GameCrudComponent implements OnInit {
           releaseDate: gameData.releaseDate,
           portrait: gameData.portrait,
           banner: gameData.banner,
-          pictures: gameData.pictures,
           franchise: gameData.franchise,
           tags: [],
           studios: [],

@@ -5,10 +5,6 @@ import { Tag } from './tag.model';
 import { Shop } from './shop.model.js';
 import { Franchise } from './franchise.model.js';
 
-export interface Pictures {
-  url: string[];
-}
-
 export interface Game {
   id: number;
   title: string;
@@ -16,7 +12,6 @@ export interface Game {
   releaseDate: string;
   portrait: string;
   banner: string;
-  pictures: string[];
   franchise: Franchise;
   tags: Tag[];
   studios: Studio[];

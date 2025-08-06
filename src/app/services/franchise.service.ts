@@ -4,15 +4,16 @@ import { map, Observable } from 'rxjs';
 //import { Game } from '../model/game.model';
 import { Franchise } from '../model/franchise.model';
 import { ApiResponse } from '../model/apiResponse.model';
+import { API_URL } from '../../main.js';
 
 @Injectable({
   providedIn: 'root',
 })
 export class FranchiseService {
-  constructor(private http: HttpClient) {}
+  constructor(private http: HttpClient) { }
 
   // TODO: Guardar la URL base y rutas de endpoints en algún archivo de config global
-  franchisesEndpoint = 'http://localhost:8080/api/franchises';
+  franchisesEndpoint = `${API_URL}/franchises`;
 
   getAllFranchises(): Observable<Franchise[]> {
     return (

@@ -3,14 +3,15 @@ import { HttpClient } from '@angular/common/http';
 import { map, Observable } from 'rxjs';
 import { Playlist } from '../model/playlist.model';
 import { ApiResponse } from '../model/apiResponse.model';
+import { API_URL } from '../../main.js';
 
 @Injectable({
   providedIn: 'root',
 })
 export class PlaylistService {
-  constructor(private http: HttpClient) {}
+  constructor(private http: HttpClient) { }
 
-  playlistEndpoint = 'http://localhost:8080/api/playlists';
+  playlistEndpoint = `${API_URL}/playlists`;
 
   getPlaylistsByOwner(owner: number): Observable<Playlist[]> {
     const url = this.playlistEndpoint + `/search?owner=${owner}`;

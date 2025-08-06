@@ -3,16 +3,16 @@ import { HttpClient } from '@angular/common/http';
 import { map, Observable } from 'rxjs';
 import { Platform } from '../model/platform.model';
 import { ApiResponse } from '../model/apiResponse.model';
-import { environment } from '../../enviroment/enviroment';
+import { API_URL } from '../../main.js';
 
 @Injectable({
   providedIn: 'root',
 })
 export class PlatformService {
-  constructor(private http: HttpClient) {}
+  constructor(private http: HttpClient) { }
 
   // Usar la URL del environment en lugar de hardcodear
-  platformsEndpoint = `${environment.apiUrl}/api/platforms`;
+  platformsEndpoint = `${API_URL}/platforms`;
 
   getOnePlatform(id: number): Observable<Platform> {
     const url = this.platformsEndpoint + `/${id}`;

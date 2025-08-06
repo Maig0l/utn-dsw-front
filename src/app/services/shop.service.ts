@@ -3,6 +3,7 @@ import { HttpClient } from '@angular/common/http';
 import { map, Observable } from 'rxjs';
 import { Shop } from '../model/shop.model';
 import { ApiResponse } from '../model/apiResponse.model';
+import { API_URL } from '../../main.js';
 
 type resShopArray = ApiResponse<Shop[]>;
 type resShopSingle = ApiResponse<Shop>;
@@ -11,10 +12,9 @@ type resShopSingle = ApiResponse<Shop>;
   providedIn: 'root',
 })
 export class ShopService {
-  constructor(private http: HttpClient) {}
+  constructor(private http: HttpClient) { }
 
-  // TODO: Guardar la URL base y rutas de endpoints en algún archivo de config global
-  shopsEndpoint = 'http://localhost:8080/api/shops';
+  shopsEndpoint = `${API_URL}/shops`
 
   getAllShops(): Observable<Shop[]> {
     return (

@@ -24,7 +24,7 @@
     ],
     "types":[
       "jest",
-
+      "node",
     ]
   },
   "angularCompilerOptions": {

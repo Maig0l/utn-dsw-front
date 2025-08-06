@@ -57,7 +57,6 @@ export class HeaderComponent implements OnInit {
     return this.gameService.findGamesByTitle(filterValue).pipe(
       map((data: Game[]) => {
         this.options = data;
-        console.log(this.options);
         return this.options.filter((option) =>
           option.title.toLowerCase().includes(filterValue),
         );

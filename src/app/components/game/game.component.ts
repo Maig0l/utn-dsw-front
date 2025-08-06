@@ -58,7 +58,6 @@ export class GameComponent implements OnInit {
       next: (response) => {
         const imagePath = response.path || response.url || response;
         this.gameForm.patchValue({ portrait: imagePath });
-        console.log('Portrait subido. Path:', imagePath);
       },
       error: (err) => {
         console.error('Error al subir portrait:', err);
@@ -74,7 +73,6 @@ export class GameComponent implements OnInit {
       next: (response) => {
         const imagePath = response.path || response.url || response;
         this.gameForm.patchValue({ banner: imagePath });
-        console.log('Banner subido. Path:', imagePath);
       },
       error: (err) => {
         console.error('Error al subir banner:', err);
@@ -86,7 +84,6 @@ export class GameComponent implements OnInit {
     if (this.portraitFile) {
       this.gameService.uploadPortrait(this.id, this.portraitFile).subscribe({
         next: () => {
-          console.log('Portrait uploaded successfully');
           this.portraitFile = null;
         },
         error: (error) => console.error('Error uploading portrait:', error),
@@ -96,7 +93,6 @@ export class GameComponent implements OnInit {
     if (this.bannerFile) {
       this.gameService.uploadBanner(this.id, this.bannerFile).subscribe({
         next: () => {
-          console.log('Banner uploaded successfully');
           this.bannerFile = null;
         },
         error: (error) => console.error('Error uploading banner:', error),
@@ -359,7 +355,7 @@ export class GameComponent implements OnInit {
 
   gameCreated = false;
   lastGameId = 0;
-  
+
   addGame() {
     this.gameCreated = false;
     this.clearFieldErrors(); // Limpiar errores anteriores
@@ -378,8 +374,8 @@ export class GameComponent implements OnInit {
       },
     });
   */
-    
-  this.gameService
+
+    this.gameService
       .addGame(
         this.gameForm.value.title ?? '',
         this.gameForm.value.synopsis ?? '',
@@ -397,7 +393,6 @@ export class GameComponent implements OnInit {
         this.lastGameId = responseGame.id;
         this.gameCreated = true;
       });
-      
 
     //router.navigate(['/games']); TODO
   }

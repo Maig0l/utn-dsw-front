@@ -39,14 +39,6 @@ export class UserService {
     linked_accounts: string[],
     likedTags: number[],
   ): Observable<User> {
-    console.log('User data to update:', {
-      id,
-      nick,
-      profile_img,
-      bio_text,
-      linked_accounts,
-      likedTags,
-    });
     const url = `${this.usersEndpoint}/${id}`;
     return this.http.patch<User>(url, {
       id,

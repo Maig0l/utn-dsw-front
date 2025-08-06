@@ -102,7 +102,6 @@ export class HomepageComponent implements OnInit {
           },
         });
       } catch {
-        console.log('Could not get user data, showing default games');
         this.gameService.getHotGames().subscribe((games) => {
           this.hotGames = games;
         });

@@ -246,6 +246,14 @@
           </div>
         }
       </div>
+      <div class="tags-section" *ngIf="game.tags && game.tags.length > 0">
+        <span class="tags-label">Tags:</span>
+        <mat-chip-set class="game-tags">
+          @for (tag of game.tags; track tag.id) {
+            <mat-chip>{{ tag.name }}</mat-chip>
+          }
+        </mat-chip-set>
+      </div>
     </div>
   </div>
 </ng-template>

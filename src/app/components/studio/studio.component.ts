@@ -120,7 +120,6 @@ export class StudioComponent implements OnInit {
 
   saveDialog(): void {
     const studioData = this.dialogForm.value;
-    console.log('Studio Data:', studioData);
     if (this.dialogMode === 'add') {
       this.studioService
         .addStudio(studioData.name, studioData.type, studioData.site)

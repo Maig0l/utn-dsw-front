@@ -18,6 +18,7 @@ import { Studio } from '../../model/studio.model';
 import { MatIconModule } from '@angular/material/icon';
 import { MatButtonModule } from '@angular/material/button';
 import { MatMenuModule } from '@angular/material/menu';
+import { MatChipsModule } from '@angular/material/chips';
 
 import { LoginService } from '../../services/auth/login.service';
 import { ReviewCardGameComponent } from '../../components/review-card-game/review-card-game.component';
@@ -31,6 +32,7 @@ import { linkToStaticResource } from '../../../utils/linkToStaticResource';
     MatIconModule,
     MatButtonModule,
     MatMenuModule,
+    MatChipsModule,
     RouterModule,
     ReviewFormComponent,
     ReviewCardGameComponent,
@@ -104,18 +106,14 @@ export class GameDetailsComponent implements OnInit, OnDestroy {
       } else {
         this.score = 0; // Sin reviews, score es 0
       }
-      console.log('GAME: ', this.game);
 
       this.devs = this.game.studios.filter(
         (studio) => studio.type === 'Developer' || studio.type === 'Both',
       );
-      console.log('DEVS: ', this.devs);
 
       this.pubs = this.game.studios.filter(
         (studio) => studio.type === 'Publisher' || studio.type === 'Both',
       );
-      console.log('PUBS: ', this.pubs);
-      console.log('PLATFORMS: ', this.game.platforms);
 
       this.fetchReviews();
     });
@@ -200,9 +198,7 @@ export class GameDetailsComponent implements OnInit, OnDestroy {
 
   // DELETE GAME ( TODO: maybe inside edit game??)
   deleteGame() {
-    console.log('deleting game');
-    this.gameService.deleteGame(this.gameId ?? 0).subscribe((res) => {
-      console.log(res);
+    this.gameService.deleteGame(this.gameId ?? 0).subscribe(() => {
       this.router.navigate(['/homepage']);
     });
   }

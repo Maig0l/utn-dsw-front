@@ -851,3 +851,39 @@
     padding: 6px 12px;
   }
 }
+
+/* Estilos para las tags */
+.tags-section {
+  margin-top: 16px;
+}
+
+.tags-label {
+  font-weight: 600;
+  color: #ffffff;
+  font-size: 1rem;
+  margin-bottom: 8px;
+  display: block;
+}
+
+.game-tags {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin-top: 8px;
+}
+
+.game-tag {
+  background-color: #4a90e2 !important;
+  color: #ffffff !important;
+  border-radius: 16px;
+  font-size: 0.875rem;
+  font-weight: 500;
+  padding: 6px 12px;
+  transition: all 0.2s ease;
+}
+
+.game-tag:hover {
+  background-color: #357abd !important;
+  transform: translateY(-1px);
+  box-shadow: 0 4px 8px rgba(74, 144, 226, 0.3);
+}

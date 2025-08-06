@@ -99,7 +99,6 @@ export class UserEditComponent implements OnInit {
     const input = event.target as HTMLInputElement;
     if (input.files && input.files.length > 0) {
       this.profileImgFile = input.files[0];
-      console.log('Profile picture file selected: ', this.profileImgFile);
 
       const reader = new FileReader();
       reader.onload = () => {
@@ -116,7 +115,6 @@ export class UserEditComponent implements OnInit {
         .uploadProfileImg(userToken, this.id, this.profileImgFile)
         .subscribe({
           next: () => {
-            console.log('Profile picture uploaded successfully');
             this.profileImgFile = null;
           },
           error: (error) =>
@@ -202,7 +200,6 @@ export class UserEditComponent implements OnInit {
         this.userService
           .getUserByNick(userDisplayedNick)
           .subscribe((responseUser) => {
-            console.log('User response:', responseUser); // ← Debug
             this.user = responseUser;
             if (!this.user) {
               this.router.navigate(['/homepage']);
@@ -239,9 +236,6 @@ export class UserEditComponent implements OnInit {
 
     // Cargar los tags seleccionados
     this.tagSelected = this.user.likedTags ?? [];
-
-    console.log('Tags from user:', this.user.likedTags);
-    console.log('Tags selected:', this.tagSelected);
 
     // Guardar el ID para usar en updateUser
     this.id = this.user.id;

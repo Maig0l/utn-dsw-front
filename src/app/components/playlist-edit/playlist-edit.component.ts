@@ -79,7 +79,6 @@ export class PlaylistEditComponent implements OnInit {
   addGame(game: Game) {
     // Verificar si el juego ya está seleccionado por ID
     if (this.gameSelected.some((selectedGame) => selectedGame.id === game.id)) {
-      console.log('Game already selected:', game.title);
       this.snackBar.open(
         `"${game.title}" is already in the playlist`,
         'Close',
@@ -157,17 +156,11 @@ export class PlaylistEditComponent implements OnInit {
         });
 
         // Cargar los juegos de la playlist en gameSelected
-        console.log('Playlist data:', playlist);
-        console.log('Playlist games:', playlist.games);
         if (playlist.games && playlist.games.length > 0) {
           this.gameSelected = [...playlist.games];
-          console.log('Games loaded into gameSelected:', this.gameSelected);
-        } else {
-          console.log('No games found in playlist or games array is empty');
         }
 
         // Usar directamente los datos del usuario logueado
-        console.log('Current user data:', this.loginService.currentUserData);
         this.user = this.loginService.currentUserData;
       },
       error: (error) => {
@@ -189,17 +182,6 @@ export class PlaylistEditComponent implements OnInit {
   playlistUpdated = false;
   updatePlaylist() {
     this.playlistUpdated = false;
-
-    // Log para debugging
-    const updateData = {
-      id: this.id,
-      name: this.playlistForm.value.name ?? '',
-      description: this.playlistForm.value.description ?? '',
-      isPrivate: this.playlistForm.value.isPrivate ?? false,
-      owner: this.loginService.currentUserData.id,
-      games: this.gameSelected.map((game) => game.id),
-    };
-    console.log('Updating playlist with data:', updateData);
 
     this.playlistService
       .updatePlaylist(

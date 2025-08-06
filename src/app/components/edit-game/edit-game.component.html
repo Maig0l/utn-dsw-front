@@ -99,18 +99,21 @@
     </div>
 
     <!-- Franchise -->
-    @if (isFrSelected === true) {
-      <mat-chip-grid #chipGrid aria-label="Enter franchise">
-        <mat-chip-row (removed)="removeFranchise(franchiseSelected)">
+    @if (
+      isFrSelected === true && franchiseSelected && franchiseSelected.id > 0
+    ) {
+      <mat-chip-set #chipSetFranchise aria-label="Selected franchise">
+        <mat-chip (removed)="removeFranchise(franchiseSelected)">
           {{ franchiseSelected.name }}
           <button
             matChipRemove
             [attr.aria-label]="'remove ' + franchiseSelected.name"
+            (click)="removeFranchise(franchiseSelected)"
           >
             <mat-icon>cancel</mat-icon>
           </button>
-        </mat-chip-row>
-      </mat-chip-grid>
+        </mat-chip>
+      </mat-chip-set>
     }
     <mat-form-field appearance="outline" class="full-width">
       <input
@@ -132,16 +135,16 @@
     </mat-form-field>
 
     <!-- Tags -->
-    <mat-chip-grid #chipGrid aria-label="Enter tags">
+    <mat-chip-set #chipSetTags aria-label="Selected tags">
       @for (tag of tagSelected; track tag) {
-        <mat-chip-row (removed)="removeTag(tag)">
+        <mat-chip (removed)="removeTag(tag)">
           {{ tag.name }}
           <button matChipRemove [attr.aria-label]="'remove ' + tag.name">
             <mat-icon>cancel</mat-icon>
           </button>
-        </mat-chip-row>
+        </mat-chip>
       }
-    </mat-chip-grid>
+    </mat-chip-set>
     <mat-form-field appearance="outline" class="full-width">
       <input
         class="custom-input"
@@ -162,16 +165,16 @@
     </mat-form-field>
 
     <!-- Studios -->
-    <mat-chip-grid #chipGrid aria-label="Enter studios">
+    <mat-chip-set #chipSetStudios aria-label="Selected studios">
       @for (studio of studioSelected; track studio) {
-        <mat-chip-row (removed)="removeStudio(studio)">
+        <mat-chip (removed)="removeStudio(studio)">
           {{ studio.name }}
           <button matChipRemove [attr.aria-label]="'remove ' + studio.name">
             <mat-icon>cancel</mat-icon>
           </button>
-        </mat-chip-row>
+        </mat-chip>
       }
-    </mat-chip-grid>
+    </mat-chip-set>
     <mat-form-field appearance="outline" class="full-width">
       <input
         class="custom-input"
@@ -192,16 +195,16 @@
     </mat-form-field>
 
     <!-- Shops -->
-    <mat-chip-grid #chipGrid aria-label="Enter shops">
+    <mat-chip-set #chipSetShops aria-label="Selected shops">
       @for (shop of shopSelected; track shop) {
-        <mat-chip-row (removed)="removeShop(shop)">
+        <mat-chip (removed)="removeShop(shop)">
           {{ shop.name }}
           <button matChipRemove [attr.aria-label]="'remove ' + shop.name">
             <mat-icon>cancel</mat-icon>
           </button>
-        </mat-chip-row>
+        </mat-chip>
       }
-    </mat-chip-grid>
+    </mat-chip-set>
     <mat-form-field appearance="outline" class="full-width">
       <input
         class="custom-input"
@@ -222,16 +225,16 @@
     </mat-form-field>
 
     <!-- Platforms -->
-    <mat-chip-grid #chipGrid aria-label="Enter platforms">
+    <mat-chip-set #chipSetPlatforms aria-label="Selected platforms">
       @for (platform of platformSelected; track platform) {
-        <mat-chip-row (removed)="removePlatform(platform)">
+        <mat-chip (removed)="removePlatform(platform)">
           {{ platform.name }}
           <button matChipRemove [attr.aria-label]="'remove ' + platform.name">
             <mat-icon>cancel</mat-icon>
           </button>
-        </mat-chip-row>
+        </mat-chip>
       }
-    </mat-chip-grid>
+    </mat-chip-set>
     <mat-form-field appearance="outline" class="full-width">
       <input
         class="custom-input"

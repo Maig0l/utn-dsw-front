@@ -173,24 +173,22 @@ export class GameService {
 
     const headers = { authorization: `Bearer ${token}` };
 
+    const updateData = {
+      id,
+      title,
+      synopsis,
+      releaseDate,
+      portrait,
+      banner,
+      franchise,
+      tags,
+      studios,
+      shops,
+      platforms,
+    };
+
     const url = this.gamesEndpoint + `/${id}`;
-    return this.http.patch<Game>(
-      url,
-      {
-        id,
-        title,
-        synopsis,
-        releaseDate,
-        portrait,
-        banner,
-        franchise,
-        tags,
-        studios,
-        shops,
-        platforms,
-      },
-      { headers },
-    );
+    return this.http.patch<Game>(url, updateData, { headers });
   }
 
   deleteGame(id: number): Observable<Game> {

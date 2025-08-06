@@ -70,7 +70,6 @@ export class EditGameComponent implements OnInit {
     const input = event.target as HTMLInputElement;
     if (input.files && input.files.length > 0) {
       this.portraitFile = input.files[0];
-      console.log('Portrait file selected: ', this.portraitFile);
 
       const reader = new FileReader();
       reader.onload = () => {
@@ -84,7 +83,6 @@ export class EditGameComponent implements OnInit {
     const input = event.target as HTMLInputElement;
     if (input.files && input.files.length > 0) {
       this.bannerFile = input.files[0];
-      console.log('Banner file selected: ', this.bannerFile);
 
       const reader = new FileReader();
       reader.onload = () => {
@@ -98,7 +96,6 @@ export class EditGameComponent implements OnInit {
     if (this.portraitFile) {
       this.gameService.uploadPortrait(this.id, this.portraitFile).subscribe({
         next: () => {
-          console.log('Portrait uploaded successfully');
           this.portraitFile = null;
         },
         error: (error) => console.error('Error uploading portrait:', error),
@@ -108,7 +105,6 @@ export class EditGameComponent implements OnInit {
     if (this.bannerFile) {
       this.gameService.uploadBanner(this.id, this.bannerFile).subscribe({
         next: () => {
-          console.log('Banner uploaded successfully');
           this.bannerFile = null;
         },
         error: (error) => console.error('Error uploading banner:', error),
@@ -193,7 +189,7 @@ export class EditGameComponent implements OnInit {
       }),
     );
   }
-  isFrSelected = true;
+  isFrSelected = false;
   addFranchise(franchise: Franchise) {
     if (this.franchiseSelected === franchise) {
       return;
@@ -201,9 +197,11 @@ export class EditGameComponent implements OnInit {
     this.franchiseSelected = franchise;
     this.isFrSelected = true;
   }
-  removeFranchise(franchise: Franchise): void {
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
+  removeFranchise(_franchise: Franchise): void {
     this.isFrSelected = false;
-    this.franchiseSelected = { id: 0, name: '', games: [] }; //TODO
+    this.franchiseSelected = { id: 0, name: '', games: [] };
+    this.franchiseControl.setValue(''); // Limpiar el campo de búsqueda
   }
   //--------------------------------
   shopControl = new FormControl();
@@ -303,24 +301,22 @@ export class EditGameComponent implements OnInit {
       this.game = data;
 
       // date formatting
-      console.log('Release date: ', data.releaseDate);
       const dateParts = data.releaseDate.split('-');
       const date = new Date(
         parseInt(dateParts[0], 10),
         parseInt(dateParts[1], 10) - 1,
         parseInt(dateParts[2], 10),
       );
-      console.log('Date: ', date);
       const day = ('0' + date.getDate()).slice(-2);
       const month = ('0' + (date.getMonth() + 1)).slice(-2);
       const year = ('000' + date.getFullYear()).slice(-4);
       const formatedDate = `${year}-${month}-${day}`;
-      console.log('Formated date: ', formatedDate);
-      this.franchiseSelected = data.franchise;
-      this.tagSelected = data.tags;
-      this.studioSelected = data.studios;
-      this.shopSelected = data.shops;
-      this.platformSelected = data.platforms;
+      this.franchiseSelected = data.franchise || { id: 0, name: '', games: [] };
+      this.isFrSelected = data.franchise && data.franchise.id > 0;
+      this.tagSelected = data.tags || [];
+      this.studioSelected = data.studios || [];
+      this.shopSelected = data.shops || [];
+      this.platformSelected = data.platforms || [];
       this.updateForm.setValue({
         id: data.id,
         title: data.title,
@@ -335,8 +331,7 @@ export class EditGameComponent implements OnInit {
   gameUpdated = false;
   updateGame() {
     this.gameUpdated = false;
-    console.log('GAME BEFORE UPDATE: ', this.game);
-    const franchiseId = this.franchiseSelected ? this.franchiseSelected.id : 0;
+
     this.gameService
       .updateGame(
         this.id,
@@ -351,11 +346,15 @@ export class EditGameComponent implements OnInit {
         this.shopSelected.map((shop) => shop.id),
         this.platformSelected.map((platform) => platform.id),
       )
-      .subscribe((responseGame) => {
-        this.game = responseGame;
-        console.log('GAME AFTER UPDATE: ', responseGame);
-        this.gameUpdated = true;
-        this.uploadImages();
+      .subscribe({
+        next: (responseGame) => {
+          this.game = responseGame;
+          this.gameUpdated = true;
+          this.uploadImages();
+        },
+        error: (error) => {
+          console.error('Error updating game:', error);
+        },
       });
   }
   goToGame() {

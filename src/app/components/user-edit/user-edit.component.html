@@ -20,7 +20,9 @@
         <img
           *ngIf="profileImgPreview || user?.profile_img"
           [src]="
-            profileImgPreview ? profileImgPreview : apiUrl + user.profile_img
+            profileImgPreview
+              ? profileImgPreview
+              : linkToStaticResource(user.profile_img)
           "
           alt="Profile Picture"
           class="preview-image"
@@ -103,17 +105,17 @@
     <!-- Liked Tags Section -->
     <div class="form-section">
       <h3>Liked Tags</h3>
-      <mat-chip-grid #chipGrid aria-label="Enter tags">
-        @for (tag of tagSelected; track tag) {
-          <mat-chip-row (removed)="removeTag(tag)">
-            {{ tag.name }}
-            <button matChipRemove [attr.aria-label]="'remove ' + tag.name">
-              <mat-icon>cancel</mat-icon>
-            </button>
-          </mat-chip-row>
-        }
-      </mat-chip-grid>
       <mat-form-field appearance="outline" class="full-width">
+        <mat-chip-grid #chipGrid aria-label="Enter tags">
+          @for (tag of tagSelected; track tag) {
+            <mat-chip-row (removed)="removeTag(tag)">
+              {{ tag.name }}
+              <button matChipRemove [attr.aria-label]="'remove ' + tag.name">
+                <mat-icon>cancel</mat-icon>
+              </button>
+            </mat-chip-row>
+          }
+        </mat-chip-grid>
         <input
           type="text"
           placeholder="Search tags..."
@@ -121,6 +123,7 @@
           matInput
           [formControl]="tagControl"
           [matAutocomplete]="autoTag"
+          [matChipInputFor]="chipGrid"
         />
         <mat-autocomplete #autoTag="matAutocomplete">
           @for (option of filteredTagOptions | async; track option) {

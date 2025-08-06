@@ -27,6 +27,7 @@ import { ActivatedRoute, Router, Params } from '@angular/router';
 import { User } from '../../model/user.model.js';
 import { environment } from '../../../enviroment/enviroment';
 import { LoginService } from '../../services/auth/login.service';
+import { linkToStaticResource } from '../../../utils/linkToStaticResource';
 
 @Component({
   selector: 'app-user-edit-succss-dialog',
@@ -92,6 +93,9 @@ export class UserEditComponent implements OnInit {
   newAccountControl = new FormControl('');
 
   apiUrl = environment.apiUrl;
+
+  // Función para manejar recursos estáticos
+  protected readonly linkToStaticResource = linkToStaticResource;
 
   //------------------------------
   // IMAGE UPLOAD

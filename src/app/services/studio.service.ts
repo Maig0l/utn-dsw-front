@@ -30,17 +30,46 @@ export class StudioService {
   }
 
   addStudio(name: string, type: string, site: string): Observable<Studio> {
+    const token = localStorage.getItem('token');
+    if (!token) {
+      throw new Error('Authentication required');
+    }
+
+    const headers = { authorization: `Bearer ${token}` };
+
     return this.http
-      .post<responseStudio>(this.studiosEndpoint, { name, type, site })
+      .post<responseStudio>(
+        this.studiosEndpoint,
+        { name, type, site },
+        { headers },
+      )
       .pipe(map((response) => response.data));
   }
 
   updateStudio(id: number, studioData: Partial<Studio>): Observable<Studio> {
-    return this.http.put<Studio>(`${this.studiosEndpoint}/${id}`, studioData);
+    const token = localStorage.getItem('token');
+    if (!token) {
+      throw new Error('Authentication required');
+    }
+
+    const headers = { authorization: `Bearer ${token}` };
+
+    return this.http.put<Studio>(`${this.studiosEndpoint}/${id}`, studioData, {
+      headers,
+    });
   }
 
   deleteStudio(id: number): Observable<Studio> {
+    const token = localStorage.getItem('token');
+    if (!token) {
+      throw new Error('Authentication required');
+    }
+
+    const headers = { authorization: `Bearer ${token}` };
+
     const url = this.studiosEndpoint + `/${id}`;
-    return this.http.delete<responseStudio>(url).pipe(map((res) => res.data));
+    return this.http
+      .delete<responseStudio>(url, { headers })
+      .pipe(map((res) => res.data));
   }
 }

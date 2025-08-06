@@ -41,18 +41,41 @@ export class TagService {
   }
 
   addTag(name: string, description: string): Observable<Tag> {
+    const token = localStorage.getItem('token');
+    if (!token) {
+      throw new Error('Authentication required');
+    }
+
+    const headers = { authorization: `Bearer ${token}` };
+
     return this.http
-      .post<responseTag>(this.tagsEndpoint, { name, description })
+      .post<responseTag>(this.tagsEndpoint, { name, description }, { headers })
       .pipe(map((response) => response.data));
   }
 
   updateTag(id: number, name: string, description: string): Observable<Tag> {
+    const token = localStorage.getItem('token');
+    if (!token) {
+      throw new Error('Authentication required');
+    }
+
+    const headers = { authorization: `Bearer ${token}` };
+
     const url = this.tagsEndpoint + `/${id}`;
-    return this.http.put<Tag>(url, { id, name, description });
+    return this.http.put<Tag>(url, { id, name, description }, { headers });
   }
 
   deleteTag(id: number): Observable<Tag> {
+    const token = localStorage.getItem('token');
+    if (!token) {
+      throw new Error('Authentication required');
+    }
+
+    const headers = { authorization: `Bearer ${token}` };
+
     const url = this.tagsEndpoint + `/${id}`;
-    return this.http.delete<responseTag>(url).pipe(map((res) => res.data));
+    return this.http
+      .delete<responseTag>(url, { headers })
+      .pipe(map((res) => res.data));
   }
 }

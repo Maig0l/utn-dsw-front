@@ -38,7 +38,18 @@ export class FranchiseService {
   }
 
   addFranchise(name: string, games: number[]): Observable<Franchise> {
-    return this.http.post<Franchise>(this.franchisesEndpoint, { name, games });
+    const token = localStorage.getItem('token');
+    if (!token) {
+      throw new Error('Authentication required');
+    }
+
+    const headers = { authorization: `Bearer ${token}` };
+
+    return this.http.post<Franchise>(
+      this.franchisesEndpoint,
+      { name, games },
+      { headers },
+    );
   }
 
   updateFranchise(
@@ -46,14 +57,28 @@ export class FranchiseService {
     name: string,
     games: number[],
   ): Observable<Franchise> {
+    const token = localStorage.getItem('token');
+    if (!token) {
+      throw new Error('Authentication required');
+    }
+
+    const headers = { authorization: `Bearer ${token}` };
+
     const url = this.franchisesEndpoint + `/${id}`;
-    return this.http.put<Franchise>(url, { id, name, games });
+    return this.http.put<Franchise>(url, { id, name, games }, { headers });
   }
 
   deleteFranchise(id: number): Observable<Franchise> {
+    const token = localStorage.getItem('token');
+    if (!token) {
+      throw new Error('Authentication required');
+    }
+
+    const headers = { authorization: `Bearer ${token}` };
+
     const url = this.franchisesEndpoint + `/${id}`;
     return this.http
-      .delete<ApiResponse<Franchise>>(url)
+      .delete<ApiResponse<Franchise>>(url, { headers })
       .pipe(map((res) => res.data));
   }
 }

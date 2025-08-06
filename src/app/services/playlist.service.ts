@@ -35,13 +35,24 @@ export class PlaylistService {
     owner: number,
     games: number[],
   ): Observable<Playlist> {
-    return this.http.post<Playlist>(this.playlistEndpoint, {
-      name,
-      description,
-      isPrivate,
-      owner,
-      games,
-    });
+    const token = localStorage.getItem('token');
+    if (!token) {
+      throw new Error('Authentication required');
+    }
+
+    const headers = { authorization: `Bearer ${token}` };
+
+    return this.http.post<Playlist>(
+      this.playlistEndpoint,
+      {
+        name,
+        description,
+        isPrivate,
+        owner,
+        games,
+      },
+      { headers },
+    );
   }
 
   updatePlaylist(
@@ -52,21 +63,39 @@ export class PlaylistService {
     owner: number,
     games: number,
   ): Observable<Playlist> {
+    const token = localStorage.getItem('token');
+    if (!token) {
+      throw new Error('Authentication required');
+    }
+
+    const headers = { authorization: `Bearer ${token}` };
+
     const url = this.playlistEndpoint + `/${id}`;
-    return this.http.put<Playlist>(url, {
-      id,
-      name,
-      description,
-      is_private,
-      owner,
-      games,
-    });
+    return this.http.put<Playlist>(
+      url,
+      {
+        id,
+        name,
+        description,
+        is_private,
+        owner,
+        games,
+      },
+      { headers },
+    );
   }
 
   deletePlaylist(id: number): Observable<Playlist> {
+    const token = localStorage.getItem('token');
+    if (!token) {
+      throw new Error('Authentication required');
+    }
+
+    const headers = { authorization: `Bearer ${token}` };
+
     const url = this.playlistEndpoint + `/${id}`;
     return this.http
-      .delete<ApiResponse<Playlist>>(url)
+      .delete<ApiResponse<Playlist>>(url, { headers })
       .pipe(map((res) => res.data));
   }
 

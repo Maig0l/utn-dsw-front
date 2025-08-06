@@ -33,15 +33,44 @@ export class ShopService {
   }
 
   addShop(name: string, site: string): Observable<Shop> {
-    return this.http.post<Shop>(this.shopsEndpoint, { name, site });
+    const token = localStorage.getItem('token');
+    if (!token) {
+      throw new Error('Authentication required');
+    }
+
+    const headers = { authorization: `Bearer ${token}` };
+
+    return this.http.post<Shop>(
+      this.shopsEndpoint,
+      { name, site },
+      { headers },
+    );
   }
 
   updateShop(id: number, shopData: Partial<Shop>): Observable<Shop> {
-    return this.http.put<Shop>(`${this.shopsEndpoint}/${id}`, shopData);
+    const token = localStorage.getItem('token');
+    if (!token) {
+      throw new Error('Authentication required');
+    }
+
+    const headers = { authorization: `Bearer ${token}` };
+
+    return this.http.put<Shop>(`${this.shopsEndpoint}/${id}`, shopData, {
+      headers,
+    });
   }
 
   deleteShop(id: number): Observable<Shop> {
+    const token = localStorage.getItem('token');
+    if (!token) {
+      throw new Error('Authentication required');
+    }
+
+    const headers = { authorization: `Bearer ${token}` };
+
     const url = this.shopsEndpoint + `/${id}`;
-    return this.http.delete<resShopSingle>(url).pipe(map((res) => res.data));
+    return this.http
+      .delete<resShopSingle>(url, { headers })
+      .pipe(map((res) => res.data));
   }
 }

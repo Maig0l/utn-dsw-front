@@ -106,10 +106,16 @@ export class GameService {
   }
 
   addGameObj(game: Game): Observable<Game> {
-    return this.http.post<Game>(this.gamesEndpoint, game);
+    const token = localStorage.getItem('token');
+    if (!token) {
+      throw new Error('Authentication required');
+    }
+
+    const headers = { authorization: `Bearer ${token}` };
+
+    return this.http.post<Game>(this.gamesEndpoint, game, { headers });
   }
 
-  
   addGame(
     title: string,
     synopsis: string,
@@ -122,20 +128,30 @@ export class GameService {
     shops: number[],
     platforms: number[],
   ): Observable<Game> {
-    return this.http.post<Game>(this.gamesEndpoint, {
-    title,
-      synopsis,
-      releaseDate,
-      portrait,
-      banner,
-      franchise,
-      tags,
-      studios,
-      shops,
-      platforms,
-    });
-  }
+    const token = localStorage.getItem('token');
+    if (!token) {
+      throw new Error('Authentication required');
+    }
 
+    const headers = { authorization: `Bearer ${token}` };
+
+    return this.http.post<Game>(
+      this.gamesEndpoint,
+      {
+        title,
+        synopsis,
+        releaseDate,
+        portrait,
+        banner,
+        franchise,
+        tags,
+        studios,
+        shops,
+        platforms,
+      },
+      { headers },
+    );
+  }
 
   updateGame(
     id: number,
@@ -150,26 +166,44 @@ export class GameService {
     shops: number[],
     platforms: number[],
   ): Observable<Game> {
+    const token = localStorage.getItem('token');
+    if (!token) {
+      throw new Error('Authentication required');
+    }
+
+    const headers = { authorization: `Bearer ${token}` };
+
     const url = this.gamesEndpoint + `/${id}`;
-    return this.http.patch<Game>(url, {
-      id,
-      title,
-      synopsis,
-      releaseDate,
-      portrait,
-      banner,
-      franchise,
-      tags,
-      studios,
-      shops,
-      platforms,
-    });
+    return this.http.patch<Game>(
+      url,
+      {
+        id,
+        title,
+        synopsis,
+        releaseDate,
+        portrait,
+        banner,
+        franchise,
+        tags,
+        studios,
+        shops,
+        platforms,
+      },
+      { headers },
+    );
   }
 
   deleteGame(id: number): Observable<Game> {
+    const token = localStorage.getItem('token');
+    if (!token) {
+      throw new Error('Authentication required');
+    }
+
+    const headers = { authorization: `Bearer ${token}` };
+
     const url = this.gamesEndpoint + `/${id}`;
     return this.http
-      .delete<ApiResponse<Game>>(url)
+      .delete<ApiResponse<Game>>(url, { headers })
       .pipe(map((res) => res.data));
   }
 
@@ -212,11 +246,19 @@ export class GameService {
     gameId: number,
     file: File,
   ): Observable<{ message: string; portrait: string }> {
+    const token = localStorage.getItem('token');
+    if (!token) {
+      throw new Error('Authentication required');
+    }
+
+    const headers = { authorization: `Bearer ${token}` };
+
     const formData = new FormData();
     formData.append('portrait', file);
     return this.http.patch<{ message: string; portrait: string }>(
       `${this.gamesEndpoint}/${gameId}/uploads/portrait`,
       formData,
+      { headers },
     );
   }
 
@@ -224,11 +266,19 @@ export class GameService {
     gameId: number,
     file: File,
   ): Observable<{ message: string; banner: string }> {
+    const token = localStorage.getItem('token');
+    if (!token) {
+      throw new Error('Authentication required');
+    }
+
+    const headers = { authorization: `Bearer ${token}` };
+
     const formData = new FormData();
     formData.append('banner', file);
     return this.http.patch<{ message: string; banner: string }>(
       `${this.gamesEndpoint}/${gameId}/uploads/banner`,
       formData,
+      { headers },
     );
   }
 }

@@ -1,27 +1,21 @@
-/* Variables de color - Paleta Violeta */
+/* Variables de color - Esquema Oscuro Consistente */
 :root {
-  --primary-purple: #6a1b9a;
-  --secondary-purple: #8e24aa;
-  --light-purple: #ab47bc;
-  --dark-purple: #4a148c;
-  --accent-purple: #9c27b0;
-  --background-dark: #1a0e2e;
-  --surface-purple: #2d1b3d;
-  --text-primary: #ffffff;
-  --text-secondary: #e1bee7;
-  --text-muted: #ce93d8;
+  --main-bg-color: #0E0C1A;
+  --secondary-bg-color: #001D3D;
+  --main-text-color: #e5e5e5;
+  --accent-color: #3f51b5;
+  --surface-color: #001D3D;
+  --text-primary: #e5e5e5;
+  --text-secondary: #b0b0b0;
+  --text-muted: #888888;
   --success-green: #4caf50;
   --error-red: #f44336;
 }
 
 /* Sección principal */
 section.crud-section {
-  background: linear-gradient(
-    135deg,
-    var(--background-dark) 0%,
-    var(--surface-purple) 100%
-  );
-  color: var(--text-primary);
+  background-color: var(--main-bg-color);
+  color: var(--main-text-color);
   padding: 32px;
   min-height: 100vh;
   font-family: "Roboto", sans-serif;
@@ -29,19 +23,12 @@ section.crud-section {
 
 /* Títulos */
 h1 {
-  color: var(--text-primary);
+  color: var(--main-text-color);
   text-align: center;
   font-size: 2.8rem;
   font-weight: 300;
   margin: 0 0 32px 0;
   text-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
-  background: linear-gradient(
-    135deg,
-    var(--light-purple),
-    var(--accent-purple)
-  );
-  -webkit-background-clip: text;
-  background-clip: text;
 }
 
 /* Headers de sección */
@@ -50,12 +37,12 @@ h1 {
 }
 
 .section-header h2 {
-  color: var(--light-purple);
+  color: var(--main-text-color);
   font-size: 1.3rem;
   font-weight: 500;
   margin: 0;
   padding-left: 12px;
-  border-left: 4px solid var(--accent-purple);
+  border-left: 4px solid var(--accent-color);
   display: flex;
   align-items: center;
 }
@@ -89,7 +76,7 @@ mat-form-field {
 }
 
 ::ng-deep .mat-mdc-form-field {
-  background: rgba(255, 255, 255, 0.05);
+  background: var(--secondary-bg-color);
   border-radius: 12px;
   padding: 4px;
   transition: all 0.3s ease;
@@ -97,8 +84,8 @@ mat-form-field {
 }
 /*
 ::ng-deep .mat-mdc-form-field:hover {
-  background: rgba(255, 255, 255, 0.08);
-  border-color: var(--light-purple);
+  background: var(--secondary-bg-color);
+  border-color: var(--accent-color);
   transform: translateY(-1px);
 }
 */
@@ -122,32 +109,28 @@ mat-form-field {
 }
 
 ::ng-deep .mat-mdc-form-field-outline {
-  color: var(--light-purple) !important;
+  color: var(--main-text-color) !important;
 }
 
 ::ng-deep .mat-mdc-form-field-outline-thick {
-  color: var(--accent-purple) !important;
+  color: var(--accent-color) !important;
 }
 
 /* Chips mejorados */
 ::ng-deep .mat-chip-grid {
-  background: rgba(255, 255, 255, 0.05) !important;
+  background: var(--secondary-bg-color) !important;
   border-radius: 12px !important;
   padding: 12px !important;
   margin-bottom: 16px !important;
-  border: 2px dashed var(--light-purple) !important;
+  border: 2px dashed var(--main-text-color) !important;
   min-height: 60px !important;
   display: flex !important;
   align-items: center !important;
 }
 
 ::ng-deep .mat-chip-row {
-  background: linear-gradient(
-    135deg,
-    var(--primary-purple),
-    var(--secondary-purple)
-  ) !important;
-  color: var(--text-primary) !important;
+  background: var(--accent-color) !important;
+  color: var(--main-text-color) !important;
   border-radius: 20px !important;
   font-weight: 500 !important;
   transition: all 0.3s ease !important;
@@ -155,13 +138,9 @@ mat-form-field {
 }
 
 ::ng-deep .mat-chip-row:hover {
-  background: linear-gradient(
-    135deg,
-    var(--secondary-purple),
-    var(--accent-purple)
-  ) !important;
+  background: #5a6bc8 !important;
   transform: translateY(-1px) !important;
-  box-shadow: 0 4px 12px rgba(106, 27, 154, 0.3) !important;
+  box-shadow: 0 4px 12px rgba(63, 81, 181, 0.3) !important;
 }
 
 ::ng-deep .mat-chip-remove {
@@ -175,14 +154,14 @@ mat-form-field {
 
 /* Autocomplete y opciones */
 ::ng-deep .mat-autocomplete-panel {
-  background: var(--surface-purple) !important;
+  background: var(--secondary-bg-color) !important;
   border-radius: 12px !important;
-  border: 1px solid var(--light-purple) !important;
+  border: 1px solid var(--main-text-color) !important;
   box-shadow: 0 8px 24px rgba(0, 0, 0, 0.3) !important;
 }
 
 ::ng-deep .mat-option {
-  color: var(--text-primary) !important;
+  color: var(--main-text-color) !important;
   transition: all 0.2s ease !important;
   border-radius: 8px !important;
   margin: 4px 8px !important;
@@ -190,12 +169,8 @@ mat-form-field {
 
 ::ng-deep .mat-option:hover,
 ::ng-deep .mat-option.mat-selected {
-  background: linear-gradient(
-    135deg,
-    var(--primary-purple),
-    var(--secondary-purple)
-  ) !important;
-  color: var(--text-primary) !important;
+  background: var(--accent-color) !important;
+  color: var(--main-text-color) !important;
 }
 
 ::ng-deep .mat-option .option-name {
@@ -209,12 +184,8 @@ mat-form-field {
 }
 
 .submit-button {
-  background: linear-gradient(
-    135deg,
-    var(--primary-purple),
-    var(--secondary-purple)
-  ) !important;
-  color: var(--text-primary) !important;
+  background: var(--main-text-color) !important;
+  color: var(--main-bg-color) !important;
   border: none !important;
   border-radius: 12px !important;
   padding: 16px 32px !important;
@@ -222,17 +193,13 @@ mat-form-field {
   font-size: 16px !important;
   min-width: 200px !important;
   transition: all 0.3s ease !important;
-  box-shadow: 0 4px 16px rgba(106, 27, 154, 0.3) !important;
+  box-shadow: 0 4px 16px rgba(229, 229, 229, 0.3) !important;
 }
 
 .submit-button:hover {
-  background: linear-gradient(
-    135deg,
-    var(--secondary-purple),
-    var(--accent-purple)
-  ) !important;
+  background: #f0f0f0 !important;
   transform: translateY(-2px) !important;
-  box-shadow: 0 8px 24px rgba(106, 27, 154, 0.4) !important;
+  box-shadow: 0 8px 24px rgba(229, 229, 229, 0.4) !important;
 }
 
 /* Mensaje de éxito */
@@ -269,8 +236,8 @@ mat-form-field {
 }
 
 .success-buttons button {
-  background: linear-gradient(135deg, var(--success-green), #66bb6a) !important;
-  color: green !important;
+  background: var(--success-green) !important;
+  color: white !important;
   border: none !important;
   border-radius: 10px !important;
   padding: 14px 24px !important;
@@ -280,7 +247,7 @@ mat-form-field {
 }
 
 .success-buttons button:hover {
-  background: linear-gradient(135deg, #66bb6a, #81c784) !important;
+  background: #66bb6a !important;
   transform: translateY(-2px) !important;
   box-shadow: 0 6px 16px rgba(76, 175, 80, 0.3) !important;
 }

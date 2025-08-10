@@ -1,8 +1,8 @@
 /* General Section Styles */
 section.crud-section {
-  --main-bg-color: #ffebc2;
-  --secondary-bg-color: #feedcd;
-  --main-text-color: #012b59;
+  --main-bg-color: #0E0C1A;
+  --secondary-bg-color: #001D3D;
+  --main-text-color: #e5e5e5;
 
   padding-top: 32px;
   font-size: 24px;
@@ -82,7 +82,7 @@ button.primary {
 }
 
 button.primary:hover {
-  background-color: #001a3d;
+  background-color: #f0f0f0;
 }
 
 /* Estilos para Angular Material */
@@ -143,7 +143,7 @@ button.primary:hover {
 
 /* Autocomplete */
 ::ng-deep .mat-autocomplete-panel {
-  background-color: #fdf0d5 !important;
+  background-color: var(--secondary-bg-color) !important;
   color: var(--main-text-color) !important;
 }
 

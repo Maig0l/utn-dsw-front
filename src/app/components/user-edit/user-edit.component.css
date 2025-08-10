@@ -103,6 +103,23 @@ button.primary:hover {
 
 ::ng-deep section .mat-mdc-input-element {
   color: var(--main-text-color) !important;
+  background-color: #001D3D !important;
+  border-radius: 4px;
+  padding: 8px 12px;
+}
+
+::ng-deep textarea.mat-mdc-input-element {
+  background-color: #001D3D !important;
+  border-radius: 4px;
+  padding: 8px 12px;
+}
+
+/* Estilos para cuando el campo está enfocado */
+::ng-deep input.mat-mdc-input-element:focus,
+::ng-deep textarea.mat-mdc-input-element:focus {
+  background-color: #002a5c !important;
+  outline: none;
+  box-shadow: 0 0 0 2px rgba(229, 229, 229, 0.3);
 }
 
 ::ng-deep input::placeholder,

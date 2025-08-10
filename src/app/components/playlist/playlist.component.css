@@ -1,9 +1,9 @@
 /* General Section Styles */
 section {
   /*these don't work properly with angular material components*/
-  --main-bg-color: #ffebc2;
-  --secondary-bg-color: #feedcd;
-  --main-text-color: #012b59;
+  --main-bg-color: #0E0C1A;
+  --secondary-bg-color: #001D3D;
+  --main-text-color: #e5e5e5;
 
   padding-top: 32px;
   font-size: 24px;
@@ -87,8 +87,8 @@ mat-paginator {
   padding: 8px 16px;
   border-radius: 8px;
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
-  background-color: #ffebc2;
-  color: #012b59;
+  background-color: var(--secondary-bg-color);
+  color: var(--main-text-color);
 }
 
 h1.ng-star-inserted {
@@ -99,12 +99,12 @@ h1.ng-star-inserted {
 }
 
 ::ng-deep .mdc-form-field > label {
-  color: #012b59;
+  color: var(--main-text-color);
 }
 
 .mat-dialog-content {
   font-size: 16px;
-  color: #012b59;
+  color: var(--main-text-color);
 }
 
 mat-form-field.mat-mdc-form-field {
@@ -128,7 +128,7 @@ mat-form-field.mat-mdc-form-field {
 }
 
 ::ng-deep mat-label {
-  color: #012b59;
+  color: var(--main-text-color);
 }
 
 ::ng-deep
@@ -137,22 +137,54 @@ mat-form-field.mat-mdc-form-field {
 }
 
 ::ng-deep div.mat-mdc-select-panel .mat-mdc-option {
-  color: #012b59;
+  color: var(--main-text-color);
 }
 
 ::ng-deep .mat-mdc-select-panel-above div.mat-mdc-select-panel {
-  background-color: #fdf0d5;
+  background-color: var(--secondary-bg-color);
 }
 
 ::ng-deep
   .cdk-overlay-pane:not(.mat-mdc-select-panel-above)
   div.mat-mdc-select-panel {
-  background-color: #fdf0d5;
+  background-color: var(--secondary-bg-color);
+}
+
+/* Estilos para campos de entrada */
+::ng-deep section .mat-mdc-input-element {
+  color: var(--main-text-color) !important;
+  background-color: #001D3D !important;
+  border-radius: 4px;
+  padding: 8px 12px;
+}
+
+::ng-deep textarea.mat-mdc-input-element {
+  background-color: #001D3D !important;
+  border-radius: 4px;
+  padding: 8px 12px;
+}
+
+/* Estilos para cuando el campo está enfocado */
+::ng-deep input.mat-mdc-input-element:focus,
+::ng-deep textarea.mat-mdc-input-element:focus {
+  background-color: #002a5c !important;
+  outline: none;
+  box-shadow: 0 0 0 2px rgba(229, 229, 229, 0.3);
+}
+
+::ng-deep input::placeholder,
+::ng-deep textarea::placeholder {
+  color: var(--main-text-color) !important;
+  opacity: 0.7;
+}
+
+::ng-deep section .mat-mdc-form-field-outline {
+  color: var(--main-text-color) !important;
 }
 
 /* Playlist Created Success Section */
 .playlist-created {
-  background: linear-gradient(135deg, #e8f5e8, #f0f8ff);
+  background: var(--secondary-bg-color);
   border: 2px solid #4caf50;
   border-radius: 12px;
   padding: 24px;
@@ -163,7 +195,7 @@ mat-form-field.mat-mdc-form-field {
 }
 
 .playlist-created h1 {
-  color: #2e7d32;
+  color: #4caf50;
   margin-bottom: 24px;
   font-size: 28px;
   font-weight: 600;

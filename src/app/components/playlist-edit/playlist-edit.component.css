@@ -1,17 +1,27 @@
+/* General Section Styles */
 section {
+  --main-bg-color: #0E0C1A;
+  --secondary-bg-color: #001D3D;
+  --main-text-color: #e5e5e5;
+
   margin: 4px auto;
   padding-top: 32px;
   max-width: 1000px;
   font-size: 24px;
-  border: 2px solid #012b59;
+  border: 2px solid var(--secondary-bg-color);
   padding: 16px;
-  color: #e5e5e5;
+  color: var(--main-text-color);
+  background-color: var(--main-bg-color);
+  border-radius: 8px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
 }
 mat-checkbox {
-  background-color: #ffffff;
+  background-color: var(--secondary-bg-color);
   width: 250px;
-  border-radius: 5%;
+  border-radius: 8px;
   margin-bottom: 22px;
+  padding: 8px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
 }
 .chip-portrait {
   width: 20px;
@@ -26,7 +36,7 @@ mat-checkbox {
 }
 
 .games-section h3 {
-  color: #e5e5e5;
+  color: var(--main-text-color);
   margin-bottom: 10px;
   font-size: 1.2rem;
 }
@@ -39,19 +49,20 @@ mat-checkbox {
   margin: 4px;
 }
 .playlist-created {
-  color: green;
+  color: #4caf50;
   margin-top: 10px;
-  border: 2px solid green;
-  box-shadow: green 0 0 10px;
-  padding: 8px;
-  border-radius: 4px;
+  border: 2px solid #4caf50;
+  box-shadow: 0 0 10px rgba(76, 175, 80, 0.3);
+  padding: 16px;
+  border-radius: 8px;
+  background-color: var(--secondary-bg-color);
 }
 .playlist-created h1 {
   margin-top: 0;
   text-align: center;
 }
 .success-buttons {
-  color: green;
+  color: #4caf50;
   display: flex;
   justify-content: space-around;
 }
@@ -64,24 +75,25 @@ form {
 section h1 {
   font-size: 2.5rem;
   margin-bottom: 20px;
-  color: #e5e5e5;
+  color: var(--main-text-color);
+  text-align: center;
 }
 
 section p {
   font-size: 1.2rem;
   margin-bottom: 30px;
-  color: #e5e5e5;
+  color: var(--main-text-color);
 }
 
 section h2 {
   margin-top: 40px;
-  color: #e5e5e5;
+  color: var(--main-text-color);
 }
 
 label {
   display: block;
   margin-bottom: 10px;
-  color: #e5e5e5;
+  color: var(--main-text-color);
 }
 .example-form {
   min-width: 150px;
@@ -116,12 +128,123 @@ label {
   width: 100%;
 }
 
+/* Estilos para Angular Material */
+::ng-deep mat-form-field.mat-mdc-form-field {
+  width: 90%;
+  align-items: center;
+  margin: 16px 8px;
+}
+
+::ng-deep mat-label {
+  color: var(--main-text-color) !important;
+}
+
+::ng-deep section.mat-mdc-form-field-flex {
+  background-color: var(--secondary-bg-color);
+  border-radius: 8px;
+}
+
+::ng-deep section .mat-mdc-input-element {
+  color: var(--main-text-color) !important;
+  background-color: #001D3D !important;
+  border-radius: 4px;
+  padding: 8px 12px;
+}
+
+::ng-deep textarea.mat-mdc-input-element {
+  background-color: #001D3D !important;
+  border-radius: 4px;
+  padding: 8px 12px;
+}
+
+/* Estilos para cuando el campo está enfocado */
+::ng-deep input.mat-mdc-input-element:focus,
+::ng-deep textarea.mat-mdc-input-element:focus {
+  background-color: #002a5c !important;
+  outline: none;
+  box-shadow: 0 0 0 2px rgba(229, 229, 229, 0.3);
+}
+
+::ng-deep input::placeholder,
+::ng-deep textarea::placeholder {
+  color: var(--main-text-color) !important;
+  opacity: 0.7;
+}
+
+::ng-deep section .mat-mdc-form-field-outline {
+  color: var(--main-text-color) !important;
+}
+
+::ng-deep
+  section.mat-mdc-form-field-subscript-wrapper.mat-mdc-form-field-bottom-align {
+  height: 0px;
+}
+
+/* Chips */
+::ng-deep .mat-chip-row,
+::ng-deep .mat-chip-grid,
+::ng-deep mat-chip-set {
+  background-color: var(--secondary-bg-color) !important;
+  color: var(--main-text-color) !important;
+  border-radius: 8px;
+}
+
+::ng-deep .mat-chip-remove,
+::ng-deep .mat-icon {
+  color: var(--main-text-color) !important;
+}
+
+::ng-deep mat-chip-set {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin: 12px 0;
+}
+
+/* Autocomplete */
+::ng-deep .mat-autocomplete-panel {
+  background-color: var(--secondary-bg-color) !important;
+  color: var(--main-text-color) !important;
+}
+
 /* Centrar el contenido de las opciones del autocomplete */
 ::ng-deep .mat-mdc-option {
   display: flex !important;
   align-items: center !important;
   justify-content: center !important;
   padding: 8px 16px !important;
+  color: var(--main-text-color) !important;
+  transition: all 0.2s ease !important;
+}
+
+::ng-deep .mat-option:hover,
+::ng-deep .mat-option.mat-selected {
+  background-color: #3f51b5 !important;
+  color: var(--main-text-color) !important;
+}
+
+/* Botones principales */
+button.primary {
+  background-color: var(--main-text-color);
+  color: var(--main-bg-color);
+  font-weight: bold;
+  border: none;
+  border-radius: 8px;
+  padding: 12px 24px;
+  transition: all 0.3s ease;
+}
+
+button.primary:hover {
+  background-color: #f0f0f0;
+  transform: translateY(-1px);
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+}
+
+/* Estilos adicionales para coherencia */
+p,
+h2,
+label {
+  color: var(--main-text-color);
 }
 
 /* Asegurar que el contenido interno también esté centrado */

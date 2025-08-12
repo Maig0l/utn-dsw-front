@@ -1,27 +1,21 @@
-/* Variables de color - Paleta Violeta */
-:root {
-  --primary-purple: #6a1b9a;
-  --secondary-purple: #8e24aa;
-  --light-purple: #ab47bc;
-  --dark-purple: #4a148c;
-  --accent-purple: #9c27b0;
-  --background-dark: #1a0e2e;
-  --surface-purple: #2d1b3d;
-  --text-primary: #ffffff;
-  --text-secondary: #e1bee7;
-  --text-muted: #ce93d8;
+/* Variables de color - Esquema Oscuro Consistente */
+:host {
+  --main-bg-color: #0E0C1A;
+  --secondary-bg-color: #001D3D;
+  --main-text-color: #e5e5e5;
+  --accent-color: #3f51b5;
+  --surface-color: #001D3D;
+  --text-primary: #e5e5e5;
+  --text-secondary: #b0b0b0;
+  --text-muted: #888888;
   --success-green: #4caf50;
   --error-red: #f44336;
 }
 
 /* Sección principal */
 section.crud-section {
-  background: linear-gradient(
-    135deg,
-    var(--background-dark) 0%,
-    var(--surface-purple) 100%
-  );
-  color: var(--text-primary);
+  background-color: var(--main-bg-color);
+  color: var(--main-text-color);
   padding: 32px;
   min-height: 100vh;
   font-family: "Roboto", sans-serif;
@@ -29,7 +23,7 @@ section.crud-section {
 
 /* Títulos */
 h1 {
-  color: var(--text-primary);
+  color: var(--main-text-color);
   text-align: center;
   font-size: 2.5rem;
   font-weight: 300;
@@ -38,7 +32,7 @@ h1 {
 }
 
 h2 {
-  color: var(--text-secondary);
+  color: var(--main-text-color);
   font-size: 1.5rem;
   font-weight: 400;
   margin: 24px 0 16px 0;
@@ -69,28 +63,70 @@ mat-form-field {
 }
 
 ::ng-deep .mat-mdc-form-field {
-  background: rgba(255, 255, 255, 0.05);
+  background: var(--secondary-bg-color);
   border-radius: 12px;
   padding: 4px;
   transition: all 0.3s ease;
+  border: none !important;
 }
 
 ::ng-deep .mat-mdc-form-field:hover {
-  background: rgba(255, 255, 255, 0.08);
+  background: var(--secondary-bg-color);
   transform: translateY(-1px);
 }
 
 ::ng-deep .mat-mdc-form-field-flex,
 ::ng-deep .mdc-text-field {
   background-color: transparent !important;
-  color: var(--text-primary) !important;
+  color: var(--main-text-color) !important;
   border-radius: 8px;
+  border: none !important;
+}
+
+/* Eliminar bordes y contornos problemáticos */
+::ng-deep .mdc-text-field--outlined {
+  border: none !important;
+}
+
+::ng-deep .mdc-notched-outline {
+  border: none !important;
+}
+
+::ng-deep .mdc-notched-outline__leading,
+::ng-deep .mdc-notched-outline__notch,
+::ng-deep .mdc-notched-outline__trailing {
+  border: none !important;
 }
 
 ::ng-deep mat-label,
 ::ng-deep .mat-mdc-form-field-label,
 ::ng-deep .mat-mdc-input-element {
-  color: var(--text-primary) !important;
+  color: var(--main-text-color) !important;
+}
+
+/* Estilos para campos de entrada */
+::ng-deep .mat-mdc-input-element {
+  color: var(--main-text-color) !important;
+  background-color: #001D3D !important;
+  border-radius: 4px;
+  padding: 8px 12px;
+  border: none !important;
+}
+
+::ng-deep textarea.mat-mdc-input-element {
+  background-color: #001D3D !important;
+  border-radius: 4px;
+  padding: 8px 12px;
+  border: none !important;
+}
+
+/* Estilos para cuando el campo está enfocado */
+::ng-deep input.mat-mdc-input-element:focus,
+::ng-deep textarea.mat-mdc-input-element:focus {
+  background-color: #002a5c !important;
+  outline: none !important;
+  border: none !important;
+  box-shadow: 0 0 0 2px rgba(0, 45, 92, 0.5) !important;
 }
 
 ::ng-deep input::placeholder,
@@ -100,29 +136,41 @@ mat-form-field {
 }
 
 ::ng-deep .mat-mdc-form-field-outline {
-  color: var(--light-purple) !important;
+  color: transparent !important;
 }
 
 ::ng-deep .mat-mdc-form-field-outline-thick {
-  color: var(--accent-purple) !important;
+  color: transparent !important;
+}
+
+::ng-deep .mat-mdc-form-field-outline-start,
+::ng-deep .mat-mdc-form-field-outline-end,
+::ng-deep .mat-mdc-form-field-outline-gap {
+  border-color: transparent !important;
+}
+
+/* Eliminar altura del subscript wrapper */
+::ng-deep
+  .mat-mdc-form-field-subscript-wrapper.mat-mdc-form-field-bottom-align {
+  height: 0px;
 }
 
 /* Autocomplete y opciones */
 ::ng-deep .mat-autocomplete-panel {
-  background-color: var(--surface-purple) !important;
+  background-color: var(--secondary-bg-color) !important;
   border-radius: 12px;
-  border: 1px solid var(--light-purple);
+  border: 1px solid var(--main-text-color);
 }
 
 ::ng-deep .mat-option {
-  color: var(--text-primary) !important;
+  color: var(--main-text-color) !important;
   transition: all 0.2s ease;
 }
 
 ::ng-deep .mat-option:hover,
 ::ng-deep .mat-option.mat-selected {
-  background-color: var(--primary-purple) !important;
-  color: var(--text-primary) !important;
+  background-color: var(--accent-color) !important;
+  color: var(--main-text-color) !important;
 }
 
 /* Contenedor de imágenes */
@@ -134,16 +182,16 @@ mat-form-field {
 }
 
 .image-upload {
-  background: rgba(255, 255, 255, 0.05);
+  background: var(--secondary-bg-color);
   border-radius: 12px;
   padding: 20px;
-  border: 2px dashed var(--light-purple);
+  border: 2px dashed var(--main-text-color);
   transition: all 0.3s ease;
 }
 
 .image-upload:hover {
-  border-color: var(--accent-purple);
-  background: rgba(255, 255, 255, 0.08);
+  border-color: var(--accent-color);
+  background: var(--secondary-bg-color);
 }
 
 .preview-image {
@@ -157,12 +205,8 @@ mat-form-field {
 
 /* Botones */
 button.primary {
-  background: linear-gradient(
-    135deg,
-    var(--primary-purple),
-    var(--secondary-purple)
-  );
-  color: var(--text-primary);
+  background: var(--main-text-color);
+  color: var(--main-bg-color);
   border: none;
   border-radius: 8px;
   padding: 12px 24px;
@@ -170,37 +214,25 @@ button.primary {
   font-size: 16px;
   cursor: pointer;
   transition: all 0.3s ease;
-  box-shadow: 0 4px 12px rgba(106, 27, 154, 0.3);
+  box-shadow: 0 4px 12px rgba(229, 229, 229, 0.3);
 }
 
 button.primary:hover {
-  background: linear-gradient(
-    135deg,
-    var(--secondary-purple),
-    var(--accent-purple)
-  );
+  background: #f0f0f0;
   transform: translateY(-2px);
-  box-shadow: 0 6px 16px rgba(106, 27, 154, 0.4);
+  box-shadow: 0 6px 16px rgba(229, 229, 229, 0.4);
 }
 
 .addPictureButton {
-  background: linear-gradient(
-    135deg,
-    var(--light-purple),
-    var(--accent-purple)
-  ) !important;
-  color: var(--text-primary) !important;
+  background: var(--accent-color) !important;
+  color: var(--main-text-color) !important;
   border-radius: 8px !important;
   font-weight: 500 !important;
   transition: all 0.3s ease !important;
 }
 
 .addPictureButton:hover {
-  background: linear-gradient(
-    135deg,
-    var(--accent-purple),
-    var(--primary-purple)
-  ) !important;
+  background: #5a6bc8 !important;
   transform: translateY(-1px) !important;
 }
 
@@ -219,11 +251,7 @@ button.primary:hover {
 
 /* Mensaje de éxito */
 .game-updated {
-  background: linear-gradient(
-    135deg,
-    rgba(76, 175, 80, 0.1),
-    rgba(129, 199, 132, 0.1)
-  );
+  background: var(--secondary-bg-color);
   border: 2px solid var(--success-green);
   border-radius: 12px;
   padding: 24px;
@@ -246,7 +274,7 @@ button.primary:hover {
 }
 
 .success-buttons button {
-  background: linear-gradient(135deg, var(--success-green), #66bb6a);
+  background: var(--success-green);
   color: white;
   border: none;
   border-radius: 8px;
@@ -257,17 +285,17 @@ button.primary:hover {
 }
 
 .success-buttons button:hover {
-  background: linear-gradient(135deg, #66bb6a, #81c784);
+  background: #66bb6a;
   transform: translateY(-2px);
 }
 
 /* Información actual */
 .currents-container {
-  background: rgba(255, 255, 255, 0.05);
+  background: var(--secondary-bg-color);
   border-radius: 8px;
   padding: 12px;
   margin: 16px 0;
-  border-left: 4px solid var(--accent-purple);
+  border-left: 4px solid var(--accent-color);
 }
 
 .currents {

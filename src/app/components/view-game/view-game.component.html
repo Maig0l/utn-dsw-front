@@ -7,16 +7,12 @@
     <mat-card-header>
       <mat-card-title>{{ game.title }}</mat-card-title>
     </mat-card-header>
-    <mat-card-content>
-      <img
-        class="images"
-        [src]="linkToStaticResource(game.portrait)"
-        alt="Game poster"
-      />
-      <!--p class="card-link">{{ game.synopsis }}</p-->
-      <!--p>{{ game.franchise }}</p-->
-      <!--p class="card-link">Rel: {{game.releaseDate | date:'yyyy-MM-dd' }}</p-->
-    </mat-card-content>
+    <img
+      mat-card-image
+      class="images"
+      [src]="linkToStaticResource(game.portrait)"
+      alt="Game poster"
+    />
     <mat-card-footer class="example-card-footer">
       <mat-chip-set aria-label="Tags">
         @for (tag of game.tags.slice(0, 2); track tag.id) {

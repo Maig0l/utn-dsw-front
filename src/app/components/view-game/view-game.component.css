@@ -1,8 +1,6 @@
 .example-card {
   max-width: 400px;
   min-width: 300px;
-  height: 420px; /* Altura fija para consistencia */
-  border: 1px solid #ddd;
   border-radius: 8px;
   overflow: hidden;
   transition:
@@ -26,7 +24,6 @@
 
 .images {
   width: 100%;
-  height: 250px; /* Altura fija para las imágenes */
   object-fit: cover; /* Mantiene proporción y rellena el contenedor */
   border-bottom: 1px solid #000;
 }

@@ -28,6 +28,26 @@ section {
   max-width: 400px;
 }
 
+/*
+.reviews-container {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+  gap: 10em;
+  padding: 20px;
+}
+*/
+
+.reviews-container {
+  display: flex;
+  flex-flow: row wrap;
+  align-items: stretch;
+  gap: 30px;
+}
+
+.reviews-container app-review-card {
+  flex: 0 1 auto;
+}
+
 .cta {
   background-color: #001d3d;
   color: white;
@@ -58,13 +78,6 @@ section {
 
 .cta-button:hover {
   background-color: #f1f1f1;
-}
-
-.reviews-container {
-  display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
-  gap: 10em;
-  padding: 20px;
 }
 
 /* MD Breakpoint */

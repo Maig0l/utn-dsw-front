@@ -1,5 +1,5 @@
 <main>
-  <section class="featured-games">
+  <section id="featured-games">
     <h2>Popular Games</h2>
     <mat-divider [inset]="true"></mat-divider>
     <div class="grid-container">
@@ -9,25 +9,22 @@
     </div>
   </section>
 
-  <section class="review-list">
-    <div class="container">
-      <h2>Latest reviews</h2>
-      <mat-divider [inset]="true"></mat-divider>
+  <section id="review-list">
+    <h2>Latest reviews</h2>
+    <mat-divider [inset]="true"></mat-divider>
 
-      <div class="reviews-container">
-        @for (review of reviews.slice(0, 6); track review.id) {
-          <app-review-card
-            [review]="review"
-            [expanded]="expandedReviewId === review.id"
-            (expandedChange)="handleExpandedChange($event)"
-            (click)="toggleReviewExpand(review.id)"
-            style="cursor: pointer"
-          ></app-review-card>
-        }
-      </div>
+    <div class="reviews-container">
+      @for (review of reviews.slice(0, 6); track review.id) {
+        <app-review-card
+          [review]="review"
+          [expanded]="expandedReviewId === review.id"
+          (expandedChange)="handleExpandedChange($event)"
+          (click)="toggleReviewExpand(review.id)"
+          style="cursor: pointer"
+        ></app-review-card>
+      }
     </div>
   </section>
-
 </main>
 
 <div *ngIf="!userLoginOn" class="cta">

@@ -230,8 +230,7 @@
   text-decoration: none;
 }
 .first-column {
-  margin-right: 15px;
-  margin-left: 20px;
+  margin: 1.5em 20px;
 }
 .game-actions {
   align-items: right;
@@ -416,7 +415,7 @@
 
 .game-info {
   display: flex;
-  align-items: center;
+  align-items: start;
   height: min-content;
   z-index: 2;
 }
@@ -449,7 +448,7 @@
 }
 
 .game-portrait {
-  width: 150px;
+  width: 250px;
   height: auto;
   object-fit: cover;
   border-radius: 8px;

@@ -22,10 +22,11 @@
   color: inherit;
 }
 
-.images {
-  width: 100%;
-  object-fit: cover; /* Mantiene proporción y rellena el contenedor */
-  border-bottom: 1px solid #000;
+img {
+  /* Mantiene proporción y rellena el contenedor.
+     El contenedor tiene siempre la misma forma. */
+  object-fit: cover; 
+  aspect-ratio: 2/3;
 }
 
 .mat-card-title {

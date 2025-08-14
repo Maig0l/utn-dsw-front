@@ -98,7 +98,10 @@ export class EditGameComponent implements OnInit {
         next: () => {
           this.portraitFile = null;
         },
-        error: (error) => console.error('Error uploading portrait:', error),
+        error: (error) => {
+          console.error('Error uploading portrait:', error);
+          throw new Error("Error uploading portrait image. Probably the selected file is too big.");
+        },
       });
     }
 
@@ -107,7 +110,10 @@ export class EditGameComponent implements OnInit {
         next: () => {
           this.bannerFile = null;
         },
-        error: (error) => console.error('Error uploading banner:', error),
+        error: (error) => {
+          console.error('Error uploading banner:', error);
+          throw new Error("Error uploading banner image. Probably the selected file is too big.");
+        },
       });
     }
   }
@@ -270,7 +276,7 @@ export class EditGameComponent implements OnInit {
     private platformService: PlatformService,
     private shopService: ShopService,
     private studioService: StudioService,
-  ) {}
+  ) { }
 
   ngOnInit() {
     // Get all tags
@@ -332,6 +338,15 @@ export class EditGameComponent implements OnInit {
   updateGame() {
     this.gameUpdated = false;
 
+    // TODO: Para arreglar esto, uploadImages tiene que ser un observable
+    try {
+      this.uploadImages();
+    } catch (e) {
+      const err = e as Error;
+      alert(err.message);
+      return;
+    }
+
     this.gameService
       .updateGame(
         this.id,
@@ -350,10 +365,11 @@ export class EditGameComponent implements OnInit {
         next: (responseGame) => {
           this.game = responseGame;
           this.gameUpdated = true;
-          this.uploadImages();
         },
         error: (error) => {
           console.error('Error updating game:', error);
+          if (error.message) alert(error.message);
+          else alert("Something went wrong.")
         },
       });
   }

@@ -1,13 +1,11 @@
-<main class="landing-page">
-  <section class="features">
-    <div class="container">
-      <h2>Popular Games</h2>
-      <mat-divider [inset]="true"></mat-divider>
-      <div class="grid-container">
-        @for (game of hotGames; track game.id) {
-          <app-view-game [game]="game"></app-view-game>
-        }
-      </div>
+<main>
+  <section class="featured-games">
+    <h2>Popular Games</h2>
+    <mat-divider [inset]="true"></mat-divider>
+    <div class="grid-container">
+      @for (game of hotGames; track game.id) {
+        <app-view-game [game]="game"></app-view-game>
+      }
     </div>
   </section>
 

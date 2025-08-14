@@ -1,46 +1,18 @@
-.landing-page {
-  font-family: "Arial", sans-serif;
+main {
+  width: 80vw;
+  margin: auto;
   line-height: 1.6;
-  color: #333;
-}
-.header {
-  background-color: #0e0c1a;
-  color: #e5e5e5;
-  text-align: center;
-  padding: 10px 0;
-}
-.header.container {
-  max-width: 1200px;
-  margin: 0 auto;
-  padding: 0 20px;
 }
 
-.header h3 {
-  font-size: 3rem;
-  font-family: "Times New Roman", serif;
-  margin: 10px;
-  color: #e5e5e5;
-}
 .mat-divider {
   border-top-color: white;
   padding: 10px;
 }
-.features {
-  padding: 20px 0 40px 0;
-  background-color: #0e0c1a;
+
+section {
+  width: 100%;
 }
 
-.features .container {
-  max-width: 1200px;
-  margin: 0 auto;
-  padding: 0 20px;
-}
-.features h2 {
-  position: relative;
-
-  color: #e5e5e5;
-  padding-top: 20px;
-}
 .grid-container {
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
@@ -88,37 +60,8 @@
   background-color: #f1f1f1;
 }
 
-@media (max-width: 768px) {
-  .header {
-    padding: 60px 0;
-  }
-
-  .header h3 {
-    font-size: 2rem;
-  }
-
-  .grid-container {
-    grid-template-columns: 1fr;
-    gap: 20px;
-    padding: 10px;
-  }
-
-  .review-list-grid,
-  .testimonial-grid {
-    grid-template-columns: 1fr;
-  }
-  .feature-grid,
-  .testimonial-grid {
-    grid-template-columns: 1fr;
-  }
-}
-
 .review-list {
-  background-color: #0e0c1a;
-  /* Dark background */
   padding: 20px;
-  color: white;
-  /* Text color for better contrast */
 }
 
 .reviews-container {
@@ -158,4 +101,22 @@
 .review-rating span {
   color: gold;
   /* Color for stars */
+}
+
+/* MD Breakpoint */
+@media (max-width: 768px) {
+  .grid-container {
+    grid-template-columns: 1fr;
+    gap: 20px;
+    padding: 10px;
+  }
+
+  .review-list-grid,
+  .testimonial-grid {
+    grid-template-columns: 1fr;
+  }
+  .feature-grid,
+  .testimonial-grid {
+    grid-template-columns: 1fr;
+  }
 }

@@ -46,11 +46,13 @@ export class FranchiseService {
 
     const headers = { authorization: `Bearer ${token}` };
 
-    return this.http.post<Franchise>(
-      this.franchisesEndpoint,
-      { name, games },
-      { headers },
-    );
+    return this.http
+      .post<ApiResponse<Franchise>>(
+        this.franchisesEndpoint,
+        { name, games },
+        { headers },
+      )
+      .pipe(map((response) => response.data));
   }
 
   updateFranchise(
@@ -66,7 +68,9 @@ export class FranchiseService {
     const headers = { authorization: `Bearer ${token}` };
 
     const url = this.franchisesEndpoint + `/${id}`;
-    return this.http.put<Franchise>(url, { id, name, games }, { headers });
+    return this.http
+      .put<ApiResponse<Franchise>>(url, { id, name, games }, { headers })
+      .pipe(map((response) => response.data));
   }
 
   deleteFranchise(id: number): Observable<Franchise> {

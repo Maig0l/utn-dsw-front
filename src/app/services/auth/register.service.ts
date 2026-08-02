@@ -1,9 +1,11 @@
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpErrorResponse } from '@angular/common/http';
-import { catchError, Observable, throwError } from 'rxjs';
+import { catchError, Observable, tap, throwError } from 'rxjs';
 import { RegisterRequest } from './registerRequest';
-import { User } from '../../model/user.model';
+import { ApiResponse } from '../../model/apiResponse.model';
 import { API_URL } from '../../../main';
+
+type registerResponse = ApiResponse<{ token: string }>;
 
 @Injectable({
   providedIn: 'root',
@@ -13,8 +15,11 @@ export class RegisterService {
 
   private registerEndpoint = `${API_URL}/users`; // URL del backend para el registro
 
-  register(credentials: RegisterRequest): Observable<User> {
-    return this.http.post<User>(this.registerEndpoint, credentials).pipe(
+  register(credentials: RegisterRequest): Observable<registerResponse> {
+    return this.http.post<registerResponse>(this.registerEndpoint, credentials).pipe(
+      tap((response) => {
+        localStorage.setItem('token', response.data.token);
+      }),
       catchError(this.handleError), // Manejo de errores
     );
   }

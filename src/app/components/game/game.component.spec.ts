@@ -31,6 +31,11 @@ describe('GameComponent', () => {
     });
     service = TestBed.inject(GameService);
     httpMock = TestBed.inject(HttpTestingController);
+    localStorage.setItem('token', 'fake-token');
+  });
+
+  afterEach(() => {
+    localStorage.removeItem('token');
   });
 
   it('should create', () => {
@@ -122,11 +127,12 @@ describe('GameComponent', () => {
 */
   it('update one game', () => {
     const id = 1;
-    const updatedItem = {id: id,title: 'Age of mythology', synopsis:'mythology', releaseDate: "2020-09-06T00:00:00.000Z" , portrait: 'asd', banner:'asd' , franchise: 1, tags: [1,2,3,4], studios: [1,2,3], shops: [5,4], platforms: [4,2] };
-    const mockResponse = { success: true };
+    const updatedItem = {title: 'Age of mythology', synopsis:'mythology', releaseDate: "2020-09-06T00:00:00.000Z" , portrait: 'asd', banner:'asd' , franchise: 1, tags: [1,2,3,4], studios: [1,2,3], shops: [5,4], platforms: [4,2] };
+    const mockData = { success: true };
+    const mockResponse = { message: 'Game updated successfully', data: mockData };
 
     service.updateGame(id, 'Age of mythology', 'mythology', "2020-09-06T00:00:00.000Z" ,  'asd', 'asd' ,  1, [1,2,3,4],  [1,2,3],  [5,4], [4,2]).subscribe((response) => {
-      expect(response).toEqual(mockResponse);
+      expect(response).toEqual(mockData);
     });
 
     const req = httpMock.expectOne(`http://localhost:8080/api/games/${id}`);

@@ -33,6 +33,11 @@ describe('TagService', () => {
     fixture.detectChanges();
     service = TestBed.inject(TagService);
     httpMock = TestBed.inject(HttpTestingController);
+    localStorage.setItem('token', 'fake-token');
+  });
+
+  afterEach(() => {
+    localStorage.removeItem('token');
   });
 
   it('should create service', () => {

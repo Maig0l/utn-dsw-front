@@ -46,10 +46,5 @@
     "prettier": "^3.5.2",
     "typescript": "~5.4.2",
     "typescript-eslint": "8.23.0"
-  },
-  "pnpm": {
-    "onlyBuiltDependencies": [
-      "esbuild"
-    ]
   }
 }

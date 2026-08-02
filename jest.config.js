@@ -6,6 +6,11 @@ module.exports ={
     roots: ['<rootDir>/src/'],
     testMatch:['**/+(*.)+(spec).+(ts)'],
     setupFilesAfterEnv:['<rootDir>/src/test.ts'],
+    moduleNameMapper: {
+        '(.*)/environments/environment(\\.js)?$': '<rootDir>/src/environments/environment.mock.ts',
+        '(.*)/enviroment/enviroment(\\.js)?$': '<rootDir>/src/environments/environment.mock.ts',
+        '^(\\.{1,2}/.*)\\.js$': '$1',
+    },
     collectCoverage:true,
     cacheDirectory: '<rootDir>/jestCache',
     coverageReporters:['text-summary', 'lcov'],

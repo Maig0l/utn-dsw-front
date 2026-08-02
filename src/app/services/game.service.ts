@@ -135,22 +135,24 @@ export class GameService {
 
     const headers = { authorization: `Bearer ${token}` };
 
-    return this.http.post<Game>(
-      this.gamesEndpoint,
-      {
-        title,
-        synopsis,
-        releaseDate,
-        portrait,
-        banner,
-        franchise,
-        tags,
-        studios,
-        shops,
-        platforms,
-      },
-      { headers },
-    );
+    return this.http
+      .post<ApiResponse<Game>>(
+        this.gamesEndpoint,
+        {
+          title,
+          synopsis,
+          releaseDate,
+          portrait,
+          banner,
+          franchise,
+          tags,
+          studios,
+          shops,
+          platforms,
+        },
+        { headers },
+      )
+      .pipe(map((response) => response.data));
   }
 
   updateGame(
@@ -174,7 +176,6 @@ export class GameService {
     const headers = { authorization: `Bearer ${token}` };
 
     const updateData = {
-      id,
       title,
       synopsis,
       releaseDate,
@@ -188,7 +189,9 @@ export class GameService {
     };
 
     const url = this.gamesEndpoint + `/${id}`;
-    return this.http.patch<Game>(url, updateData, { headers });
+    return this.http
+      .patch<ApiResponse<Game>>(url, updateData, { headers })
+      .pipe(map((response) => response.data));
   }
 
   deleteGame(id: number): Observable<Game> {
@@ -205,9 +208,11 @@ export class GameService {
       .pipe(map((res) => res.data));
   }
 
-  addPicturesToGame(game_id: number, urls: string[]): Observable<string[]> {
-    const url = 'http://localhost:8080/api/game-picture';
-    return this.http.post<string[]>(url, { game_id, urls });
+  addPicturesToGame(game_id: number, urls: string[]): Observable<Game> {
+    const url = `${this.gamesEndpoint}/${game_id}/pictures`;
+    return this.http
+      .post<ApiResponse<Game>>(url, { urls })
+      .pipe(map((response) => response.data));
   }
 
   /** Retrieves most recently reviews games, prioritizing games with user's liked tags
@@ -240,10 +245,7 @@ export class GameService {
     );
   }
 
-  uploadPortrait(
-    gameId: number,
-    file: File,
-  ): Observable<{ message: string; portrait: string }> {
+  uploadPortrait(gameId: number, file: File): Observable<Game> {
     const token = localStorage.getItem('token');
     if (!token) {
       throw new Error('Authentication required');
@@ -253,17 +255,16 @@ export class GameService {
 
     const formData = new FormData();
     formData.append('portrait', file);
-    return this.http.patch<{ message: string; portrait: string }>(
-      `${this.gamesEndpoint}/${gameId}/uploads/portrait`,
-      formData,
-      { headers },
-    );
+    return this.http
+      .patch<ApiResponse<Game>>(
+        `${this.gamesEndpoint}/${gameId}/uploads/portrait`,
+        formData,
+        { headers },
+      )
+      .pipe(map((response) => response.data));
   }
 
-  uploadBanner(
-    gameId: number,
-    file: File,
-  ): Observable<{ message: string; banner: string }> {
+  uploadBanner(gameId: number, file: File): Observable<Game> {
     const token = localStorage.getItem('token');
     if (!token) {
       throw new Error('Authentication required');
@@ -273,10 +274,12 @@ export class GameService {
 
     const formData = new FormData();
     formData.append('banner', file);
-    return this.http.patch<{ message: string; banner: string }>(
-      `${this.gamesEndpoint}/${gameId}/uploads/banner`,
-      formData,
-      { headers },
-    );
+    return this.http
+      .patch<ApiResponse<Game>>(
+        `${this.gamesEndpoint}/${gameId}/uploads/banner`,
+        formData,
+        { headers },
+      )
+      .pipe(map((response) => response.data));
   }
 }

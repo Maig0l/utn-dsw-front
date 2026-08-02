@@ -64,7 +64,9 @@ export class PlatformService {
     const headers = { authorization: `Bearer ${token}` };
 
     const url = this.platformsEndpoint + `/${id}`;
-    return this.http.put<Platform>(url, { id, name, img }, { headers });
+    return this.http
+      .put<ApiResponse<Platform>>(url, { id, name, img }, { headers })
+      .pipe(map((response) => response.data));
   }
 
   deletePlatform(id: number): Observable<Platform> {
@@ -81,10 +83,7 @@ export class PlatformService {
       .pipe(map((res) => res.data));
   }
 
-  uploadImage(
-    platformId: number,
-    file: File,
-  ): Observable<{ message: string; img: string }> {
+  uploadImage(platformId: number, file: File): Observable<Platform> {
     const token = localStorage.getItem('token');
     if (!token) {
       throw new Error('Authentication required');
@@ -95,10 +94,12 @@ export class PlatformService {
     const formData = new FormData();
     formData.append('img', file);
 
-    return this.http.patch<{ message: string; img: string }>(
-      `${this.platformsEndpoint}/${platformId}/upload`,
-      formData,
-      { headers },
-    );
+    return this.http
+      .patch<ApiResponse<Platform>>(
+        `${this.platformsEndpoint}/${platformId}/upload`,
+        formData,
+        { headers },
+      )
+      .pipe(map((response) => response.data));
   }
 }

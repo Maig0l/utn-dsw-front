@@ -62,7 +62,9 @@ export class TagService {
     const headers = { authorization: `Bearer ${token}` };
 
     const url = this.tagsEndpoint + `/${id}`;
-    return this.http.put<Tag>(url, { id, name, description }, { headers });
+    return this.http
+      .put<responseTag>(url, { id, name, description }, { headers })
+      .pipe(map((response) => response.data));
   }
 
   deleteTag(id: number): Observable<Tag> {

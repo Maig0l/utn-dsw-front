@@ -54,9 +54,11 @@ export class StudioService {
 
     const headers = { authorization: `Bearer ${token}` };
 
-    return this.http.put<Studio>(`${this.studiosEndpoint}/${id}`, studioData, {
-      headers,
-    });
+    return this.http
+      .put<responseStudio>(`${this.studiosEndpoint}/${id}`, studioData, {
+        headers,
+      })
+      .pipe(map((response) => response.data));
   }
 
   deleteStudio(id: number): Observable<Studio> {

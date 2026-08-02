@@ -43,17 +43,19 @@ export class PlaylistService {
 
     const headers = { authorization: `Bearer ${token}` };
 
-    return this.http.post<Playlist>(
-      this.playlistEndpoint,
-      {
-        name,
-        description,
-        isPrivate,
-        owner,
-        games,
-      },
-      { headers },
-    );
+    return this.http
+      .post<ApiResponse<Playlist>>(
+        this.playlistEndpoint,
+        {
+          name,
+          description,
+          isPrivate,
+          owner,
+          games,
+        },
+        { headers },
+      )
+      .pipe(map((res) => res.data));
   }
 
   updatePlaylist(
@@ -62,7 +64,7 @@ export class PlaylistService {
     description: string,
     is_private: boolean,
     owner: number,
-    games: number,
+    games: number[],
   ): Observable<Playlist> {
     const token = localStorage.getItem('token');
     if (!token) {
@@ -72,18 +74,18 @@ export class PlaylistService {
     const headers = { authorization: `Bearer ${token}` };
 
     const url = this.playlistEndpoint + `/${id}`;
-    return this.http.put<Playlist>(
-      url,
-      {
-        id,
-        name,
-        description,
-        is_private,
-        owner,
-        games,
-      },
-      { headers },
-    );
+    return this.http
+      .put<ApiResponse<Playlist>>(
+        url,
+        {
+          name,
+          description,
+          isPrivate: is_private,
+          games,
+        },
+        { headers },
+      )
+      .pipe(map((res) => res.data));
   }
 
   deletePlaylist(id: number): Observable<Playlist> {

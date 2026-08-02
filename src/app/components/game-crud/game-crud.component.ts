@@ -119,24 +119,19 @@ export class GameCrudComponent implements OnInit {
     const gameData = this.dialogForm.value;
 
     if (this.dialogMode === 'add') {
-      // Usa addGameObj y pasa el objeto Game
       this.gameService
-        .addGameObj({
-          id: 0, // or undefined/null if your backend generates it
-          title: gameData.title,
-          synopsis: gameData.synopsis,
-          releaseDate: gameData.releaseDate,
-          portrait: gameData.portrait,
-          banner: gameData.banner,
-          franchise: gameData.franchise,
-          tags: [],
-          studios: [],
-          shops: [],
-          platforms: [],
-          reviews: [],
-          cumulativeRating: 0,
-          reviewCount: 0,
-        })
+        .addGame(
+          gameData.title,
+          gameData.synopsis,
+          gameData.releaseDate,
+          gameData.portrait,
+          gameData.banner,
+          gameData.franchise,
+          [], // tags
+          [], // studios
+          [], // shops
+          [], // platforms
+        )
         .subscribe({
           next: (createdGame) => {
             this.loadGames();

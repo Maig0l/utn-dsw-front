@@ -4,6 +4,7 @@ import { catchError, Observable, tap, throwError } from 'rxjs';
 import { RegisterRequest } from './registerRequest';
 import { ApiResponse } from '../../model/apiResponse.model';
 import { API_URL } from '../../../main';
+import { LoginService } from './login.service';
 
 type registerResponse = ApiResponse<{ token: string }>;
 
@@ -11,7 +12,10 @@ type registerResponse = ApiResponse<{ token: string }>;
   providedIn: 'root',
 })
 export class RegisterService {
-  constructor(private http: HttpClient) {}
+  constructor(
+    private http: HttpClient,
+    private loginService: LoginService,
+  ) {}
 
   private registerEndpoint = `${API_URL}/users`; // URL del backend para el registro
 
@@ -19,6 +23,7 @@ export class RegisterService {
     return this.http.post<registerResponse>(this.registerEndpoint, credentials).pipe(
       tap((response) => {
         localStorage.setItem('token', response.data.token);
+        this.loginService.markSessionActive();
       }),
       catchError(this.handleError), // Manejo de errores
     );

@@ -48,6 +48,10 @@ export class LoginService {
     this._sessionState.next(false);
   }
 
+  markSessionActive(): void {
+    this._sessionState.next(true);
+  }
+
   private handleError(error: HttpErrorResponse) {
     console.error(error);
     if (error.status === 0) {

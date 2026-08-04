@@ -15,7 +15,7 @@ import { FormsModule } from '@angular/forms';
 import { MatTableModule } from '@angular/material/table';
 import { MatAutocompleteModule } from '@angular/material/autocomplete';
 import { MatChipsModule } from '@angular/material/chips';
-import { Observable, debounceTime, map, switchMap } from 'rxjs';
+import { Observable, debounceTime, forkJoin, map, switchMap } from 'rxjs';
 
 @Component({
   selector: 'app-franchise',
@@ -53,6 +53,7 @@ export class FranchiseComponent implements OnInit {
   // For games chips/autocomplete
   gameControl = new FormControl('');
   gameSelected: Game[] = [];
+  originalGameIds: number[] = [];
   filteredOptions!: Observable<Game[]>;
 
   @ViewChild('dialogTemplate') dialogTemplate!: TemplateRef<unknown>;
@@ -121,6 +122,7 @@ export class FranchiseComponent implements OnInit {
     this.dialogMode = 'add';
     this.dialogForm.reset();
     this.gameSelected = [];
+    this.originalGameIds = [];
     this.dialog.open(this.dialogTemplate);
   }
 
@@ -132,6 +134,7 @@ export class FranchiseComponent implements OnInit {
       games: franchise.games || [],
     });
     this.gameSelected = franchise.games ? [...franchise.games] : [];
+    this.originalGameIds = this.gameSelected.map((game) => game.id);
     this.dialog.open(this.dialogTemplate);
   }
 
@@ -147,27 +150,59 @@ export class FranchiseComponent implements OnInit {
       this.franchiseService
         .addFranchise(franchiseData.name, gameIds)
         .subscribe({
-          next: () => {
-            this.loadFranchises();
-            this.closeDialog();
+          next: (franchise) => {
+            this.syncGames(franchise.id, gameIds, []);
           },
           error: (errorResponse) => {
             this.handleBackendError(errorResponse);
           },
         });
     } else if (this.dialogMode === 'edit' && this.currentFranchiseId !== null) {
+      const franchiseId = this.currentFranchiseId;
+      const previousIds = this.originalGameIds;
       this.franchiseService
-        .updateFranchise(this.currentFranchiseId, franchiseData.name, gameIds)
+        .updateFranchise(franchiseId, franchiseData.name, gameIds)
         .subscribe({
           next: () => {
-            this.loadFranchises();
-            this.closeDialog();
+            this.syncGames(franchiseId, gameIds, previousIds);
           },
           error: (errorResponse) => {
             this.handleBackendError(errorResponse);
           },
         });
     }
+  }
+
+  // El backend ignora el array "games" al crear/actualizar una franchise
+  // (la relación se maneja del lado de Game), así que hay que sincronizarla
+  // aparte, vinculando/desvinculando solo lo que cambió.
+  private syncGames(
+    franchiseId: number,
+    newIds: number[],
+    previousIds: number[],
+  ): void {
+    const toLink = newIds.filter((id) => !previousIds.includes(id));
+    const toUnlink = previousIds.filter((id) => !newIds.includes(id));
+
+    const finish = () => {
+      this.loadFranchises();
+      this.closeDialog();
+    };
+
+    const calls = [
+      ...toLink.map((gameId) => this.franchiseService.linkGame(franchiseId, gameId)),
+      ...toUnlink.map((gameId) => this.franchiseService.unlinkGame(franchiseId, gameId)),
+    ];
+
+    if (calls.length === 0) {
+      finish();
+      return;
+    }
+
+    forkJoin(calls).subscribe({
+      next: finish,
+      error: (errorResponse) => this.handleBackendError(errorResponse),
+    });
   }
 
   handleBackendError(errorResponse: { error: { message: string } }): void {

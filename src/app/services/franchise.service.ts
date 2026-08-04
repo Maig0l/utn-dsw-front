@@ -86,4 +86,32 @@ export class FranchiseService {
       .delete<ApiResponse<Franchise>>(url, { headers })
       .pipe(map((res) => res.data));
   }
+
+  linkGame(franchiseId: number, gameId: number): Observable<unknown> {
+    const token = localStorage.getItem('token');
+    if (!token) {
+      throw new Error('Authentication required');
+    }
+
+    const headers = { authorization: `Bearer ${token}` };
+
+    const url = this.franchisesEndpoint + `/${franchiseId}/games`;
+    return this.http
+      .post<ApiResponse<unknown>>(url, { gameId }, { headers })
+      .pipe(map((res) => res.data));
+  }
+
+  unlinkGame(franchiseId: number, gameId: number): Observable<unknown> {
+    const token = localStorage.getItem('token');
+    if (!token) {
+      throw new Error('Authentication required');
+    }
+
+    const headers = { authorization: `Bearer ${token}` };
+
+    const url = this.franchisesEndpoint + `/${franchiseId}/games/${gameId}`;
+    return this.http
+      .delete<ApiResponse<unknown>>(url, { headers })
+      .pipe(map((res) => res.data));
+  }
 }

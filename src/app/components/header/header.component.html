@@ -23,7 +23,7 @@
             [matAutocomplete]="auto"
           />
           <mat-autocomplete autoActiveFirstOption #auto="matAutocomplete">
-            @for (option of filteredOptions | async; track option.id) {
+            @for (option of filteredOptions; track option.id) {
               <a href="/game/{{ option.id }}">
                 <mat-option [value]="option.title">
                   <div class="option-content">

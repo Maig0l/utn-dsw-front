@@ -1,12 +1,11 @@
-import { Component, OnInit } from '@angular/core';
-import { AsyncPipe } from '@angular/common';
+import { ChangeDetectorRef, Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { NavComponent } from '../nav/nav.component';
 import { MatAutocompleteModule } from '@angular/material/autocomplete';
 import { MatInputModule } from '@angular/material/input';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { FormControl, FormsModule, ReactiveFormsModule } from '@angular/forms';
-import { debounceTime, map, Observable, switchMap } from 'rxjs';
+import { debounceTime, map, of, switchMap } from 'rxjs';
 import { GameService } from '../../services/game.service';
 import { Game } from '../../model/game.model';
 import { MatIcon } from '@angular/material/icon';
@@ -23,7 +22,6 @@ import { linkToStaticResource } from '../../../utils/linkToStaticResource';
     MatInputModule,
     MatAutocompleteModule,
     ReactiveFormsModule,
-    AsyncPipe,
     MatIcon,
   ],
   providers: [GameService],
@@ -34,25 +32,30 @@ export class HeaderComponent implements OnInit {
   constructor(
     private router: Router,
     private gameService: GameService,
+    private cdr: ChangeDetectorRef,
   ) {}
 
   myControl = new FormControl('');
   options: Game[] = [];
-  filteredOptions!: Observable<Game[]>;
+  filteredOptions: Game[] = [];
 
   ngOnInit() {
-    this.filteredOptions = this.myControl.valueChanges.pipe(
-      //filter(value => value !== ''), // Ignore initial empty value
-      debounceTime(2000),
-      //startWith(''),
-      switchMap((value) => this._filter(value || '')),
-    );
+    this.myControl.valueChanges
+      .pipe(
+        debounceTime(300),
+        switchMap((value) => this._filter(value || '')),
+      )
+      .subscribe((filtered) => {
+        this.filteredOptions = filtered;
+        this.cdr.detectChanges();
+      });
   }
 
-  private _filter(value: string): Observable<Game[]> {
+  private _filter(value: string) {
     const filterValue = value.toLowerCase();
     if (filterValue === '') {
-      return new Observable<Game[]>();
+      this.options = [];
+      return of([]);
     }
     return this.gameService.findGamesByTitle(filterValue).pipe(
       map((data: Game[]) => {

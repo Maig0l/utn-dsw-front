@@ -1,5 +1,5 @@
 /* Variables de color - Esquema Oscuro Consistente */
-:root {
+:host {
   --main-bg-color: #0E0C1A;
   --secondary-bg-color: #001D3D;
   --main-text-color: #e5e5e5;
